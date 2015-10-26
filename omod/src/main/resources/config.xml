@@ -56,5 +56,10 @@
 	</messages>
 	<!-- /Internationalization -->
 
+    <privilege>
+        <name>App: edtriage.app.triage</name>
+        <description>Able to triage a patient</description>
+    </privilege>
+
 </module>
 

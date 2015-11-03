@@ -31,6 +31,7 @@
   color: $success;
 }
 
+/* TODO(kstone): Get all colors below from imported variables */
 
 /* Starting styles for edtriageapp */
 .edtriage {
@@ -85,11 +86,13 @@
 			display: inline-block;
 			vertical-align: top;
 			font-size: 14px;
+			color: #00463f;
 		}
 		
 		label {
 			font-weight: bold;
 			font-size: 14px;
+			display: inline-block;
 		}
 
 
@@ -98,9 +101,11 @@
 			margin-bottom: 6px;
 
 			textarea {
+				min-width: 480px;
 				width: 480px;
 				height: 44px;
 				font-size: 14px;
+
 
 				/* TODO(kstone): this isn't working */
 				&::placeholder {
@@ -117,7 +122,7 @@
 			float: left;
 
 			.wrapper {
-				border: solid 1px #CCCCCC; /* color from mockup */
+				/* border: solid 1px #CCCCCC; */ /* color from mockup */
 				color: #999999; /* color from mockup */
 				padding: 6px 10px;
 				height: 430px;
@@ -172,17 +177,28 @@
 					margin-top: 2px;
 				}
 			} /* #scoreDiv */
+
+
+			/* mobility section */
+
+			/* move last radio button down and aligned underneath first */
+			input#mobImmobile {
+				margin-left: 125px;
+			}
 		}
 
 
 		/* number/text input */
 		input[type="text"] {
+			min-width: 60px;
 			width: 60px;
 			height: 35px;
 			color: #189ACA;
 			font-weight: bold;
 			font-size: 14px;
 			text-align: center;
+			display: inline;
+			padding: 0px;
 		}
 
 		/* radio buttons */
@@ -197,6 +213,8 @@
 		    border:1px solid #999999;
 		    cursor: pointer;
 		    margin-bottom: -8px;
+		    float: none;
+		    display: inline-block;
 
 		    &:checked {
 		    	background-color: #189ACA; /* color from mockup */
@@ -212,6 +230,7 @@
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			appearance: none;
+			min-width: 30px;
 			width:30px;
 		    height:30px;
 		    background:white;
@@ -219,6 +238,8 @@
 		    border:1px solid #999999;
 		    cursor: pointer;
 		    margin-bottom: -10px;
+		    display: inline-block;
+		    float: none;
 
 		    &:checked {
 		    	background-color: #189ACA; /* color from mockup */
@@ -228,6 +249,8 @@
 		/* select boxes */
 		select {
 			margin-top: 13px;
+			min-width: 0px;
+			display: inline-block;
 		}
 
 		.unitsLabel {

@@ -1,8 +1,6 @@
 <%
     ui.decorateWith("appui", "standardEmrPage")
     
-    ui.includeCss("edtriageapp","edtriageapp.css");
-    
 %>
 
 
@@ -21,16 +19,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 <!-- Temporary! ED Triage Vitals section -->
 <article class="edtriage">
 
-	<!-- Adult, Child, Infant menu selector -->
-	<nav class="patientTypeNav">
-		<ul>
-			<li class="selected">ADULT</li>
-			<li>CHILD</li>
-			<li>INFANT</li>
-		</ul>
-	</nav>
-
-	<div style="clear:both;"></div>
 
 	<!-- begin edtriage form-->
 	<form id="edtriageForm" name="edtriageForm" action="#">
@@ -118,7 +106,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 					<input id="mobWithHelp" name="mobility" type="radio">
 					<label for="mobWithHelp">With Help</label>
-
+					
 					<input id="mobImmobile" name="mobility" type="radio">
 					<label for="mobImmobile">Immobile/Stretcher</label>
 

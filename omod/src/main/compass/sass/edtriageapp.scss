@@ -30,3 +30,327 @@
 .field-success {
   color: $success;
 }
+
+
+/* Starting styles for edtriageapp */
+.edtriage {
+
+	font-family: 'Arial Bold', 'Arial';
+	color: #666666; /* color from mockup */
+	width: 100%;
+	
+	
+	/* Adult, Child, Infant menu */
+	.patientTypeNav {
+		padding-bottom: 36px;
+		
+		li {
+			width: 33.333%;
+			box-sizing: border-box;
+			display: block;
+			padding: 6px;
+			text-align: center;
+			cursor: pointer;
+			font-weight: bold;
+			font-size: 13px;
+			border: solid 1px #666666; /* color from mockup */
+			float: left;
+		}
+		
+		ul {
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		.selected {
+			background-color: #189ACA; /* color from mockup */
+			color: #FFFFFF;
+		}
+	}
+}
+
+
+/* edtriage Form */
+.edtriage #edtriageForm {
+	padding-left: 16px;
+}
+.edtriage #edtriageForm h2, 
+.edtriage #edtriageForm h3 {
+	font-weight: bold;
+	white-space: nowrap;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.edtriage #edtriageForm label {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+/* Chief Complaint */
+.edtriage #edtriageForm h2 {
+	font-size: 14px;
+}
+.edtriage #edtriageForm .chiefComplaint {
+	margin-bottom: 6px;
+}
+
+.edtriage #edtriageForm .chiefComplaint textarea {
+	width: 480px;
+	height: 44px;
+	font-size: 14px;
+}
+.edtriage #edtriageForm textarea::placeholder {
+	color: black;
+}
+
+
+/* Color Widget */
+.edtriage .triageColor {
+	float: right;
+}
+
+.edtriage .triageColor span {
+	font-size: 20px;
+	font-weight: bold;
+	display: inline-block;
+	vertical-align: top;
+	padding-top: 12px;
+}
+
+.edTriage .triageColor div {
+	width: 110px;
+	height: 44px;
+	border: solid 1px #666666;
+	border-radius: 8px;
+	display: inline-block;
+}
+
+.edTriage .triageColor div.green {
+	background-color: #20CA6A; /* color from mockup */
+}
+.edTriage .triageColor div.yellow {
+	background-color: #FFFD38; /* color from mockup */
+}
+.edTriage .triageColor div.orange {
+	background-color: #FD9827;
+}
+.edTriage .triageColor div.red {
+	background-color: #FC5659; /* color from mockup */
+}
+
+
+/* Vitals section */
+.edtriage .vitals,
+.edtriage .symptoms {
+	width: 50%;
+	box-sizing: border-box;
+	float: left;
+}
+
+.edtriage #edtriageForm .vitals h2 {
+	color: white;
+	background-color: #666666; /* color from mockup */
+	font-size: 14px;
+	border: solid 1px #CCCCCC; /* color from mockup */
+	border-right: 0px;
+	display: block;
+	padding: 3px 4px;
+	margin: 0px;
+}
+
+.edtriage .vitals .wrapper,
+.edtriage .symptoms .wrapper {
+	border: solid 1px #CCCCCC; /* color from mockup */
+	color: #999999; /* color from mockup */
+	padding: 6px 10px;
+	height: 430px;
+}
+
+.edtriage #edtriageForm .vitals h3 {
+	width: 116px;
+}
+
+/* number/text input */
+.edtriage #edtriageForm input[type="text"] {
+	width: 60px;
+	height: 35px;
+	color: #189ACA;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+
+/* radio buttons */
+.edtriage #edtriageForm input[type="radio"]{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width:30px;
+    height:30px;
+    background:white;
+    border-radius: 50%;
+    border:1px solid #999999;
+    cursor: pointer;
+    margin-bottom: -8px;
+}
+.edtriage #edtriageForm input[type="radio"]:checked{
+	background-color: #189ACA; /* color from mockup */
+}
+.edtriage #edtriageForm input[type="radio"] + label{
+	font-weight: normal;
+}
+
+/* checkboxes */
+.edtriage #edtriageForm input[type="checkbox"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width:30px;
+    height:30px;
+    background:white;
+    border-radius:5px;
+    border:1px solid #999999;
+    cursor: pointer;
+    margin-bottom: -10px;
+}
+.edtriage #edtriageForm input[type="checkbox"]:checked {
+	background-color: #189ACA; /* color from mockup */
+}
+
+/* select boxes */
+.edtriage #edtriageForm select {
+	margin-top: 13px;
+}
+
+.edtriage #edtriageForm .unitsLabel {
+	font-size: 14px;
+}
+
+/* Score counter */
+/* position #scoreDiv on same line as last form .vitals input */ 
+.edtriage .vitals .wrapper section.formItem:last-of-type {
+	float: left;
+}
+.edtriage #scoreDiv {
+	float: right;
+}
+.edtriage #scoreDiv .wrapper {
+	border: solid 1px #999999; /* color from mockup */
+	border-radius: 8px;
+	width: 66px;
+	height: 37px;
+	padding: 0px;
+	display: inline-block;
+	text-align: center;
+}
+
+.edtriage #scoreDiv span {
+	color: #666666; /* color from mockup */
+	font-size: 16px;
+	font-weight: bold;
+	display: inline-block;
+}
+
+.edtriage #scoreDiv .number {
+	font-size: 28px;
+	font-weight: normal;
+	margin-top: 2px;
+}
+
+
+/* Symptoms section */
+
+.edtriage #edtriageForm .symptoms h2 {
+	color: white;
+	background-color: #666666; /* color from mockup */
+	font-size: 14px;
+	border: solid 1px #CCCCCC; /* color from mockup */
+	border-left: 0px;
+	display: block;
+	padding: 3px 4px;
+	margin: 0px;
+}
+
+.edtriage #edtriageForm .symptoms h3 {
+	width: 102px;
+}
+
+.edtriage #edtriageForm h3 {
+	font-size: 14px;
+}
+
+/* progress bar */
+.edtriage .progressBar {
+	font-size: 14px;
+	color: #999999; /* color from mockup */
+	margin-top: 8px;
+	margin-left: 20%;
+	margin-right: 50px;
+	float: left;
+}
+
+.edtriage .progressBar div {
+	display: inline-block;
+}
+
+.edtriage .progressBar .percent {
+	margin-top: 6px;
+	font-weight: bold;
+	display: inline-block;
+}
+
+/* actual progress indicator bar */
+.edtriage .progressBar .wrapper {
+	position: relative;
+	text-align: center;
+	height: 30px;
+	width: 150px;
+	border: solid 1px black;
+}
+.edtriage .progressBar .progressIndicator:after {
+	content: '\A';
+    position: absolute;
+    background: #CFEAF4; /* color from mockup */
+    top:0; 
+    bottom:0;
+    left:0; 
+    width:30%; /* Specific width for progress bar */
+}
+
+/* submit buttons */
+.edtriage #edtriageForm input[type="submit"] {
+	background: none;
+	border: 1px;
+	border-style: solid;
+	border-color: white;
+	border-radius: 8px;
+	height: 40px;
+	width: 150px;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bold;
+	white-space: normal;
+	cursor: pointer;
+}
+
+.edtriage .formExit {
+	margin-top: 8px;
+	float: left;
+}
+.edtriage #edtriageForm .formExit input {
+	color: #FFFFFF;
+	background-color: #FC5659; /* color from mockup */
+}
+
+
+.edtriage .formComplete {
+	display: inline-block;
+	padding-left: 8px;
+	margin-top: 8px;
+}
+
+.edtriage #edtriageForm .formComplete input {
+	color: #FFFFFF;
+	background-color: #9CC73D; /* color from mockup */
+}

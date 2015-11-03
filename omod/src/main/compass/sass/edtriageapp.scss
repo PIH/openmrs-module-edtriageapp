@@ -201,46 +201,57 @@
 
 		/* radio buttons */
 		input[type="radio"]{
-			-webkit-appearance: none;
+			/* -webkit-appearance: none;
 			-moz-appearance: none;
-			appearance: none;
+			appearance: none; */
 			width:30px;
 		    height:30px;
-		    background:white;
+		    /* background:white;
 		    border-radius: 50%;
-		    border:1px solid #999999;
+		    border:1px solid #999999; */
 		    cursor: pointer;
 		    margin-bottom: -8px;
 		    float: none;
 		    display: inline-block;
+		    vertical-align: top;
+		    margin-right: -6px;
 
 		    &:checked {
-		    	background-color: #189ACA; /* color from mockup */
+		    	/* background-color: #189ACA; */ /* color from mockup */
 		    }
 
 		    & + label {
 				font-weight: normal;
+				margin-top: 9px;
+				margin-right: 10px;
 			}
 		}
 
 		/* checkboxes */
 		input[type="checkbox"] {
-			-webkit-appearance: none;
+			/* -webkit-appearance: none;
 			-moz-appearance: none;
-			appearance: none;
+			appearance: none; */
 			min-width: 30px;
 			width:30px;
 		    height:30px;
-		    background:white;
-		    border-radius:5px;
-		    border:1px solid #999999;
+		    /* background:white; */
+		    /* border-radius:5px; */
+		    /* border:1px solid #999999; */
 		    cursor: pointer;
 		    margin-bottom: -10px;
 		    display: inline-block;
 		    float: none;
 
 		    &:checked {
-		    	background-color: #189ACA; /* color from mockup */
+		    	/* background-color: #189ACA; */ /* color from mockup */
+		    }
+
+		    &::after {
+		    	top: 2px;
+		    	left: 4px;
+		    	font-size: 24px;
+		    	color: #999999;
 		    }
 		}
 

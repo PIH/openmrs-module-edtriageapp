@@ -50,6 +50,7 @@ public class EDTriageAppActivator implements ModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
+
 		log.info("ED Triage App Module started");
 	}
 	

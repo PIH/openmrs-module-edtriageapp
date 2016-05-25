@@ -1,0 +1,115 @@
+{
+  "score": 5,
+  "percentComplete":45,
+  "patientId": 1,
+  "patientType": "A",
+  "complaint": "stomach hurts",
+  "vitals": {
+    "mobility": "walking",
+    "respiratoryRate": 8,
+    "oxygenSaturation": 9,
+    "heartRate": 55,
+    "bloodPressure": {
+      "systolic": 120
+    },
+    "temperature": 98.6,
+    "consciousness": "alert",
+    "trauma": false,
+    "weight": 123
+  },
+  "symptions": {
+    "neurological": {
+      "seizure": {
+        "convulsize": false,
+        "postConvulsive": false
+      },
+      "focalNeurology": false,
+      "levelOfConsciousReduced": false,
+      "aggression": false,
+      "infantileHypotonia": false,
+      "none": false,
+      "unknown": false
+    },
+    "burn": {
+      "facialInhalation": false,
+      "over20pct": false,
+      "over10pct": false,
+      "electricalOrChemical": false,
+      "other": false,
+      "none": false,
+      "unknown": false
+    },
+    "trauma": {
+      "serious": false,
+      "threatenedLimb": false,
+      "dislocation": {
+        "largeJoint": false,
+        "appendage": false
+      },
+      "fracture": {
+        "open": false,
+        "closed": false
+      },
+      "hemorrhage": {
+        "controlled": false,
+        "uncontrolled": false
+      },
+      "cannotSupportWeight": false,
+      "none": false,
+      "unknown": false
+    },
+    "digestive": {
+      "vomiting": {
+        "freshBlood": false,
+        "persistent": false
+      },
+      "refusesFoodDrink": false,
+      "none": false,
+      "unknown": false
+    },
+    "pregnancy": {
+      "abdominalTrauma": false,
+      "vaginalTrauma": false,
+      "none": false,
+      "unknown": false
+    },
+    "respiratory": {
+      "hypersalivation": false,
+      "stridor": false,
+      "oxygenGreaterThan85pct": false,
+      "shortnessOfBreath": {
+        "any": false,
+        "acute": false
+      },
+      "coughingBlood": false,
+      "sibilance": false,
+      "none": false,
+      "unknown": false
+    },
+    "pain": {
+      "severe": false,
+      "moderate": false,
+      "mild": false,
+      "chest": false,
+      "abdominal": false,
+      "other": false,
+      "none": false,
+      "unknown": false
+    },
+    "other": {
+      "poisoningOrOverdose": false,
+      "pulpura": false,
+      "drowsiness": false,
+      "incoherent": false,
+      "anuria": false,
+      "diabetic": {
+        "glucoseGreaterThan60": false,
+        "hypoglycemiaLessThan54": false,
+        "glucoseGreaterThan200": false,
+        "glucoseGreaterThan300": false,
+        "none": false,
+        "unknown": false
+      }
+    }
+  }
+}

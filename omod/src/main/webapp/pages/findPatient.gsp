@@ -5,7 +5,7 @@
     ui.decorateWith("appui", "standardEmrPage")
 
     def baseUrl = ui.pageLink("edtriageapp", "findPatient", [appId: appId])
-    def afterSelectedUrl = '/edtriageapp/edtriageSummary.page?patientId={{patientId}}&appId=' + appId
+    def afterSelectedUrl = '/edtriageapp/edtriageEditPatient.page?patientId={{patientId}}&appId=' + appId
 
 %>
 ${ ui.includeFragment("uicommons", "validationMessages")}

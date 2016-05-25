@@ -1,187 +1,285 @@
 <%
-    ui.decorateWith("appui", "standardEmrPage")
-    
+	ui.decorateWith("appui", "standardEmrPage")
+	ui.includeJavascript("uicommons", "angular.min.js")
+    ui.includeJavascript("uicommons", "angular-ui/ui-bootstrap-tpls-0.13.0.min.js")
+    ui.includeJavascript("uicommons", "angular-resource.min.js")
+    ui.includeJavascript("uicommons", "angular-common.js")
+    ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
+    ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
+    ui.includeJavascript("uicommons", "services/conceptSearchService.js")
+    ui.includeJavascript("uicommons", "directives/coded-or-free-text-answer.js")
+    ui.includeCss("uicommons", "ngDialog/ngDialog.min.css")
+
+
+	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
+	ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")
+	ui.includeJavascript("edtriageapp", "components/EdTriageEditPatientController.js")
+	ui.includeJavascript("edtriageapp", "app.js")
+
 %>
 
 
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
-    var breadcrumbs = [
-        { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
-        { label: "${ ui.message("edtriage.app.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }" },
-        { label: "${ ui.escapeJs(ui.format(patient.patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
-    ];
+	var breadcrumbs = [
+		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
+		{ label: "${ ui.message("edtriage.app.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }" },
+		{ label: "${ ui.escapeJs(ui.format(patient.patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
+	];
+
 </script>
+
 
 ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 
+<div class="container" ng-app="edTriageApp" ng-controller="patientEditController">
 
-<!-- Temporary! ED Triage Vitals section -->
-<article class="edtriage">
-
-
-	<!-- begin edtriage form-->
-	<form id="edtriageForm" name="edtriageForm" action="#">
-
-		<!-- Warning Color -->
-		<div class="triageColor">
-			<span>Orange</span>
-			<div class="orange"></div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{additionalData.language.patientInfo}}</h3>
 		</div>
+		<div class="panel-body">
+			Patient Id #{{edTriagePatient.patientId}}
+		</div>
+	</div>
 
-		<!-- chief complaint-->
-		<section class="chiefComplaint">
-			<h2>Chief Complaint</h2>
-			<textarea id="chiefComplaint" name="chiefComplaint" placeholder="Type the patient's chief complaint here."></textarea>
-		</section>
-
-		<!-- Vitals -->
-		<section class="vitals">
-			<h2>Vitals</h2>
-
-			<div class="wrapper">
-
-				<section class="formItem">
-					<h3>Temperature</h3>
-					<input id="temperature" name="temperature" type="text">
-					<span class="unitsLabel">F</span>
-
-					<input id="tempUnobtainable" name="tempUnobtainable" type="checkbox">
-					<label for="tempUnobtainable">
-						Unobtainable
-					</label>
-				</section>
-
-				<section class="formItem">
-					<h3>Heart Rate</h3>
-					<input id="heartRate" name="heartRate" type="text">
-					<span class="unitsLabel">/ min</span>
-				</section>
-
-				<section class="formItem">
-					<h3>Blood Pressure</h3>
-					<input id="bloodPressureTop" name="bloodPressureTop" type="text">
-					<span class="divider">/</span>
-					<input id="bloodPressureBottom" name="bloodPressureBottom" type="text">
-
-					<input id="bpUnobtainable" name="bpUnobtainable" type="checkbox">
-					<label for="bpUnobtainable">
-						Unobtainable
-					</label>
-				</section>
-
-				<section class="formItem">
-					<h3>O2 Saturation</h3>
-					<input id="o2Saturation" name="o2Saturation" type="text">
-					<span class="unitsLabel">%</span>
-				</section>
-
-				<section class="formItem">
-					<h3>Respirations</h3>
-					<input id="respirations" name="respirations" type="text">
-					<span class="unitsLabel">/ min</span>
-
-					<input id="respUnobtainable" name="respUnobtainable" type="checkbox">
-					<label for="respUnobtainable">
-						Unobtainable
-					</label>
-				</section>
-
-				<section class="formItem">
-					<h3>Glucose</h3>
-					<input id="glucose" name="glucose" type="text">
-					<span class="unitsLabel">mg/dl</span>
-
-					<input id="glucoseUnobtainable" name="glucoseUnobtainable" type="checkbox">
-					<label for="glucoseUnobtainable">
-						Unobtainable
-					</label>
-				</section>
-
-				<section class="formItem">
-					<h3>Mobility</h3>
-
-					<input id="mobWalking" name="mobility" type="radio">
-					<label for="mobWalking">Walking</label>
-
-					<input id="mobWithHelp" name="mobility" type="radio">
-					<label for="mobWithHelp">With Help</label>
-					
-					<input id="mobImmobile" name="mobility" type="radio">
-					<label for="mobImmobile">Immobile/Stretcher</label>
-
-				</section>
-
-				<section class="formItem">
-					<h3>Consciousness</h3>
-					<select id="consciousness" name="consciousness">
-						<option>Alert</option>
-						<option>Reacts to Voice</option>
-						<option>Reacts to Pain</option>
-						<option>Confused</option>
-						<option>Unresponsive</option>
-					</select>
-				</section>
-
-
-				<section class="formItem">
-					<h3>Trauma</h3>
-
-					<input id="traumaYes" name="trauma" type="radio">
-					<label for="traumaYes">Yes</label>
-
-					<input id="traumaNo" name="trauma" type="radio">
-					<label for="traumaNo">No</label>
-
-				</section>
-
-				<div id="scoreDiv">
-					<span>Score</span>
-					<div class="wrapper">
-						<span class="number">6</span>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<div class="row">
+					<div class="col-xs-1">{{additionalData.language.status}}</div>
+					<div class="col-xs-11">
+						<div class="progress-bar" role="progressbar" aria-valuenow="40"
+							 aria-valuemin="0" aria-valuemax="100" style="width:{{edTriagePatient.percentComplete}}%">
+							{{edTriagePatient.percentComplete}}{{additionalData.language.percentComplete}}
+						</div>
 					</div>
 				</div>
-
+			</h3>
+		</div>
+		<div class="panel-body">
+			<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+				 aria-valuemin="0" aria-valuemax="100" style="height:50px;width:100%">
+				{{additionalData.triageColorText}}
 			</div>
 
-		</section>
+		</div>
+	</div>
 
-		<!-- Symptoms -->
-		<section class="symptoms">
-			<h2>Symptoms</h2>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{additionalData.language.complaint}}</h3>
+		</div>
+		<div class="panel-body">
+			<textarea class="form-control" id="complaint" rows="3"
+					  ng-model="edTriagePatient.complaint"></textarea>
+		</div>
+	</div>
 
-			<div class="wrapper">
-				<p>TODO</p>
-				
-			</div>
 
-		</section>
-
-		<div style="clear: both;"></div>
-
-		<!-- Form progress bar-->
-		<div class="progressBar">
-			<span>Form Completion</span>
-			<div class="wrapper">
-				<div class="progressIndicator">
-					<span class="percent">30%</span>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{additionalData.language.vitals}}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="form-group row">
+				<label for="mobility" class="col-sm-2 form-control-label">{{additionalData.language.mobility}}</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="mobility"
+							ng-model="edTriagePatient.vitals.mobility">
+						<option ng-repeat="tp in additionalData.CONSTANTS.MOBILITY_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
 				</div>
 			</div>
+			<div class="form-group row">
+				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{additionalData.language.respiratoryRate}}</label>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="respiratoryRate" type="text"
+						   ng-model="edTriagePatient.vitals.respiratoryRate" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">{{additionalData.language.perMinute}}</div>
+			</div>
+			<div class="form-group row">
+				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{additionalData.language.oxygenSaturation}}</label>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="oxygenSaturation" type="text"
+						   ng-model="edTriagePatient.vitals.oxygenSaturation" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">{{additionalData.language.percent}}</div>
+				<div class="col-sm-2 form-control-label pull-left">
+					<button type="button" class="btn btn-primary btn-sm" ng-click="handleCustomAction('re')">
+						{{additionalData.language.unobtainable}}
+					</button>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="heartRate" class="col-sm-2 form-control-label">{{additionalData.language.heartRate}}</label>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="heartRate" type="text"
+						   ng-model="edTriagePatient.vitals.heartRate" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">{{additionalData.language.perMinute}}</div>
+			</div>
+			<div class="form-group row">
+				<label for="bloodPressure" class="col-sm-2 form-control-label">Blood Pressure</label>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="bloodPressure" type="text"
+						   ng-model="edTriagePatient.vitals.bloodPressure.systolic" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">/</div>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="bloodPressure2" type="text"
+						   ng-model="edTriagePatient.vitals.bloodPressure.systolic" />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="temperatureC" class="col-sm-2 form-control-label">Temperature</label>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="temperatureC" type="text"
+						   ng-model="edTriagePatient.vitals.temperature" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">C</div>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="temperatureF" type="text"
+						   ng-model="edTriagePatient.vitals.temperature" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">F</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="consciousness" class="col-sm-2 form-control-label">Consciousness</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="consciousness"
+							ng-model="edTriagePatient.vitals.consciousness">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-sm-2 form-control-label">Trauma</label>
+				<div class="col-sm-10">
+					<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma">Yes</label>
+					<label class="radio-inline"><input type="radio" name="trauma">No</label>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="temperatureC" class="col-sm-2 form-control-label">Weight</label>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="weigthInKG" type="text"
+						   ng-model="edTriagePatient.vitals.weight" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">kgs.</div>
+				<div class="col-sm-2 form-control-label">
+					<input class="form-control" id="weightInLb" type="text"
+						   ng-model="edTriagePatient.vitals.weight" />
+				</div>
+				<div class="col-sm-1 form-control-label pull-left">lbs/</div>
+			</div>
 		</div>
 
-		<!-- Form Exit -->
-		<div class="formExit">
-			<input type="submit" name="exit" class="exitForm" 
-				value="Exit Form / No Triage (ESC)">
+	</div>
+
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{additionalData.language.symptoms}}</h3>
 		</div>
+		<div class="panel-body">
+			<div class="form-group row">
+				<label for="neurological" class="col-sm-2 form-control-label">neurological</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="neurological"
+							ng-model="edTriagePatient.vitals.neurological">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="burn" class="col-sm-2 form-control-label">burn</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="burn"
+							ng-model="edTriagePatient.vitals.burn">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="trauma" class="col-sm-2 form-control-label">burn</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="trauma"
+							ng-model="edTriagePatient.vitals.trauma">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="digestive" class="col-sm-2 form-control-label">digestive</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="digestive"
+							ng-model="edTriagePatient.vitals.trauma">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="pregnancy" class="col-sm-2 form-control-label">pregnancy</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="pregnancy"
+							ng-model="edTriagePatient.vitals.trauma">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="respiratory" class="col-sm-2 form-control-label">respiratory</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="respiratory"
+							ng-model="edTriagePatient.vitals.trauma">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="pain" class="col-sm-2 form-control-label">pain</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="pain"
+							ng-model="edTriagePatient.vitals.pain">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="other" class="col-sm-2 form-control-label">other</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="other"
+							ng-model="edTriagePatient.vitals.other">
+						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+					</select>
+				</div>
+			</div>
 
-		<!-- Form Complete -->
-		<div class="formComplete">
-			<input type="submit" name="complete" class="completeForm"
-				value="Triage Complete (Ctl + Enter)">
 		</div>
+	</div>
 
-	</form>
+
+	<div class="form-group row">
+		<button type="button" class="btn btn-primary btn-lg pull-right" ng-click="save()">
+			{{additionalData.language.submitButton}}
+		</button>
+		<button type="button" class="btn btn-secondary btn-lg pull-right" ng-click="cancel()">
+			{{additionalData.language.exitButton}}
+		</button>
+	</div>
+
+	<div ng-if="additionalData.debug">
+		<h1>Debug Info:</h1>
+		<pre>
+		</pre>
+	</div>
 
 
-</article>
+</div>
+
+{{edTriagePatient | json}}

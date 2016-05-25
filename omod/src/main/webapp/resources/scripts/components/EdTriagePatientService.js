@@ -1,6 +1,6 @@
 angular.module("edTriageService", [])
     .service('PatientService', ['$http', function($http) {
-    var url = "/openmrs/ms/uiframework/resource/edtriageapp/scripts/app/mock_data/patient_id_";
+    var url = "/openmrs/ms/uiframework/resource/edtriageapp/scripts/mock_data/patient_id_";
 
     var CONSTANTS = {
         //defines an empty value, so that we can tell if the form has been filled out
@@ -124,81 +124,14 @@ angular.module("edTriageService", [])
             weight: CONSTANTS.EMPTY_VALUES.NUM
         };
         this.symptions = {
-            neurological: {
-                seizure: {convulsize: false, postConvulsive: false},
-                focalNeurology: false,
-                levelOfConsciousReduced: false,
-                aggression: false,
-                infantileHypotonia: false,
-                none: false,
-                unknown: false
-            },
-            burn:{
-                facialInhalation:false,
-                over20pct:false,
-                over10pct:false,
-                electricalOrChemical:false,
-                other: false,
-                none: false,
-                unknown: false
-            },
-            trauma:{
-                serious: false,
-                threatenedLimb:false,
-                dislocation:{largeJoint:false, appendage:false},
-                fracture: {open:false, closed:false},
-                hemorrhage:{controlled:false, uncontrolled:false},
-                cannotSupportWeight: false,
-                none: false,
-                unknown: false
-            },
-            digestive:{
-                vomiting:{freshBlood: false, persistent:false},
-                refusesFoodDrink:false,
-                none: false,
-                unknown: false
-            },
-            pregnancy:{
-                abdominalTrauma:false,
-                vaginalTrauma:false,
-                none: false,
-                unknown: false
-            },
-            respiratory:{
-                hypersalivation:false,
-                stridor:false,
-                oxygenGreaterThan85pct:false,
-                shortnessOfBreath:{any:false, acute:false},
-                coughingBlood:false,
-                sibilance:false,
-                none: false,
-                unknown: false
-            },
-            pain:{
-                severe:false,
-                moderate:false,
-                mild:false,
-                chest:false,
-                abdominal:false,
-                other: false,
-                none: false,
-                unknown: false
-            },
-            other:{
-                poisoningOrOverdose:false,
-                pulpura:false,
-                drowsiness:false,
-                incoherent:false,
-                anuria:false,
-                diabetic:{
-                    glucoseGreaterThan60:false,
-                    hypoglycemiaLessThan54:false,
-                    glucoseGreaterThan200:false,
-                    glucoseGreaterThan300:false,
-                    none: false,
-                    unknown: false
-                }
-            }
+            neurological: {},
+            burn:{},
+            trauma:{},
+            digestive:{},
+            pregnancy:{ },
+            respiratory:{},
+            pain:{},
+            other:{}
         };
 
     }

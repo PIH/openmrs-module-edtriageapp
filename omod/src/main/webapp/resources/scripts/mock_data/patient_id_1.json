@@ -18,6 +18,16 @@
     "weight": 123
   },
   "symptions": {
+    "neurological": { "concept_id": 1001, "answer":{ "id": 1002, "label":"Convulsive seizure"}},
+    "burn": { "concept_id": 2001, "answer":{ "id": 1002, "label":"Facial inhalation"}},
+    "trauma": { "concept_id": 3001, "answer":{ "id": 1002, "label":"Threatened limb"}},
+    "digestive": { "concept_id": 4001, "answer":{ "id": 1002, "label":"Refuses food and drink"}},
+    "pregnancy": { "concept_id": 5001, "answer":{ "id": 1002, "label":"None"}},
+    "respiratory": { "concept_id": 6001,"answer":{ "id": 1002, "label":"Acute shortness of breath"}},
+    "pain": { "concept_id": 7001, "answer":{ "id": 1002, "label":"Mild"}},
+    "other": { "concept_id": 8001, "answer":{ "id": 1002, "label":"None"}}
+    },
+  "symptionsOLD": {
     "neurological": {
       "seizure": {
         "convulsize": false,

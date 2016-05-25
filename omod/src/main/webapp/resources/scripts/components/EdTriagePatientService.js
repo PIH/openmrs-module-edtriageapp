@@ -124,7 +124,7 @@ angular.module("edTriageService", [])
             weight: CONSTANTS.EMPTY_VALUES.NUM
         };
         this.symptions = {
-            neurological: {},
+            neurological: { "concept_id": 1001, "answer":{ "id": 1002, "label":"Convulsive seizure"}},
             burn:{},
             trauma:{},
             digestive:{},

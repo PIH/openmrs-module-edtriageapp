@@ -50,9 +50,3 @@ angular.module("edTriagePatientController", [])
         }
 
 }]);
-
-// // var myApp2 =  angular.module('myApp2',[]);
-// //
-// app.controller('GreetingController', ['$scope', function($scope) {
-//     $scope.greeting = 'Hola!';
-// }]);

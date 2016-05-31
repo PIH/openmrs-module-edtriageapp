@@ -1,13 +1,31 @@
 angular.module("edTriagePatientController", [])
-    .controller("patientEditController", [ '$scope', 'PatientService', function($scope, PatientService) {
+    .controller("patientEditController", [ '$scope', '$filter', 'Concepts','PatientService', function($scope, $filter, Concepts, PatientService) {
         $scope.foo = "bar";
         var patientId = 1;
         PatientService.load(patientId).then(function(data){
             $scope.edTriagePatient = data;
+            $scope.concepts = Concepts;
+            $scope.translations = {complaint: $filter('translate')('Chief Complaint'),
+                exitButton:'Exit Form / No Triage (ESC)',
+                heartRate:'Heartrate',
+                mobility:'Mobility',
+                oxygenSaturation:'Oxygen Sat.',
+                patientInfo: 'Patient Info',
+                percent:'%',
+                percentComplete:'% Complete',
+                perMinute: '%/min',
+                respiratoryRate:'Respiratory Rate',
+                status:'Status',
+                submitButton:'Triage Complete (Ctl + Enter)',
+                symptoms:'Symptoms',
+                unobtainable:'Unobtainable',
+                vitals:'Vitals'
+            },
+
             $scope.additionalData = {
                 CONSTANTS: PatientService.CONSTANTS,
                 debug: false,
-                language: {complaint: 'Chief Complaint',
+                translations: {complaint: 'Chief Complaint',
                     exitButton:'Exit Form / No Triage (ESC)',
                     heartRate:'Heartrate',
                     mobility:'Mobility',

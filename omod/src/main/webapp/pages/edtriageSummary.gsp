@@ -1,20 +1,34 @@
 <%
 	ui.decorateWith("appui", "standardEmrPage")
 	ui.includeJavascript("uicommons", "angular.min.js")
-    ui.includeJavascript("uicommons", "angular-ui/ui-bootstrap-tpls-0.13.0.min.js")
-    ui.includeJavascript("uicommons", "angular-resource.min.js")
-    ui.includeJavascript("uicommons", "angular-common.js")
-    ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
-    ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
-    ui.includeJavascript("uicommons", "services/conceptSearchService.js")
+	ui.includeJavascript("uicommons", "angular-ui/ui-bootstrap-tpls-0.13.0.js")
+	ui.includeJavascript("uicommons", "angular-ui/angular-ui-router.min.js")
+	ui.includeJavascript("uicommons", "ngDialog/ngDialog.min.js")
+	ui.includeJavascript("uicommons", "angular-resource.min.js")
+	ui.includeJavascript("uicommons", "angular-common.js")
+	ui.includeJavascript("uicommons", "angular-app.js")
+	ui.includeJavascript("uicommons", "angular-translate.min.js")
+	ui.includeJavascript("uicommons", "angular-translate-loader-url.min.js")
+	ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
+	ui.includeJavascript("uicommons", "services/conceptService.js")
     ui.includeJavascript("uicommons", "directives/coded-or-free-text-answer.js")
+
     ui.includeCss("uicommons", "ngDialog/ngDialog.min.css")
+
+	ui.includeJavascript("uicommons", "model/user-model.js")
+	ui.includeJavascript("uicommons", "model/encounter-model.js")
 
 
 	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
+
+
+	ui.includeJavascript("edtriageapp", "constants.js")
+	ui.includeJavascript("edtriageapp", "filters.js")
+
 	ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriageEditPatientController.js")
 	ui.includeJavascript("edtriageapp", "app.js")
+
 
 %>
 
@@ -22,7 +36,7 @@
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
 	var breadcrumbs = [
 		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
-		{ label: "${ ui.message("edtriage.app.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }" },
+		{ label: "${ ui.message("edtriageapp.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }" },
 		{ label: "${ ui.escapeJs(ui.format(patient.patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
 	];
 
@@ -36,7 +50,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{additionalData.language.patientInfo}}</h3>
+			<h3 class="panel-title">${ui.message("uicommons.patient")}</h3>
 		</div>
 		<div class="panel-body">
 			Patient Id #{{edTriagePatient.patientId}}
@@ -47,7 +61,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">
-					<div class="col-xs-1">{{additionalData.language.status}}</div>
+					<div class="col-xs-1">${ ui.message("edtriageapp.status") }</div>
 					<div class="col-xs-11">
 						<div class="progress-bar" role="progressbar" aria-valuenow="40"
 							 aria-valuemin="0" aria-valuemax="100" style="width:{{edTriagePatient.percentComplete}}%">
@@ -68,7 +82,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{additionalData.language.complaint}}</h3>
+			<h3 class="panel-title">{{translations.complaint}}</h3>
 		</div>
 		<div class="panel-body">
 			<textarea class="form-control" id="complaint" rows="3"
@@ -79,7 +93,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{additionalData.language.vitals}}</h3>
+			<h3 class="panel-title">{{additionalData.language.vitals | translateDebug}}</h3>
 		</div>
 		<div class="panel-body">
 			<div class="form-group row">
@@ -87,7 +101,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-sm-10">
 					<select class="form-control" id="mobility"
 							ng-model="edTriagePatient.vitals.mobility">
-						<option ng-repeat="tp in additionalData.CONSTANTS.MOBILITY_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+						<option ng-repeat="tp in Concepts.mobility.answers" value="{{tp.uuid}}">{{tp.uuid | translateDebug}}</option>
 					</select>
 				</div>
 			</div>
@@ -206,7 +220,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="trauma" class="col-sm-2 form-control-label">burn</label>
+				<label for="trauma" class="col-sm-2 form-control-label">trauma</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="trauma"
 							ng-model="edTriagePatient.vitals.trauma">

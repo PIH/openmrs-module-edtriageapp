@@ -25,7 +25,7 @@
 
 	ui.includeJavascript("edtriageapp", "constants.js")
 	ui.includeJavascript("edtriageapp", "filters.js")
-
+	ui.includeJavascript("edtriageapp", "components/EdTriageConceptFactory.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriageEditPatientController.js")
 	ui.includeJavascript("edtriageapp", "app.js")
@@ -83,7 +83,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{translations.complaint}}</h3>
+			<h3 class="panel-title">{{edTriagePatientConcept.chiefComplaint.label}}</h3>
 		</div>
 		<div class="panel-body">
 			<textarea class="form-control" id="complaint" rows="3"
@@ -97,19 +97,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">{{translations.vitals}}</h3>
 		</div>
 		<div class="panel-body">
+			<concept-selector concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility"></concept-selector>
 
 			<div class="form-group row">
-				<label for="mobility" class="col-sm-2 form-control-label">{{translations.mobility}}</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="mobility"
-							ng-model="edTriagePatient.vitals.mobility">
-						<option ng-repeat="a in concepts.mobility.answers" ng-selected="edTriagePatient.vitals.mobility==a.uuid"  value="{{a.uuid}}">{{a.uuid | translate}}</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="form-group row">
-				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{translations.respiratoryRate}}</label>
+				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="respiratoryRate" type="text"
 						   ng-model="edTriagePatient.vitals.respiratoryRate" />
@@ -164,16 +155,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-sm-1 form-control-label pull-left">F</div>
 			</div>
 
-			<div class="form-group row">
-				<label for="consciousness" class="col-sm-2 form-control-label">Consciousness</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="consciousness"
-							ng-model="edTriagePatient.vitals.consciousness">
-						<option ng-repeat="a in concepts.consciousness.answers" ng-selected="edTriagePatient.vitals.consciousness==a.uuid"
-								value="{{a.uuid}}">{{a.uuid | translate}}</option>
-					</select>
-				</div>
-			</div>
+			<concept-selector concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness"></concept-selector>
 
 			<div class="form-group row">
 				<label class="col-sm-2 form-control-label">Trauma</label>
@@ -205,80 +187,14 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">{{translations.symptoms}}</h3>
 		</div>
 		<div class="panel-body">
-
-			<div class="form-group row">
-				<label for="neurological" class="col-sm-2 form-control-label">neurological</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="neurological"
-							ng-model="edTriagePatient.symptoms.neurological">
-						<option ng-repeat="a in concepts.neurological.answers" ng-selected="edTriagePatient.symptoms.neurological==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="burn" class="col-sm-2 form-control-label">burn</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="burn"
-							ng-model="edTriagePatient.symptoms.burn">
-						<option ng-repeat="a in concepts.burn.answers" ng-selected="edTriagePatient.symptoms.burn==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="trauma" class="col-sm-2 form-control-label">trauma</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="trauma"
-							ng-model="edTriagePatient.symptoms.trauma">
-						<option ng-repeat="a in concepts.traumaDetails.answers" ng-selected="edTriagePatient.symptoms.trauma==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="digestive" class="col-sm-2 form-control-label">digestive</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="digestive"
-							ng-model="edTriagePatient.symptoms.digestive">
-						<option ng-repeat="a in concepts.digestive.answers" ng-selected="edTriagePatient.symptoms.digestive==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="pregnancy" class="col-sm-2 form-control-label">pregnancy</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="pregnancy"
-							ng-model="edTriagePatient.symptoms.pregnancy">
-						<option ng-repeat="a in concepts.pregnancy.answers" ng-selected="edTriagePatient.symptoms.pregnancy==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="respiratory" class="col-sm-2 form-control-label">respiratory</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="respiratory"
-							ng-model="edTriagePatient.symptoms.respiratory">
-						<option ng-repeat="a in concepts.respiratory.answers" ng-selected="edTriagePatient.symptoms.respiratory==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="pain" class="col-sm-2 form-control-label">pain</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="pain"
-							ng-model="edTriagePatient.symptoms.pain">
-						<option ng-repeat="a in concepts.pain.answers" ng-selected="edTriagePatient.symptoms.pain==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="other" class="col-sm-2 form-control-label">other</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="other"
-							ng-model="edTriagePatient.symptoms.other">
-						<option ng-repeat="a in concepts.other.answers" ng-selected="edTriagePatient.symptoms.other==a.uuid"  value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
-					</select>
-				</div>
-			</div>
-
+			<concept-selector concept="edTriagePatientConcept.symptoms.neurological" selected-concept="edTriagePatient.symptoms.neurological"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.burn" selected-concept="edTriagePatient.symptoms.burn"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.trauma" selected-concept="edTriagePatient.symptoms.trauma"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.digestive" selected-concept="edTriagePatient.symptoms.digestive"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.pregnancy" selected-concept="edTriagePatient.symptoms.pregnancy"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.respiratory" selected-concept="edTriagePatient.symptoms.respiratory"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.pain" selected-concept="edTriagePatient.symptoms.pain"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.other" selected-concept="edTriagePatient.symptoms.other"></concept-selector>
 		</div>
 	</div>
 

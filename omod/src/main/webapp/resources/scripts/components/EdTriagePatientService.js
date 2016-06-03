@@ -1,9 +1,13 @@
 angular.module("edTriageService", [])
-    .service('PatientService', ['$http', 'EncounterTypes', 'Concepts',function($http, EncounterTypes, Concepts) {
-    var url = "/openmrs/ms/uiframework/resource/edtriageapp/scripts/mock_data/patient_id_";
-
+    .service('PatientService', ['$http', 'EncounterTypes', 'Concepts', 'EdTriageConcept',function($http, EncounterTypes, Concepts, EdTriageConcept) {
     var CONSTANTS = {
+        URLS:{
+             CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
+             ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ms/uiframework/resource/edtriageapp/scripts/mock_data/patient_id_"
+             //ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter"
+        }   ,
         NONE_CONCEPT_UUID :  "3cd743f8-26fe-102b-80cb-0017a47871b2",
+        ED_TRIAGE_CONCEPT_SET_UUID :  "80c8b161-a871-42db-a1ca-185095a1d798",
         //defines an empty value, so that we can tell if the form has been filled out
         EMPTY_VALUES:{NUM:"", STR:""},
         // defined the different kinds of patients that we can see, adult/child/infant
@@ -12,25 +16,30 @@ angular.module("edTriageService", [])
             Adult:{id:'A', descriptionKey:'edtriage.adult.text'},
             Child:{id:'C', descriptionKey:'edtriage.child.text'},
             Infant:{id:'I', descriptionKey:'edtriage.infant.text'}
-        },
-        //the different kinds of mobility types that we will accept in the vitals section
-        MOBILITY_TYPES:{
-            Walking:{id:'walking', descriptionKey:'edtriage.walking.text', score:0},
-            WithHelp:{id:'withHelp', descriptionKey:'edtriage.walking_with_help.text', score:1},
-            Immobile:{id:'immobile', descriptionKey:'edtriage.immobile.text', score:2}
-        },
-        //this different types of consciousness that we will accept in the vitals section
-        CONSCIOUSNESS_TYPES:{
-            Confused : {id:'confused', descriptionKey:'edtriage.confused.text', score:2},
-            Alert: {id:'alert', descriptionKey:'edtriage.alert.text', score:0},
-            ReactsToVoice: {id:'reactsToVoice', descriptionKey:'edtriage.reactsToVoice.text', score:1},
-            ReactsToPain: {id:'reactsToPain', descriptionKey:'edtriage.reactsToPain.text', score:2},
-            Unresponsive: {id:'unresponsive', descriptionKey:'edtriage.unresponsive.text', score:3}
         }
     };
 
+    this.loadConcept = function(){
+        return $http.get(CONSTANTS.URLS.CONCEPTS + '/' + CONSTANTS.ED_TRIAGE_CONCEPT_SET_UUID).then(function(resp) {
+            if(resp.status == 200){
+                //console.log(resp.data);
+
+                return  EdTriageConcept.build(resp.data.setMembers);
+
+            }
+            else{
+                //TODO: how to handle these errors
+            }
+
+        }, function(err){
+            console.log(err);
+        });
+    }
+        
+        
+
     this.load = function(id) {
-        return $http.get(url + id + '.json').then(function(resp) {
+        return $http.get(CONSTANTS.URLS.ENCOUNTER + id + '.json').then(function(resp) {
             if(resp.status == 200){
                 return resp.data;
             }
@@ -81,7 +90,7 @@ angular.module("edTriageService", [])
         addObs(encounter.obs, Concepts.other.uuid, edTriagePatient.symptoms.other);
 
 
-        $http.post("/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
+        $http.post(CONSTANTS.URLS.ENCOUNTER,
             encounter)
             .success(function() {
                 window.alert("Saved!");
@@ -144,10 +153,10 @@ angular.module("edTriageService", [])
                         ++completedItems;
                     }
                 }
-                else if (v instanceof CONSTANTS.MOBILITY_TYPES || v instanceof CONSTANTS.CONSCIOUSNESS_TYPES) {
-                    score += v.score;
-                    ++completedItems;
-                }
+                // else if (v instanceof CONSTANTS.MOBILITY_TYPES || v instanceof CONSTANTS.CONSCIOUSNESS_TYPES) {
+                //     score += v.score;
+                //     ++completedItems;
+                // }
                 else {
                     //this is a bad, we should report this
                     console.log("Invalid property: " + prop);

@@ -3,9 +3,9 @@ angular.module("edTriageService", [])
     var url = "/openmrs/ms/uiframework/resource/edtriageapp/scripts/mock_data/patient_id_";
 
     var CONSTANTS = {
-
+        NONE_CONCEPT_UUID :  "3cd743f8-26fe-102b-80cb-0017a47871b2",
         //defines an empty value, so that we can tell if the form has been filled out
-        EMPTY_VALUES:{NUM:-1, STR:""},
+        EMPTY_VALUES:{NUM:"", STR:""},
         // defined the different kinds of patients that we can see, adult/child/infant
         // this information determines what the form will look like
         PATIENT_TYPES:{
@@ -35,10 +35,11 @@ angular.module("edTriageService", [])
                 return resp.data;
             }
             else{
-                //TODO: how to handle these eerrors
-                return null;
-            }
+                //TODO: how to handle these errors
+             }
 
+        }, function(err){
+            return createNewEdTriageRecord(id);
         });
     };
 
@@ -56,28 +57,28 @@ angular.module("edTriageService", [])
         addObs(encounter.obs, Concepts.triageQueueStatus.uuid, edTriagePatient.complaint);
 
         //chief complaint
-        addObs(encounter.obs, Concepts.complaint.uuid, edTriagePatient.complaint);
+        addObs(encounter.obs, Concepts.chiefComplaint.uuid, edTriagePatient.complaint);
 
         //vitals ----
-        addObs(encounter.obs, Concepts.mobility.uuid, edTriagePatient.mobility);
-        addObs(encounter.obs, Concepts.respiratoryRate.uuid, edTriagePatient.respiratoryRate);
-        addObs(encounter.obs, Concepts.oxygenSaturation.uuid, edTriagePatient.oxygenSaturation);
-        addObs(encounter.obs, Concepts.systolicBloodPressure.uuid, edTriagePatient.bloodPressure.systolic);
-        addObs(encounter.obs, Concepts.diastolicBloodPressure.uuid, edTriagePatient.bloodPressure.diastolic);
-        addObs(encounter.obs, Concepts.temperature.uuid, edTriagePatient.temperature);
-        addObs(encounter.obs, Concepts.consciousness.uuid, edTriagePatient.consciousness);
-        addObs(encounter.obs, Concepts.trauma.uuid, edTriagePatient.trauma);
-        addObs(encounter.obs, Concepts.weight.uuid, edTriagePatient.weight);
+        addObs(encounter.obs, Concepts.mobility.uuid, edTriagePatient.vitals.mobility);
+        addObs(encounter.obs, Concepts.respiratoryRate.uuid, edTriagePatient.vitals.respiratoryRate);
+        addObs(encounter.obs, Concepts.oxygenSaturation.uuid, edTriagePatient.vitals.oxygenSaturation);
+        addObs(encounter.obs, Concepts.systolicBloodPressure.uuid, edTriagePatient.vitals.bloodPressure.systolic);
+        addObs(encounter.obs, Concepts.diastolicBloodPressure.uuid, edTriagePatient.vitals.bloodPressure.diastolic);
+        addObs(encounter.obs, Concepts.temperature.uuid, edTriagePatient.vitals.temperature);
+        addObs(encounter.obs, Concepts.consciousness.uuid, edTriagePatient.vitals.consciousness);
+        addObs(encounter.obs, Concepts.trauma.uuid, edTriagePatient.vitals.trauma);
+        addObs(encounter.obs, Concepts.weight.uuid, edTriagePatient.vitals.weight);
 
         // symptoms  ----
-        addObs(encounter.obs, Concepts.weight.uuid, edTriagePatient.neurological);
-        addObs(encounter.obs, Concepts.burn.uuid, edTriagePatient.burn);
-        addObs(encounter.obs, Concepts.traumaDetails.uuid, edTriagePatient.traumaDetails);
-        addObs(encounter.obs, Concepts.digestive.uuid, edTriagePatient.digestive);
-        addObs(encounter.obs, Concepts.pregnancy.uuid, edTriagePatient.pregnancy);
-        addObs(encounter.obs, Concepts.respiratory.uuid, edTriagePatient.respiratory);
-        addObs(encounter.obs, Concepts.pain.uuid, edTriagePatient.pain);
-        addObs(encounter.obs, Concepts.other.uuid, edTriagePatient.other);
+        addObs(encounter.obs, Concepts.weight.uuid, edTriagePatient.symptoms.neurological);
+        addObs(encounter.obs, Concepts.burn.uuid, edTriagePatient.symptoms.burn);
+        addObs(encounter.obs, Concepts.traumaDetails.uuid, edTriagePatient.symptoms.traumaDetails);
+        addObs(encounter.obs, Concepts.digestive.uuid, edTriagePatient.symptoms.digestive);
+        addObs(encounter.obs, Concepts.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
+        addObs(encounter.obs, Concepts.respiratory.uuid, edTriagePatient.symptoms.respiratory);
+        addObs(encounter.obs, Concepts.pain.uuid, edTriagePatient.symptoms.pain);
+        addObs(encounter.obs, Concepts.other.uuid, edTriagePatient.symptoms.other);
 
 
         $http.post("/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
@@ -106,7 +107,10 @@ angular.module("edTriageService", [])
             //TODO:  delete this eventually, once we have all the concepts written
             console.log("we found a debug concept id=" + id + " so " + value + " will not be written");
         }
-        list.push(buildObs(id, value));
+        else if (value != null && value.length > 0){
+            list.push(buildObs(id, value));    
+        }
+        
     }
 
 
@@ -158,33 +162,35 @@ angular.module("edTriageService", [])
 
     this.CONSTANTS = CONSTANTS;
 
-    function EdTriagePatient(id) {
-        this.score = 0;
-        this.percentComplete=0;
-        this.patientId = id;
-        this.patientType = CONSTANTS.PATIENT_TYPES.Adult;
-        this.complaint = CONSTANTS.EMPTY_VALUES.STR;
-        this.vitals = {
-            mobility:CONSTANTS.MOBILITY_TYPES.Walking,
+    function createNewEdTriageRecord(id) {
+
+        return{
+        score : 0,
+        percentComplete:0,
+        patientId : id,
+        patientType : CONSTANTS.PATIENT_TYPES.Adult,
+        complaint : CONSTANTS.EMPTY_VALUES.STR,
+        vitals : {
+            mobility:Concepts.mobility.answers[2].uuid,
             respiratoryRate:CONSTANTS.EMPTY_VALUES.NUM,
             oxygenSaturation:CONSTANTS.EMPTY_VALUES.NUM,
             heartRate: CONSTANTS.EMPTY_VALUES.NUM,
             bloodPressure:{systolic: CONSTANTS.EMPTY_VALUES.NUM, diastolic: CONSTANTS.EMPTY_VALUES.NUM},
             temperature:CONSTANTS.EMPTY_VALUES.NUM,
-            consciousness: CONSTANTS.CONSCIOUSNESS_TYPES.Alert,
+            consciousness: CONSTANTS.EMPTY_VALUES.STR,
             trauma:false,
             weight: CONSTANTS.EMPTY_VALUES.NUM
-        };
-        this.symptions = {
-            neurological: { "concept_id": 1001, "answer":{ "id": 1002, "label":"Convulsive seizure"}},
-            burn:{},
-            trauma:{},
-            digestive:{},
-            pregnancy:{ },
-            respiratory:{},
-            pain:{},
-            other:{}
-        };
+        },
+        symptoms : {
+            neurological: CONSTANTS.NONE_CONCEPT_UUID,
+            burn:CONSTANTS.NONE_CONCEPT_UUID,
+            trauma:CONSTANTS.NONE_CONCEPT_UUID,
+            digestive:CONSTANTS.NONE_CONCEPT_UUID,
+            pregnancy:CONSTANTS.NONE_CONCEPT_UUID,
+            respiratory:CONSTANTS.NONE_CONCEPT_UUID,
+            pain:CONSTANTS.NONE_CONCEPT_UUID,
+            other:CONSTANTS.NONE_CONCEPT_UUID
+        }}
 
     }
 

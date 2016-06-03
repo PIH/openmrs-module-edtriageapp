@@ -22,6 +22,7 @@
 	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
 
 
+
 	ui.includeJavascript("edtriageapp", "constants.js")
 	ui.includeJavascript("edtriageapp", "filters.js")
 
@@ -65,7 +66,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<div class="col-xs-11">
 						<div class="progress-bar" role="progressbar" aria-valuenow="40"
 							 aria-valuemin="0" aria-valuemax="100" style="width:{{edTriagePatient.percentComplete}}%">
-							{{edTriagePatient.percentComplete}}{{additionalData.language.percentComplete}}
+							{{edTriagePatient.percentComplete}}{{translations.percentComplete}}
 						</div>
 					</div>
 				</div>
@@ -93,57 +94,59 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{additionalData.language.vitals | translateDebug}}</h3>
+			<h3 class="panel-title">{{translations.vitals}}</h3>
 		</div>
 		<div class="panel-body">
+
 			<div class="form-group row">
-				<label for="mobility" class="col-sm-2 form-control-label">{{additionalData.language.mobility}}</label>
+				<label for="mobility" class="col-sm-2 form-control-label">{{translations.mobility}}</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="mobility"
 							ng-model="edTriagePatient.vitals.mobility">
-						<option ng-repeat="tp in Concepts.mobility.answers" value="{{tp.uuid}}">{{tp.uuid | translateDebug}}</option>
+						<option ng-repeat="a in concepts.mobility.answers" ng-selected="edTriagePatient.vitals.mobility==a.uuid"  value="{{a.uuid}}">{{a.uuid | translate}}</option>
 					</select>
 				</div>
 			</div>
+
 			<div class="form-group row">
-				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{additionalData.language.respiratoryRate}}</label>
+				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{translations.respiratoryRate}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="respiratoryRate" type="text"
 						   ng-model="edTriagePatient.vitals.respiratoryRate" />
 				</div>
-				<div class="col-sm-1 form-control-label pull-left">{{additionalData.language.perMinute}}</div>
+				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
 			</div>
 			<div class="form-group row">
-				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{additionalData.language.oxygenSaturation}}</label>
+				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{translations.oxygenSaturation}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="oxygenSaturation" type="text"
 						   ng-model="edTriagePatient.vitals.oxygenSaturation" />
 				</div>
-				<div class="col-sm-1 form-control-label pull-left">{{additionalData.language.percent}}</div>
+				<div class="col-sm-1 form-control-label pull-left">{{translations.percent}}</div>
 				<div class="col-sm-2 form-control-label pull-left">
 					<button type="button" class="btn btn-primary btn-sm" ng-click="handleCustomAction('re')">
-						{{additionalData.language.unobtainable}}
+						{{translations.unobtainable}}
 					</button>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="heartRate" class="col-sm-2 form-control-label">{{additionalData.language.heartRate}}</label>
+				<label for="heartRate" class="col-sm-2 form-control-label">{{translations.heartRate}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="heartRate" type="text"
 						   ng-model="edTriagePatient.vitals.heartRate" />
 				</div>
-				<div class="col-sm-1 form-control-label pull-left">{{additionalData.language.perMinute}}</div>
+				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
 			</div>
 			<div class="form-group row">
-				<label for="bloodPressure" class="col-sm-2 form-control-label">Blood Pressure</label>
+				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">Blood Pressure</label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="bloodPressure" type="text"
+					<input class="form-control" id="bloodPressureSystolic" type="text"
 						   ng-model="edTriagePatient.vitals.bloodPressure.systolic" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">/</div>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="bloodPressure2" type="text"
-						   ng-model="edTriagePatient.vitals.bloodPressure.systolic" />
+					<input class="form-control" id="bloodPressureDiastolic" type="text"
+						   ng-model="edTriagePatient.vitals.bloodPressure.diastolic" />
 				</div>
 			</div>
 
@@ -166,7 +169,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-sm-10">
 					<select class="form-control" id="consciousness"
 							ng-model="edTriagePatient.vitals.consciousness">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+						<option ng-repeat="a in concepts.consciousness.answers" ng-selected="edTriagePatient.vitals.consciousness==a.uuid"
+								value="{{a.uuid}}">{{a.uuid | translate}}</option>
 					</select>
 				</div>
 			</div>
@@ -198,15 +202,16 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{additionalData.language.symptoms}}</h3>
+			<h3 class="panel-title">{{translations.symptoms}}</h3>
 		</div>
 		<div class="panel-body">
+
 			<div class="form-group row">
 				<label for="neurological" class="col-sm-2 form-control-label">neurological</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="neurological"
-							ng-model="edTriagePatient.vitals.neurological">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.neurological">
+						<option ng-repeat="a in concepts.neurological.answers" ng-selected="edTriagePatient.symptoms.neurological==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -214,8 +219,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="burn" class="col-sm-2 form-control-label">burn</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="burn"
-							ng-model="edTriagePatient.vitals.burn">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.burn">
+						<option ng-repeat="a in concepts.burn.answers" ng-selected="edTriagePatient.symptoms.burn==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -223,8 +228,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="trauma" class="col-sm-2 form-control-label">trauma</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="trauma"
-							ng-model="edTriagePatient.vitals.trauma">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.trauma">
+						<option ng-repeat="a in concepts.traumaDetails.answers" ng-selected="edTriagePatient.symptoms.trauma==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -232,8 +237,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="digestive" class="col-sm-2 form-control-label">digestive</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="digestive"
-							ng-model="edTriagePatient.vitals.trauma">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.digestive">
+						<option ng-repeat="a in concepts.digestive.answers" ng-selected="edTriagePatient.symptoms.digestive==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -241,8 +246,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="pregnancy" class="col-sm-2 form-control-label">pregnancy</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="pregnancy"
-							ng-model="edTriagePatient.vitals.trauma">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.pregnancy">
+						<option ng-repeat="a in concepts.pregnancy.answers" ng-selected="edTriagePatient.symptoms.pregnancy==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -250,8 +255,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="respiratory" class="col-sm-2 form-control-label">respiratory</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="respiratory"
-							ng-model="edTriagePatient.vitals.trauma">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.respiratory">
+						<option ng-repeat="a in concepts.respiratory.answers" ng-selected="edTriagePatient.symptoms.respiratory==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -259,8 +264,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="pain" class="col-sm-2 form-control-label">pain</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="pain"
-							ng-model="edTriagePatient.vitals.pain">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.pain">
+						<option ng-repeat="a in concepts.pain.answers" ng-selected="edTriagePatient.symptoms.pain==a.uuid" value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -268,8 +273,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="other" class="col-sm-2 form-control-label">other</label>
 				<div class="col-sm-10">
 					<select class="form-control" id="other"
-							ng-model="edTriagePatient.vitals.other">
-						<option ng-repeat="tp in additionalData.CONSTANTS.CONSCIOUSNESS_TYPES" value="{{tp.id}}">{{tp.descriptionKey}}</option>
+							ng-model="edTriagePatient.symptoms.other">
+						<option ng-repeat="a in concepts.other.answers" ng-selected="edTriagePatient.symptoms.other==a.uuid"  value="{{a.uuid}}">{{a.uuid | translate}}-{{a.score}}</option>
 					</select>
 				</div>
 			</div>
@@ -280,20 +285,38 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="form-group row">
 		<button type="button" class="btn btn-primary btn-lg pull-right" ng-click="save()">
-			{{additionalData.language.submitButton}}
+			{{translations.submitButton}}
 		</button>
 		<button type="button" class="btn btn-secondary btn-lg pull-right" ng-click="cancel()">
-			{{additionalData.language.exitButton}}
+			{{translations.exitButton}}
 		</button>
 	</div>
 
 	<div ng-if="additionalData.debug">
 		<h1>Debug Info:</h1>
 		<pre>
+			{{edTriagePatient | json}}
 		</pre>
 	</div>
 
 
 </div>
 
-{{edTriagePatient | json}}
+
+
+<script type="text/javascript">
+	angular.module('edTriageApp')
+			.value('patientUuid', '${ patient.uuid }')
+
+
+	;
+	//angular.bootstrap('#edTriageApp', [ "edTriageApp" ])   ;
+
+	jq(function() {
+		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header
+		jq(document).on('sessionLocationChanged', function() {
+			window.location.reload();
+		});
+	});
+
+</script>

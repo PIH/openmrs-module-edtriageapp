@@ -8,15 +8,15 @@
     "mobility": "walking_uuid_goes_here",
     "respiratoryRate": 8,
     "oxygenSaturation": 9,
-    "heartRate": 55,
+    "heartRate": 65,
     "bloodPressure": {
       "systolic": 122,
       "diastolic": 83
     },
     "temperature": 98.6,
     "consciousness": "alert_with_help_uuid_goes_here",
-    "trauma": false,
-    "weight": 123
+    "trauma": true,
+    "weight": 155
   },
   "symptoms": {
     "neurological": "3cd743f8-26fe-102b-80cb-0017a47871b2",

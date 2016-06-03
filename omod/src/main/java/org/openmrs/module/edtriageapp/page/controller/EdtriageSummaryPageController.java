@@ -17,7 +17,7 @@ public class EdtriageSummaryPageController {
                              @RequestParam(value = "appId", required = false) AppDescriptor app,
                              @RequestParam(value = "search", required = false) String search,
                              @RequestParam(value = "breadcrumbOverride", required = false) String breadcrumbOverride,
-                             UiSessionContext sessionContext) {
+                             UiSessionContext uiSessionContext) {
 
         if (patient.isVoided() || patient.isPersonVoided()) {
             return new Redirect("coreapps", "patientdashboard/deletedPatient", "patientId=" + patient.getId());
@@ -25,6 +25,7 @@ public class EdtriageSummaryPageController {
         model.addAttribute("appId", app !=null ? app.getId() : null);
         model.addAttribute("search", search);
         model.addAttribute("breadcrumbOverride", breadcrumbOverride);
+        model.addAttribute("locale", uiSessionContext.getLocale());
 
         return null;
 

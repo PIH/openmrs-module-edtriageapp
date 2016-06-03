@@ -1,9 +1,11 @@
 angular.module("edTriagePatientController", [])
-    .controller("patientEditController", [ '$scope', '$filter', 'Concepts','PatientService', function($scope, $filter, Concepts, PatientService) {
+    .controller("patientEditController", [ '$scope', '$filter', 'Concepts','PatientService', 'patientUuid', function($scope, $filter, Concepts, PatientService, patientUuid) {
         $scope.foo = "bar";
-        var patientId = 1;
-        PatientService.load(patientId).then(function(data){
+        //var patientId = patientUuid;
+        console.log("$scope.patientUuid=" + patientUuid);
+        PatientService.load(patientUuid).then(function(data){
             $scope.edTriagePatient = data;
+
             $scope.concepts = Concepts;
             $scope.translations = {complaint: $filter('translate')('Chief Complaint'),
                 exitButton:'Exit Form / No Triage (ESC)',
@@ -13,7 +15,7 @@ angular.module("edTriagePatientController", [])
                 patientInfo: 'Patient Info',
                 percent:'%',
                 percentComplete:'% Complete',
-                perMinute: '%/min',
+                perMinute: '/min',
                 respiratoryRate:'Respiratory Rate',
                 status:'Status',
                 submitButton:'Triage Complete (Ctl + Enter)',
@@ -24,27 +26,13 @@ angular.module("edTriagePatientController", [])
 
             $scope.additionalData = {
                 CONSTANTS: PatientService.CONSTANTS,
-                debug: false,
-                translations: {complaint: 'Chief Complaint',
-                    exitButton:'Exit Form / No Triage (ESC)',
-                    heartRate:'Heartrate',
-                    mobility:'Mobility',
-                    oxygenSaturation:'Oxygen Sat.',
-                    patientInfo: 'Patient Info',
-                    percent:'%',
-                    percentComplete:'% Complete',
-                    perMinute: '%/min',
-                    respiratoryRate:'Respiratory Rate',
-                    status:'Status',
-                    submitButton:'Triage Complete (Ctl + Enter)',
-                    symptoms:'Symptoms',
-                    unobtainable:'Unobtainable',
-                    vitals:'Vitals'
-                },
-                patientTypeAsString: PatientService.getPatientTypeAsString($scope.edTriagePatient),
+                debug: true,
                 triageColorText: 'Green'
             };
             console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);
+
+           // $scope.$apply($scope.edTriagePatient = data); // <---- Changed
+
         });
 
 

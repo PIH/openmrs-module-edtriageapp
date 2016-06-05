@@ -25,7 +25,7 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
         handle: function (row, widgetData) {
             var query = widgetData.lastQuery;
             history.replaceState({ query: query }, "", "${baseUrl}&search=" + query);
-            location.href = emr.pageLink("edtriageapp", "edtriageSummary", { patientId: row.uuid, appId: '${appId}', search: query });
+            location.href = emr.pageLink("edtriageapp", "edtriageEditPatient", { patientId: row.uuid, appId: '${appId}', search: query });
         }
     }
 

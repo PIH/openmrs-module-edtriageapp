@@ -21,6 +21,14 @@
 
 	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
 
+	ui.includeJavascript("edtriageapp", "constants.js")
+	ui.includeJavascript("edtriageapp", "filters.js")
+	ui.includeJavascript("edtriageapp", "components/EdTriageConceptFactory.js")
+	ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")
+	ui.includeJavascript("edtriageapp", "components/EdTriageEditPatientController.js")
+	ui.includeJavascript("edtriageapp", "app.js")
+
+
 %>
 
 
@@ -28,27 +36,25 @@
 	var breadcrumbs = [
 		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
 		{ label: "${ ui.message("edtriageapp.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }" },
-		{ label: "${ ui.escapeJs(ui.format(patient.patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
+
 	];
 
 </script>
 
 
-${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
+<div class="container" ng-app="edTriageApp" ng-controller="patientQueueController">
 
-<div class="col-md-6 text-center">
-	<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-lg btn-primary">Add/Edit Patient</a>
-	<a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-lg btn-primary">View Queue</a>
+	The queue goes here
+
 </div>
 
-<script type="text/javascript">
-	//angular.bootstrap('#edTriageApp', [ "edTriageApp" ])   ;
 
+
+<script type="text/javascript">
 	jq(function() {
 		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header
 		jq(document).on('sessionLocationChanged', function() {
 			window.location.reload();
 		});
 	});
-
 </script>

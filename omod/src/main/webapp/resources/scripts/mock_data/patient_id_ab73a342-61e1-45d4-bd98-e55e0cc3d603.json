@@ -1,31 +1,455 @@
 {
-  "score": 5,
-  "percentComplete":45,
-  "patientId": 1,
-  "patientType": "A",
-  "complaint": "stomach hurts",
-  "vitals": {
-    "mobility": "walking_uuid_goes_here",
-    "respiratoryRate": 8,
-    "oxygenSaturation": 9,
-    "heartRate": 65,
-    "bloodPressure": {
-      "systolic": 122,
-      "diastolic": 83
-    },
-    "temperature": 98.6,
-    "consciousness": "alert_with_help_uuid_goes_here",
-    "trauma": true,
-    "weight": 155
+  "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+  "display": "Emergency Triage 06/05/2016",
+  "encounterDatetime": "2016-06-05T09:55:14.000-0400",
+  "patient": {
+    "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+    "display": "X5HXW2 - Billy TestPatient10",
+    "links": [
+      {
+        "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "rel": "self"
+      }
+    ]
   },
-  "symptoms": {
-    "neurological": "3cd743f8-26fe-102b-80cb-0017a47871b2",
-    "burn": "3cd743f8-26fe-102b-80cb-0017a47871b2",
-    "trauma": "Fracture - open uuid_goes_here",
-    "digestive": "3cd743f8-26fe-102b-80cb-0017a47871b2",
-    "pregnancy": "3cd743f8-26fe-102b-80cb-0017a47871b2",
-    "respiratory": "3cd6fac4-26fe-102b-80cb-0017a47871b2",
-    "pain": "3cd743f8-26fe-102b-80cb-0017a47871b2",
-    "other": "3cd743f8-26fe-102b-80cb-0017a47871b2"
+  "location": null,
+  "form": null,
+  "encounterType": {
+    "uuid": "74cef0a6-2801-11e6-b67b-9e71128cae77",
+    "display": "Emergency Triage",
+    "name": "Emergency Triage",
+    "description": "Emergency Department patient triage",
+    "retired": false,
+    "links": [
+      {
+        "uri": "http://localhost:8080/openmrs/ws/rest/v1/encountertype/74cef0a6-2801-11e6-b67b-9e71128cae77",
+        "rel": "self"
+      },
+      {
+        "uri": "http://localhost:8080/openmrs/ws/rest/v1/encountertype/74cef0a6-2801-11e6-b67b-9e71128cae77?v=full",
+        "rel": "full"
+      }
+    ],
+    "resourceVersion": "1.8"
+  },
+  "obs": [
+    {
+      "uuid": "34ca85a4-b7a7-493a-ba2e-bfcad6fbc0b1",
+      "display": "Respiratory rate: 8.0",
+      "concept": {
+        "uuid": "3ceb11f8-26fe-102b-80cb-0017a47871b2",
+        "display": "Respiratory rate",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ceb11f8-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 8,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/34ca85a4-b7a7-493a-ba2e-bfcad6fbc0b1",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/34ca85a4-b7a7-493a-ba2e-bfcad6fbc0b1?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "8a06ec05-2972-4ec0-ae26-cb99e95d6fa7",
+      "display": "Blood oxygen saturation: 34.0",
+      "concept": {
+        "uuid": "3ce9401c-26fe-102b-80cb-0017a47871b2",
+        "display": "Blood oxygen saturation",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ce9401c-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 34,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/8a06ec05-2972-4ec0-ae26-cb99e95d6fa7",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/8a06ec05-2972-4ec0-ae26-cb99e95d6fa7?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "e8b9ead0-14dd-49d4-8758-157786697f10",
+      "display": "Systolic blood pressure: 122.0",
+      "concept": {
+        "uuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
+        "display": "Systolic blood pressure",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ce934fa-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 122,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/e8b9ead0-14dd-49d4-8758-157786697f10",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/e8b9ead0-14dd-49d4-8758-157786697f10?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "1ba83a11-f5dc-48a4-8345-d7470f34b70e",
+      "display": "Pulse: 54.0",
+      "concept": {
+        "uuid": "3ce93824-26fe-102b-80cb-0017a47871b2",
+        "display": "Pulse",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ce93824-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 54,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/1ba83a11-f5dc-48a4-8345-d7470f34b70e",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/1ba83a11-f5dc-48a4-8345-d7470f34b70e?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "6b8fcaae-a8bf-4a53-8571-086735f2f3e2",
+      "display": "Diastolic blood pressure: 83.0",
+      "concept": {
+        "uuid": "3ce93694-26fe-102b-80cb-0017a47871b2",
+        "display": "Diastolic blood pressure",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ce93694-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 83,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/6b8fcaae-a8bf-4a53-8571-086735f2f3e2",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/6b8fcaae-a8bf-4a53-8571-086735f2f3e2?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "9e4c72a5-eb63-4566-9052-5b00f90de9d3",
+      "display": "Temperature (C): 98.6",
+      "concept": {
+        "uuid": "3ce939d2-26fe-102b-80cb-0017a47871b2",
+        "display": "Temperature (C)",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ce939d2-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 98.6,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/9e4c72a5-eb63-4566-9052-5b00f90de9d3",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/9e4c72a5-eb63-4566-9052-5b00f90de9d3?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "29d16965-0893-4fff-a711-e67825a1d40a",
+      "display": "Weight (kg): 155.0",
+      "concept": {
+        "uuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
+        "display": "Weight (kg)",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/concept/3ce93b62-26fe-102b-80cb-0017a47871b2",
+            "rel": "self"
+          }
+        ]
+      },
+      "person": {
+        "uuid": "ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+        "display": "X5HXW2 - Billy TestPatient10",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/patient/ab73a342-61e1-45d4-bd98-e55e0cc3d603",
+            "rel": "self"
+          }
+        ]
+      },
+      "obsDatetime": "2016-06-05T09:55:14.000-0400",
+      "accessionNumber": null,
+      "obsGroup": null,
+      "valueCodedName": null,
+      "groupMembers": null,
+      "comment": null,
+      "location": null,
+      "order": null,
+      "encounter": {
+        "uuid": "306527ce-57f7-4d7e-be42-94eedf2426e8",
+        "display": "Emergency Triage 06/05/2016",
+        "links": [
+          {
+            "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+            "rel": "self"
+          }
+        ]
+      },
+      "voided": false,
+      "value": 155,
+      "valueModifier": null,
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/29d16965-0893-4fff-a711-e67825a1d40a",
+          "rel": "self"
+        },
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/obs/29d16965-0893-4fff-a711-e67825a1d40a?v=full",
+          "rel": "full"
+        }
+      ],
+      "resourceVersion": "1.8"
     }
+  ],
+  "orders": [],
+  "voided": false,
+  "auditInfo": {
+    "creator": {
+      "uuid": "ac6d78f2-48f3-11e3-a9c9-aa008d121340",
+      "display": "admin",
+      "links": [
+        {
+          "uri": "http://localhost:8080/openmrs/ws/rest/v1/user/ac6d78f2-48f3-11e3-a9c9-aa008d121340",
+          "rel": "self"
+        }
+      ]
+    },
+    "dateCreated": "2016-06-05T09:55:14.000-0400",
+    "changedBy": null,
+    "dateChanged": null
+  },
+  "visit": null,
+  "encounterProviders": [],
+  "links": [
+    {
+      "uri": "http://localhost:8080/openmrs/ws/rest/v1/encounter/306527ce-57f7-4d7e-be42-94eedf2426e8",
+      "rel": "self"
+    }
+  ],
+  "resourceVersion": "1.9"
 }

@@ -5,6 +5,7 @@ angular.module('edTriageApp', [
     'pascalprecht.translate',
     'filters',
     'constants',
+    'edTriagePatientFactory',
     'edTriageConceptFactory',
     'edTriagePatientController',
     'edTriageService'

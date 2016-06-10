@@ -228,6 +228,7 @@ angular.module("edTriageService", [])
                 //iterate through the vitals and ...
                 // 1) check that they are entered
                 // 2) update the score based on the vital
+                var ageType = edTriagePatient.patient.ageType;
                 for (var prop in edTriagePatient.vitals) {
                     if (edTriagePatient.vitals.hasOwnProperty(prop)) {
                         var p =  edTriagePatient.vitals[prop];
@@ -241,17 +242,26 @@ angular.module("edTriageService", [])
                                     for(var i=0;i<answers.length;++i){
                                         if(answers[i].uuid == p.value){
                                             //this is the answer that they chose
-                                           // vistalsScore = vistalsScore + answers[i].score;
+                                            vistalsScore = vistalsScore + answers[i].score;
+                                            console.log("incrementing the score of " + answers[i].label + " by " + vistalsScore + " to " + answers[i].score);
+                                            break;
                                         }
                                     }
-
-
+                                }
+                                else{
+                                    //this kind of value doesn't have a look up value, so we can't score it
+                                    // we have to look at this manually
+                                    if(prop == "respiratoryRate" || prop == 'heartRate'){
+                                        var score = concept.vitals[prop].score(ageType, p.value);
+                                        console.log("setting " + prop + " score to " + score);
+                                        vistalsScore = vistalsScore + score
+                                    }
                                 }
                             }
                             else{
                                 console.log("Concept doesn't have the property called - " + prop);
                             }
-                            ++vistalsScore;
+
                         }
                     }
                 }

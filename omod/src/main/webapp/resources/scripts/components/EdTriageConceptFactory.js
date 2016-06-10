@@ -27,12 +27,57 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", 0, 'AC'),
                         toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", 0, 'I')]
                     , "611e7b0a-5b34-47ac-b352-02c2dc653255"),
-                respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", -1),
-                oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", -1),
-                heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", -1),
-                systolicBloodPressure: toAnswer("3ce934fa-26fe-102b-80cb-0017a47871b2", "systolicBloodPressure", -1),
-                diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", -1),
-                temperature: toAnswer("3ce939d2-26fe-102b-80cb-0017a47871b2", "temperature", -1),
+                respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", function(ageType, value){
+                    if(ageType == 'A'){
+                        if(value < 9) return 2;
+                        if(value < 15) return 0;
+                        if(value < 21) return 1;
+                        if(value < 30) return 2;
+                        return 3;
+                    }
+                    if(ageType == 'C'){
+                        if(value < 15) return 3;
+                        if(value < 17) return 2;
+                        if(value < 22) return 0;
+                        if(value < 27) return 1;
+                        return 2;
+                    }
+                    if(ageType == 'I'){
+                        if(value < 20) return 3;
+                        if(value < 26) return 2;
+                        if(value < 40) return 0;
+                        if(value < 50) return 2;
+                        return 3;
+                    }
+                }),
+                oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){return 0;}),
+                heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
+                    if(ageType == 'A'){
+                        if(value < 41) return 2;
+                        if(value < 51) return 1;
+                        if(value < 101) return 0;
+                        if(value < 111) return 1;
+                        if(value < 3130) return 2;
+                        return 3;
+                    }
+                    if(ageType == 'C'){
+                        if(value < 60) return 3;
+                        if(value < 80) return 2;
+                        if(value < 100) return 0;
+                        if(value < 130) return 1;
+                        return 2;
+                    }
+                    if(ageType == 'I'){
+                        if(value < 70) return 3;
+                        if(value < 80) return 2;
+                        if(value < 131) return 0;
+                        if(value < 160) return 1;
+                        return 2;
+                    }
+                }),
+                systolicBloodPressure: toAnswer("3ce934fa-26fe-102b-80cb-0017a47871b2", "systolicBloodPressure", function(ageType, value){return 0;}),
+                diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){return 0;}),
+                temperature: toAnswer("3ce939d2-26fe-102b-80cb-0017a47871b2", "temperature", function(ageType, value){return 0;}),
                 consciousness: toAnswers(        'consciousness',
                     [toAnswer("11111111-1111-1111-1111-111111111111", "confused", 2, 'AC'),
                         toAnswer("11111111-1111-1111-1111-111111111111", "alert", 0),

@@ -47,7 +47,7 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
     /*
     * gets all active encounters at a current location for a patient
     * */
-    public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId) {
+    public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
 
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class, "enc");
         //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -65,12 +65,13 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
             criteria.add(Restrictions.eq("loc.uuid", locationUuid));
         }
 
-        if (patientId != null && patientId.length() > 0) {
-            criteria = criteria.createCriteria("patient", "pat");
-            criteria.add(Restrictions.eq("pat.uuid", patientId));
+        if (patientUuid != null && patientUuid.length() > 0) {
+            criteria.createAlias("enc.patient", "pat");
+            criteria.add(Restrictions.eq("pat.uuid", patientUuid));
         }
 
         criteria.addOrder(Order.desc("enc.encounterDatetime"));
+
 
         //noinspection unchecked
         return criteria.list();

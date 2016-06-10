@@ -48,7 +48,7 @@ angular.module("edTriagePatientController", [])
             };
 
             $scope.save = function () {
-                PatientService.save($scope.edTriagePatient).then(function (res) {
+                PatientService.save($scope.edTriageConcept, $scope.edTriagePatient).then(function (res) {
                     if (res.status != 200) {
                         $scope.message = {type: 'danger', text: $filter('json')(res.data)};
                     }

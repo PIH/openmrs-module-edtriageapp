@@ -9,7 +9,7 @@ angular.module("edTriageService", [])
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter"
                 },
                 NONE_CONCEPT_UUID: "3cd743f8-26fe-102b-80cb-0017a47871b2",
-                ED_TRIAGE_CONCEPT_SET_UUID: "80c8b161-a871-42db-a1ca-185095a1d798",
+                ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
                 //defines an empty value, so that we can tell if the form has been filled out
                 EMPTY_VALUES: {NUM: "", STR: ""},
                 // defined the different kinds of patients that we can see, adult/child/infant
@@ -25,7 +25,7 @@ angular.module("edTriageService", [])
             * @returns {EDTriageConcpt} the concept that make up this app
             * */
             this.loadConcept = function () {
-                return $http.get(CONSTANTS.URLS.CONCEPTS + '/' + CONSTANTS.ED_TRIAGE_CONCEPT_SET_UUID).then(function (resp) {
+                return $http.get(CONSTANTS.URLS.CONCEPTS + '/' + CONSTANTS.ED_TRIAGE_CONCEPT_UUIDS[0] + "?v=full").then(function (resp) {
                     if (resp.status == 200) {
                         //console.log(resp.data);
 
@@ -34,6 +34,7 @@ angular.module("edTriageService", [])
                     }
                     else {
                         //TODO: how to handle these errors
+                        return null;
                     }
 
                 }, function (err) {
@@ -72,7 +73,7 @@ angular.module("edTriageService", [])
             /*
              saves an encounter for a patient
              * */
-            this.save = function (edTriagePatient) {
+            this.save = function (edTriageConcept, edTriagePatient) {
                 var encounter = {
                     uuid:edTriagePatient.uuid,
                     patient: edTriagePatient.patient.uuid,
@@ -82,32 +83,32 @@ angular.module("edTriageService", [])
                 };
 
                 //status
-                //addObs(encounter.obs, Concepts.triageQueueStatus.uuid, edTriagePatient.status);
+                //addObs(encounter.obs, edTriageConcept.vitals.triageQueueStatus.uuid, edTriagePatient.status);
 
                 //chief complaint
-                addObs(encounter.obs, Concepts.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
+                addObs(encounter.obs, edTriageConcept.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
 
                 //vitals ----
-                addObs(encounter.obs, Concepts.mobility.uuid, edTriagePatient.vitals.mobility);
-                addObs(encounter.obs, Concepts.respiratoryRate.uuid, edTriagePatient.vitals.respiratoryRate);
-                addObs(encounter.obs, Concepts.oxygenSaturation.uuid, edTriagePatient.vitals.oxygenSaturation);
-                addObs(encounter.obs, Concepts.heartRate.uuid, edTriagePatient.vitals.heartRate);
-                addObs(encounter.obs, Concepts.systolicBloodPressure.uuid, edTriagePatient.vitals.systolicBloodPressure);
-                addObs(encounter.obs, Concepts.diastolicBloodPressure.uuid, edTriagePatient.vitals.diastolicBloodPressure);
-                addObs(encounter.obs, Concepts.temperature.uuid, edTriagePatient.vitals.temperature);
-                addObs(encounter.obs, Concepts.consciousness.uuid, edTriagePatient.vitals.consciousness);
-                addObs(encounter.obs, Concepts.trauma.uuid, edTriagePatient.vitals.trauma);
-                addObs(encounter.obs, Concepts.weight.uuid, edTriagePatient.vitals.weight);
+                addObs(encounter.obs, edTriageConcept.vitals.mobility.uuid, edTriagePatient.vitals.mobility);
+                addObs(encounter.obs, edTriageConcept.vitals.respiratoryRate.uuid, edTriagePatient.vitals.respiratoryRate);
+                addObs(encounter.obs, edTriageConcept.vitals.oxygenSaturation.uuid, edTriagePatient.vitals.oxygenSaturation);
+                addObs(encounter.obs, edTriageConcept.vitals.heartRate.uuid, edTriagePatient.vitals.heartRate);
+                addObs(encounter.obs, edTriageConcept.vitals.systolicBloodPressure.uuid, edTriagePatient.vitals.systolicBloodPressure);
+                addObs(encounter.obs, edTriageConcept.vitals.diastolicBloodPressure.uuid, edTriagePatient.vitals.diastolicBloodPressure);
+                addObs(encounter.obs, edTriageConcept.vitals.temperature.uuid, edTriagePatient.vitals.temperature);
+                addObs(encounter.obs, edTriageConcept.vitals.consciousness.uuid, edTriagePatient.vitals.consciousness);
+                addObs(encounter.obs, edTriageConcept.vitals.trauma.uuid, edTriagePatient.vitals.trauma);
+                addObs(encounter.obs, edTriageConcept.vitals.weight.uuid, edTriagePatient.vitals.weight);
 
                 // // symptoms  ----
-                // addObs(encounter.obs, Concepts.weight.uuid, edTriagePatient.symptoms.neurological);
-                // addObs(encounter.obs, Concepts.burn.uuid, edTriagePatient.symptoms.burn);
-                // addObs(encounter.obs, Concepts.traumaDetails.uuid, edTriagePatient.symptoms.traumaDetails);
-                // addObs(encounter.obs, Concepts.digestive.uuid, edTriagePatient.symptoms.digestive);
-                // addObs(encounter.obs, Concepts.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
-                // addObs(encounter.obs, Concepts.respiratory.uuid, edTriagePatient.symptoms.respiratory);
-                // addObs(encounter.obs, Concepts.pain.uuid, edTriagePatient.symptoms.pain);
-                // addObs(encounter.obs, Concepts.other.uuid, edTriagePatient.symptoms.other);
+                // addObs(encounter.obs, edTriageConcept.symptoms.weight.uuid, edTriagePatient.symptoms.neurological);
+                // addObs(encounter.obs, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
+                // addObs(encounter.obs, edTriageConcept.symptoms.traumaDetails.uuid, edTriagePatient.symptoms.traumaDetails);
+                // addObs(encounter.obs, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
+                // addObs(encounter.obs, edTriageConcept.symptoms.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
+                // addObs(encounter.obs, edTriageConcept.symptoms.respiratory.uuid, edTriagePatient.symptoms.respiratory);
+                // addObs(encounter.obs, edTriageConcept.symptoms.pain.uuid, edTriagePatient.symptoms.pain);
+                // addObs(encounter.obs, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
 
 
                 console.log("About to save an encounter...");

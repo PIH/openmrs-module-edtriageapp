@@ -5,15 +5,26 @@ angular.module("edTriageConceptFactory", [])
          */
         function EdTriageConcept() {
             // Public properties, assigned to the instance ('this')
-            this.triageQueueStatus = toAnswer("11111111-1111-1111-1111-111111111111", "triageQueueStatus");
-            //this.admissionLocation = toAnswer("f3e04276-2db0-4181-b937-d73275dc1b15", "admissionLocation");
+            this.triageQueueStatus =  toAnswers("triageQueueStatus", [
+                    toAnswer("4dd3244d-fcb9-424d-ad8a-afd773c69923", "waitingForEvaluation"),
+                    toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "outpatientConsultation"),
+                    toAnswer("45d0c3d2-2188-4186-8a19-0063b92914ee", "remove"),
+                    toAnswer("1fa8d25e-7471-4201-815f-79fac44d9a5f", "expire")]
+                , "66c18ba5-459e-4049-94ab-f80aca5c6a98");
+            this.triageQueueStatus =  toAnswers("triageQueueStatus", [
+                    toAnswer("4dd3244d-fcb9-424d-ad8a-afd773c69923", "waitingForEvaluation"),
+                    toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "outpatientConsultation"),
+                    toAnswer("45d0c3d2-2188-4186-8a19-0063b92914ee", "remove"),
+                    toAnswer("1fa8d25e-7471-4201-815f-79fac44d9a5f", "expire")]
+                , "66c18ba5-459e-4049-94ab-f80aca5c6a98");
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
             this.vitals = {
                 mobility: toAnswers(      'mobility',
-                    [toAnswer("11111111-1111-1111-1111-111111111111", "immobile", 2),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "with help", 1),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "walking", 0, 'AC'),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "normal for age", 0, 'I')]),
+                    [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", 2),
+                        toAnswer("d335ec09-c724-4327-9726-f3c984bb1ca1", "with help", 1),
+                        toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", 0, 'AC'),
+                        toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", 0, 'I')]
+                    , "611e7b0a-5b34-47ac-b352-02c2dc653255"),
                 respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", -1),
                 oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", -1),
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", -1),
@@ -110,14 +121,14 @@ angular.module("edTriageConceptFactory", [])
             }
         }
 
-        function toAnswers(messageKey, answers) {
+        function toAnswers(messageKey, answers, uuid) {
             var key = "edtriageapp.i18n." + messageKey;
             var translation = $filter('translate')(key);
             //TODO:  this is just until we figure out the translations, so things are sort of readable
             if(key == translation){
                 translation = key.split(".")[2] + "{??}";
             }
-            return {answers: answers, label:translation, value: null};
+            return {answers: answers, label:translation, value: null, uuid:uuid};
         }
 
         function toAnswer(uuid, label, score, scope) {
@@ -135,11 +146,12 @@ angular.module("edTriageConceptFactory", [])
          * Static method, assigned to class
          * Instance ('this') is not available in static context
          */
-        EdTriageConcept.build = function (data) {
+        EdTriageConcept.build = function (data, existingConcept) {
 
-            var ret = new EdTriageConcept();
-
-            console.log(ret);
+            var ret =existingConcept;
+            if(existingConcept == null){
+                ret = new EdTriageConcept();
+            }
 
             updateConceptLabels(ret, data, 0);
 
@@ -148,10 +160,22 @@ angular.module("edTriageConceptFactory", [])
             function updateConceptLabels(obj, data, level) {
                 for (var propertyName in obj) {
                     var p = obj[propertyName];
+
+
+                    console.log(propertyName);
+                    if(propertyName == 'respiratoryRate'){
+                        console.log("found");
+                    }
                     if (p != null && typeof p == "object") {
                         if (p.hasOwnProperty('uuid')) {
                             //this an answer to a question, so let's look for a UUID that matches in the data and set the label for this
-                            updateAnswerLabel(p, data)
+                            updateAnswerLabel(p, data);
+                            if(p.hasOwnProperty("answers")){
+                                //this also has some answers, so load those too
+                                for (var i = 0; i < p.answers.length; ++i) {
+                                    updateAnswerLabel(p.answers[i], data)
+                                }
+                            }
                         }
                         else if (propertyName == 'answers') {
                             //this is an array of answers, iterate
@@ -174,10 +198,34 @@ angular.module("edTriageConceptFactory", [])
             function updateAnswerLabel(obj, data) {
                 for (var i = 0; i < data.length; ++i) {
                     var concept = data[i];
+                    //first look in the object for the uuid
                     if (concept.uuid == obj.uuid) {
                         obj.label = concept.display;
                         return;
                     }
+                    //then check if the object has answers we can check
+                    if(concept.answers != null && concept.answers.length>0){
+                        for(var j=0;j<concept.answers.length;++j){
+                            var a = concept.answers[j];
+                            if(a.uuid == obj.uuid){
+                                obj.label = a.display;
+                                return;
+
+                            }
+                        }
+                    }
+
+                    if(concept.setMembers != null && concept.setMembers.length>0){
+                        for(var j=0;j<concept.setMembers.length;++j){
+                            var a = concept.setMembers[j];
+                            if(a.uuid == obj.uuid){
+                                obj.label = a.display;
+                                return;
+
+                            }
+                        }
+                    }
+
                 }
             }
         };

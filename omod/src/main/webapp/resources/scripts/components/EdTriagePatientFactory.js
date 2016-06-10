@@ -78,9 +78,9 @@ angular.module("edTriagePatientFactory", [])
             console.log("ret.encounterUuid = " + ret.encounterUuid );
             ret.score = 0;
             ret.percentComplete = 0;
-            //ret.patient = {uuid:data.patient.uuid, age:null, birthdate:null, gender:null, ageType:null};
-            //ret.location = data.location;
 
+
+            //iterate through the observations and update the appropriate properties
             for (var i = 0; i < data.obs.length; ++i) {
                 var uuid = data.obs[i].concept.uuid;
                 var obsUuid = data.obs[i].uuid;
@@ -115,23 +115,27 @@ angular.module("edTriagePatientFactory", [])
                 else if (uuid == concepts.vitals.weight.uuid) {
                     ret.vitals.weight = _v(v, obsUuid);
                 }
+                else if (uuid == concepts.vitals.mobility.uuid) {
+                    ret.vitals.mobility = _v(v.uuid, v.uuid);
+                    console.log(v);
+                }
                 else {
-                    var lookups = [{o: 'vitals', c: 'mobility', p: 'mobility'},
-                        {o: 'vitals', c: 'consciousness', p: 'consciousness'},
-                        {o: 'symptoms', c: 'neurological', p: 'neurological'},
-                        {o: 'symptoms', c: 'burn', p: 'burn'},
-                        {o: 'symptoms', c: 'trauma', p: 'trauma'},
-                        {o: 'symptoms', c: 'digestive', p: 'digestive'},
-                        {o: 'symptoms', c: 'pregnancy', p: 'pregnancy'},
-                        {o: 'symptoms', c: 'respiratory', p: 'respiratory'},
-                        {o: 'symptoms', c: 'pain', p: 'pain'},
-                        {o: 'symptoms', c: 'other', p: 'other'}];
-                    for (var j = 0; j < lookups.length; ++j) {
-                        var ok = _updateAnswersFromUuid(concepts, ret, lookups[j], data.obs[i]);
-                        if (ok) {
-                            break;
-                        }
-                    }
+                    // var lookups = [{o: 'vitals', c: 'mobility', p: 'mobility'},
+                    //     {o: 'vitals', c: 'consciousness', p: 'consciousness'},
+                    //     {o: 'symptoms', c: 'neurological', p: 'neurological'},
+                    //     {o: 'symptoms', c: 'burn', p: 'burn'},
+                    //     {o: 'symptoms', c: 'trauma', p: 'trauma'},
+                    //     {o: 'symptoms', c: 'digestive', p: 'digestive'},
+                    //     {o: 'symptoms', c: 'pregnancy', p: 'pregnancy'},
+                    //     {o: 'symptoms', c: 'respiratory', p: 'respiratory'},
+                    //     {o: 'symptoms', c: 'pain', p: 'pain'},
+                    //     {o: 'symptoms', c: 'other', p: 'other'}];
+                    // for (var j = 0; j < lookups.length; ++j) {
+                    //     var ok = _updateAnswersFromUuid(concepts, ret, lookups[j], data.obs[i]);
+                    //     if (ok) {
+                    //         break;
+                    //     }
+                    // }
 
 
                 }

@@ -149,11 +149,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						   ng-model="edTriagePatient.vitals.temperature.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">C</div>
-				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="temperatureF" type="text"
-						   ng-model="edTriagePatient.vitals.temperature.value" />
-				</div>
-				<div class="col-sm-1 form-control-label pull-left">F</div>
 			</div>
 
 			<concept-selector concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness.value"></concept-selector>
@@ -173,11 +168,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						   ng-model="edTriagePatient.vitals.weight.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">kgs.</div>
-				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="weightInLb" type="text"
-						   ng-model="edTriagePatient.vitals.weight.value" />
-				</div>
-				<div class="col-sm-1 form-control-label pull-left">lbs/</div>
 			</div>
 		</div>
 
@@ -224,12 +214,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						<h2>Patient</h2>
 						<pre>{{edTriagePatient | json}}</pre>
 					</div>
-
 					<div>
 						<h2>Concept</h2>
-						<pre>{{edTriagePatientConcept | json}}</pre></div>
-
-
+						<pre>{{edTriagePatientConcept | json}}</pre>
+					</div>
 				</div>
 			</div>
 		</div>

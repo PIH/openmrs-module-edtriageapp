@@ -55,13 +55,13 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.HOUR, hoursBack * -1);
         criteria.add(Restrictions.ge("enc.encounterDatetime", now.getTime()));
+        criteria.add(Restrictions.eq("enc.voided", Boolean.FALSE));
 
-        criteria.createAlias("enc.location", "loc");
         criteria.createAlias("enc.encounterType", "encType");
-
         criteria.add(Restrictions.eq("encType.uuid", EdTriageAppDAO.ENCOUNTER_TYPE_UUID));
 
         if (locationUuid != null && locationUuid.length() > 0) {
+            criteria.createAlias("enc.location", "loc");
             criteria.add(Restrictions.eq("loc.uuid", locationUuid));
         }
 

@@ -1,6 +1,6 @@
 angular.module("edTriagePatientController", [])
-    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'patientUuid', 'patientBirthDate', 'patientGender',  'locationUuid',
-        function ($scope, $filter, PatientService, patientUuid, patientBirthDate, patientGender,locationUuid) {
+    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
+        function ($scope, $filter, PatientService, patientUuid, patientBirthDate, patientGender, locationUuid) {
             $scope.foo = "bar";
             //var patientId = patientUuid;
             console.log("patientUuid=" + patientUuid);
@@ -14,26 +14,22 @@ angular.module("edTriagePatientController", [])
                     $scope.edTriagePatient = data;
                     $scope.edTriageConcept = concept;
                     $scope.translations = {
+                        bloodPressure: $filter('translate')('Blood Pressure'),
                         complaint: $filter('translate')('Chief Complaint'),
-                        exitButton: 'Exit Form / No Triage (ESC)',
-                        heartRate: 'Heartrate',
-                        mobility: 'Mobility',
-                        oxygenSaturation: 'Oxygen Sat.',
+                        exitButton: 'Exit Form / No Triage',
                         patientInfo: 'Patient Info',
                         percent: '%',
                         percentComplete: '% Complete',
                         perMinute: '/min',
-                        respiratoryRate: 'Respiratory Rate',
                         status: 'Status',
-                        submitButton: 'Triage Complete (Ctl + Enter)',
+                        submitButton: 'Triage Complete',
                         symptoms: 'Symptoms',
                         unobtainable: 'Unobtainable',
                         vitals: 'Vitals'
                     };
 
                     $scope.additionalData = {
-                        CONSTANTS: PatientService.CONSTANTS,
-                        debug: true,
+                        debug: true
                     };
 
                     $scope.currentScore = angular.extend({}, $scope.edTriagePatient.score);
@@ -42,34 +38,38 @@ angular.module("edTriagePatientController", [])
                 });
             });
 
+            // used to determine if we should disable things
+            $scope.isSaving = false;
 
-            $scope.canSave = function () {
-                return true;
-            };
-
+            /*
+             * the main save function, will return a message in the UI
+             * */
             $scope.save = function () {
+                $scope.isSaving = true;
                 PatientService.save($scope.edTriageConcept, $scope.edTriagePatient).then(function (res) {
+                    $scope.isSaving = false;
                     if (res.status != 200) {
                         $scope.message = {type: 'danger', text: $filter('json')(res.data)};
                     }
                     else {
-                        $scope.message = {type: 'info', text: 'The patient has been added to the queue, the encounter id is ' + res.data.uuid};
+                        $scope.message = {
+                            type: 'info',
+                            text: 'The patient has been added to the queue, the encounter id is ' + res.data.uuid
+                        };
                     }
                 });
             };
-
+            /*
+             * watches the main model for changes and updates the score
+             * */
             $scope.$watch('edTriagePatient', function (newValue, oldValue) {
-                if($scope.edTriageConcept != null && newValue != null) {
+                if ($scope.edTriageConcept != null && newValue != null) {
                     PatientService.calculate($scope.edTriageConcept, newValue);
                     $scope.currentScore.overall = $scope.edTriagePatient.score.overall;
                 }
 
             }, true);
 
-
-            $scope.submitForm = function () {
-                console.log($scope.edTriagePatient);
-            }
 
         }]).directive('conceptSelector', function () {
     return {
@@ -78,7 +78,6 @@ angular.module("edTriagePatientController", [])
             concept: "=",
             selectedConcept: "="
         },
-
         template: '<div class="form-group row">' +
         '<label for="{[model.uuid}}" class="col-sm-2 form-control-label">{{concept.label}}</label>' +
         '<div class="col-sm-10">' +

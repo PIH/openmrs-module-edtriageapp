@@ -9,6 +9,7 @@ angular.module("edTriagePatientFactory", [])
             this.triageQueueStatus = null;
             this.score = 0;
             this.percentComplete = 0;
+            this.originalObservationUuids = [];
             this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null};
             this.location = null;
             this.chiefComplaint = null;
@@ -76,15 +77,19 @@ angular.module("edTriagePatientFactory", [])
             ret.encounterUuid = data.uuid;
 
             console.log("ret.encounterUuid = " + ret.encounterUuid );
-            ret.score = 0;
-            ret.percentComplete = 0;
-
 
             //iterate through the observations and update the appropriate properties
             for (var i = 0; i < data.obs.length; ++i) {
                 var uuid = data.obs[i].concept.uuid;
                 var obsUuid = data.obs[i].uuid;
                 var v = data.obs[i].value;
+
+                if(obsUuid != null){
+                    //we keep these, so that we can clear out a person's observations before make the other
+                    // updates
+                    ret.originalObservationUuids.push(obsUuid);
+                }
+
                 if (uuid == concepts.triageQueueStatus.uuid) {
                     ret.triageQueueStatus = _v(v, obsUuid);
                 }

@@ -4,6 +4,8 @@ angular.module("edTriageConceptFactory", [])
          * Constructor, with class name
          */
         function EdTriageConcept() {
+            var none_concept_uuid = "3cd743f8-26fe-102b-80cb-0017a47871b2";
+            var unknown_concept_uuid = "3cd6fac4-26fe-102b-80cb-0017a47871b2";
             // Public properties, assigned to the instance ('this')
             this.triageQueueStatus =  toAnswers("triageQueueStatus", [
                     toAnswer("4dd3244d-fcb9-424d-ad8a-afd773c69923", "waitingForEvaluation"),

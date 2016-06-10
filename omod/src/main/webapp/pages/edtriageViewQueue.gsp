@@ -21,7 +21,6 @@
 
 	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
 
-	ui.includeJavascript("edtriageapp", "constants.js")
 	ui.includeJavascript("edtriageapp", "filters.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriageConceptFactory.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")

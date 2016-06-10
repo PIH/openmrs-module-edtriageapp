@@ -22,8 +22,6 @@
 	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
 
 
-
-	ui.includeJavascript("edtriageapp", "constants.js")
 	ui.includeJavascript("edtriageapp", "filters.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriagePatientFactory.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriageConceptFactory.js")
@@ -98,7 +96,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">{{translations.vitals}}</h3>
 		</div>
 		<div class="panel-body">
-			<concept-selector concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility.value	"></concept-selector>
+
+			<concept-selector concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility.value"></concept-selector>
 
 			<div class="form-group row">
 				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
@@ -109,7 +108,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
 			</div>
 			<div class="form-group row">
-				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{translations.oxygenSaturation}}</label>
+				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="oxygenSaturation" type="text"
 						   ng-model="edTriagePatient.vitals.oxygenSaturation.value" />
@@ -122,7 +121,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="heartRate" class="col-sm-2 form-control-label">{{translations.heartRate}}</label>
+				<label for="heartRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.heartRate.label}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="heartRate" type="text"
 						   ng-model="edTriagePatient.vitals.heartRate.value" />
@@ -130,7 +129,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
 			</div>
 			<div class="form-group row">
-				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">Blood Pressure</label>
+				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">{{translations.bloodPressure}} </label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="bloodPressureSystolic" type="text"
 						   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
@@ -143,7 +142,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 
 			<div class="form-group row">
-				<label for="temperatureC" class="col-sm-2 form-control-label">Temperature</label>
+				<label for="temperatureC" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.temperature.label}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="temperatureC" type="text"
 						   ng-model="edTriagePatient.vitals.temperature.value" />
@@ -154,7 +153,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<concept-selector concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness.value"></concept-selector>
 
 			<div class="form-group row">
-				<label class="col-sm-2 form-control-label">Trauma</label>
+				<label class="col-sm-2 form-control-label">Trauma??</label>
 				<div class="col-sm-10">
 					<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value">Yes</label>
 					<label class="radio-inline"><input type="radio" name="trauma">No</label>
@@ -162,7 +161,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 
 			<div class="form-group row">
-				<label for="temperatureC" class="col-sm-2 form-control-label">Weight</label>
+				<label for="temperatureC" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.weight.label}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="weigthInKG" type="text"
 						   ng-model="edTriagePatient.vitals.weight.value" />
@@ -197,7 +196,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 	</div>
 
 	<div>
-		<button type="button" class="btn btn-primary" ng-click="save()">{{translations.submitButton}}</button>
+		<button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">{{translations.submitButton}}</button>
 		<a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">View Queue</a>
 		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">{{translations.exitButton}}</a>
 	</div>

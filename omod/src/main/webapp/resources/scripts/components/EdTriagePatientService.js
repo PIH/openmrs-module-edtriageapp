@@ -1,15 +1,16 @@
 angular.module("edTriageService", [])
-    .service('PatientService', ['$http', '$filter', 'EncounterTypes', 'Concepts', 'EdTriageConcept', 'EdTriagePatient',
-        function ($http, $filter, EncounterTypes, Concepts, EdTriageConcept, EdTriagePatient) {
+    .service('PatientService', ['$q', '$http', '$filter', 'EdTriageConcept', 'EdTriagePatient',
+        function ($q, $http, $filter, EdTriageConcept, EdTriagePatient) {
             var CONSTANTS = {
                 URLS: {
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
-                    ENCOUNTER_MOCK: "/" + OPENMRS_CONTEXT_PATH + "/ms/uiframework/resource/edtriageapp/scripts/mock_data/patient_id_",
                     ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&patient=PATIENT_UUID&location=LOCATION_UUID",
-                    ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter"
+                    ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
+                    OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs"
                 },
                 NONE_CONCEPT_UUID: "3cd743f8-26fe-102b-80cb-0017a47871b2",
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
+                ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77" ,
                 //defines an empty value, so that we can tell if the form has been filled out
                 EMPTY_VALUES: {NUM: "", STR: ""},
                 // defined the different kinds of patients that we can see, adult/child/infant
@@ -77,7 +78,7 @@ angular.module("edTriageService", [])
                 var encounter = {
                     uuid:edTriagePatient.uuid,
                     patient: edTriagePatient.patient.uuid,
-                    encounterType: EncounterTypes.triage.uuid,
+                    encounterType: CONSTANTS.ED_TRIAGE_ENCOUNTER_TYPE,
                     location:edTriagePatient.location,
                     obs: []
                 };
@@ -113,29 +114,55 @@ angular.module("edTriageService", [])
 
                 console.log("About to save an encounter...");
                 console.log(encounter);
-                
-                var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
-                if(edTriagePatient.encounterUuid != null){
-                    //if the encounte already exists, then append the UUID and it will update it
-                    url +=   "/" + edTriagePatient.encounterUuid;
-                }
 
-                return $http.post(url, encounter)
-                    .then(function (data) {
-                            return {status:200, data: data.data};
-                        }
-                        , function (error) {
-                            console.log({status:500, data:error});
-                            return error;
-                        });
+                return removeAllOldObservations(edTriagePatient.originalObservationUuids).then(function(){
+                    var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
+                    if(edTriagePatient.encounterUuid != null){
+                        //if the encounte already exists, then append the UUID and it will update it
+                        url +=   "/" + edTriagePatient.encounterUuid;
+                    }
+
+                    return $http.post(url, encounter)
+                        .then(function (data) {
+                                return {status:200, data: data.data};
+                            }
+                            , function (error) {
+                                console.log({status:500, data:error});
+                                return error;
+                            });
+
+                });
+
 
             };
 
+
+
+            function removeAllOldObservations(list) {
+                var deferred = $q.defer();
+                var promise = deferred.promise;
+
+                var removeObservation = function(obsUuid) {
+                    return function(){
+                        return $http({
+                            url: CONSTANTS.URLS.OBSERVATION + "/" + obsUuid,
+                            method: 'DELETE'
+                        })
+                    }
+                }
+
+                deferred.resolve();
+
+                return list.reduce(function(promise, obsUuid){
+                    return promise.then(removeObservation(obsUuid));
+                }, promise);
+            }
             /*
              helper function to build an observation object
              * */
             function buildObs(id, value, uuid) {
-                return {concept: id, value: value, uuid:uuid};
+                return {concept: id, value: value};
+                //return {concept: id, value: value, uuid:uuid};
             }
 
             /*
@@ -207,6 +234,23 @@ angular.module("edTriageService", [])
                         if(_ans(p)){
                             ++completedItems;
                             //TODO:  need to calc the score based on the rules for each vital
+                            if(concept.vitals.hasOwnProperty(prop)){
+                                var c = concept.vitals[prop];
+                                if(c.hasOwnProperty("answers")){
+                                    var answers = concept.vitals[prop].answers;
+                                    for(var i=0;i<answers.length;++i){
+                                        if(answers[i].uuid == p.value){
+                                            //this is the answer that they chose
+                                           // vistalsScore = vistalsScore + answers[i].score;
+                                        }
+                                    }
+
+
+                                }
+                            }
+                            else{
+                                console.log("Concept doesn't have the property called - " + prop);
+                            }
                             ++vistalsScore;
                         }
                     }

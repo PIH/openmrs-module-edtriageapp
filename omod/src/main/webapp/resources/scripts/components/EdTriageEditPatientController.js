@@ -1,12 +1,12 @@
 angular.module("edTriagePatientController", [])
-    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'patientUuid', 'patientBirthDate', 'patientGender',
-        function ($scope, $filter, PatientService, patientUuid, patientBirthDate, patientGender) {
+    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'patientUuid', 'patientBirthDate', 'patientGender',  'locationUuid',
+        function ($scope, $filter, PatientService, patientUuid, patientBirthDate, patientGender,locationUuid) {
             $scope.foo = "bar";
             //var patientId = patientUuid;
             console.log("patientUuid=" + patientUuid);
             console.log("patientBirthDate=" + patientBirthDate);
             console.log("patientGender=" + patientGender);
-            var locationUuid = null; //TOOD:  load this from the app
+            console.log("locationUuid=" + locationUuid);
             PatientService.loadConcept().then(function (concept) {
                 $scope.edTriagePatientConcept = concept;
                 PatientService.load(concept, patientUuid, patientBirthDate, patientGender, locationUuid).then(function (data) {

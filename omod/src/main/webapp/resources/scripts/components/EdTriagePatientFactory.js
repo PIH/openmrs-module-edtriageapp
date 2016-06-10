@@ -134,7 +134,7 @@ angular.module("edTriagePatientFactory", [])
 
             }
 
-            console.log(ret);
+            //console.log(ret);
 
             return ret;
             /*

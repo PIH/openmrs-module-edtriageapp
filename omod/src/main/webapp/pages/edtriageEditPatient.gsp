@@ -244,6 +244,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			.value('patientUuid', '${ patient.uuid }')
 			.value('patientBirthDate', '${ patient.birthdate }')
 			.value('patientGender', '${ patient.gender }')
+			.value('locationUuid', '${ location.uuid }')
 
 	;
 	//angular.bootstrap('#edTriageApp', [ "edTriageApp" ])   ;

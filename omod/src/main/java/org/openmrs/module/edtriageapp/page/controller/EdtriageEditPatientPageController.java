@@ -2,6 +2,7 @@ package org.openmrs.module.edtriageapp.page.controller;
 
 
 import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.ui.framework.page.PageModel;
@@ -18,10 +19,12 @@ public class EdtriageEditPatientPageController {
         if (patient.isVoided() || patient.isPersonVoided()) {
             return new Redirect("coreapps", "patientdashboard/deletedPatient", "patientId=" + patient.getId());
         }
+
         model.addAttribute("appId", app !=null ? app.getId() : null);
         model.addAttribute("search", search);
         model.addAttribute("breadcrumbOverride", breadcrumbOverride);
         model.addAttribute("locale", uiSessionContext.getLocale());
+        model.addAttribute("location", uiSessionContext.getSessionLocation());
 
         return null;
 

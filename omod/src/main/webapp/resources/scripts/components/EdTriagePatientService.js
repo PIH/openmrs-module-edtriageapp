@@ -73,6 +73,7 @@ angular.module("edTriageService", [])
                 var encounter = {
                     patient: edTriagePatient.patient.uuid,
                     encounterType: EncounterTypes.triage.uuid,
+                    location:edTriagePatient.location,
                     obs: []
                 };
 

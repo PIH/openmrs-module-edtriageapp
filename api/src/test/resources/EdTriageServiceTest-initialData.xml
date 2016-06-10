@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+
+-->
+<dataset>
+  <encounter encounter_id="741977" encounter_type="741976" patient_id="2" location_id="1" encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0" voided="false" uuid="f13d6fae-baa9-4553-955d-920098bec08f"/>
+  <encounter_type encounter_type_id="741976" name="Test EDTriage Encounter type" description="This is a the test EDTriage EncounterType" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="74cef0a6-2801-11e6-b67b-9e71128cae77"/>
+
+  <concept_name concept_id="1" name="Test ED Triage Concept Set" locale="en" creator="1" date_created="2016-06-09 12:00:00.0" concept_name_id="1" voided="false" uuid="8add472b-156b-468f-ad62-d9333fb86976" concept_name_type="FULLY_SPECIFIED" locale_preferred="0"/>
+
+  <!-- heart rate-->
+  <obs obs_id="1" person_id="2" concept_id="1" encounter_id="741976" obs_datetime="2016-06-09 12:00:00.0" location_id="1" value_numeric="66" creator="1" date_created="2006-02-10 15:57:35.0" voided="false" uuid="3ce93824-26fe-102b-80cb-0017a47871b2"/>
+  <!-- weight-->
+  <obs obs_id="2" person_id="2" concept_id="1" encounter_id="741976" obs_datetime="2016-06-09 12:00:00.0" location_id="1" value_numeric="150" creator="1" date_created="2006-02-11 15:57:35.0" voided="false" uuid="3ce93b62-26fe-102b-80cb-0017a47871b2"/>
+
+  <location location_id="1" name="Test ED Triage Location" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="1111dd4b-0b6d-4481-b979-ccdd38c76cb4"/>
+  <patient patient_id="2" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+  <patient_identifier patient_identifier_id="1" patient_id="2" identifier="1234" identifier_type="1" preferred="1" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="e78bc0fe-6370-4766-b46f-8f4c658fe22b"/>
+  <patient_identifier_type patient_identifier_type_id="1" name="Test Identifier Type" description="Test description" check_digit="false" creator="1" date_created="2005-01-01 00:00:00.0" required="false" retired="false" uuid="2238b039-7f77-4384-a912-360dd154f0d1"/>
+
+
+</dataset>

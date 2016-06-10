@@ -13,19 +13,17 @@
  */
 package org.openmrs.module.edtriageapp.api.impl;
 
+import org.openmrs.Encounter;
 import org.openmrs.api.impl.BaseOpenmrsService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
+
+import java.util.List;
 
 /**
  * It is a default implementation of {@link EdTriageAppService}.
  */
 public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTriageAppService {
-	
-	protected final Log log = LogFactory.getLog(this.getClass());
-	
 	private EdTriageAppDAO dao;
 	
 	/**
@@ -41,4 +39,11 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
     public EdTriageAppDAO getDao() {
 	    return dao;
     }
+
+
+    @Override
+    public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientId) {
+        return dao.getActiveEncountersForPatientAtLocation(hoursBack, locationUuid, patientId);
+    }
+
 }

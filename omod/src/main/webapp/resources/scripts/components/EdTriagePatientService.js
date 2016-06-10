@@ -5,7 +5,8 @@ angular.module("edTriageService", [])
                 URLS: {
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
                     ENCOUNTER_MOCK: "/" + OPENMRS_CONTEXT_PATH + "/ms/uiframework/resource/edtriageapp/scripts/mock_data/patient_id_",
-                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter"
+                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&patient=PATIENT_UUID&location=LOCATION_UUID",
+                    ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter"
                 },
                 NONE_CONCEPT_UUID: "3cd743f8-26fe-102b-80cb-0017a47871b2",
                 ED_TRIAGE_CONCEPT_SET_UUID: "80c8b161-a871-42db-a1ca-185095a1d798",
@@ -50,13 +51,15 @@ angular.module("edTriageService", [])
             * @returns {EDTriageConcpt} the concepts that make up this app
             * */
             this.load = function (concept, uuid, dateOfBirth, gender, locationUuid) {
-                //http://localhost:8080/openmrs/ws/rest/v1/encounter/df204d1a-8dd0-447b-b21b-b081b5ddf761?v=custom:(uuid,display,obs:(concept:(uuid),value))
-                return $http.get(CONSTANTS.URLS.ENCOUNTER_MOCK + uuid + '.json').then(function (resp) {
-                    if (resp.status == 200) {
-                        return EdTriagePatient.build(concept, resp.data, uuid, dateOfBirth, gender, locationUuid);
+                var url = CONSTANTS.URLS.ENCOUNTER.replace("PATIENT_UUID",uuid).replace("LOCATION_UUID", locationUuid);
+                return $http.get(url).then(function (resp) {
+                    if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
+                        var rec = resp.data.results[0]; //should only be one records, but web service returns array for consistency
+                        return EdTriagePatient.build(concept, rec, uuid, dateOfBirth, gender, locationUuid);
                     }
                     else {
-                        //TODO: how to handle these errors
+                        //if there is an error or the record doesn't exist, then create a new one
+                        return EdTriagePatient.newInstance(uuid,dateOfBirth, gender, locationUuid);
                     }
 
                 }, function (err) {
@@ -71,6 +74,7 @@ angular.module("edTriageService", [])
              * */
             this.save = function (edTriagePatient) {
                 var encounter = {
+                    uuid:edTriagePatient.uuid,
                     patient: edTriagePatient.patient.uuid,
                     encounterType: EncounterTypes.triage.uuid,
                     location:edTriagePatient.location,
@@ -78,10 +82,10 @@ angular.module("edTriageService", [])
                 };
 
                 //status
-                addObs(encounter.obs, Concepts.triageQueueStatus.uuid, edTriagePatient.complaint);
+                //addObs(encounter.obs, Concepts.triageQueueStatus.uuid, edTriagePatient.status);
 
                 //chief complaint
-                addObs(encounter.obs, Concepts.chiefComplaint.uuid, edTriagePatient.complaint);
+                addObs(encounter.obs, Concepts.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
 
                 //vitals ----
                 addObs(encounter.obs, Concepts.mobility.uuid, edTriagePatient.vitals.mobility);
@@ -108,19 +112,14 @@ angular.module("edTriageService", [])
 
                 console.log("About to save an encounter...");
                 console.log(encounter);
+                
+                var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
+                if(edTriagePatient.encounterUuid != null){
+                    //if the encounte already exists, then append the UUID and it will update it
+                    url +=   "/" + edTriagePatient.encounterUuid;
+                }
 
-                //https://github.com/PIH/openmrs-module-imbemr/blob/6d1e7b521501172f0c503d9dce5eef3cc3608c17/omod/src/main/webapp/resources/scripts/imbExample.js#L54
-                // return $http.post(CONSTANTS.URLS.ENCOUNTER,
-                //     encounter)
-                //     .success(function() {
-                //         return null;
-                //     })
-                //     .error(function(error) {
-                //         console.log(error);
-                //         return error;
-                //     });
-
-                return $http.post(CONSTANTS.URLS.ENCOUNTER, encounter)
+                return $http.post(url, encounter)
                     .then(function (data) {
                             return {status:200, data: data.data};
                         }
@@ -134,14 +133,22 @@ angular.module("edTriageService", [])
             /*
              helper function to build an observation object
              * */
-            function buildObs(id, value) {
-                return {concept: id, value: value};
+            function buildObs(id, value, uuid) {
+                return {concept: id, value: value, uuid:uuid};
             }
 
             /*
              * helper function to add an observation to the list
              * */
-            function addObs(list, id, value) {
+            function addObs(list, id, obs) {
+                if(obs == null){
+                    //TODO:  we need to delete this observation if it already was saved
+                    return;
+                }
+
+                var value = obs.value;
+                var uuid = obs.uuid;
+
                 console.log(id + "=" + CONSTANTS.NONE_CONCEPT_UUID + " == " + (id == CONSTANTS.NONE_CONCEPT_UUID));
                 if (id == '11111111-1111-1111-1111-111111111111') {
                     //TODO:  delete this eventually, once we have all the concepts written
@@ -152,7 +159,7 @@ angular.module("edTriageService", [])
                     console.log("ignoring " + id + "=" + value + " b/c it is none concept");
                 }
                 else if (value != null) {
-                    list.push(buildObs(id, value));
+                    list.push(buildObs(id, value, uuid));
                 }
 
             }
@@ -178,6 +185,10 @@ angular.module("edTriageService", [])
              * @return {int} the score
              * */
             this.calculate = function (concept, edTriagePatient) {
+                if(edTriagePatient == null){
+                    return;
+                }
+
                 var vistalsScore = 0;
                 var symptomsScore = [0,0,0,0];
                 var totalItems = 17;

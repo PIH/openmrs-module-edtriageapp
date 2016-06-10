@@ -5,7 +5,7 @@ angular.module("edTriagePatientFactory", [])
          * Constructor, with class name
          */
         function EdTriagePatient() {
-            this.uuid = null;
+            this.encounterUuid = null;
             this.triageQueueStatus = null;
             this.score = 0;
             this.percentComplete = 0;
@@ -72,7 +72,10 @@ angular.module("edTriagePatientFactory", [])
         EdTriagePatient.build = function (concepts, data, patientUuid, patientDateOfBirth, patientGender, locationUuid) {
 
             var ret = EdTriagePatient.newInstance(patientUuid, patientDateOfBirth, patientGender, locationUuid) ;
-            ret.uuid = data.uuid;
+
+            ret.encounterUuid = data.uuid;
+
+            console.log("ret.encounterUuid = " + ret.encounterUuid );
             ret.score = 0;
             ret.percentComplete = 0;
             //ret.patient = {uuid:data.patient.uuid, age:null, birthdate:null, gender:null, ageType:null};
@@ -80,36 +83,37 @@ angular.module("edTriagePatientFactory", [])
 
             for (var i = 0; i < data.obs.length; ++i) {
                 var uuid = data.obs[i].concept.uuid;
+                var obsUuid = data.obs[i].uuid;
                 var v = data.obs[i].value;
                 if (uuid == concepts.triageQueueStatus.uuid) {
-                    ret.triageQueueStatus = v;
+                    ret.triageQueueStatus = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
-                    ret.chiefComplaint = v;
+                    ret.chiefComplaint = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.respiratoryRate.uuid) {
-                    ret.vitals.respiratoryRate = v;
+                    ret.vitals.respiratoryRate = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.oxygenSaturation.uuid) {
-                    ret.vitals.oxygenSaturation = v;
+                    ret.vitals.oxygenSaturation = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.heartRate.uuid) {
-                    ret.vitals.heartRate = v;
+                    ret.vitals.heartRate = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.diastolicBloodPressure.uuid) {
-                    ret.vitals.diastolicBloodPressure = v;
+                    ret.vitals.diastolicBloodPressure = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.systolicBloodPressure.uuid) {
-                    ret.vitals.systolicBloodPressure = v;
+                    ret.vitals.systolicBloodPressure = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.temperature.uuid) {
-                    ret.vitals.temperature = v;
+                    ret.vitals.temperature = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.trauma.uuid) {
-                    ret.vitals.trauma = v;
+                    ret.vitals.trauma = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.weight.uuid) {
-                    ret.vitals.weight = v;
+                    ret.vitals.weight = _v(v, obsUuid);
                 }
                 else {
                     var lookups = [{o: 'vitals', c: 'mobility', p: 'mobility'},
@@ -146,11 +150,16 @@ angular.module("edTriagePatientFactory", [])
             function _updateAnswersFromUuid(concept, edTriagePatientData, lookup, obs) {
                 var temp = $filter('filter')(concept[lookup.o][lookup.c].answers, {uuid: obs.uuid});
                 if (temp != null && temp.length > 0) {
-                    edTriagePatientData[lookup.o][lookup.p] = obs.value;
+                    edTriagePatientData[lookup.o][lookup.p] = _v(obs.value, obs.uuid);
                     return true;
                 }
 
                 return false;
+            }
+
+            /* helper function to make a value object, we need the uuid for saving*/
+            function _v(value, uuid){
+                return {value:value, uuid:uuid};
             }
         };
 

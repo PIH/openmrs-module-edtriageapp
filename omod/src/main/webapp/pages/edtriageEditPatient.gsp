@@ -38,7 +38,7 @@
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
 	var breadcrumbs = [
 		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
-		{ label: "${ ui.message("edtriageapp.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }" },
+		{ label: "${ ui.message("edtriageapp.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" },
 		{ label: "${ ui.escapeJs(ui.format(patient.patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
 	];
 
@@ -88,7 +88,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 		<div class="panel-body">
 			<textarea class="form-control" id="complaint" rows="3"
-					  ng-model="edTriagePatient.chiefComplaint"></textarea>
+					  ng-model="edTriagePatient.chiefComplaint.value"></textarea>
 		</div>
 	</div>
 
@@ -98,13 +98,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">{{translations.vitals}}</h3>
 		</div>
 		<div class="panel-body">
-			<concept-selector concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility.value	"></concept-selector>
 
 			<div class="form-group row">
 				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="respiratoryRate" type="text"
-						   ng-model="edTriagePatient.vitals.respiratoryRate" />
+						   ng-model="edTriagePatient.vitals.respiratoryRate.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
 			</div>
@@ -112,7 +112,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{translations.oxygenSaturation}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="oxygenSaturation" type="text"
-						   ng-model="edTriagePatient.vitals.oxygenSaturation" />
+						   ng-model="edTriagePatient.vitals.oxygenSaturation.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">{{translations.percent}}</div>
 				<div class="col-sm-2 form-control-label pull-left">
@@ -125,7 +125,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="heartRate" class="col-sm-2 form-control-label">{{translations.heartRate}}</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="heartRate" type="text"
-						   ng-model="edTriagePatient.vitals.heartRate" />
+						   ng-model="edTriagePatient.vitals.heartRate.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
 			</div>
@@ -133,12 +133,12 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">Blood Pressure</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="bloodPressureSystolic" type="text"
-						   ng-model="edTriagePatient.vitals.bloodPressure.systolic" />
+						   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">/</div>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="bloodPressureDiastolic" type="text"
-						   ng-model="edTriagePatient.vitals.bloodPressure.diastolic" />
+						   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 				</div>
 			</div>
 
@@ -146,22 +146,22 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="temperatureC" class="col-sm-2 form-control-label">Temperature</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="temperatureC" type="text"
-						   ng-model="edTriagePatient.vitals.temperature" />
+						   ng-model="edTriagePatient.vitals.temperature.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">C</div>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="temperatureF" type="text"
-						   ng-model="edTriagePatient.vitals.temperature" />
+						   ng-model="edTriagePatient.vitals.temperature.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">F</div>
 			</div>
 
-			<concept-selector concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness.value"></concept-selector>
 
 			<div class="form-group row">
 				<label class="col-sm-2 form-control-label">Trauma</label>
 				<div class="col-sm-10">
-					<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma">Yes</label>
+					<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value">Yes</label>
 					<label class="radio-inline"><input type="radio" name="trauma">No</label>
 				</div>
 			</div>
@@ -170,12 +170,12 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<label for="temperatureC" class="col-sm-2 form-control-label">Weight</label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="weigthInKG" type="text"
-						   ng-model="edTriagePatient.vitals.weight" />
+						   ng-model="edTriagePatient.vitals.weight.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">kgs.</div>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="weightInLb" type="text"
-						   ng-model="edTriagePatient.vitals.weight" />
+						   ng-model="edTriagePatient.vitals.weight.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">lbs/</div>
 			</div>
@@ -188,14 +188,14 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">{{translations.symptoms}}</h3>
 		</div>
 		<div class="panel-body">
-			<concept-selector concept="edTriagePatientConcept.symptoms.neurological" selected-concept="edTriagePatient.symptoms.neurological"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.burn" selected-concept="edTriagePatient.symptoms.burn"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.trauma" selected-concept="edTriagePatient.symptoms.trauma"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.digestive" selected-concept="edTriagePatient.symptoms.digestive"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.pregnancy" selected-concept="edTriagePatient.symptoms.pregnancy"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.respiratory" selected-concept="edTriagePatient.symptoms.respiratory"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.pain" selected-concept="edTriagePatient.symptoms.pain"></concept-selector>
-			<concept-selector concept="edTriagePatientConcept.symptoms.other" selected-concept="edTriagePatient.symptoms.other"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.neurological" selected-concept="edTriagePatient.symptoms.neurological.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.burn" selected-concept="edTriagePatient.symptoms.burn.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.trauma" selected-concept="edTriagePatient.symptoms.trauma.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.digestive" selected-concept="edTriagePatient.symptoms.digestive.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.pregnancy" selected-concept="edTriagePatient.symptoms.pregnancy.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.respiratory" selected-concept="edTriagePatient.symptoms.respiratory.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.pain" selected-concept="edTriagePatient.symptoms.pain.value"></concept-selector>
+			<concept-selector concept="edTriagePatientConcept.symptoms.other" selected-concept="edTriagePatient.symptoms.other.value"></concept-selector>
 		</div>
 	</div>
 
@@ -207,12 +207,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 	</div>
 
 	<div>
-		<a href="#" class="btn btn-info" role="button">View Queue</a>
 		<button type="button" class="btn btn-primary" ng-click="save()">{{translations.submitButton}}</button>
-		<button type="button" class="btn btn-secondary" ng-click="cancel()">{{translations.exitButton}}</button>
+		<a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">View Queue</a>
+		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">{{translations.exitButton}}</a>
 	</div>
 
 	<div ng-if="additionalData.debug">
+		<br/><br/><br/>
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h3 class="panel-title">Debug Info</h3>

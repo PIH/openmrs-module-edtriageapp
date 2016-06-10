@@ -43,9 +43,14 @@
 
 
 <div class="container" ng-app="edTriageApp" ng-controller="patientQueueController">
+	Queue Goes Here
+	<table>
+		<th><td>name</td><td>etc</td></th>
+	</table>
 
-	The queue goes here
-
+	<div>
+		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" role="button" class="btn">Add New Patient to the Queue</a>
+	</div>
 </div>
 
 

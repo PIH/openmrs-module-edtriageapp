@@ -59,11 +59,10 @@ angular.module("edTriagePatientController", [])
             };
 
             $scope.$watch('edTriagePatient', function (newValue, oldValue) {
-                //TODO: when a value is updated, update the process and code
-                //console.log(oldValue);
-                //console.log(newValue);
-                PatientService.calculate($scope.edTriageConcept, newValue);
-                $scope.currentScore.overall = $scope.edTriagePatient.score.overall;
+                if($scope.edTriageConcept != null && newValue != null) {
+                    PatientService.calculate($scope.edTriageConcept, newValue);
+                    $scope.currentScore.overall = $scope.edTriagePatient.score.overall;
+                }
 
             }, true);
 

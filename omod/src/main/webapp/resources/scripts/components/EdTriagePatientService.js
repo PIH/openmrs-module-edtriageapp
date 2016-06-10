@@ -249,10 +249,10 @@ angular.module("edTriageService", [])
                                     }
                                 }
                                 else{
-                                    //this kind of value doesn't have a look up value, so we can't score it
-                                    // we have to look at this manually
-                                    if(prop == "respiratoryRate" || prop == 'heartRate'){
-                                        var score = concept.vitals[prop].score(ageType, p.value);
+                                    //this kind of value doesn't have a look up value, so we check if it has a scoring
+                                    // function, if it does then call it, otherwise move on
+                                    if(typeof c.score === "function"){
+                                        var score = c.score(ageType, p.value);
                                         console.log("setting " + prop + " score to " + score);
                                         vistalsScore = vistalsScore + score
                                     }

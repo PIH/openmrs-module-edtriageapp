@@ -43,10 +43,39 @@
 
 <div class="container" ng-app="edTriageApp" ng-controller="patientQueueController">
 	Queue Goes Here
-	<table>
-		<th><td>name</td><td>etc</td></th>
-	</table>
-
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+			<tr>
+				<th>Score</th>
+				<th>Patient</th>
+				<th>Wait time</th>
+				<th>Chief complaint</th>
+				<th>Vitals</th>
+				<th>Symptoms</th>
+				<th>Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td><div class="progress-bar" role="progressbar" aria-valuenow="40"
+												 aria-valuemin="0" aria-valuemax="100" style="width:100%;background-color:green;">
+					Green (Score:0)
+				</div>
+				</td>
+				<td>Anna id #xxxx</td>
+				<td>1:23</td>
+				<td>Stomach hurts</td>
+				<td>Vitals</td>
+				<td>Symptoms</td>
+				<td>
+					<button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="beginConsult()">Begin Consult</button>
+					<button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="removeEdTriage()">Remove</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 	<div>
 		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" role="button" class="btn">Add New Patient to the Queue</a>
 	</div>

@@ -1,6 +1,15 @@
 @import "customVariables";
 @import "reference";
 
+/* fix so that the 1000px max size works with bootstrap
+   if the UI changes, we can remove this
+*/
+@media (min-width: 1200px) {
+	.container {
+		width: 970px;
+	}
+}
+
 #menu {
   padding-left: 2px;
   width: 95% ;

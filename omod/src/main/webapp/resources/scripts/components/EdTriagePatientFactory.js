@@ -7,10 +7,11 @@ angular.module("edTriagePatientFactory", [])
         function EdTriagePatient() {
             this.encounterUuid = null;
             this.triageQueueStatus = null;
+            this.encounterDateTime = null;
             this.score = 0;
             this.percentComplete = 0;
             this.originalObservationUuids = [];
-            this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null};
+            this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, display:null};
             this.location = null;
             this.chiefComplaint = null;
             this.vitals = {
@@ -35,6 +36,26 @@ angular.module("edTriagePatientFactory", [])
                 pain: null,
                 other: null
             };
+
+        }
+
+        EdTriagePatient.prototype.vitalsAsString = function(){
+            var ret = "";
+            if(this.vitals.respiratoryRate != null){
+                ret += "Respiratory Rate: " + this.vitals.respiratoryRate.value;
+            }
+
+            return ret;
+        };
+
+        EdTriagePatient.prototype.waitTime = function(){
+            var date = new Date(this.encounterDateTime);
+            var now = new Date();
+            var w = (now - date)/1000;
+            var hr = Math.floor(w /60 /60);
+            var mn = Math.floor((w /60) % 60);
+            //var sec = Math.floor(w % 60);
+            return hr + ":" + (mn<10?"0"+mn:mn);// + ":" + (sec<10?"0"+sec:sec);
         }
 
         /* creates a new EdTriagePatient
@@ -66,14 +87,27 @@ angular.module("edTriagePatientFactory", [])
             return ret;
         };
 
+        EdTriagePatient.buildList = function (concepts, data, locationUuid) {
+
+            var patientDateOfBirth = "";
+            var patientGender = "";
+            var ret = [];
+            for(var i = 0;i<data.length;++i){
+                var patientUuid = data[i].patient.uuid;
+                ret.push(EdTriagePatient.build(concepts, data[i], patientDateOfBirth, patientGender, locationUuid))
+            }
+            return ret;
+        };
         /**
          * Static method, assigned to class
          * Instance ('this') is not available in static context
          */
-        EdTriagePatient.build = function (concepts, data, patientUuid, patientDateOfBirth, patientGender, locationUuid) {
+        EdTriagePatient.build = function (concepts, data, patientDateOfBirth, patientGender, locationUuid) {
 
-            var ret = EdTriagePatient.newInstance(patientUuid, patientDateOfBirth, patientGender, locationUuid) ;
-
+            var ret = EdTriagePatient.newInstance(patientDateOfBirth, patientGender, locationUuid) ;
+            ret.patient.uuid = data.patient.uuid;
+            ret.patient.display = data.patient.display;
+            ret.encounterDateTime = data.encounterDatetime;
             ret.encounterUuid = data.uuid;
 
             console.log("ret.encounterUuid = " + ret.encounterUuid );

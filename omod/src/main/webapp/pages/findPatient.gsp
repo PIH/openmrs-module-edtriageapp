@@ -7,6 +7,8 @@
     def baseUrl = ui.pageLink("edtriageapp", "findPatient", [appId: appId])
     def afterSelectedUrl = '/edtriageapp/edtriageEditPatient.page?patientId={{patientId}}&appId=' + appId
 
+    ui.includeCss("edtriageapp", "bootstrap.css")
+
 %>
 ${ ui.includeFragment("uicommons", "validationMessages")}
 
@@ -46,6 +48,10 @@ ${ ui.message("coreapps.searchPatientHeading") }
                   showLastViewedPatients: 'false' ])}
     </div>
 </div>
-
-<br>
-<br>
+<br/>
+<br/>
+<div class="container">
+<div>
+    <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">View Queue</a>
+</div>
+</div>

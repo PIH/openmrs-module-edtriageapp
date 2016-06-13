@@ -6,6 +6,7 @@ angular.module('edTriageApp', [
     'filters',
     'edTriagePatientFactory',
     'edTriageConceptFactory',
+    'edTriageViewQueueController',
     'edTriagePatientController',
     'edTriageService'
 ]).config(function ($translateProvider) {

@@ -19,7 +19,7 @@
 	ui.includeJavascript("uicommons", "model/encounter-model.js")
 
 
-	ui.includeCss("edtriageapp", "bootstrap/dist/css/bootstrap.css")
+	ui.includeCss("edtriageapp", "bootstrap.css")
 
 %>
 

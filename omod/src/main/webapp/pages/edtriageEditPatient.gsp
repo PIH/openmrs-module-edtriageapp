@@ -23,6 +23,7 @@
 
 
 	ui.includeJavascript("edtriageapp", "filters.js")
+	ui.includeJavascript("edtriageapp", "components/EdTriageViewQueueController.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriagePatientFactory.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriageConceptFactory.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")

@@ -16,6 +16,7 @@ public class EdtriageSummaryPageController {
         model.addAttribute("search", search);
         model.addAttribute("breadcrumbOverride", breadcrumbOverride);
         model.addAttribute("locale", uiSessionContext.getLocale());
+        model.addAttribute("location", uiSessionContext.getSessionLocation());
 
         return null;
 

@@ -5,6 +5,7 @@ angular.module("edTriageService", [])
                 URLS: {
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
                     ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&patient=PATIENT_UUID&location=LOCATION_UUID",
+                    VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&location=LOCATION_UUID",
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
                     OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs"
                 },
@@ -43,6 +44,28 @@ angular.module("edTriageService", [])
                 });
             };
 
+            /* load the EdTriageQueue for a location
+             *  @param {String} locationUuid - the location uuid
+             * @returns {EdTriageQueue} the concepts that make up this app
+             * */
+            this.loadQueue = function (concept, locationUuid) {
+                var url = CONSTANTS.URLS.VIEW_QUEUE.replace("LOCATION_UUID", locationUuid);
+                return $http.get(url).then(function (resp) {
+                    if (resp.status == 200) {
+                        var list = resp.data.results;
+                        var edTriageQueue = EdTriagePatient.buildList(concept, list, locationUuid);
+
+                        return {status:{ code: resp.status, msg:null},data:edTriageQueue};
+                    }
+                    else {
+                        return {status:{ code: resp.status, msg:"Error loading queue " + resp.status},data:[]};
+                    }
+
+                }, function (err) {
+                    return {status:{ code: 500, msg:"Error loading queue " + err},data:[]};
+                });
+            };
+
             /* load the EdTriage encounter for this patient, if they exist, if not, then it
             *  returns an empty one with the patient and location info filled in
             *  @param {Object} concept - the concept definitions that make up this app
@@ -50,7 +73,7 @@ angular.module("edTriageService", [])
             *  @param {Object} dateOfBirth - the patient date of birth
             *  @param {String} gender - the patient gender
             *  @param {String} locationUuid - the location uuid
-            * @returns {EDTriageConcpt} the concepts that make up this app
+            * @returns {EdTriagePatient} the concepts that make up this app
             * */
             this.load = function (concept, uuid, dateOfBirth, gender, locationUuid) {
                 var url = CONSTANTS.URLS.ENCOUNTER.replace("PATIENT_UUID",uuid).replace("LOCATION_UUID", locationUuid);

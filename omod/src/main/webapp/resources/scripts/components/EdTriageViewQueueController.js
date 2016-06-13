@@ -51,8 +51,8 @@ angular.module("edTriageViewQueueController", [])
                 stopTimeUpdates = $interval(function() {
                     var diff = (new Date().getTime() - $scope.lastUpdatedAt.getTime())/1000;
 
-                    if(diff > 10){
-                        //refresh every 60 seconds
+                    if(diff > 120){
+                        //refresh every 2 minutes
                         $scope.loadData();
                     }
 

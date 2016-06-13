@@ -33,6 +33,25 @@
 
 %>
 
+<style>
+
+	#sticky {
+		padding: 0.5ex;
+		width: 85%;
+		color: #fff;
+		font-size: 2em;
+		border-radius: 0.5ex;
+	}
+
+	#sticky.stick {
+		margin-top: 0 !important;
+		position: fixed;
+		top: 0;
+		z-index: 10000;
+		border-radius: 0 0 0.5em 0.5em;
+	}
+
+</style>
 
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
 	var breadcrumbs = [
@@ -40,6 +59,26 @@
 		{ label: "${ ui.message("edtriageapp.label") }", link: "${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" },
 		{ label: "${ ui.escapeJs(ui.format(patient.patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
 	];
+
+	function sticky_relocate() {
+		var window_top = jq(window).scrollTop();
+		var div_top = jq('#sticky-anchor').offset().top;
+		if (window_top > div_top) {
+			jq('#sticky').addClass('stick');
+			jq('#sticky-anchor').height(jq('#sticky').outerHeight());
+		} else {
+			jq('#sticky').removeClass('stick');
+			jq('#sticky-anchor').height(0);
+		}
+	}
+
+	jq(function() {
+		console.log("jquery is working");
+
+		jq(window).scroll(sticky_relocate);
+		sticky_relocate();
+
+	});
 
 </script>
 
@@ -58,7 +97,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 
-	<div class="panel panel-info">
+	<div id="sticky-anchor"></div>
+	<div class="panel panel-info" id="sticky">
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">

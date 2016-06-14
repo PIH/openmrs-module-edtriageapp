@@ -47,40 +47,41 @@
 
 
 <div class="container" ng-app="edTriageApp" ng-controller="viewQueueController">
-    <div>
-        <div class="col-md-8">Triage Queue as of {{lastUpdatedAtStr}}</div>
-
-        <div class="col-md-4">
-            <a href="${ui.pageLink("edtriageapp", "findPatient?appId=" + appId)}"
-               role="button" class="btn btn-default">Add New Patient to the Queue</a></div>
+    <div class="jumbotron">
+        <p>${ ui.message("edtriageapp.queueStatusMessagePrefix") } {{lastUpdatedAtStr}} ${ ui.message("edtriageapp.queueStatusMessageSuffix") }
+        <a href="${ui.pageLink("edtriageapp", "findPatient?appId=" + appId)}"
+           role="button" class="btn btn-default">${ ui.message("edtriageapp.queueAddNewButton") }</a>                                          </p>
     </div>
 
     <div>
         <table class="table">
             <thead>
             <tr>
-                <th>Patient</th>
-                <th>Wait time</th>
-                <th>Chief complaint</th>
-                <th>Vitals</th>
-                <th>Symptoms</th>
+                <th>${ ui.message("uicommons.patient") }</th>
+                <th>${ ui.message("edtriageapp.waitTime") }</th>
+                <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
+                <th>${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
 
             <tr ng-repeat="model in edTriagePatientQueue | orderBy: '-score'">
-                <td>{{model.patient.display}}</td>
+                <td><span class="label" style="background-color:{{model.getColorHtmlCode()}};">{{model.getColorHtmlCode()}}</span> - <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}</a></td>
                 <td>{{model.waitTime()}}</td>
                 <td>{{model.chiefComplaint.value}}</td>
-                <td>{{model.vitalsAsString()}}</td>
-                <td>TBD</td>
-                <td style="white-space: nowrap;">
-
+                <td>
+                    <ul>
+                        <show-if-has-value-ex concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value-ex>
+                        <show-if-has-value-ex concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value-ex>
+                        <show-if-has-value-ex concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value-ex>
+                    </ul>
+                </td>
+                <td>
                     <button type="button" class="btn btn-xs btn-primary" ng-disabled="isSaving"
-                            ng-click="beginConsult()">Begin Consult</button>
+                            ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
                     <button type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
-                            ng-click="removeEdTriage()">Remove</button>
+                            ng-click="removeEdTriage()">${ ui.message("edtriageapp.remove") }</button>
 
                 </td>
             </tr>

@@ -107,7 +107,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<div class="col-xs-11">
 						<div class="progress-bar" role="progressbar" aria-valuenow="40"
 							 aria-valuemin="0" aria-valuemax="100" style="width:{{edTriagePatient.percentComplete}}%">
-							{{edTriagePatient.percentComplete}}{{translations.percentComplete}}
+							{{edTriagePatient.percentComplete}}${ ui.message("edtriageapp.percentComplete") }
 						</div>
 					</div>
 				</div>
@@ -135,7 +135,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{translations.vitals}}</h3>
+			<h3 class="panel-title">${ ui.message("edtriageapp.vitals") }</h3>
 		</div>
 		<div class="panel-body">
 
@@ -147,7 +147,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<input class="form-control" id="respiratoryRate" type="number" min="1" max="200"
 						   ng-model="edTriagePatient.vitals.respiratoryRate.value" />
 				</div>
-				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
+				<div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
 			</div>
 			<div class="form-group row">
 				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label>
@@ -155,10 +155,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<input class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
 						   ng-model="edTriagePatient.vitals.oxygenSaturation.value" />
 				</div>
-				<div class="col-sm-1 form-control-label pull-left">{{translations.percent}}</div>
+				<div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.percent")}</div>
 				<div class="col-sm-2 form-control-label pull-left">
 					<button type="button" class="btn btn-primary btn-sm" ng-click="handleCustomAction('re')">
-						{{translations.unobtainable}}
+						${ ui.message("edtriageapp.unobtainable") }
 					</button>
 				</div>
 			</div>
@@ -168,10 +168,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<input class="form-control" id="heartRate" type="number" min="1" max="1000"
 						   ng-model="edTriagePatient.vitals.heartRate.value" />
 				</div>
-				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
+				<div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
 			</div>
 			<div class="form-group row">
-				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">{{translations.bloodPressure}} </label>
+				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">${ ui.message("edtriageapp.bloodPressure") } </label>
 				<div class="col-sm-2 form-control-label">
 					<input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
 						   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
@@ -216,7 +216,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{translations.symptoms}}</h3>
+			<h3 class="panel-title">${ ui.message("edtriageapp.symptoms") }</h3>
 		</div>
 		<div class="panel-body">
 			<concept-selector concept="edTriagePatientConcept.symptoms.neurological" selected-concept="edTriagePatient.symptoms.neurological.value"></concept-selector>
@@ -238,12 +238,12 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 	</div>
 
 	<div>
-		<button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">{{translations.submitButton}}</button>
-		<a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">View Queue</a>
-		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">{{translations.exitButton}}</a>
+		<button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
+		<a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>
+		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.exitButton") }</a>
 	</div>
 
-	<div ng-if="additionalData.debug">
+	<div ng-if="debug">
 		<br/><br/><br/>
 		<div class="panel panel-info">
 			<div class="panel-heading">

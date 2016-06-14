@@ -35,7 +35,7 @@ ${ ui.includeFragment("uicommons", "validationMessages")}
 
 
 <h1>
-    ${ ui.message("edtriage.app.label") }
+    ${ ui.message("edtriageapp.label") }
 </h1>
 
 ${ ui.message("coreapps.searchPatientHeading") }
@@ -52,6 +52,6 @@ ${ ui.message("coreapps.searchPatientHeading") }
 <br/>
 <div class="container">
 <div>
-    <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">View Queue</a>
+    <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>
 </div>
 </div>

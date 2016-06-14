@@ -6,10 +6,10 @@ angular.module("edTriagePatientFactory", [])
          */
         function EdTriagePatient() {
             this.encounterUuid = null;
-            this.triageQueueStatus = EdTriageConcept.status.waitingForEvaluation;
+            this.triageQueueStatus = null;
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
-            this.percentComplete = 0;
+            this.percentComplete = 0;  // this is used when the score is calculated
             this.originalObservationUuids = [];
             this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, display:null};
             this.location = null;
@@ -38,13 +38,24 @@ angular.module("edTriagePatientFactory", [])
             };
 
         }
-
-        EdTriagePatient.prototype.vitalsAsString = function(){
-            var ret = "";
-            if(this.vitals.respiratoryRate != null){
-                ret += "Respiratory Rate: " + this.vitals.respiratoryRate.value;
+        /*
+        * gets the html color for the code
+        * */
+        EdTriagePatient.prototype.getColorHtmlCode = function(){
+            var ret = 'green';
+            var colorCode = this.score.colorCode.value;
+            if(colorCode == EdTriageConcept.score.red){
+                ret = "red";
             }
-
+            else if(colorCode == EdTriageConcept.score.orange){
+                ret = "orange";
+            }
+            else if(colorCode == EdTriageConcept.score.yellow){
+                ret = "yellow";
+            }
+            else{
+                ret = "green";
+            }
             return ret;
         };
 
@@ -56,7 +67,7 @@ angular.module("edTriagePatientFactory", [])
             var mn = Math.floor((w /60) % 60);
             //var sec = Math.floor(w % 60);
             return hr + ":" + (mn<10?"0"+mn:mn);// + ":" + (sec<10?"0"+sec:sec);
-        }
+        }  ;
 
         /* creates a new EdTriagePatient
          *  returns an empty one with the patient and location info filled in
@@ -89,8 +100,8 @@ angular.module("edTriagePatientFactory", [])
 
         EdTriagePatient.buildList = function (concepts, data, locationUuid) {
 
-            var patientDateOfBirth = "";
-            var patientGender = "";
+            var patientDateOfBirth = "";    //TODO:  need to get this information
+            var patientGender = "";         //TODO:  need to get this information
             var ret = [];
             for(var i = 0;i<data.length;++i){
                 var patientUuid = data[i].patient.uuid;
@@ -98,9 +109,10 @@ angular.module("edTriagePatientFactory", [])
             }
             return ret;
         };
+        
         /**
-         * Static method, assigned to class
-         * Instance ('this') is not available in static context
+         * builds a class from the edtriage concepts and the data from the web services
+         * 
          */
         EdTriagePatient.build = function (concepts, data, patientDateOfBirth, patientGender, locationUuid) {
 
@@ -109,8 +121,6 @@ angular.module("edTriagePatientFactory", [])
             ret.patient.display = data.patient.display;
             ret.encounterDateTime = data.encounterDatetime;
             ret.encounterUuid = data.uuid;
-
-            console.log("ret.encounterUuid = " + ret.encounterUuid );
 
             //iterate through the observations and update the appropriate properties
             for (var i = 0; i < data.obs.length; ++i) {
@@ -164,50 +174,15 @@ angular.module("edTriagePatientFactory", [])
                     ret.vitals.mobility = _v(v.uuid);
                 }
                 else {
-                    // var lookups = [{o: 'vitals', c: 'mobility', p: 'mobility'},
-                    //     {o: 'vitals', c: 'consciousness', p: 'consciousness'},
-                    //     {o: 'symptoms', c: 'neurological', p: 'neurological'},
-                    //     {o: 'symptoms', c: 'burn', p: 'burn'},
-                    //     {o: 'symptoms', c: 'trauma', p: 'trauma'},
-                    //     {o: 'symptoms', c: 'digestive', p: 'digestive'},
-                    //     {o: 'symptoms', c: 'pregnancy', p: 'pregnancy'},
-                    //     {o: 'symptoms', c: 'respiratory', p: 'respiratory'},
-                    //     {o: 'symptoms', c: 'pain', p: 'pain'},
-                    //     {o: 'symptoms', c: 'other', p: 'other'}];
-                    // for (var j = 0; j < lookups.length; ++j) {
-                    //     var ok = _updateAnswersFromUuid(concepts, ret, lookups[j], data.obs[i]);
-                    //     if (ok) {
-                    //         break;
-                    //     }
-                    // }
-
-
                 }
 
             }
-
-            //console.log(ret);
 
             return ret;
-            /*
-             * checks if the observation is one of a set of answers
-             * @param {Array} answers - the list of answers
-             * @param {String} uuid - the uuid of the observation that you are looking up
-             * @return {bool} true/false
-             * */
-            function _updateAnswersFromUuid(concept, edTriagePatientData, lookup, obs) {
-                var temp = $filter('filter')(concept[lookup.o][lookup.c].answers, {uuid: obs.uuid});
-                if (temp != null && temp.length > 0) {
-                    edTriagePatientData[lookup.o][lookup.p] = _v(obs.value, obs.uuid);
-                    return true;
-                }
-
-                return false;
-            }
 
             /* helper function to make a value object, we need the uuid for saving*/
-            function _v(value, uuid){
-                return {value:value, uuid:uuid};
+            function _v(value){
+                return {value:value};
             }
         };
 

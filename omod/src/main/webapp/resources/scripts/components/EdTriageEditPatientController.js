@@ -8,25 +8,7 @@ angular.module("edTriagePatientController", [])
                     PatientService.calculate(concept, data);
                     $scope.edTriagePatient = data;
                     $scope.edTriageConcept = concept;
-                    $scope.translations = {
-                        bloodPressure: $filter('translate')('Blood Pressure'),
-                        complaint: $filter('translate')('Chief Complaint'),
-                        exitButton: 'Exit Form / No Triage',
-                        patientInfo: 'Patient Info',
-                        percent: '%',
-                        percentComplete: '% Complete',
-                        perMinute: '/min',
-                        status: 'Status',
-                        submitButton: 'Triage Complete',
-                        symptoms: 'Symptoms',
-                        unobtainable: 'Unobtainable',
-                        vitals: 'Vitals'
-                    };
-
-                    $scope.additionalData = {
-                        debug: true
-                    };
-
+                    $scope.debug = false;
                     $scope.currentScore = angular.extend({colorClass:getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);
 

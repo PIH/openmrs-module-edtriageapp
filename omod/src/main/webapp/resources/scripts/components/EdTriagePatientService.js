@@ -11,16 +11,7 @@ angular.module("edTriageService", [])
                 },
                 NONE_CONCEPT_UUID: "3cd743f8-26fe-102b-80cb-0017a47871b2",
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
-                ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77" ,
-                //defines an empty value, so that we can tell if the form has been filled out
-                EMPTY_VALUES: {NUM: "", STR: ""},
-                // defined the different kinds of patients that we can see, adult/child/infant
-                // this information determines what the form will look like
-                PATIENT_TYPES: {
-                    Adult: {id: 'A', descriptionKey: 'edtriage.adult.text'},
-                    Child: {id: 'C', descriptionKey: 'edtriage.child.text'},
-                    Infant: {id: 'I', descriptionKey: 'edtriage.infant.text'}
-                }
+                ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77"
             };
 
             /* load a the concept definition for a ed triage patient
@@ -29,13 +20,11 @@ angular.module("edTriageService", [])
             this.loadConcept = function () {
                 return $http.get(CONSTANTS.URLS.CONCEPTS + '/' + CONSTANTS.ED_TRIAGE_CONCEPT_UUIDS[0] + "?v=full").then(function (resp) {
                     if (resp.status == 200) {
-                        //console.log(resp.data);
-
                         return EdTriageConcept.build(resp.data.setMembers);
 
                     }
                     else {
-                        //TODO: how to handle these errors
+                        //don't return any concepts and let the caller handle the error
                         return null;
                     }
 
@@ -88,8 +77,7 @@ angular.module("edTriageService", [])
                     }
 
                 }, function (err) {
-                    //TODO: for now we load an empty record, b/c we are using mock data,
-                    // but we need to handle this another way
+                    //if we cannot get a record, then just create a new instance for now
                     return EdTriagePatient.newInstance(uuid,dateOfBirth, gender, locationUuid);
                 });
             };
@@ -107,9 +95,9 @@ angular.module("edTriageService", [])
                 };
 
                 //status related fields
-                addObs(encounter.obs, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
-                addObs(encounter.obs, edTriageConcept.triageScore.uuid, edTriagePatient.score.numericScore);
-                addObs(encounter.obs, edTriageConcept.triageColorCode.uuid, edTriagePatient.score.colorCode);
+                addObs(encounter.obs, edTriageConcept.triageQueueStatus.uuid, {value:EdTriageConcept.status.waitingForEvaluation});
+                addObs(encounter.obs, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore});
+                addObs(encounter.obs, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode});
 
                 //chief complaint
                 addObs(encounter.obs, edTriageConcept.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
@@ -137,9 +125,6 @@ angular.module("edTriageService", [])
                 // addObs(encounter.obs, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
 
 
-                console.log("About to save an encounter...");
-                console.log(encounter);
-
                 return removeAllOldObservations(edTriagePatient.originalObservationUuids).then(function(){
                     var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
                     if(edTriagePatient.encounterUuid != null){
@@ -153,7 +138,7 @@ angular.module("edTriageService", [])
                             }
                             , function (error) {
                                 console.log({status:500, data:error});
-                                return error;
+                                return {status:500, data:error};
                             });
 
                 });
@@ -178,7 +163,7 @@ angular.module("edTriageService", [])
                             method: 'DELETE'
                         })
                     }
-                }
+                };
 
                 deferred.resolve();
 
@@ -199,14 +184,13 @@ angular.module("edTriageService", [])
              * */
             function addObs(list, id, obs) {
                 if(obs == null){
-                    //TODO:  we need to delete this observation if it already was saved
                     return;
                 }
 
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                console.log(id + "=" + CONSTANTS.NONE_CONCEPT_UUID + " == " + (id == CONSTANTS.NONE_CONCEPT_UUID));
+
                 if (id == '11111111-1111-1111-1111-111111111111') {
                     //TODO:  delete this eventually, once we have all the concepts written
                     console.log("we found a debug concept id=" + id + " so " + value + " will not be written");
@@ -216,6 +200,7 @@ angular.module("edTriageService", [])
                     console.log("ignoring " + id + "=" + value + " b/c it is none concept");
                 }
                 else if (value != null) {
+                    console.log("will save an observation concept_uuid=" + id + " and value=" + value);
                     list.push(buildObs(id, value, uuid));
                 }
 
@@ -282,7 +267,7 @@ angular.module("edTriageService", [])
                                     for(var i=0;i<answers.length;++i){
                                         if(answers[i].uuid == p.value){
                                             //this is the answer that they chose
-                                            vistalsScore = vistalsScore + answers[i].score
+                                            vistalsScore = vistalsScore + answers[i].score;
                                             break;
                                         }
                                     }

@@ -84,7 +84,7 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("11111111-1111-1111-1111-111111111111", "alert", 0),
                         toAnswer("11111111-1111-1111-1111-111111111111", "reacts to voice", 1),
                         toAnswer("11111111-1111-1111-1111-111111111111", "reacts to pain", 2),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "unresponsive", 3)]),
+                        toAnswer("11111111-1111-1111-1111-111111111111", "unresponsive", 3)],"11111111-1111-1111-1111-111111111111"),
                 trauma: toAnswers(    'toAnswers',
                     [toAnswer("11111111-1111-1111-1111-111111111111", "yes", 1),
                         toAnswer("11111111-1111-1111-1111-111111111111", "no", 0)]),
@@ -212,13 +212,13 @@ angular.module("edTriageConceptFactory", [])
             updateConceptLabels(ret, data, 0);
 
             return ret;
-
+            
+            /* 
+            updates the concepts labels with the translated text from the web service
+            * */
             function updateConceptLabels(obj, data, level) {
                 for (var propertyName in obj) {
                     var p = obj[propertyName];
-                    if(propertyName == 'respiratoryRate'){
-                        console.log("found");
-                    }
                     if (p != null && typeof p == "object") {
                         if (p.hasOwnProperty('uuid')) {
                             //this an answer to a question, so let's look for a UUID that matches in the data and set the label for this
@@ -242,12 +242,14 @@ angular.module("edTriageConceptFactory", [])
                         }
                     }
                     else{
-                        //console.log("skipping the prop=" + propertyName + " at " + level);
+                        //NOTHING TO DO
                     }
 
                 }
             }
-
+            /* 
+             updates the answer labels with the translated text from the web service
+             * */
             function updateAnswerLabel(obj, data) {
                 for (var i = 0; i < data.length; ++i) {
                     var concept = data[i];
@@ -311,7 +313,7 @@ angular.module("edTriageConceptFactory", [])
                     }
                 }
                 else{
-                    //console.log("skipping the prop=" + propertyName + " at " + level);
+                    //NOTHING TO DO just skip this property
                 }
 
             }

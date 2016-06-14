@@ -1,11 +1,11 @@
 angular.module("edTriageViewQueueController", [])
-    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'PatientService', 'locationUuid',
-        function ($scope, $interval, $filter, PatientService, locationUuid) {
+    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'PatientService', 'EdTriageConcept', 'locationUuid',
+        function ($scope, $interval, $filter, PatientService, EdTriageConcept, locationUuid) {
             console.log("locationUuid=" + locationUuid);
             // used to determine if we should disable things
             $scope.isSaving = false;
             $scope.lastUpdatedAt = new Date();
-            $scope.lastUpdatedAtStr = "";
+            $scope.lastUpdatedAtStr = "2:00 ";
             $scope.newDate =new Date('2016-06-12T20:45:15.000-0400');
 
             console.log($scope.newDate);
@@ -33,6 +33,42 @@ angular.module("edTriageViewQueueController", [])
                 $scope.isSaving = false;
             };
 
+            /* builds a link to the patient edit page*/
+            $scope.getPatientLink = function(uuid, appId){
+                return "edtriageEditPatient.page?patientId=" + uuid + "&appId=" + appId;
+            };
+
+            $scope.listofVitalsAsLabelsAndValues = function(edTriagePatient){
+                var ret = [];
+                if(edTriagePatient.vitals.respiratoryRate != null){
+                    ret.push({label: $scope.edTriagePatientConcept.vitals.respiratoryRate.label , value:edTriagePatient.vitals.respiratoryRate.value});
+                }
+                if(edTriagePatient.vitals.heartRate != null){
+                    ret.push({label: $scope.edTriagePatientConcept.vitals.respiratoryRate.label , value:edTriagePatient.vitals.respiratoryRate.value});
+                }
+
+
+                return ret;
+            };
+
+            $scope.getColorClass = function(edTriagePatient){
+                var ret = "label-success";
+                var colorCode = edTriagePatient.score.colorCode.value;
+                if(colorCode == EdTriageConcept.score.red){
+                    ret = "label-danger";
+                }
+                else if(colorCode == EdTriageConcept.score.orange){
+                    ret = "label-warning";
+                }
+                else if(colorCode == EdTriageConcept.score.yellow){
+                    ret = "label-info";
+                }
+                else{
+                    ret = "label-success";
+                }
+                return ret;
+            } ;
+            
             /*
              * the changes the status of the observation to consult
              * */
@@ -49,11 +85,13 @@ angular.module("edTriageViewQueueController", [])
                 if ( angular.isDefined(stopTimeUpdates) ) return;
 
                 stopTimeUpdates = $interval(function() {
-                    var diff = (new Date().getTime() - $scope.lastUpdatedAt.getTime())/1000;
+                    var refreshInterval = 120;
+                    var diff = refreshInterval - (new Date().getTime() - $scope.lastUpdatedAt.getTime())/1000;
 
-                    if(diff > 120){
+                    if(diff <= 0){
                         //refresh every 2 minutes
                         $scope.loadData();
+                        return;
                     }
 
                     var minutes = Math.floor(diff / 60);
@@ -62,8 +100,8 @@ angular.module("edTriageViewQueueController", [])
                         seconds = "0" + seconds;
                     }
 
-                    $scope.lastUpdatedAtStr = minutes + ":" + seconds + " seconds";
-                }, 1000);
+                    $scope.lastUpdatedAtStr = minutes + ":" + seconds;
+                }, 10000);
             };
 
             $scope.startUpdateTime();
@@ -82,4 +120,26 @@ angular.module("edTriageViewQueueController", [])
             });
 
 
-        }]);
+        }]).directive('showIfHasValue', function () {
+                return {
+                    restrict: 'E',
+                    scope: {
+                        label: "=",
+                        model: "="
+                    },
+                    template: "<li ng-if='model'>{{label}}: {{model}}</li>"
+    };
+}).directive('showIfHasValueEx', function () {
+    //&& concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)>
+    return {
+        restrict: 'E',
+        scope: {
+            concept: "=",
+            model: "=",
+            propTypeName:"=",
+            propValueName: "="
+        },
+        template:
+            "<li ng-if='model[propTypeName][propValueName].value'>{{concept[propTypeName][propValueName].label}}: {{model[propTypeName][propValueName].value}}</li>"
+    };
+});

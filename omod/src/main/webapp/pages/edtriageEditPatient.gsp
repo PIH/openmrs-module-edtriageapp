@@ -139,8 +139,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 
-<section>
-<div class="div-half ib">
+
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{edTriagePatientConcept.chiefComplaint.label}}</h3>
@@ -151,6 +150,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 
+<section>
+<div class="div-half ib">
 
 	<div class="panel panel-info">
 		<div class="panel-heading">

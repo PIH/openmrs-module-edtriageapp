@@ -37,7 +37,7 @@
 
 	#sticky {
 		padding: 0.5ex;
-		width: 85%;
+		width: 100%;
 		color: #fff;
 		font-size: 2em;
 		border-radius: 0.5ex;
@@ -46,10 +46,28 @@
 	#sticky.stick {
 		margin-top: 0 !important;
 		position: fixed;
+		width: 84%;
 		top: 0;
 		z-index: 10000;
 		border-radius: 0 0 0.5em 0.5em;
 	}
+
+	section {
+		overflow: auto;
+		margin: auto;
+	}
+
+	.div-half {
+		vertical-align: top;
+		margin-bottom: 1em;
+		box-sizing: border-box;
+		width: 49%;
+	}
+
+	.ib {
+		display: inline-block;
+	}
+
 
 </style>
 
@@ -97,7 +115,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 
-	<div id="sticky-anchor"></div>
+	<div class="panel panel-info" id="sticky-anchor"></div>
 	<div class="panel panel-info" id="sticky">
 		<div class="panel-heading">
 			<h3 class="panel-title">
@@ -121,6 +139,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 
+<section>
+<div class="div-half ib">
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{edTriagePatientConcept.chiefComplaint.label}}</h3>
@@ -212,11 +232,14 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 
 	</div>
+</div>
 
+<div class="div-half ib">
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{translations.symptoms}}</h3>
 		</div>
+
 		<div class="panel-body">
 			<concept-selector concept="edTriagePatientConcept.symptoms.neurological" selected-concept="edTriagePatient.symptoms.neurological.value"></concept-selector>
 			<concept-selector concept="edTriagePatientConcept.symptoms.burn" selected-concept="edTriagePatient.symptoms.burn.value"></concept-selector>
@@ -228,6 +251,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<concept-selector concept="edTriagePatientConcept.symptoms.other" selected-concept="edTriagePatient.symptoms.other.value"></concept-selector>
 		</div>
 	</div>
+</div>
+</section>
 
 	<div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">

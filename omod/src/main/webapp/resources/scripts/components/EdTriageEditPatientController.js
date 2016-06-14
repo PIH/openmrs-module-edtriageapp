@@ -71,14 +71,16 @@ angular.module("edTriagePatientController", [])
     return {
         restrict: 'E',
         scope: {
+            edTriagePatient: "=",
             concept: "=",
-            selectedConcept: "="
+            selectedConcept: "=",
+            inputId:"="
         },
         template: '<div class="form-group row">' +
-        '<label for="{[model.uuid}}" class="col-sm-2 form-control-label">{{concept.label}}</label>' +
+        '<label for="{{inputId}}" class="col-sm-2 form-control-label">{{concept.label}}</label>' +
         '<div class="col-sm-10">' +
-        '<select class="form-control" id="{[model.uuid}}" ng-model="selectedConcept">' +
-        '<option ng-repeat="a in concept.answers" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}}</option>' +
+        '<select class="form-control" id="{{inputId}}" ng-model="selectedConcept">' +
+        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}}</option>' +
         '</select>' +
         '</div></div>'
     };

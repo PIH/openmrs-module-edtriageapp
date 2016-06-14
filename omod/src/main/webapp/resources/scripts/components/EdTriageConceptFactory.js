@@ -8,17 +8,18 @@ angular.module("edTriageConceptFactory", [])
             var unknown_concept_uuid = "3cd6fac4-26fe-102b-80cb-0017a47871b2";
             // Public properties, assigned to the instance ('this')
             this.triageQueueStatus =  toAnswers("triageQueueStatus", [
-                    toAnswer("4dd3244d-fcb9-424d-ad8a-afd773c69923", "waitingForEvaluation"),
-                    toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "outpatientConsultation"),
-                    toAnswer("45d0c3d2-2188-4186-8a19-0063b92914ee", "remove"),
-                    toAnswer("1fa8d25e-7471-4201-815f-79fac44d9a5f", "expire")]
+                    toAnswer(EdTriageConcept.status.waitingForEvaluation, "waitingForEvaluation"),
+                    toAnswer(EdTriageConcept.status.outpatientConsultation, "outpatientConsultation"),
+                    toAnswer(EdTriageConcept.status.removed, "remove"),
+                    toAnswer(EdTriageConcept.status.expired, "expire")]
                 , "66c18ba5-459e-4049-94ab-f80aca5c6a98");
-            this.triageQueueStatus =  toAnswers("triageQueueStatus", [
-                    toAnswer("4dd3244d-fcb9-424d-ad8a-afd773c69923", "waitingForEvaluation"),
-                    toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "outpatientConsultation"),
-                    toAnswer("45d0c3d2-2188-4186-8a19-0063b92914ee", "remove"),
-                    toAnswer("1fa8d25e-7471-4201-815f-79fac44d9a5f", "expire")]
-                , "66c18ba5-459e-4049-94ab-f80aca5c6a98");
+            this.triageColorCode =  toAnswers("triageColorCode", [
+                    toAnswer(EdTriageConcept.score.red, "red"),
+                    toAnswer(EdTriageConcept.score.green, "green"),
+                    toAnswer(EdTriageConcept.score.yellow, "yellow"),
+                    toAnswer(EdTriageConcept.score.orange, "orange")]
+                , "f81631c8-f658-4472-a7eb-c618b05e6149");
+            this.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
             this.vitals = {
                 mobility: toAnswers(      'mobility',
@@ -184,11 +185,19 @@ angular.module("edTriageConceptFactory", [])
 
         //some static vars for the scores for symptoms
         EdTriageConcept.score = {
-            red: 1,
-            orange: 2,
-            yellow: 3,
-            green: 4
+            red: "762ecf40-3065-47aa-93c3-15372d98d393",
+            orange: "95d75a4a-cb14-4f1f-b7d5-f53e694b403f",
+            yellow: "70763694-61c5-447f-abc3-91f144bfcc0b",
+            green: "1d549146-e477-4dcc-9716-11fe4d1cad68"
         };
+
+        EdTriageConcept.status = {
+            waitingForEvaluation: "4dd3244d-fcb9-424d-ad8a-afd773c69923",
+            outpatientConsultation: "3cdc871e-26fe-102b-80cb-0017a47871b2",
+            removed: "45d0c3d2-2188-4186-8a19-0063b92914ee",
+            expired: "1fa8d25e-7471-4201-815f-79fac44d9a5f"
+        };
+
         /**
          * Static method, assigned to class
          * Instance ('this') is not available in static context
@@ -207,9 +216,6 @@ angular.module("edTriageConceptFactory", [])
             function updateConceptLabels(obj, data, level) {
                 for (var propertyName in obj) {
                     var p = obj[propertyName];
-
-
-                    console.log(propertyName);
                     if(propertyName == 'respiratoryRate'){
                         console.log("found");
                     }
@@ -278,8 +284,8 @@ angular.module("edTriageConceptFactory", [])
         };
 
         EdTriageConcept.findAnswer = function(concept, uuid){
-            for (var propertyName in obj) {
-                var p = obj[propertyName];
+            for (var propertyName in concept) {
+                var p = concept[propertyName];
                 if (p != null && typeof p == "object") {
                     if (p.hasOwnProperty('uuid')) {
                         if (p.uuid == uuid) {

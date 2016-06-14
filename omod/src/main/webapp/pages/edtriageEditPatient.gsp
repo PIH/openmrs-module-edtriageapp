@@ -37,18 +37,19 @@
 
 	#sticky {
 		padding: 0.5ex;
-		width: 85%;
-		color: #fff;
-		font-size: 2em;
-		border-radius: 0.5ex;
+
+		/*color: #fff;*/
+		/*font-size: 2em;*/
+		/*border-radius: 0.5ex;*/
 	}
 
 	#sticky.stick {
+		width: 50%;
 		margin-top: 0 !important;
 		position: fixed;
 		top: 0;
 		z-index: 10000;
-		border-radius: 0 0 0.5em 0.5em;
+		/*border-radius: 0 0 0.5em 0.5em;*/
 	}
 
 </style>
@@ -114,8 +115,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 		<div class="panel-body">
 			<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
-				 aria-valuemin="0" aria-valuemax="100" style="height:50px;width:100%;background-color: {{currentScore.overall}};">
-				{{currentScore.overall}}
+				 aria-valuemin="0" aria-valuemax="100" style="height:50px;width:100%;background-color: {{currentScore.colorClass}};">
+				{{currentScore.numericScore}}
 			</div>
 
 		</div>
@@ -143,7 +144,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="form-group row">
 				<label for="respiratoryRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="respiratoryRate" type="text"
+					<input class="form-control" id="respiratoryRate" type="number" min="1" max="200"
 						   ng-model="edTriagePatient.vitals.respiratoryRate.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
@@ -151,7 +152,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="form-group row">
 				<label for="oxygenSaturation" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="oxygenSaturation" type="text"
+					<input class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
 						   ng-model="edTriagePatient.vitals.oxygenSaturation.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">{{translations.percent}}</div>
@@ -164,7 +165,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="form-group row">
 				<label for="heartRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.heartRate.label}}</label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="heartRate" type="text"
+					<input class="form-control" id="heartRate" type="number" min="1" max="1000"
 						   ng-model="edTriagePatient.vitals.heartRate.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">{{translations.perMinute}}</div>
@@ -172,12 +173,12 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="form-group row">
 				<label for="bloodPressureSystolic" class="col-sm-2 form-control-label">{{translations.bloodPressure}} </label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="bloodPressureSystolic" type="text"
+					<input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
 						   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">/</div>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="bloodPressureDiastolic" type="text"
+					<input class="form-control" id="bloodPressureDiastolic" type="number" min="1" max="1000"
 						   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 				</div>
 			</div>
@@ -185,7 +186,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="form-group row">
 				<label for="temperatureC" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.temperature.label}}</label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="temperatureC" type="text"
+					<input class="form-control" id="temperatureC" type="number" min="1" max="50"
 						   ng-model="edTriagePatient.vitals.temperature.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">C</div>
@@ -204,7 +205,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="form-group row">
 				<label for="temperatureC" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.weight.label}}</label>
 				<div class="col-sm-2 form-control-label">
-					<input class="form-control" id="weigthInKG" type="text"
+					<input class="form-control" id="weigthInKG" type="number" min="1" max="2000"
 						   ng-model="edTriagePatient.vitals.weight.value" />
 				</div>
 				<div class="col-sm-1 form-control-label pull-left">kgs.</div>

@@ -1,12 +1,7 @@
 angular.module("edTriagePatientController", [])
-    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
-        function ($scope, $filter, PatientService, patientUuid, patientBirthDate, patientGender, locationUuid) {
-            $scope.foo = "bar";
-            //var patientId = patientUuid;
-            console.log("patientUuid=" + patientUuid);
-            console.log("patientBirthDate=" + patientBirthDate);
-            console.log("patientGender=" + patientGender);
-            console.log("locationUuid=" + locationUuid);
+    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'EdTriageConcept',
+        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
+        function ($scope, $filter, PatientService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
             PatientService.loadConcept().then(function (concept) {
                 $scope.edTriagePatientConcept = concept;
                 PatientService.load(concept, patientUuid, patientBirthDate, patientGender, locationUuid).then(function (data) {
@@ -32,7 +27,7 @@ angular.module("edTriagePatientController", [])
                         debug: true
                     };
 
-                    $scope.currentScore = angular.extend({}, $scope.edTriagePatient.score);
+                    $scope.currentScore = angular.extend({colorClass:getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);
 
                 });
@@ -65,10 +60,29 @@ angular.module("edTriagePatientController", [])
             $scope.$watch('edTriagePatient', function (newValue, oldValue) {
                 if ($scope.edTriageConcept != null && newValue != null) {
                     PatientService.calculate($scope.edTriageConcept, newValue);
-                    $scope.currentScore.overall = $scope.edTriagePatient.score.overall;
+                    $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
+                    $scope.currentScore.colorCode = $scope.edTriagePatient.score.colorCode;
+                    $scope.currentScore.colorClass = getColorClass($scope.currentScore.colorCode);
                 }
 
             }, true);
+
+            function getColorClass(colorCode){
+                var ret = 'green';
+                if(colorCode == EdTriageConcept.score.red){
+                    ret = "red";
+                }
+                else if(colorCode == EdTriageConcept.score.orange){
+                    ret = "orange";
+                }
+                else if(colorCode == EdTriageConcept.score.yellow){
+                    ret = "yellow";
+                }
+                else{
+                    ret = "green";
+                }
+                return ret;
+            }
 
 
         }]).directive('conceptSelector', function () {

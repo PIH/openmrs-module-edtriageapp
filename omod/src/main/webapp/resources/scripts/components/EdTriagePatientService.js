@@ -106,8 +106,10 @@ angular.module("edTriageService", [])
                     obs: []
                 };
 
-                //status
-                //addObs(encounter.obs, edTriageConcept.vitals.triageQueueStatus.uuid, edTriagePatient.status);
+                //status related fields
+                addObs(encounter.obs, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
+                addObs(encounter.obs, edTriageConcept.triageScore.uuid, edTriagePatient.score.numericScore);
+                addObs(encounter.obs, edTriageConcept.triageColorCode.uuid, edTriagePatient.score.colorCode);
 
                 //chief complaint
                 addObs(encounter.obs, edTriageConcept.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
@@ -160,7 +162,11 @@ angular.module("edTriageService", [])
             };
 
 
-
+            /* removes all the existing observations for a patient, we need to do this before we save a patient's info
+            * b/c there might be observations that were removed and it's easier to just start from scratch
+            * @param {Array} list - a list of obs uuid's
+             * @return {Array} the results from the delete
+              * */
             function removeAllOldObservations(list) {
                 var deferred = $q.defer();
                 var promise = deferred.promise;
@@ -241,12 +247,23 @@ angular.module("edTriageService", [])
                 }
 
                 var vistalsScore = 0;
-                var symptomsScore = [0,0,0,0];
-                var totalItems = 17;
+                var symptomsScore = {};
+                symptomsScore[EdTriageConcept.score.red]=0;
+                symptomsScore[EdTriageConcept.score.orange]=0;
+                symptomsScore[EdTriageConcept.score.yellow]=0;
+                symptomsScore[EdTriageConcept.score.green]=0;
+                /*
+                  for the percent complete, we calculate it like this:
+                  1/3 complete for filling in complaint
+                  1/3 complete for filling in at least one symptom
+                  1/3 complete depending on how many vitals were entered
+                */
+                var totalVitals = 9;
+                var totalItems = 3*totalVitals;
                 var completedItems = 0;
 
                 if(_ans(edTriagePatient.chiefComplaint)){
-                    ++completedItems;
+                    completedItems += totalVitals;
                 }
                 //iterate through the vitals and ...
                 // 1) check that they are entered
@@ -265,8 +282,7 @@ angular.module("edTriageService", [])
                                     for(var i=0;i<answers.length;++i){
                                         if(answers[i].uuid == p.value){
                                             //this is the answer that they chose
-                                            vistalsScore = vistalsScore + answers[i].score;
-                                            console.log("incrementing the score of " + answers[i].label + " by " + vistalsScore + " to " + answers[i].score);
+                                            vistalsScore = vistalsScore + answers[i].score
                                             break;
                                         }
                                     }
@@ -275,9 +291,7 @@ angular.module("edTriageService", [])
                                     //this kind of value doesn't have a look up value, so we check if it has a scoring
                                     // function, if it does then call it, otherwise move on
                                     if(typeof c.score === "function"){
-                                        var score = c.score(ageType, p.value);
-                                        console.log("setting " + prop + " score to " + score);
-                                        vistalsScore = vistalsScore + score
+                                        vistalsScore = vistalsScore +  c.score(ageType, p.value)
                                     }
                                 }
                             }
@@ -288,38 +302,61 @@ angular.module("edTriageService", [])
                         }
                     }
                 }
+                if(vistalsScore > 6){
+                    ++symptomsScore[EdTriageConcept.score.red];
+                }
+                else if(vistalsScore > 4){
+                    ++symptomsScore[EdTriageConcept.score.orange];
+                }
+                else if(vistalsScore > 2){
+                    ++symptomsScore[EdTriageConcept.score.yellow];
+                }
 
-                //iterate through the vitals and ...
+
                 // 1) check that they are entered
                 // 2) update the score based on the symptom
+                var haveAtLeastOneSymptom = false;
                 for (var prop in edTriagePatient.symptoms) {
-                    if (edTriagePatient.vitals.hasOwnProperty(prop)) {
-                        var p =  edTriagePatient.vitals[prop];
+                    if (edTriagePatient.symptoms.hasOwnProperty(prop)) {
+                        var p =  edTriagePatient.symptoms[prop];
                         if(_ans(p)){
-                            ++completedItems;
-                            //if a symptom is entered, then we need to look up the score for this symptom and increment it
-                            var t = EdTriageConcept.findAnswer(concept, p.uuid);
-                            if(t != null){
-                                if(t.score != null){
-                                   ++symptomsScore[t.score];
+                            haveAtLeastOneSymptom = true;
+                            var answers = concept.symptoms[prop].answers;
+                            for(var i=0;i<answers.length;++i){
+                                if(answers[i].uuid == p.value){
+                                    ++symptomsScore[answers[i].score];
+                                    break;
                                 }
                             }
                         }
                     }
                 }
-
-                var overallScore = 'Green';
-                if(vistalsScore > 6 || symptomsScore[EdTriageConcept.score.red]>0){
-                    overallScore = 'Red';
-                }
-                else if(vistalsScore > 4 || symptomsScore[EdTriageConcept.score.orange]>0){
-                    overallScore = 'Orange';
-                }
-                else if(vistalsScore > 2 || symptomsScore[EdTriageConcept.score.yellow]>0){
-                    overallScore = 'Yellow';
+                if(haveAtLeastOneSymptom){
+                    completedItems += totalVitals;
                 }
 
-                var score = {overall: overallScore, vitals:vistalsScore, symptoms:symptomsScore};
+
+                // the scoring works like this:
+                //  if you have at least one red, then your
+                // color is red, then on down for the other
+                // priorities.  the numeric score is not used, but 
+                // could be used for scoring
+                var colorCode = EdTriageConcept.score.green;
+                var numericScore = 0;
+                if(symptomsScore[EdTriageConcept.score.red]>0){
+                    colorCode = EdTriageConcept.score.red;
+                    numericScore =  symptomsScore[EdTriageConcept.score.red]*20;
+                }
+                else if(symptomsScore[EdTriageConcept.score.orange]>0){
+                    colorCode = EdTriageConcept.score.orange;
+                    numericScore =  symptomsScore[EdTriageConcept.score.orange]*5;
+                }
+                else if(symptomsScore[EdTriageConcept.score.yellow]>0){
+                    colorCode = EdTriageConcept.score.yellow;
+                    numericScore =  symptomsScore[EdTriageConcept.score.yellow];
+                }
+
+                var score = {colorCode: colorCode, numericScore:numericScore};
                 edTriagePatient.score = score;
                 edTriagePatient.percentComplete = Math.round(completedItems / totalItems * 100);
 

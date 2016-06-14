@@ -1,14 +1,14 @@
 angular.module("edTriagePatientFactory", [])
-    .factory('EdTriagePatient', ['$filter', function ($filter) {
+    .factory('EdTriagePatient', ['$filter', 'EdTriageConcept', function ($filter, EdTriageConcept) {
 
         /**
          * Constructor, with class name
          */
         function EdTriagePatient() {
             this.encounterUuid = null;
-            this.triageQueueStatus = null;
+            this.triageQueueStatus = EdTriageConcept.status.waitingForEvaluation;
             this.encounterDateTime = null;
-            this.score = 0;
+            this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
             this.percentComplete = 0;
             this.originalObservationUuids = [];
             this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, display:null};
@@ -125,38 +125,43 @@ angular.module("edTriagePatientFactory", [])
                 }
 
                 if (uuid == concepts.triageQueueStatus.uuid) {
-                    ret.triageQueueStatus = _v(v, obsUuid);
+                    ret.triageQueueStatus = _v(v);
+                }
+                else if (uuid == concepts.triageColorCode.uuid) {
+                    ret.score.colorCode = _v(v.uuid);
+                }
+                else if (uuid == concepts.triageScore.uuid) {
+                    ret.score.numericScore = _v(v);
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
-                    ret.chiefComplaint = _v(v, obsUuid);
+                    ret.chiefComplaint = _v(v);
                 }
                 else if (uuid == concepts.vitals.respiratoryRate.uuid) {
-                    ret.vitals.respiratoryRate = _v(v, obsUuid);
+                    ret.vitals.respiratoryRate = _v(v);
                 }
                 else if (uuid == concepts.vitals.oxygenSaturation.uuid) {
-                    ret.vitals.oxygenSaturation = _v(v, obsUuid);
+                    ret.vitals.oxygenSaturation = _v(v);
                 }
                 else if (uuid == concepts.vitals.heartRate.uuid) {
-                    ret.vitals.heartRate = _v(v, obsUuid);
+                    ret.vitals.heartRate = _v(v);
                 }
                 else if (uuid == concepts.vitals.diastolicBloodPressure.uuid) {
-                    ret.vitals.diastolicBloodPressure = _v(v, obsUuid);
+                    ret.vitals.diastolicBloodPressure = _v(v);
                 }
                 else if (uuid == concepts.vitals.systolicBloodPressure.uuid) {
-                    ret.vitals.systolicBloodPressure = _v(v, obsUuid);
+                    ret.vitals.systolicBloodPressure = _v(v);
                 }
                 else if (uuid == concepts.vitals.temperature.uuid) {
-                    ret.vitals.temperature = _v(v, obsUuid);
+                    ret.vitals.temperature = _v(v);
                 }
                 else if (uuid == concepts.vitals.trauma.uuid) {
-                    ret.vitals.trauma = _v(v, obsUuid);
+                    ret.vitals.trauma = _v(v);
                 }
                 else if (uuid == concepts.vitals.weight.uuid) {
-                    ret.vitals.weight = _v(v, obsUuid);
+                    ret.vitals.weight = _v(v);
                 }
                 else if (uuid == concepts.vitals.mobility.uuid) {
-                    ret.vitals.mobility = _v(v.uuid, v.uuid);
-                    console.log(v);
+                    ret.vitals.mobility = _v(v.uuid);
                 }
                 else {
                     // var lookups = [{o: 'vitals', c: 'mobility', p: 'mobility'},

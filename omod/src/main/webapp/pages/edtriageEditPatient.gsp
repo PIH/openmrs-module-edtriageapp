@@ -243,11 +243,18 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		{{message.text}}
 	</div>
 
-	<div>
-		<button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
-		<a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>
-		<a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.exitButton") }</a>
-	</div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-3">
+            <button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
+        </div>
+        <div class="col-sm-3">
+            <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.exitButton") }</a>
+        </div>
+    </div>
+
 
 	<div ng-if="debug">
 		<br/><br/><br/>

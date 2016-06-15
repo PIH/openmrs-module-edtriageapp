@@ -33,7 +33,6 @@
 
 %>
 
-
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
     var breadcrumbs = [
         {icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm'},
@@ -66,8 +65,8 @@
             </thead>
             <tbody>
 
-            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore.value', waitTime()]">
-                <td><span class="label" style="background-color:{{model.getColorHtmlCode()}};">{{model.getColorHtmlCode()}}</span> -
+            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore.value', waitTime()]" >
+                <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >{{model.getColorHtmlCode()}}</span> -
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} {{model.score.numericScore.value}}</a></td>
                 <td>{{model.waitTime()}}</td>
                 <td>{{model.chiefComplaint.value}}</td>

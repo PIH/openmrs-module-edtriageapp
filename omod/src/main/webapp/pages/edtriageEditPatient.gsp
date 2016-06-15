@@ -106,7 +106,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="row">
 					<div class="col-sm-1">${ ui.message("edtriageapp.status") }</div>
 					<div class="col-sm-11">
-						<div class="progress-bar" role="progressbar" aria-valuenow="40"
+						<div class="progress-bar " role="progressbar" aria-valuenow="40"
 							 aria-valuemin="0" aria-valuemax="100" style="width:{{edTriagePatient.percentComplete}}%">
 							{{edTriagePatient.percentComplete}}${ ui.message("edtriageapp.percentComplete") }
 						</div>
@@ -115,8 +115,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</h3>
 		</div>
 		<div class="panel-body">
-			<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
-				 aria-valuemin="0" aria-valuemax="100" style="height:50px;width:100%;background-color: {{currentScore.colorClass}};">
+			<div class="progress-bar edtriage-label-{{currentScore.colorClass}}" role="progressbar" aria-valuenow="100"
+				 aria-valuemin="0" aria-valuemax="100" style="height:50px;width:100%;">
 				{{currentScore.numericScore}}
 			</div>
 

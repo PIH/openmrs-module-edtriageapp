@@ -53,9 +53,6 @@
 		/*border-radius: 0 0 0.5em 0.5em;*/
 	}
 
-    input.form-control {
-        width: auto;
-    }
 </style>
 
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
@@ -137,85 +134,85 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 
-
+    <form class="form-horizontal">
     <div class="row">
         <div class="col-sm-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">${ ui.message("edtriageapp.vitals") }</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body ">
 
                     <concept-selector ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility.value"></concept-selector>
 
                     <div class="form-group row">
-                        <label for="respiratoryRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
-                        <div class="col-sm-2 form-control-label">
+                        <label for="respiratoryRate" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
+                        <div class="col-sm-6 form-control-label">
                             <input class="form-control" id="respiratoryRate" type="number" min="1" max="200"
                                    ng-model="edTriagePatient.vitals.respiratoryRate.value" />
                         </div>
-                        <div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
+                        <div class="col-sm-2 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
                     </div>
                     <div class="form-group row">
-                        <label for="oxygenSaturation" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label>
-                        <div class="col-sm-2 form-control-label">
+                        <label for="oxygenSaturation" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label>
+                        <div class="col-sm-3 form-control-label">
                             <input class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
                                    ng-model="edTriagePatient.vitals.oxygenSaturation.value" />
                         </div>
-                        <div class="col-1 form-control-label pull-left">${ ui.message("edtriageapp.percent")}</div>
-                        <div class="col-sm-2 form-control-label pull-left">
+                        <div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.percent")}</div>
+                        <div class="col-sm-3 form-control-label pull-left">
                             <button type="button" class="btn btn-primary btn-sm" ng-click="handleCustomAction('re')">
                                 ${ ui.message("edtriageapp.unobtainable") }
                             </button>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="heartRate" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.heartRate.label}}</label>
-                        <div class="col-sm-2 form-control-label">
+                        <label for="heartRate" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.heartRate.label}}</label>
+                        <div class="col-sm-6 form-control-label">
                             <input class="form-control" id="heartRate" type="number" min="1" max="1000"
                                    ng-model="edTriagePatient.vitals.heartRate.value" />
                         </div>
-                        <div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
+                        <div class="col-sm-2 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
                     </div>
                     <div class="form-group row">
-                        <label for="bloodPressureSystolic" class="col-sm-2 form-control-label">${ ui.message("edtriageapp.bloodPressure") } </label>
-                        <div class="col-sm-2 form-control-label">
+                        <label for="bloodPressureSystolic" class="col-sm-4 form-control-label">${ ui.message("edtriageapp.bloodPressure") } </label>
+                        <div class="col-sm-3 form-control-label">
                             <input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
                                    ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
                         </div>
                         <div class="col-sm-1 form-control-label pull-left">/</div>
-                        <div class="col-sm-2 form-control-label">
+                        <div class="col-sm-3 form-control-label">
                             <input class="form-control" id="bloodPressureDiastolic" type="number" min="1" max="1000"
                                    ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="temperatureC" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.temperature.label}}</label>
-                        <div class="col-sm-2 form-control-label">
+                        <label for="temperatureC" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.temperature.label}}</label>
+                        <div class="col-sm-4 form-control-label">
                             <input class="form-control" id="temperatureC" type="number" min="1" max="50"
                                    ng-model="edTriagePatient.vitals.temperature.value" />
                         </div>
-                        <div class="col-sm-1 form-control-label pull-left">C</div>
+                        <div class="col-sm-4 form-control-label pull-left">C</div>
                     </div>
 
                     <concept-selector ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness.value"></concept-selector>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">Trauma??</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-4 form-control-label">Trauma??</label>
+                        <div class="col-sm-8">
                             <label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value">Yes</label>
                             <label class="radio-inline"><input type="radio" name="trauma">No</label>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="temperatureC" class="col-sm-2 form-control-label">{{edTriagePatientConcept.vitals.weight.label}}</label>
-                        <div class="col-sm-2 form-control-label">
+                        <label for="temperatureC" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.weight.label}}</label>
+                        <div class="col-sm-6 form-control-label">
                             <input class="form-control" id="weigthInKG" type="number" min="1" max="2000"
                                    ng-model="edTriagePatient.vitals.weight.value" />
                         </div>
-                        <div class="col-sm-1 form-control-label pull-left">kgs.</div>
+                        <div class="col-sm-2 form-control-label pull-left">kgs.</div>
                     </div>
                 </div>
             </div>
@@ -238,7 +235,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
             </div>
         </div>
     </div>
-
+    </form>
 	<div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>

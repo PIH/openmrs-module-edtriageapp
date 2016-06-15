@@ -79,7 +79,9 @@ angular.module("edTriagePatientFactory", [])
          * */
         EdTriagePatient.newInstance = function(uuid, dateOfBirth, gender, locationUuid) {
             var ret = new EdTriagePatient();
-            var age = 12 ; //TODO: calc the real age
+            var diff = Math.floor(new Date().getTime() - dateOfBirth.getTime());
+            var yr = 1000 * 60 * 60 * 24 *365;
+            var age = Math.floor(diff/yr) ; //TODO: calc the real age
             var ageType = 'A';
             if(age < 3){
                ageType = 'I';
@@ -100,8 +102,8 @@ angular.module("edTriagePatientFactory", [])
 
         EdTriagePatient.buildList = function (concepts, data, locationUuid) {
 
-            var patientDateOfBirth = "";    //TODO:  need to get this information
-            var patientGender = "";         //TODO:  need to get this information
+            var patientDateOfBirth = new Date("October 13, 1974 11:13:00");    //TODO:  need to get this information
+            var patientGender = "F";         //TODO:  need to get this information
             var ret = [];
             for(var i = 0;i<data.length;++i){
                 var patientUuid = data[i].patient.uuid;

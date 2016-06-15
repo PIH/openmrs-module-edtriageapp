@@ -12,6 +12,7 @@
 	ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
 	ui.includeJavascript("uicommons", "services/conceptService.js")
     ui.includeJavascript("uicommons", "directives/coded-or-free-text-answer.js")
+    ui.includeJavascript("uicommons", "filters/serverDate.js")
 
     ui.includeCss("uicommons", "ngDialog/ngDialog.min.css")
 

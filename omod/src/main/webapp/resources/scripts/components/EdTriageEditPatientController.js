@@ -4,7 +4,8 @@ angular.module("edTriagePatientController", [])
         function ($scope, $filter, PatientService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
             PatientService.loadConcept().then(function (concept) {
                 $scope.edTriagePatientConcept = concept;
-                PatientService.load(concept, patientUuid, patientBirthDate, patientGender, locationUuid).then(function (data) {
+                var birthDate = new Date($filter('serverDate')(patientBirthDate));
+                PatientService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
                     PatientService.calculate(concept, data);
                     $scope.edTriagePatient = data;
                     $scope.edTriageConcept = concept;

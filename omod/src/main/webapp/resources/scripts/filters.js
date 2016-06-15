@@ -1,4 +1,4 @@
-angular.module("filters", [])
+angular.module("filters", ['uicommons.filters'])
     .filter('translateAs', [ "$filter", function($filter) {
         return function(input, type) {
             // first try to see if we have a custom translation property code

@@ -66,8 +66,9 @@
             </thead>
             <tbody>
 
-            <tr ng-repeat="model in edTriagePatientQueue | orderBy: '-score'">
-                <td><span class="label" style="background-color:{{model.getColorHtmlCode()}};">{{model.getColorHtmlCode()}}</span> - <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}</a></td>
+            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore.value', waitTime()]">
+                <td><span class="label" style="background-color:{{model.getColorHtmlCode()}};">{{model.getColorHtmlCode()}}</span> -
+                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} {{model.score.numericScore.value}}</a></td>
                 <td>{{model.waitTime()}}</td>
                 <td>{{model.chiefComplaint.value}}</td>
                 <td>

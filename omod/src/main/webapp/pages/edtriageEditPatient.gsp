@@ -90,7 +90,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <div class="container" ng-app="edTriageApp" ng-controller="patientEditController">
 
-	<div class="panel panel-info">
+	<div ng-if="debug" class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">${ui.message("uicommons.patient")}</h3>
 		</div>

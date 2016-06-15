@@ -69,7 +69,7 @@ angular.module("edTriageService", [])
                 return $http.get(url).then(function (resp) {
                     if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
                         var rec = resp.data.results[0]; //should only be one records, but web service returns array for consistency
-                        return EdTriagePatient.build(concept, rec, uuid, dateOfBirth, gender, locationUuid);
+                        return EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
                     }
                     else {
                         //if there is an error or the record doesn't exist, then create a new one

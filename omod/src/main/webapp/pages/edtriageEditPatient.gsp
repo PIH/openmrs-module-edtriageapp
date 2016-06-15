@@ -53,6 +53,9 @@
 		/*border-radius: 0 0 0.5em 0.5em;*/
 	}
 
+    input.form-control {
+        width: auto;
+    }
 </style>
 
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">

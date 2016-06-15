@@ -118,8 +118,7 @@ angular.module("edTriagePatientFactory", [])
          */
         EdTriagePatient.build = function (concepts, data, patientDateOfBirth, patientGender, locationUuid) {
 
-            var ret = EdTriagePatient.newInstance(patientDateOfBirth, patientGender, locationUuid) ;
-            ret.patient.uuid = data.patient.uuid;
+            var ret = EdTriagePatient.newInstance(data.patient.uuid, patientDateOfBirth, patientGender, locationUuid) ;
             ret.patient.display = data.patient.display;
             ret.encounterDateTime = data.encounterDatetime;
             ret.encounterUuid = data.uuid;

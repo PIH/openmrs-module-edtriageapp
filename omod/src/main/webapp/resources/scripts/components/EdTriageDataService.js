@@ -1,5 +1,5 @@
-angular.module("edTriageService", [])
-    .service('PatientService', ['$q', '$http', '$filter', 'EdTriageConcept', 'EdTriagePatient',
+angular.module("edTriageDataService", [])
+    .service('EdTriageDataService', ['$q', '$http', '$filter', 'EdTriageConcept', 'EdTriagePatient',
         function ($q, $http, $filter, EdTriageConcept, EdTriagePatient) {
             var CONSTANTS = {
                 URLS: {

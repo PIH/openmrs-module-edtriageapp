@@ -20,6 +20,7 @@ public class EdtriageViewQueuePageController {
         model.addAttribute("breadcrumbOverride", breadcrumbOverride);
         model.addAttribute("locale", uiSessionContext.getLocale());
         model.addAttribute("location", uiSessionContext.getSessionLocation());
+        model.addAttribute("currentDateTimeInMillis", System.currentTimeMillis());
 
         return null;
 

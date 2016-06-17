@@ -59,10 +59,18 @@ angular.module("edTriagePatientFactory", [])
             return ret;
         };
 
-        EdTriagePatient.prototype.waitTime = function(){
+        /* calculates the wait time for a patient
+        * @param {num} serverDateTimeDeltaInMillis - the difference between the sevrver time and the client time
+        * @return {String} the formatted wait time */
+        EdTriagePatient.prototype.waitTime = function(serverDateTimeDeltaInMillis){
             var date = new Date(this.encounterDateTime);
             var now = new Date();
-            var w = (now - date)/1000;
+            var delta = serverDateTimeDeltaInMillis==null?0:serverDateTimeDeltaInMillis;
+            var w = (delta + now.getTime() - date.getTime())/1000;
+            //this fixes any small differences in time, it shouldn't happen
+            if(w < 0){
+                w =0;
+            }
             var hr = Math.floor(w /60 /60);
             var mn = Math.floor((w /60) % 60);
             //var sec = Math.floor(w % 60);

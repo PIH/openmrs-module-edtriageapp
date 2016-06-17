@@ -8,7 +8,7 @@ angular.module('edTriageApp', [
     'edTriageConceptFactory',
     'edTriageViewQueueController',
     'edTriagePatientController',
-    'edTriageService'
+    'edTriageDataService'
 ]).config(function ($translateProvider) {
     var path = '/' + OPENMRS_CONTEXT_PATH + '/module/uicommons/messages/messages.json';
     console.log("Loading translations from - " + path) ;

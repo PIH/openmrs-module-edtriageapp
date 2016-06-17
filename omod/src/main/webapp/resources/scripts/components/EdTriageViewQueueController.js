@@ -1,23 +1,18 @@
 angular.module("edTriageViewQueueController", [])
-    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'PatientService', 'EdTriageConcept', 'locationUuid',
-        function ($scope, $interval, $filter, PatientService, EdTriageConcept, locationUuid) {
+    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid', 'serverDateTimeInMillis',
+        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis) {
             console.log("locationUuid=" + locationUuid);
             // used to determine if we should disable things
             $scope.isSaving = false;
-            $scope.lastUpdatedAt = new Date();
+            $scope.lastUpdatedAtInMillis = new Date().getTime();
+            $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
             $scope.lastUpdatedAtStr = "2:00 ";
-            $scope.newDate =new Date('2016-06-12T20:45:15.000-0400');
-
-            console.log($scope.newDate);
-            //TODO: need to load the list from the web services
-            //      and set a timer to reload the data every minute
-            console.log("TBD: load the data and set the refresh");
 
             $scope.loadData = function(){
-                $scope.lastUpdatedAt = new Date();
-                PatientService.loadConcept().then(function (concept) {
+                $scope.lastUpdatedAtInMillis = new Date().getTime();
+                EdTriageDataService.loadConcept().then(function (concept) {
                     $scope.edTriagePatientConcept = concept;
-                    PatientService.loadQueue(concept, locationUuid).then(function(edTriagePatientQueue){
+                    EdTriageDataService.loadQueue(concept, locationUuid).then(function(edTriagePatientQueue){
                         $scope.edTriagePatientQueue = edTriagePatientQueue.data;
                     });
                 });
@@ -86,7 +81,10 @@ angular.module("edTriageViewQueueController", [])
 
                 stopTimeUpdates = $interval(function() {
                     var refreshInterval = 120;
-                    var diff = refreshInterval - (new Date().getTime() - $scope.lastUpdatedAt.getTime())/1000;
+                    //$scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
+                    
+                    
+                    var diff = refreshInterval - ((new Date().getTime()) - $scope.lastUpdatedAtInMillis)/1000;
 
                     if(diff <= 0){
                         //refresh every 2 minutes
@@ -121,25 +119,16 @@ angular.module("edTriageViewQueueController", [])
 
 
         }]).directive('showIfHasValue', function () {
-                return {
-                    restrict: 'E',
-                    scope: {
-                        label: "=",
-                        model: "="
-                    },
-                    template: "<li ng-if='model'>{{label}}: {{model}}</li>"
-    };
-}).directive('showIfHasValueEx', function () {
-    //&& concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)>
-    return {
-        restrict: 'E',
-        scope: {
-            concept: "=",
-            model: "=",
-            propTypeName:"=",
-            propValueName: "="
-        },
-        template:
-            "<li ng-if='model[propTypeName][propValueName].value'>{{concept[propTypeName][propValueName].label}}: {{model[propTypeName][propValueName].value}}</li>"
-    };
-});
+        //&& concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)>
+        return {
+            restrict: 'E',
+            scope: {
+                concept: "=",
+                model: "=",
+                propTypeName:"=",
+                propValueName: "="
+            },
+            template:
+                "<li ng-if='model[propTypeName][propValueName].value'>{{concept[propTypeName][propValueName].label}}: {{model[propTypeName][propValueName].value}}</li>"
+        };
+    });

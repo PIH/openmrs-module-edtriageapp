@@ -26,7 +26,7 @@
     ui.includeJavascript("edtriageapp", "components/EdTriageViewQueueController.js")
     ui.includeJavascript("edtriageapp", "components/EdTriagePatientFactory.js")
     ui.includeJavascript("edtriageapp", "components/EdTriageConceptFactory.js")
-    ui.includeJavascript("edtriageapp", "components/EdTriagePatientService.js")
+    ui.includeJavascript("edtriageapp", "components/EdTriageDataService.js")
     ui.includeJavascript("edtriageapp", "components/EdTriageEditPatientController.js")
     ui.includeJavascript("edtriageapp", "app.js")
 
@@ -68,13 +68,13 @@
             <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore.value', waitTime()]" >
                 <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >{{model.getColorHtmlCode()}}</span> -
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} {{model.score.numericScore.value}}</a></td>
-                <td>{{model.waitTime()}}</td>
+                <td>{{model.waitTime(serverTimeDelta)}}</td>
                 <td>{{model.chiefComplaint.value}}</td>
                 <td>
                     <ul>
-                        <show-if-has-value-ex concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value-ex>
-                        <show-if-has-value-ex concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value-ex>
-                        <show-if-has-value-ex concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value-ex>
+                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value>
+                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value>
+                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value>
                     </ul>
                 </td>
                 <td>
@@ -94,6 +94,7 @@
 <script type="text/javascript">
 
     angular.module('edTriageApp')
+            .value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
             .value('locationUuid', '${ location.uuid }');
 
     jq(function () {

@@ -1,12 +1,12 @@
 angular.module("edTriagePatientController", [])
-    .controller("patientEditController", ['$scope', '$filter', 'PatientService', 'EdTriageConcept',
+    .controller("patientEditController", ['$scope', '$filter', 'EdTriageDataService', 'EdTriageConcept',
         'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
-        function ($scope, $filter, PatientService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
-            PatientService.loadConcept().then(function (concept) {
+        function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
+            EdTriageDataService.loadConcept().then(function (concept) {
                 $scope.edTriagePatientConcept = concept;
                 var birthDate = new Date($filter('serverDate')(patientBirthDate));
-                PatientService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
-                    PatientService.calculate(concept, data);
+                EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
+                    EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatient = data;
                     $scope.edTriageConcept = concept;
                     $scope.debug = false;
@@ -24,7 +24,7 @@ angular.module("edTriagePatientController", [])
              * */
             $scope.save = function () {
                 $scope.isSaving = true;
-                PatientService.save($scope.edTriageConcept, $scope.edTriagePatient).then(function (res) {
+                EdTriageDataService.save($scope.edTriageConcept, $scope.edTriagePatient).then(function (res) {
                     $scope.isSaving = false;
                     if (res.status != 200) {
                         $scope.message = {type: 'danger', text: $filter('json')(res.data)};
@@ -42,7 +42,7 @@ angular.module("edTriagePatientController", [])
              * */
             $scope.$watch('edTriagePatient', function (newValue, oldValue) {
                 if ($scope.edTriageConcept != null && newValue != null) {
-                    PatientService.calculate($scope.edTriageConcept, newValue);
+                    EdTriageDataService.calculate($scope.edTriageConcept, newValue);
                     $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
                     $scope.currentScore.colorCode = $scope.edTriagePatient.score.colorCode;
                     $scope.currentScore.colorClass = getColorClass($scope.currentScore.colorCode);

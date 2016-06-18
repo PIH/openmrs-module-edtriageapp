@@ -34,6 +34,8 @@ angular.module("edTriagePatientController", [])
                             type: 'info',
                             text: 'The patient has been added to the queue, the encounter id is ' + res.data.uuid
                         };
+                        var url = "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage";
+                        emr.navigateTo({ applicationUrl: (!url.startsWith("/") ? '/' : '') + url });
                     }
                 });
             };

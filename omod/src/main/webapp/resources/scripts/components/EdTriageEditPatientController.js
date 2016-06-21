@@ -52,8 +52,9 @@ angular.module("edTriagePatientController", [])
                             type: 'info',
                             text: 'The patient has been added to the queue, the encounter id is ' + res.data.uuid
                         };
-                        var url = "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage";
-                        emr.navigateTo({ applicationUrl: (!url.startsWith("/") ? '/' : '') + url });
+                        if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
+                            emr.navigateTo({ applicationUrl: (!EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.startsWith("/") ? '/' : '') + EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
+                        }
                     }
                 });
             };
@@ -101,7 +102,7 @@ angular.module("edTriagePatientController", [])
             inputId:"="
         },
         template: '<select class="form-control" id="{{inputId}}" ng-model="selectedConcept">' +
-        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}} - {{getColorClass(a.score())}} - {{a.score()}}</option>' +
+        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}}</option>' +
         '</select>'
     };
 }).directive('scoreDisplay', function () {

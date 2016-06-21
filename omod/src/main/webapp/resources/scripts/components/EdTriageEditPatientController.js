@@ -4,7 +4,7 @@ angular.module("edTriagePatientController", [])
         function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
             $scope.isNumber = angular.isNumber;
             $scope.getColorClass = function(colorCode){
-                var ret = 'green';
+                var ret = null;
                 if(colorCode == EdTriageConcept.score.red){
                     ret = "red";
                 }
@@ -14,7 +14,7 @@ angular.module("edTriagePatientController", [])
                 else if(colorCode == EdTriageConcept.score.yellow){
                     ret = "yellow";
                 }
-                else{
+                else if(colorCode == EdTriageConcept.score.green){
                     ret = "green";
                 }
                 return ret;
@@ -83,13 +83,13 @@ angular.module("edTriagePatientController", [])
             concept: "=",
             selectedConcept: "=",
             score:"=",
-            scorelabelClass:"="
+            scoreLabelClass:"="
         },
         template: '<tr>' +
         '<td><label>{{conceptLabel}}</label></td>'  +
         '<td colspan="2"><concept-select-box ed-triage-patient="edTriagePatient" concept="concept" ' +
         ' selected-concept="selectedConcept"></concept-select-box></td>' +
-         '<td><score-display score="score" label-class="scorelabelClass"></score-display></td></tr>'
+         '<td><score-display ng-if="score" score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
         };
 }).directive('conceptSelectBox', function () {
     return {
@@ -111,9 +111,9 @@ angular.module("edTriagePatientController", [])
         replace:true,
         scope: {
             score: "=",
-            labelClass:"="
+            scoreLabelClass:"="
         },
-        template: '<span class="label {{labelClass}}">{{score}}</span> xx{{labelClass}}yy'
+        template: '<span class="label {{scoreLabelClass}}">{{score}}</span> xx{{labelClass}}yy'
     };
 }).directive('scoreDisplayColor', function () {
     return {

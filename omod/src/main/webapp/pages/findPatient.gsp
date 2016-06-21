@@ -52,6 +52,6 @@ ${ ui.message("coreapps.searchPatientHeading") }
 <br/>
 <div class="container">
 <div>
-    <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>
+    <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>  <= this is temp only until we have the buttons in the app
 </div>
 </div>

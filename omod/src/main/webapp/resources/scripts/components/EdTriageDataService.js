@@ -120,13 +120,13 @@ angular.module("edTriageDataService", [])
 
                 // // symptoms  ----
                 addObs(encounter.obs, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
-                // addObs(encounter.obs, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
-                // addObs(encounter.obs, edTriageConcept.symptoms.traumaDetails.uuid, edTriagePatient.symptoms.traumaDetails);
-                // addObs(encounter.obs, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
-                // addObs(encounter.obs, edTriageConcept.symptoms.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
-                // addObs(encounter.obs, edTriageConcept.symptoms.respiratory.uuid, edTriagePatient.symptoms.respiratory);
-                // addObs(encounter.obs, edTriageConcept.symptoms.pain.uuid, edTriagePatient.symptoms.pain);
-                // addObs(encounter.obs, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
+                addObs(encounter.obs, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
+                addObs(encounter.obs, edTriageConcept.symptoms.trauma.uuid, edTriagePatient.symptoms.trauma);
+                addObs(encounter.obs, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
+                addObs(encounter.obs, edTriageConcept.symptoms.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
+                addObs(encounter.obs, edTriageConcept.symptoms.respiratory.uuid, edTriagePatient.symptoms.respiratory);
+                addObs(encounter.obs, edTriageConcept.symptoms.pain.uuid, edTriagePatient.symptoms.pain);
+                addObs(encounter.obs, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
 
 
                 return removeAllOldObservations(edTriagePatient.originalObservationUuids).then(function(){

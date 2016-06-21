@@ -48,8 +48,9 @@
 <div class="container" ng-app="edTriageApp" ng-controller="viewQueueController">
     <div class="jumbotron">
         <p>${ ui.message("edtriageapp.queueStatusMessagePrefix") } {{lastUpdatedAtStr}} ${ ui.message("edtriageapp.queueStatusMessageSuffix") }
-        <a href="${ui.pageLink("edtriageapp", "findPatient?appId=" + appId)}"
-           role="button" class="btn btn-default">${ ui.message("edtriageapp.queueAddNewButton") }</a>                                          </p>
+        <a ng-if="debug" href="${ui.pageLink("edtriageapp", "findPatient?appId=" + appId)}"
+           role="button" class="btn btn-default">${ ui.message("edtriageapp.queueAddNewButton") }</a>
+        </p>
     </div>
 
     <div>

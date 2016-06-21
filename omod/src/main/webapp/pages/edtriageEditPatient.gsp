@@ -67,7 +67,7 @@
 ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 
-<div class="container" ng-app="edTriageApp" ng-controller="patientEditController">
+<div class="container" ng-app="edTriageApp" ng-controller="patientEditController" ng-show="loading_complete">
 
 	<div ng-if="debug" class="panel panel-info">
 		<div class="panel-heading">
@@ -218,43 +218,43 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
 								selected-concept="edTriagePatient.symptoms.neurological.value"  concept-label="'${ui.message("edtriageapp.neurological")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])"></tr>
-
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></tr>
+						                     <!-- getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])-->
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn"
 								selected-concept="edTriagePatient.symptoms.burn.value"  concept-label="'${ui.message("edtriageapp.burn")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"></tr>
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma"
 								selected-concept="edTriagePatient.symptoms.trauma.value" concept-label="'${ui.message("edtriageapp.trauma")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"></tr>
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive"
 								selected-concept="edTriagePatient.symptoms.digestive.value" concept-label="'${ui.message("edtriageapp.digestive")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"></tr>
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"></tr>
 
 								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'" ng-if="edTriagePatient.patient.gender == 'F'"
 								concept="edTriagePatientConcept.symptoms.pregnancy"
 								selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"></tr>
+									score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory"
 								selected-concept="edTriagePatient.symptoms.respiratory.value" concept-label="'${ui.message("edtriageapp.respiratory")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"></tr>
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain"
 								selected-concept="edTriagePatient.symptoms.pain.value" concept-label="'${ui.message("edtriageapp.pain")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"></tr>
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other"
 								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"
-								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"></tr>
+								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"></tr>
 
 						</tbody>
 					</table>

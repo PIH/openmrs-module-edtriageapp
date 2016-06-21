@@ -33,11 +33,19 @@ import java.util.List;
 public interface EdTriageAppService extends OpenmrsService {
 
     /*
-     * gets the active encounter for a patient
+     * gets the active encounter(s) for a patient at a location
      * @param hoursBack - how many hours back to look
      * @param locationUUid - (optional) the location UUID for the encounters
      * @param patientUuid - (optional) the patient UUID for the encounters
      */
     public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientUuid);
+
+     /*
+     * gets the all encounters for a patient at a location
+     * @param hoursBack - how many hours back to look
+     * @param locationUUid - (optional) the location UUID for the encounters
+     * @param patientUuid - (optional) the patient UUID for the encounters
+     */
+    public List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid);
 
 }

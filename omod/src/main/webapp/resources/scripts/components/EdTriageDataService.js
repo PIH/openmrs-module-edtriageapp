@@ -110,12 +110,15 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, edTriageConcept.vitals.systolicBloodPressure.uuid, edTriagePatient.vitals.systolicBloodPressure);
                 addObs(encounter.obs, edTriageConcept.vitals.diastolicBloodPressure.uuid, edTriagePatient.vitals.diastolicBloodPressure);
                 addObs(encounter.obs, edTriageConcept.vitals.temperature.uuid, edTriagePatient.vitals.temperature);
-                addObs(encounter.obs, edTriageConcept.vitals.consciousness.uuid, edTriagePatient.vitals.consciousness);
+
                 addObs(encounter.obs, edTriageConcept.vitals.trauma.uuid, edTriagePatient.vitals.trauma);
                 addObs(encounter.obs, edTriageConcept.vitals.weight.uuid, edTriagePatient.vitals.weight);
 
+                //this one has a set of answers tha are just observations, so just set to yes
+                addObs(encounter.obs, edTriageConcept.vitals.consciousness.uuid, edTriagePatient.vitals.consciousness);
+
                 // // symptoms  ----
-                // addObs(encounter.obs, edTriageConcept.symptoms.weight.uuid, edTriagePatient.symptoms.neurological);
+                addObs(encounter.obs, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
                 // addObs(encounter.obs, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
                 // addObs(encounter.obs, edTriageConcept.symptoms.traumaDetails.uuid, edTriagePatient.symptoms.traumaDetails);
                 // addObs(encounter.obs, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
@@ -145,6 +148,22 @@ angular.module("edTriageDataService", [])
 
 
             };
+
+            /* changes the status of the edtriage patient*/
+            this.changeTriageQueueStatus = function(obsUuid, triageQueueStatusUuid){
+                var url = CONSTANTS.URLS.OBSERVATION + "/" + obsUuid;
+                var obs = {value: triageQueueStatusUuid};
+                return $http.post(url, obs)
+                    .then(function (data) {
+                            return {status:200, data: data.data};
+                        }
+                        , function (error) {
+                            console.log({status:500, data:error});
+                            return {status:500, data:error};
+                        });
+
+            };
+
 
 
             /* removes all the existing observations for a patient, we need to do this before we save a patient's info
@@ -254,6 +273,7 @@ angular.module("edTriageDataService", [])
                 // 1) check that they are entered
                 // 2) update the score based on the vital
                 var ageType = edTriagePatient.patient.ageType;
+                var individualScores = {};
                 for (var prop in edTriagePatient.vitals) {
                     if (edTriagePatient.vitals.hasOwnProperty(prop)) {
                         var p =  edTriagePatient.vitals[prop];
@@ -267,7 +287,8 @@ angular.module("edTriageDataService", [])
                                     for(var i=0;i<answers.length;++i){
                                         if(answers[i].uuid == p.value){
                                             //this is the answer that they chose
-                                            vistalsScore = vistalsScore + answers[i].score;
+                                            individualScores[answers[i].uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                            vistalsScore = vistalsScore + individualScores[answers[i].uuid];
                                             break;
                                         }
                                     }
@@ -276,7 +297,8 @@ angular.module("edTriageDataService", [])
                                     //this kind of value doesn't have a look up value, so we check if it has a scoring
                                     // function, if it does then call it, otherwise move on
                                     if(typeof c.score === "function"){
-                                        vistalsScore = vistalsScore +  c.score(ageType, p.value)
+                                        individualScores[c.uuid] = c.score(ageType, p.value);
+                                        vistalsScore = vistalsScore + individualScores[c.uuid];
                                     }
                                 }
                             }
@@ -309,7 +331,9 @@ angular.module("edTriageDataService", [])
                             var answers = concept.symptoms[prop].answers;
                             for(var i=0;i<answers.length;++i){
                                 if(answers[i].uuid == p.value){
-                                    ++symptomsScore[answers[i].score];
+                                    console.log("symptoms score is " + answers[i].score(edTriagePatient.patient.ageType, p.value));
+                                    individualScores[p.value] = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                    ++symptomsScore[individualScores[p.value]];
                                     break;
                                 }
                             }
@@ -341,7 +365,7 @@ angular.module("edTriageDataService", [])
                     numericScore =  symptomsScore[EdTriageConcept.score.yellow];
                 }
 
-                var score = {colorCode: colorCode, numericScore:numericScore};
+                var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores, vitalsScore:vistalsScore};
                 edTriagePatient.score = score;
                 edTriagePatient.percentComplete = Math.round(completedItems / totalItems * 100);
 

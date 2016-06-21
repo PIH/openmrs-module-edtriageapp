@@ -36,6 +36,7 @@ import java.util.List;
 @Component
 public class EdTriageSearchHandler1_10 implements SearchHandler {
 
+	private static final String REQUEST_PARAM_DEBUG= "debug";
 	private static final String REQUEST_PARAM_PATIENT= "patient";
     private static final String REQUEST_PARAM_LOCATION = "location";
     private static final String REQUEST_PARAM_HOURS_BACK = "hours_back";
@@ -61,14 +62,21 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
 	 */
 	@Override
 	public PageableResult search(RequestContext context) throws ResponseException {
+		boolean debug = toInt(context.getParameter(REQUEST_PARAM_DEBUG),0)>0;
 		String patient = context.getParameter(REQUEST_PARAM_PATIENT);
 		String location = context.getParameter(REQUEST_PARAM_LOCATION);
 		int hoursBack = toInt(context.getParameter(REQUEST_PARAM_HOURS_BACK), DEFAULT_HOURS_BACK);
 
 		EdTriageAppService edTriageAppService = Context.getService(EdTriageAppService.class);
-		List<Encounter> encounters = edTriageAppService.getActiveEncounters(hoursBack, location, patient);
+		List<Encounter> encounters;
+		if(debug){
+			encounters = edTriageAppService.getAllEncounters(hoursBack, location, patient);
+		}
+		else{
+			encounters = edTriageAppService.getActiveEncounters(hoursBack, location, patient);
+		}
 
-		context.setRepresentation(Representation.FULL); //we want the full repre
+		context.setRepresentation(Representation.FULL); //we want the full representation
 		return new NeedsPaging<Encounter>(encounters, context);
 	}
 

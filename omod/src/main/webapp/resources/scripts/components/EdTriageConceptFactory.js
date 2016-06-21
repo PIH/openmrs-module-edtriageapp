@@ -6,6 +6,7 @@ angular.module("edTriageConceptFactory", [])
         function EdTriageConcept() {
             var none_concept_uuid = "3cd743f8-26fe-102b-80cb-0017a47871b2";
             var unknown_concept_uuid = "3cd6fac4-26fe-102b-80cb-0017a47871b2";
+            var GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID = "060f63dd-9588-4dc2-bf19-c90da02bff15";
             // Public properties, assigned to the instance ('this')
             this.triageQueueStatus =  toAnswers("triageQueueStatus", [
                     toAnswer(EdTriageConcept.status.waitingForEvaluation, "waitingForEvaluation"),
@@ -50,6 +51,8 @@ angular.module("edTriageConceptFactory", [])
                         if(value < 50) return 2;
                         return 3;
                     }
+
+
                 }),
                 oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){return 0;}),
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
@@ -80,15 +83,13 @@ angular.module("edTriageConceptFactory", [])
                 diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){return 0;}),
                 temperature: toAnswer("3ce939d2-26fe-102b-80cb-0017a47871b2", "temperature", function(ageType, value){return 0;}),
                 consciousness: toAnswers(        'consciousness',
-                    [toAnswer("11111111-1111-1111-1111-111111111111", "confused", 2, 'AC'),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "alert", 0),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "reacts to voice", 1),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "reacts to pain", 2),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "unresponsive", 3)],"11111111-1111-1111-1111-111111111111"),
-                trauma: toAnswers(    'toAnswers',
-                    [toAnswer("11111111-1111-1111-1111-111111111111", "yes", 1),
-                        toAnswer("11111111-1111-1111-1111-111111111111", "no", 0)]),
-                weight: toAnswer("3ce93b62-26fe-102b-80cb-0017a47871b2", "weight")
+                    [toAnswer("3cf27e66-26fe-102b-80cb-0017a47871b2", "confusion", 2, 'AC'),
+                        toAnswer("160282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "alert", 0),
+                        toAnswer("162645AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "reacts to voice", 1),
+                        toAnswer("162644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "responds to pain", 2),
+                        toAnswer("f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100", "unresponsive", 3)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
+                trauma: toAnswer("124193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "trauma", function(ageType, value){return value>0?1:0;}),
+                weight: toAnswer("3ce93b62-26fe-102b-80cb-0017a47871b2", "weight", function(ageType, value){return 0;})
             } ;
 
 
@@ -96,65 +97,65 @@ angular.module("edTriageConceptFactory", [])
                 neurological: toAnswers('neurological',[
                     toAnswer("3cce938e-26fe-102b-80cb-0017a47871b2", "Seizure - convulsive", EdTriageConcept.score.red),
                     toAnswer("seizure_post_convulsive_uuid_goes_here", "Seizure - post convulsive", EdTriageConcept.score.orange),
-                    toAnswer("focal_neurology_acute_stroke__uuid_goes_here", "Focal Neurology Acute Stroke", EdTriageConcept.score.orange),
-                    toAnswer("level_of_consciousness_reduced_uuid_goes_here", "Level of consciousness reduced", EdTriageConcept.score.orange),
-                    toAnswer("psychosis_aggression_uuid_goes_here", "Psychosis Aggression", EdTriageConcept.score.orange, 'AC'),
-                    toAnswer("Infantile hypotonia_uuid_goes_here", "Infantile hypotonia", EdTriageConcept.score.orange, 'I'),
+                    toAnswer("f4433b74-6396-47ff-aa63-3900493ebf23", "acute focal neurologic deficit", EdTriageConcept.score.orange),
+                    toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced", EdTriageConcept.score.orange),
+                    toAnswer("3ccea7fc-26fe-102b-80cb-0017a47871b2", "psychosis", EdTriageConcept.score.orange, 'AC'),
+                    toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia", EdTriageConcept.score.orange, 'I'),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Uknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Uknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
-                    toAnswer("Burn - facial/inhalation uuid_goes_here", "Burn - facial/inhalation", EdTriageConcept.score.red),
+                    toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck", EdTriageConcept.score.red),
                     toAnswer("Burn over 20% or circumferential uuid_goes_here ", "Burn over 20% or circumferential", EdTriageConcept.score.orange, 'A'),
                     toAnswer("Burn over 10% or circumferential uuid_goes_here", "Burn over 10% or circumferential", EdTriageConcept.score.orange, 'CI'),
-                    toAnswer("Burn - electrical or chemical uuid_goes_here", "Burn - electrical or chemical", EdTriageConcept.score.orange),
-                    toAnswer("Burn - other uuid_goes_here", "Burn - other", EdTriageConcept.score.yellow),
+                    toAnswer("c05b25f1-07d1-47de-a61e-fc9d3bfe95eb", "Burn - electrical or chemical", EdTriageConcept.score.orange),
+                    toAnswer("3ccd21e8-26fe-102b-80cb-0017a47871b2", "burn-other", EdTriageConcept.score.yellow),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 trauma: toAnswers('trauma',[
                     toAnswer("Serious trauma uuid_goes_here", "Serious trauma", EdTriageConcept.score.orange),
                     toAnswer("Threatened limb uuid_goes_here ", "Threatened limb", EdTriageConcept.score.orange, 'A'),
                     toAnswer("Dislocation of larger joint (not finger or toe) uuid_goes_here", "Dislocation of larger joint (not finger or toe)", EdTriageConcept.score.orange),
-                    toAnswer("Fracture - open uuid_goes_here", "Fracture - open", EdTriageConcept.score.orange),
+                    toAnswer("132338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "open fracture", EdTriageConcept.score.orange),
                     toAnswer("Haemorrhage - uncontrolled uuid_goes_here", "Haemorrhage - uncontrolled", EdTriageConcept.score.orange),
                     toAnswer("Cannot support any weight uuid_goes_here", "Cannot support any weight", EdTriageConcept.score.yellow, 'I'),
                     toAnswer("Dislocation of finger or toe uuid_goes_here", "Dislocation of finger or toe", EdTriageConcept.score.yellow),
                     toAnswer("Fracture - closed uuid_goes_here", "Fracture - closed", EdTriageConcept.score.yellow),
                     toAnswer("Haemorrhage - controlled uuid_goes_here", "Haemorrhage - controlled", EdTriageConcept.score.yellow),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 digestive: toAnswers('digestive',[
                     toAnswer("Vomiting - fresh blood uuid_goes_here", "Vomiting - fresh blood", EdTriageConcept.score.orange),
                     toAnswer("Vomiting - persistent uuid_goes_here ", "Vomiting - persistent", EdTriageConcept.score.yellow),
                     toAnswer("Refuses to feed/drink uuid_goes_here", "Refuses to feed/drink", EdTriageConcept.score.yellow, 'I'),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pregnancy: toAnswers('pregnancy',[
                     toAnswer("Pregnancy & abdominal trauma or pain uuid_goes_here", "Pregnancy & abdominal trauma or pain", EdTriageConcept.score.orange),
                     toAnswer("Pregnancy & trauma or vaginal bleeding uuid_goes_here", "Pregnancy & trauma or vaginal bleeding uuid_goes_here", EdTriageConcept.score.yellow),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 respiratory: toAnswers('respiratory',[
                     toAnswer("Hypersalivation uuid_goes_here", "Hypersalivation", EdTriageConcept.score.red, 'I'),
                     toAnswer("Stridor uuid_goes_here ", "Stridor", EdTriageConcept.score.red, 'CI'),
                     toAnswer("Oxygen < 85% uuid_goes_here uuid_goes_here", "Oxygen < 85%", EdTriageConcept.score.red),
                     toAnswer("Shortness of breath - acute uuid_goes_here", "Shortness of breath - acute", EdTriageConcept.score.orange, 'A'),
-                    toAnswer("Shortness of breath uuid_goes_here", "Shortness of breath", EdTriageConcept.score.yellow, 'CI'),
+                    toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "Dyspnea-shortness of breath", EdTriageConcept.score.yellow, 'CI'),
                     toAnswer("Coughing blood uuid_goes_here", "Coughing blood ", EdTriageConcept.score.orange, 'A   '),
                     toAnswer("Sibilance uuid_goes_here", "Sibilance", EdTriageConcept.score.orange, 'CI'),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pain: toAnswers('pain',[
                     toAnswer("Severe pain uuid_goes_here ", "Severe pain", EdTriageConcept.score.orange),
                     toAnswer("Moderate pain uuid_goes_here ", "Moderate pain", EdTriageConcept.score.yellow),
                     toAnswer("Mild pain uuid_goes_here ", "Mild pain", EdTriageConcept.score.green),
-                    toAnswer("Chest pain uuid_goes_here ", "Chest pain", EdTriageConcept.score.orange, 'A'),
-                    toAnswer("Abdominal pain uuid_goes_here ", "Abdominal pain", EdTriageConcept.score.yellow),
+                    toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain", EdTriageConcept.score.orange, 'A'),
+                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain", EdTriageConcept.score.yellow),
                     toAnswer("Other pain uuid_goes_here ", "Other pain", EdTriageConcept.score.green),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)]),
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 other: toAnswers('other',[
-                    toAnswer("Poisoning/overdose uuid_goes_here ", "Poisoning/overdose", EdTriageConcept.score.orange),
-                    toAnswer("Purpura uuid_goes_here ", "Purpura", EdTriageConcept.score.orange, 'CI'),
+                    toAnswer("3ccccc20-26fe-102b-80cb-0017a47871b2", "toxicity-Poisoning/overdose", EdTriageConcept.score.orange),
+                    toAnswer("15bd52f1-a35b-489d-a283-ece958c4ef1e", "purpura", EdTriageConcept.score.orange, 'CI'),
                     toAnswer("Drowsiness uuid_goes_here ", "Drowsiness", EdTriageConcept.score.orange, 'C'),
                     toAnswer("Incoherent story (or history) uuid_goes_here ", "Incoherent story (or history)", EdTriageConcept.score.yellow, 'CI'),
                     toAnswer("Anuria uuid_goes_here ", "Anuria", EdTriageConcept.score.yellow, 'I'),
@@ -163,7 +164,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("Diabetic: Glucose > 200 & ketonuria uuid_goes_here ", "Diabetic: Glucose > 200 & ketonuria", EdTriageConcept.score.orange, 'AC'),
                     toAnswer("Diabetic: Glucose > 300 & (no ketonuria) uuid_goes_here ", "Diabetic: Glucose > 300 & (no ketonuria) ", EdTriageConcept.score.yellow, 'AC'),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
-                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)])
+                    toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID)
 
             }
         }
@@ -179,7 +180,12 @@ angular.module("edTriageConceptFactory", [])
         }
 
         function toAnswer(uuid, label, score, scope) {
-            return {uuid: uuid, label: label, score: score, scope: scope == null ? 'ACI' : scope, value: null};
+            var scoreFunction = score;
+            if (typeof scoreFunction !== "function") {
+                scoreFunction = function(){return score};
+            }
+
+            return {uuid: uuid, label: label, score: scoreFunction, scope: scope == null ? 'ACI' : scope, value: null};
         }
 
         //some static vars for the scores for symptoms

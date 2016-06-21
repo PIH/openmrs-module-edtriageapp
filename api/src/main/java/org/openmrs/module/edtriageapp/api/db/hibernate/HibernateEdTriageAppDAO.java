@@ -13,23 +13,29 @@
  */
 package org.openmrs.module.edtriageapp.api.db.hibernate;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Encounter;
+import org.openmrs.Obs;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 /**
  * It is a default implementation of  {@link EdTriageAppDAO}.
  */
 public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
-
+    private final Log log = LogFactory.getLog(this.getClass());
     private SessionFactory sessionFactory;
-
+    private static final String TRAIGE_QUEUE_STATUS_CONCEPT_UUID = "66c18ba5-459e-4049-94ab-f80aca5c6a98";
+    private static final String TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID = "4dd3244d-fcb9-424d-ad8a-afd773c69923";
     /**
      * @param sessionFactory the sessionFactory to set
      */
@@ -48,6 +54,39 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
     * gets all active encounters at a current location for a patient
     * */
     public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
+        List<Encounter>  ret = new ArrayList<Encounter>();
+        List<Encounter> temp = getAllEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+
+        for(Encounter enc : temp){
+            Set<Obs> observations = enc.getObs();
+            for(Obs obs : observations){
+                if(TRAIGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+                        && TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueText())){
+                    //this is an active record, so add it to the queue
+                    ret.add(enc);
+                    log.info(new StringBuilder().append("ADDED encounter for encounter uuid - ").append(enc.getUuid()).toString());
+
+                    break;
+                }
+                else{
+                    log.info(new StringBuilder().append(" for encounter uuid - ").append(enc.getUuid())
+                            .append("skipping the observeration, b/c TRAIGE_QUEUE_STATUS_CONCEPT_UUID(")
+                            .append(TRAIGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
+                            .append(obs.getConcept().getUuid()).append(" and TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID(")
+                            .append("TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID").append(") <>")
+                            .append(obs.getValueText()).toString());
+                }
+            }
+
+        }
+
+        return temp;
+    }
+
+    /*
+    * gets all  encounters at a current location for a patient
+    * */
+    public List<Encounter> getAllEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
 
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class, "enc");
         //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);

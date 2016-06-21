@@ -25,11 +25,20 @@ public interface EdTriageAppDAO {
     public static final String ENCOUNTER_TYPE_UUID = "74cef0a6-2801-11e6-b67b-9e71128cae77";
 
     /*
-     * gets the active encounters for a patient at a location, the location and or the patient are not provided
+     * gets the active encounters (with status waiting) for a patient at a location, the location and or the patient are not provided
      *  then the filter will not be applied
      * @param hoursBack - how many hours back to look
      * @param locationUUid - (optional) the location UUID for the encounters
      * @param patientUuid - (optional) the patient UUID for the encounters
      */
     public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
+
+    /*
+     * gets the all encounters for a patient at a location, the location and or the patient are not provided
+     *  then the filter will not be applied
+     * @param hoursBack - how many hours back to look
+     * @param locationUUid - (optional) the location UUID for the encounters
+     * @param patientUuid - (optional) the patient UUID for the encounters
+     */
+    public List<Encounter> getAllEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
 }

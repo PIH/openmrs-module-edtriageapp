@@ -11,26 +11,69 @@
 
 -->
 <dataset>
-    <encounter encounter_id="741977" encounter_type="741977" patient_id="2" location_id="741977"
-               encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
-               voided="false" uuid="f13d6fae-baa9-4553-955d-920098bec08f"/>
+    <!-- begin data shared between encounters -->
+    <!--<concept_name concept_id="741977" name="Test ED Triage Concept Set" locale="en" creator="1"-->
+                  <!--date_created="2016-06-09 12:00:00.0" concept_name_id="1" voided="false"-->
+                  <!--uuid="8add472b-156b-468f-ad62-d9333fb86976" concept_name_type="FULLY_SPECIFIED" locale_preferred="0"/>-->
+
+    <!--<concept_name concept_id="741978" name="Test ED Triage Concept Set" locale="en" creator="1"-->
+                  <!--date_created="2016-06-09 12:00:00.0" concept_name_id="1" voided="false"-->
+                  <!--uuid="9add472b-156b-468f-ad62-d9333fb86976" concept_name_type="FULLY_SPECIFIED" locale_preferred="0"/>-->
+    <!-- Triage concept set -->
+    <concept concept_id="741977" retired="0" datatype_id="4" class_id="3" is_set="0" creator="1" date_created="2004-08-12 00:00:00.0" version="" uuid="123fa843-a734-40c9-910c-4fe7527427ef"/>
+    <concept_name concept_name_id="741977" concept_id="741977" name="HUM Triage set" locale="en" creator="1" date_created="2008-08-15 13:52:53.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="0" uuid="123fa843-a734-40c9-910c-4fe7527427ef"/>
+
+    <!-- triage queue status concept -->
+    <concept concept_id="741978" retired="0" datatype_id="4" class_id="3" is_set="0" creator="1" date_created="2004-08-12 00:00:00.0" version="" uuid="66c18ba5-459e-4049-94ab-f80aca5c6a98"/>
+    <concept_name concept_name_id="741978" concept_id="741978" name="Triage Queue Status" locale="en" creator="1" date_created="2008-08-15 13:52:53.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="0" uuid="66c18ba5-459e-4049-94ab-f80aca5c6a98"/>
+
+    <!-- weight concept -->
+    <concept concept_id="741979" retired="0" datatype_id="4" class_id="3" is_set="0" creator="1" date_created="2004-08-12 00:00:00.0" version="" uuid="3ce93b62-26fe-102b-80cb-0017a47871b2"/>
+    <concept_name concept_name_id="741979" concept_id="741979" name="Weight" locale="en" creator="1" date_created="2008-08-15 13:52:53.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="0" uuid="3ce93b62-26fe-102b-80cb-0017a47871b2"/>
+
+    <!-- heartrate concept -->
+    <concept concept_id="741980" retired="0" datatype_id="4" class_id="3" is_set="0" creator="1" date_created="2004-08-12 00:00:00.0" version="" uuid="3ce93824-26fe-102b-80cb-0017a47871b2"/>
+    <concept_name concept_name_id="741980" concept_id="741980" name="Heartrate" locale="en" creator="1" date_created="2008-08-15 13:52:53.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="0" uuid="3ce93824-26fe-102b-80cb-0017a47871b2"/>
+
+    <location location_id="741977" name="Test ED Triage Location" creator="1" date_created="2005-01-01 00:00:00.0"
+              retired="false" uuid="11111111-0b6d-4481-b979-ccdd38c76cb4"/>
+
     <encounter_type encounter_type_id="741977" name="Test EDTriage Encounter type"
                     description="This is a the test EDTriage EncounterType" creator="1"
                     date_created="2005-01-01 00:00:00.0" retired="false" uuid="74cef0a6-2801-11e6-b67b-9e71128cae77"/>
 
-    <concept_name concept_id="741977" name="Test ED Triage Concept Set" locale="en" creator="1"
-                  date_created="2016-06-09 12:00:00.0" concept_name_id="1" voided="false"
-                  uuid="8add472b-156b-468f-ad62-d9333fb86976" concept_name_type="FULLY_SPECIFIED" locale_preferred="0"/>
+
+    <!-- end data shared between encounters -->
+
+    <!-- this is an encounter that is waiting for queue -->
+    <encounter encounter_id="741977" encounter_type="741977" patient_id="2" location_id="741977"
+               encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
+               voided="false" uuid="f13d6fae-baa9-4553-955d-920098bec08f"/>
 
     <!-- heart rate-->
-    <obs obs_id="741977" person_id="2" concept_id="741977" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
+    <obs obs_id="741977" person_id="3" concept_id="741980" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_numeric="66" creator="1" date_created="2006-02-10 15:57:35.0" voided="false"
          uuid="3ce93824-26fe-102b-80cb-0017a47871b2"/>
     <!-- weight-->
-    <obs obs_id="741978" person_id="2" concept_id="741977" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
+    <obs obs_id="741978" person_id="3" concept_id="741979" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_numeric="150" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
-         uuid="3ce93b62-26fe-102b-80cb-0017a47871b2"/>
+         uuid="4ce93b62-26fe-102b-80cb-0017a47871b2"/>
+    <!-- triage queue status-->
+    <obs obs_id="741979" person_id="3" concept_id="741978" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
+         location_id="741977" value_text="4dd3244d-fcb9-424d-ad8a-afd773c69923" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
+         uuid="5ce93b62-26fe-102b-80cb-0017a47871b2"/>
 
-    <location location_id="741977" name="Test ED Triage Location" creator="1" date_created="2005-01-01 00:00:00.0"
-              retired="false" uuid="11111111-0b6d-4481-b979-ccdd38c76cb4"/>
+
+    <!-- this is an encounter with a status of removed -->
+    <encounter encounter_id="741978" encounter_type="741977" patient_id="2" location_id="741977"
+               encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
+               voided="false" uuid="g13d6fae-baa9-4553-955d-920098bec08f"/>
+
+    <obs obs_id="741981" person_id="2" concept_id="741978" encounter_id="741978" obs_datetime="2016-06-09 12:00:00.0"
+         location_id="741977" value_text="45d0c3d2-2188-4186-8a19-0063b92914ee" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
+         uuid="7ce93b62-26fe-102b-80cb-0017a47871b2"/>
+
+
+
+
 </dataset>

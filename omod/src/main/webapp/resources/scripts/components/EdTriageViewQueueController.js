@@ -22,9 +22,20 @@ angular.module("edTriageViewQueueController", [])
             /*
              * the changes the status of the observation to consult
              * */
-            $scope.beginConsult = function () {
+            $scope.beginConsult = function (edTriagePatient) {
                 $scope.isSaving = true;
-                console.log("TBD: implement " + beginConsult);
+                var uuid = edTriagePatient.triageQueueStatus.uuid;
+                EdTriageDataService.changeTriageQueueStatus(uuid, EdTriageConcept.status.outpatientConsultation);
+                $scope.isSaving = false;
+            };
+
+            /*
+             * the changes the status of the observation to removed
+             * */
+            $scope.removeEdTriage = function (edTriagePatient) {
+                $scope.isSaving = true;
+                var uuid = edTriagePatient.triageQueueStatus.uuid;
+                EdTriageDataService.changeTriageQueueStatus(uuid, EdTriageConcept.status.removed);
                 $scope.isSaving = false;
             };
 

@@ -2,6 +2,24 @@ angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', 'EdTriageDataService', 'EdTriageConcept',
         'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
         function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
+            $scope.isNumber = angular.isNumber;
+            $scope.getColorClass = function(colorCode){
+                var ret = 'green';
+                if(colorCode == EdTriageConcept.score.red){
+                    ret = "red";
+                }
+                else if(colorCode == EdTriageConcept.score.orange){
+                    ret = "orange";
+                }
+                else if(colorCode == EdTriageConcept.score.yellow){
+                    ret = "yellow";
+                }
+                else{
+                    ret = "green";
+                }
+                return ret;
+            }
+
             EdTriageDataService.loadConcept().then(function (concept) {
                 $scope.edTriagePatientConcept = concept;
                 var birthDate = new Date($filter('serverDate')(patientBirthDate));
@@ -9,8 +27,8 @@ angular.module("edTriagePatientController", [])
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatient = data;
                     $scope.edTriageConcept = concept;
-                    $scope.debug = false;
-                    $scope.currentScore = angular.extend({colorClass:getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
+                    $scope.debug = true;
+                    $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);
 
                 });
@@ -44,45 +62,64 @@ angular.module("edTriagePatientController", [])
                 if ($scope.edTriageConcept != null && newValue != null) {
                     EdTriageDataService.calculate($scope.edTriageConcept, newValue);
                     $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
+                    $scope.currentScore.individualScores = $scope.edTriagePatient.score.individualScores;
+                    $scope.currentScore.vitalsScore = $scope.edTriagePatient.score.vitalsScore;
                     $scope.currentScore.colorCode = $scope.edTriagePatient.score.colorCode;
-                    $scope.currentScore.colorClass = getColorClass($scope.currentScore.colorCode);
+                    $scope.currentScore.colorClass = $scope.getColorClass($scope.currentScore.colorCode);
                 }
 
             }, true);
 
-            function getColorClass(colorCode){
-                var ret = 'green';
-                if(colorCode == EdTriageConcept.score.red){
-                    ret = "red";
-                }
-                else if(colorCode == EdTriageConcept.score.orange){
-                    ret = "orange";
-                }
-                else if(colorCode == EdTriageConcept.score.yellow){
-                    ret = "yellow";
-                }
-                else{
-                    ret = "green";
-                }
-                return ret;
-            }
-
-
-        }]).directive('conceptSelector', function () {
+}]).directive('conceptSelectorRow', function () {
+    return {
+        //restrict: 'E',
+        replace:true,
+        scope: {
+            conceptLabel:"=",
+            edTriagePatient: "=",
+            concept: "=",
+            selectedConcept: "=",
+            score:"=",
+            scorelabelClass:"="
+        },
+        template: '<tr>' +
+        '<td><label>{{conceptLabel}}</label></td>'  +
+        '<td colspan="2"><concept-select-box ed-triage-patient="edTriagePatient" concept="concept" ' +
+        ' selected-concept="selectedConcept"></concept-select-box></td>' +
+         '<td><score-display score="score" label-class="scorelabelClass"></score-display></td></tr>'
+        };
+}).directive('conceptSelectBox', function () {
     return {
         restrict: 'E',
+
         scope: {
             edTriagePatient: "=",
             concept: "=",
             selectedConcept: "=",
             inputId:"="
         },
-        template: '<div class="form-group row">' +
-        '<label for="{{inputId}}" class="col-sm-4 form-control-label">{{concept.label}}</label>' +
-        '<div class="col-sm-8">' +
-        '<select class="form-control" id="{{inputId}}" ng-model="selectedConcept">' +
-        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}}</option>' +
-        '</select>' +
-        '</div></div>'
+        template: '<select class="form-control" id="{{inputId}}" ng-model="selectedConcept">' +
+        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}} - {{getColorClass(a.score())}} - {{a.score()}}</option>' +
+        '</select>'
+    };
+}).directive('scoreDisplay', function () {
+    return {
+        restrict: 'E',
+        replace:true,
+        scope: {
+            score: "=",
+            labelClass:"="
+        },
+        template: '<span class="label {{labelClass}}">{{score}}</span> xx{{labelClass}}yy'
+    };
+}).directive('scoreDisplayColor', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            value: "=",
+            age: "=",
+            concept:"="
+        },
+        template: '<pre>{{concept | json}}</pre>'
     };
 });

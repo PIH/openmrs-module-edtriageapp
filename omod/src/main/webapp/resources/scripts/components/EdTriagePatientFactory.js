@@ -144,54 +144,83 @@ angular.module("edTriagePatientFactory", [])
                 }
 
                 if (uuid == concepts.triageQueueStatus.uuid) {
-                    ret.triageQueueStatus = _v(v);
+                    ret.triageQueueStatus = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.triageColorCode.uuid) {
-                    ret.score.colorCode = _v(v.uuid);
+                    ret.score.colorCode = _v(v.uuid, obsUuid);
                 }
                 else if (uuid == concepts.triageScore.uuid) {
-                    ret.score.numericScore = _v(v);
+                    ret.score.numericScore = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
-                    ret.chiefComplaint = _v(v);
+                    ret.chiefComplaint = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.respiratoryRate.uuid) {
-                    ret.vitals.respiratoryRate = _v(v);
+                    ret.vitals.respiratoryRate = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.oxygenSaturation.uuid) {
-                    ret.vitals.oxygenSaturation = _v(v);
+                    ret.vitals.oxygenSaturation = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.heartRate.uuid) {
-                    ret.vitals.heartRate = _v(v);
+                    ret.vitals.heartRate = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.diastolicBloodPressure.uuid) {
-                    ret.vitals.diastolicBloodPressure = _v(v);
+                    ret.vitals.diastolicBloodPressure = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.systolicBloodPressure.uuid) {
-                    ret.vitals.systolicBloodPressure = _v(v);
+                    ret.vitals.systolicBloodPressure = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.temperature.uuid) {
-                    ret.vitals.temperature = _v(v);
+                    ret.vitals.temperature = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.trauma.uuid) {
-                    ret.vitals.trauma = _v(v);
+                    ret.vitals.trauma = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.weight.uuid) {
-                    ret.vitals.weight = _v(v);
+                    ret.vitals.weight = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.vitals.mobility.uuid) {
-                    ret.vitals.mobility = _v(v.uuid);
+                    ret.vitals.mobility = _v(v.uuid, obsUuid);
                 }
                 else {
+                    //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share
+                    //  we need to find out which question the observation answers
+
+                    //theck the vital that uses this
+                    var found = _handleAnswerList(concepts.vitals.consciousness, v.uuid, obsUuid);
+                    if(found != null){
+                        ret.vitals.consciousness =  found;
+                        continue;
+                    }
+
+
+                    for(var prop in concepts.symptoms){
+                        var symptom = concepts.symptoms[prop];
+                        var found = _handleAnswerList(symptom, v.uuid, obsUuid);
+                        if(found){
+                            ret.symptoms[prop] = found;
+                            break;
+                        }
+                    }
                 }
 
             }
 
             return ret;
 
+            function _handleAnswerList(concept, value, obsUuid){
+                for(var i = 0;i<concept.answers.length;++i){
+                    var answer =  concept.answers[i];
+                    if(answer.uuid == v.uuid){
+                        return _v(v.uuid, obsUuid);
+                    }
+                }
+                return null;
+            }
+
             /* helper function to make a value object, we need the uuid for saving*/
-            function _v(value){
-                return {value:value};
+            function _v(value, obs_id){
+                return {value:value, obs_id:obs_id};
             }
         };
 

@@ -78,10 +78,10 @@
                     </ul>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-xs btn-primary" ng-disabled="isSaving"
-                            ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
-                    <button type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
-                            ng-click="removeEdTriage()">${ ui.message("edtriageapp.remove") }</button>
+                    <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-primary" ng-disabled="isSaving"
+                            ng-click="beginConsult(model)">${ ui.message("edtriageapp.beginConsult") }</button>
+                    <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
+                            ng-click="removeEdTriage(model)">${ ui.message("edtriageapp.remove") }</button>
 
                 </td>
             </tr>

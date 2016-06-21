@@ -42,6 +42,7 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
 
     private EdTriageAppService service;
 
+    private static final int TOTAL_ALL_ENCOUNTERS = 2;
     private static final int TOTAL_ACTIVE_ENCOUNTERS = 1;
     private static final String TEST_LOCATION = "11111111-0b6d-4481-b979-ccdd38c76cb4";
     private static final String TEST_PATIENT = "da7f524f-27ce-4bb2-86d6-6d1d05312bd5";
@@ -58,7 +59,7 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocation() throws Exception {
         List<Encounter> list = service.getActiveEncounters(getHoursBack(), TEST_LOCATION, null);
         printResults(list);
-        assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
+        assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
     }
 
     @Test
@@ -66,7 +67,15 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocationForPatient() throws Exception {
         List<Encounter> list = service.getActiveEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
         printResults(list);
-        assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
+        assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
+    }
+
+    @Test
+    @Verifies(value = "should get all encounters", method = "getAllEncounters()")
+    public void getAllEncountersAtLocation_shouldGetAllEncountersAtLocation() throws Exception {
+        List<Encounter> list = service.getAllEncounters(getHoursBack(), TEST_LOCATION, null);
+        printResults(list);
+        assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
     }
 
     /* prints results*/

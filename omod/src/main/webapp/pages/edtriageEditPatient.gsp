@@ -34,27 +34,6 @@
 
 %>
 
-<style>
-
-	#sticky {
-		padding: 0.5ex;
-
-		/*color: #fff;*/
-		/*font-size: 2em;*/
-		/*border-radius: 0.5ex;*/
-	}
-
-	#sticky.stick {
-		width: 50%;
-		margin-top: 0 !important;
-		position: fixed;
-		top: 0;
-		z-index: 10000;
-		/*border-radius: 0 0 0.5em 0.5em;*/
-	}
-
-</style>
-
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
 	var breadcrumbs = [
 		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
@@ -143,77 +122,88 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                 </div>
                 <div class="panel-body ">
 
-                    <concept-selector ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.mobility" selected-concept="edTriagePatient.vitals.mobility.value"></concept-selector>
 
-                    <div class="form-group row">
-                        <label for="respiratoryRate" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label>
-                        <div class="col-sm-6 form-control-label">
-                            <input class="form-control" id="respiratoryRate" type="number" min="1" max="200"
-                                   ng-model="edTriagePatient.vitals.respiratoryRate.value" />
-                        </div>
-                        <div class="col-sm-2 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="oxygenSaturation" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label>
-                        <div class="col-sm-3 form-control-label">
-                            <input class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
-                                   ng-model="edTriagePatient.vitals.oxygenSaturation.value" />
-                        </div>
-                        <div class="col-sm-1 form-control-label pull-left">${ ui.message("edtriageapp.percent")}</div>
-                        <div class="col-sm-3 form-control-label pull-left">
-                            <button type="button" class="btn btn-primary btn-sm" ng-click="handleCustomAction('re')">
-                                ${ ui.message("edtriageapp.unobtainable") }
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="heartRate" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.heartRate.label}}</label>
-                        <div class="col-sm-6 form-control-label">
-                            <input class="form-control" id="heartRate" type="number" min="1" max="1000"
-                                   ng-model="edTriagePatient.vitals.heartRate.value" />
-                        </div>
-                        <div class="col-sm-2 form-control-label pull-left">${ ui.message("edtriageapp.perMinute") }</div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="bloodPressureSystolic" class="col-sm-4 form-control-label">${ ui.message("edtriageapp.bloodPressure") } </label>
-                        <div class="col-sm-3 form-control-label">
-                            <input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
-                                   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
-                        </div>
-                        <div class="col-sm-1 form-control-label pull-left">/</div>
-                        <div class="col-sm-3 form-control-label">
-                            <input class="form-control" id="bloodPressureDiastolic" type="number" min="1" max="1000"
-                                   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
-                        </div>
-                    </div>
+					<table class="table table-condensed borderless">
+						<tbody>
+						<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.mobility"
+							concept-label="'${ui.message("edtriageapp.mobility")}'"
+												selected-concept="edTriagePatient.vitals.mobility.value"
+							                    score-label-class="'edtriage-label-score'"
+												score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
+						<tr>
+							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
+							<td><input class="form-control" type="number" min="1" max="200"
+									   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
+							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
+						</tr>
 
-                    <div class="form-group row">
-                        <label for="temperatureC" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.temperature.label}}</label>
-                        <div class="col-sm-4 form-control-label">
-                            <input class="form-control" id="temperatureC" type="number" min="1" max="50"
-                                   ng-model="edTriagePatient.vitals.temperature.value" />
-                        </div>
-                        <div class="col-sm-4 form-control-label pull-left">C</div>
-                    </div>
+						<tr>
+							<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label></td>
+							<td><input class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
+										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
+							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
+						</tr>
 
-                    <concept-selector ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness" selected-concept="edTriagePatient.vitals.consciousness.value"></concept-selector>
+						<tr>
+							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
+							<td><input class="form-control" id="heartRate" type="number" min="1" max="999"
+									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
+							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
+						</tr>
 
-                    <div class="form-group row">
-                        <label class="col-sm-4 form-control-label">Trauma??</label>
-                        <div class="col-sm-8">
-                            <label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value">Yes</label>
-                            <label class="radio-inline"><input type="radio" name="trauma">No</label>
-                        </div>
-                    </div>
+						<tr>
+							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
+							<td><input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
+									   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" /> /
+								<input class="form-control" id="bloodPressureDiastolic" type="number" min="1" max="1000"
+									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
+							</td>
+							<td></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.systolicBloodPressure.uuid]"></score-display></td>
+						</tr>
 
-                    <div class="form-group row">
-                        <label for="temperatureC" class="col-sm-4 form-control-label">{{edTriagePatientConcept.vitals.weight.label}}</label>
-                        <div class="col-sm-6 form-control-label">
-                            <input class="form-control" id="weigthInKG" type="number" min="1" max="2000"
-                                   ng-model="edTriagePatient.vitals.weight.value" />
-                        </div>
-                        <div class="col-sm-2 form-control-label pull-left">kgs.</div>
-                    </div>
+						<tr>
+							<td><label>{{edTriagePatientConcept.vitals.temperature.label}}</label></td>
+							<td><input class="form-control" id="temperatureC" type="number" min="1" max="50"
+									   ng-model="edTriagePatient.vitals.temperature.value" /></td>
+							<td></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>
+						</tr>
+
+						<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness"
+							concept-label="'${ui.message("edtriageapp.consciousness")}'"
+							selected-concept="edTriagePatient.vitals.consciousness.value" score-label-class="'edtriage-label-score'"
+							score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
+
+						<tr>
+							<td><label>{{edTriagePatientConcept.vitals.trauma.label}}</label></td>
+							<td>
+								<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value">Yes</label>
+								<label class="radio-inline"><input type="radio" name="trauma">No</label>
+							</td>
+							<td></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.trauma.heartRate.uuid]"></score-display></td>
+						</tr>
+						<tr>
+							<td><label>{{edTriagePatientConcept.vitals.weight.label}}</label></td>
+							<td>
+								<input class="form-control" id="weigthInKG" type="number" min="1" max="2000"
+									   ng-model="edTriagePatient.vitals.weight.value" />
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><label>${ui.message("edtriageapp.total")}</label></td>
+							<td></td>
+							<td></td>
+							<td><h2><span class="label edtriage-label-score">{{currentScore.vitalsScore}}</span></h2></td>
+						</tr>
+						</tbody>
+						</table>
                 </div>
             </div>
         </div>
@@ -223,14 +213,51 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                     <h3 class="panel-title">${ ui.message("edtriageapp.symptoms") }</h3>
                 </div>
                 <div class="panel-body">
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological" selected-concept="edTriagePatient.symptoms.neurological.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn" selected-concept="edTriagePatient.symptoms.burn.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma" selected-concept="edTriagePatient.symptoms.trauma.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive" selected-concept="edTriagePatient.symptoms.digestive.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'pregnancy'" ng-if="edTriagePatient.patient.gender == 'F'" concept="edTriagePatientConcept.symptoms.pregnancy" selected-concept="edTriagePatient.symptoms.pregnancy.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory" selected-concept="edTriagePatient.symptoms.respiratory.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain" selected-concept="edTriagePatient.symptoms.pain.value"></concept-selector>
-                    <concept-selector ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other" selected-concept="edTriagePatient.symptoms.other.value"></concept-selector>
+					<table>
+						<tbody>
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
+								selected-concept="edTriagePatient.symptoms.neurological.value"  concept-label="'${ui.message("edtriageapp.neurological")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])"></tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn"
+								selected-concept="edTriagePatient.symptoms.burn.value"  concept-label="'${ui.message("edtriageapp.burn")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"></tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma"
+								selected-concept="edTriagePatient.symptoms.trauma.value" concept-label="'${ui.message("edtriageapp.trauma")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"></tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive"
+								selected-concept="edTriagePatient.symptoms.digestive.value" concept-label="'${ui.message("edtriageapp.digestive")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'" ng-if="edTriagePatient.patient.gender == 'F'"
+								concept="edTriagePatientConcept.symptoms.pregnancy"
+								selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"></tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory"
+								selected-concept="edTriagePatient.symptoms.respiratory.value" concept-label="'${ui.message("edtriageapp.respiratory")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"></tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain"
+								selected-concept="edTriagePatient.symptoms.pain.value" concept-label="'${ui.message("edtriageapp.pain")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"></tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other"
+								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
+								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"
+								score="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"></tr>
+
+						</tbody>
+					</table>
                 </div>
             </div>
         </div>
@@ -264,6 +291,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 			<div class="panel-body">
 				<div class="col-sm-11">
+					<div>
+						<h2>Current Scores</h2>
+						<pre>{{currentScore.individualScores | json}}</pre>
+					</div>
 					<div>
 						<h2>Patient</h2>
 						<pre>{{edTriagePatient | json}}</pre>

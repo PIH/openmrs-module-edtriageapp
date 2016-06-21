@@ -42,8 +42,13 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
 
     @Override
-    public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientId) {
-        return dao.getActiveEncountersForPatientAtLocation(hoursBack, locationUuid, patientId);
+    public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientUuid) {
+        return dao.getActiveEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+    }
+
+    @Override
+    public List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid){
+        return dao.getAllEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
     }
 
 }

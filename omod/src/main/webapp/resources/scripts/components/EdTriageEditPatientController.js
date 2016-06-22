@@ -2,7 +2,7 @@ angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', 'EdTriageDataService', 'EdTriageConcept',
         'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
         function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
-            $scope.isNumber = angular.isNumber;
+            //$scope.isNumber = angular.isNumber;
             $scope.loading_complete = false;
             $scope.getColorClass = function(colorCode){
                 var ret = null;
@@ -28,7 +28,7 @@ angular.module("edTriagePatientController", [])
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatient = data;
                     $scope.edTriageConcept = concept;
-                    $scope.debug = true;
+                    $scope.debug = false;
                     $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     $scope.loading_complete = true;
                     console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);

@@ -156,7 +156,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
-							<td><input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
+							<td ><input class="form-control" id="bloodPressureSystolic" type="number" min="1" max="1000"
 									   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" /> /
 								<input class="form-control" id="bloodPressureDiastolic" type="number" min="1" max="1000"
 									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
@@ -274,8 +274,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
         <div class="col-sm-offset-3 col-sm-3">
             <button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
-        <div class="col-sm-3">
-            <a href="${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.viewQueueButton") }</a>
+        <div class="col-sm-3" ng-if="edTriagePatient.encounterUuid">
+			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.beginConsult") }</button>
         </div>
         <div class="col-sm-3">
             <a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.exitButton") }</a>

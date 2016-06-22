@@ -67,8 +67,8 @@
             <tbody>
 
             <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore.value', waitTime()]" >
-                <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >{{model.getColorHtmlCode()}}</span> -
-                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} {{model.score.numericScore.value}}</a></td>
+                <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} </a></td>
                 <td>{{model.waitTime(serverTimeDelta)}}</td>
                 <td>{{model.chiefComplaint.value}}</td>
                 <td>
@@ -76,6 +76,17 @@
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value>
+                    </ul>
+                    <h4><span class="label label-info">Symptoms</span></h4>
+                    <ul>
+                        <li ng-if="model.symptoms.neurological.value">{{findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).label}}</li>
+                        <li ng-if="model.symptoms.burn.value">{{findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).label}}</li>
+                        <li ng-if="model.symptoms.trauma.value">{{findAnswer(edTriagePatientConcept.symptoms.trauma, model.symptoms.trauma.value).label}}</li>
+                        <li ng-if="model.symptoms.digestive.value">{{findAnswer(edTriagePatientConcept.symptoms.digestive, model.symptoms.digestive.value).label}}</li>
+                        <li ng-if="model.symptoms.pregnancy.value">{{findAnswer(edTriagePatientConcept.symptoms.pregnancy, model.symptoms.pregnancy.value).label}}</li>
+                        <li ng-if="model.symptoms.respiratory.value">{{findAnswer(edTriagePatientConcept.symptoms.respiratory, model.symptoms.respiratory.value).label}}</li>
+                        <li ng-if="model.symptoms.pain.value">{{findAnswer(edTriagePatientConcept.symptoms.pain, model.symptoms.pain.value).label}}</li>
+                        <li ng-if="model.symptoms.other.value">{{findAnswer(edTriagePatientConcept.symptoms.other, model.symptoms.other.value).label}}</li>
                     </ul>
                 </td>
                 <td>

@@ -57,6 +57,11 @@ angular.module("edTriageViewQueueController", [])
                 return ret;
             };
 
+            $scope.findAnswer = function(concept, uuid){
+                var found = $filter('findAnswer')(concept, uuid);
+                return found;
+            }
+            
             $scope.getColorClass = function(edTriagePatient){
                 var ret = "label-success";
                 var colorCode = edTriagePatient.score.colorCode.value;

@@ -44,6 +44,7 @@ angular.module("edTriagePatientController", [])
              * */
             $scope.save = function () {
                 $scope.isSaving = true;
+                $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
                 EdTriageDataService.save($scope.edTriageConcept, $scope.edTriagePatient).then(function (res) {
                     $scope.isSaving = false;
                     if (res.status != 200) {

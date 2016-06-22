@@ -53,6 +53,15 @@
         </p>
     </div>
 
+    <div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{message.text}}
+
+        {{edTriagePatientQueue || json}}
+    </div>
+
     <div>
         <table class="table">
             <thead>
@@ -77,7 +86,7 @@
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value>
                     </ul>
-                    <h4><span class="label label-info">Symptoms</span></h4>
+                    <!-- <h4><span class="label label-info">Symptoms</span></h4> -->
                     <ul>
                         <li ng-if="model.symptoms.neurological.value">{{findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).label}}</li>
                         <li ng-if="model.symptoms.burn.value">{{findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).label}}</li>

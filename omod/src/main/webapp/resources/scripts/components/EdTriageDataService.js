@@ -96,7 +96,7 @@ angular.module("edTriageDataService", [])
                 };
 
                 //status related fields
-                addObs(encounter.obs, edTriageConcept.triageQueueStatus.uuid, {value:EdTriageConcept.status.waitingForEvaluation});
+                addObs(encounter.obs, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
                 addObs(encounter.obs, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore});
                 addObs(encounter.obs, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode});
 
@@ -150,20 +150,36 @@ angular.module("edTriageDataService", [])
 
             };
 
-            /* changes the status of the edtriage patient*/
-            this.changeTriageQueueStatus = function(obsUuid, triageQueueStatusUuid){
-                var url = CONSTANTS.URLS.OBSERVATION + "/" + obsUuid;
-                var obs = {value: triageQueueStatusUuid};
-                return $http.post(url, obs)
-                    .then(function (data) {
-                            return {status:200, data: data.data};
-                        }
-                        , function (error) {
-                            console.log({status:500, data:error});
-                            return {status:500, data:error};
-                        });
-
+            /*
+             * the changes the status of the observation to consult
+             * */
+            this.beginConsult = function (edTriageConcept, edTriagePatient) {
+                edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.outpatientConsultation;
+                return this.save(edTriageConcept,edTriagePatient);
             };
+
+            /*
+             * the changes the status of the observation to consult
+             * */
+            this.removeConsult = function (edTriageConcept, edTriagePatient) {
+                edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.removed;
+                return this.save(edTriageConcept,edTriagePatient);
+            };
+
+            // /* changes the status of the edtriage patient*/
+            // this.changeTriageQueueStatus = function(obsUuid, triageQueueStatusUuid){
+            //     var url = CONSTANTS.URLS.OBSERVATION + "/" + obsUuid;
+            //     var obs = {value: triageQueueStatusUuid};
+            //     return $http.post(url, obs)
+            //         .then(function (data) {
+            //                 return {status:200, data: data.data};
+            //             }
+            //             , function (error) {
+            //                 console.log({status:500, data:error});
+            //                 return {status:500, data:error};
+            //             });
+            //
+            // };
 
 
 

@@ -6,7 +6,7 @@ angular.module("edTriagePatientFactory", [])
          */
         function EdTriagePatient() {
             this.encounterUuid = null;
-            this.triageQueueStatus = null;
+            this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
             this.percentComplete = 0;  // this is used when the score is calculated
@@ -43,7 +43,7 @@ angular.module("edTriagePatientFactory", [])
         * */
         EdTriagePatient.prototype.getColorHtmlCode = function(){
             var ret = 'green';
-            var colorCode = this.score.colorCode.value;
+            var colorCode = this.score.colorCode;
             if(colorCode == EdTriageConcept.score.red){
                 ret = "red";
             }
@@ -144,13 +144,17 @@ angular.module("edTriagePatientFactory", [])
                 }
 
                 if (uuid == concepts.triageQueueStatus.uuid) {
-                    ret.triageQueueStatus = _v(v, obsUuid);
+                    //this concept has answers that are uuid,
+                    // so you need to get the uuid instead
+                    ret.triageQueueStatus = _v(v.uuid, obsUuid);
                 }
                 else if (uuid == concepts.triageColorCode.uuid) {
-                    ret.score.colorCode = _v(v.uuid, obsUuid);
+                    //the score is just the value, we convert it when we save it
+                    ret.score.colorCode = v.uuid
                 }
                 else if (uuid == concepts.triageScore.uuid) {
-                    ret.score.numericScore = _v(v, obsUuid);
+                    //the score is just the value, we convert it when we save it
+                    ret.score.numericScore = v;
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
                     ret.chiefComplaint = _v(v, obsUuid);

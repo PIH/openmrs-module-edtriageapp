@@ -34,9 +34,7 @@ angular.module("filters", ['uicommons.filters'])
     }
 }]).filter('findAnswer', [  function() {
     return function(concept, uuid) {
-        console.log("asdfasd" + concept.answers.length);
         for (var i=0; i<concept.answers.length; ++i) {
-            console.log("concept.answers[i].uuid=" + concept.answers[i].uuid + " and uuid=" + uuid);
             if (concept.answers[i].uuid == uuid) {
                 return concept.answers[i];
             }

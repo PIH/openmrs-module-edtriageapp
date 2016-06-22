@@ -8,36 +8,67 @@ angular.module("edTriageViewQueueController", [])
             $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
             $scope.lastUpdatedAtStr = "2:00 ";
 
-            $scope.loadData = function(){
+            /*  loads the patient list
+             * */
+            $scope.loadPatientData = function(){
                 $scope.lastUpdatedAtInMillis = new Date().getTime();
-                EdTriageDataService.loadConcept().then(function (concept) {
-                    $scope.edTriagePatientConcept = concept;
-                    EdTriageDataService.loadQueue(concept, locationUuid).then(function(edTriagePatientQueue){
-                        $scope.edTriagePatientQueue = edTriagePatientQueue.data;
-                    });
+                return EdTriageDataService.loadQueue($scope.edTriagePatientConcept, locationUuid).then(function(edTriagePatientQueue){
+                    $scope.edTriagePatientQueue = edTriagePatientQueue.data;
                 });
             };
-            $scope.loadData();
+            /*
+            loads all the data
+             */
+            $scope.loadData = function(){
+                $scope.lastUpdatedAtInMillis = new Date().getTime();
+                return EdTriageDataService.loadConcept().then(function (concept) {
+                    $scope.edTriagePatientConcept = concept;
+                    return $scope.loadPatientData(locationUuid).then(function(edTriagePatientQueue){});
+                });
+            };
 
+
+
+            $scope.loadData();
             /*
              * the changes the status of the observation to consult
              * */
             $scope.beginConsult = function (edTriagePatient) {
                 $scope.isSaving = true;
-                var uuid = edTriagePatient.triageQueueStatus.uuid;
-                EdTriageDataService.changeTriageQueueStatus(uuid, EdTriageConcept.status.outpatientConsultation);
-                $scope.isSaving = false;
+
+                return EdTriageDataService.beginConsult($scope.edTriagePatientConcept , edTriagePatient).then(function(res){
+                    $scope.isSaving = false;
+                    if(res.status != 200){
+                        alert("The system was not able to update the record");
+                        $scope.message = {type: 'danger', text: $filter('json')(res.data)};
+                    }
+                    else{
+                        //just reload the data, there might be new ones in the queue
+                        return $scope.loadPatientData();
+                    }
+                });
+                
             };
 
             /*
-             * the changes the status of the observation to removed
+             * the changes the status of the observation to consult
              * */
             $scope.removeEdTriage = function (edTriagePatient) {
                 $scope.isSaving = true;
-                var uuid = edTriagePatient.triageQueueStatus.uuid;
-                EdTriageDataService.changeTriageQueueStatus(uuid, EdTriageConcept.status.removed);
-                $scope.isSaving = false;
+                return EdTriageDataService.removeConsult($scope.edTriagePatientConcept,  edTriagePatient).then(function(res){
+                    $scope.isSaving = false;
+                    if(res.status != 200){
+                        alert("The system was not able to remove the record");
+                        $scope.message = {type: 'danger', text: $filter('json')(res.data)};
+                    }
+                    else{
+                        //just reload the data, there might be new ones in the queue
+                        return $scope.loadPatientData();
+                    }
+
+                });
             };
+
 
             /* builds a link to the patient edit page*/
             $scope.getPatientLink = function(uuid, appId){
@@ -79,15 +110,7 @@ angular.module("edTriageViewQueueController", [])
                 }
                 return ret;
             } ;
-            
-            /*
-             * the changes the status of the observation to consult
-             * */
-            $scope.removeConsult = function () {
-                $scope.isSaving = true;
-                console.log("TBD: implement " + removeConsult);
-                $scope.isSaving = false;
-            };
+
 
             var stopTimeUpdates;
             $scope.startUpdateTime = function() {

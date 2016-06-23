@@ -2,8 +2,13 @@ angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', 'EdTriageDataService', 'EdTriageConcept',
         'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
         function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
-            //$scope.isNumber = angular.isNumber;
-            $scope.loading_complete = false;
+            $scope.loading_complete = false;//used to tell if we when all the data has been loaded
+            $scope.isSaving = false; // used to determine if we should disable things
+
+            /* helper function to get the color class for the score
+            * @param {String} colorCode - the uuid for the color
+             * @return the class suffix
+             * */
             $scope.getColorClass = function(colorCode){
                 var ret = null;
                 if(colorCode == EdTriageConcept.score.red){
@@ -19,25 +24,15 @@ angular.module("edTriagePatientController", [])
                     ret = "green";
                 }
                 return ret;
-            }
+            };
 
-            EdTriageDataService.loadConcept().then(function (concept) {
-                $scope.edTriagePatientConcept = concept;
-                var birthDate = new Date($filter('serverDate')(patientBirthDate));
-                EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
-                    EdTriageDataService.calculate(concept, data);
-                    $scope.edTriagePatient = data;
-                    $scope.debug = false;
-                    $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
-                    $scope.loading_complete = true;
-                    console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);
-
-                });
-            });
-
-            // used to determine if we should disable things
-            $scope.isSaving = false;
-
+            /* navigates to the find patient page*/
+            $scope.goToFindPatient = function(){
+                // go to the add patient page
+                if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
+                    emr.navigateTo({ applicationUrl: (!EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.startsWith("/") ? '/' : '') + EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
+                }
+            };
             /*
              * the main save function, will return a message in the UI
              * */
@@ -73,15 +68,12 @@ angular.module("edTriagePatientController", [])
                         $scope.message = {type: 'danger', text: "The system was not able to update the record"};
                     }
                     else{
-                        // go to the add patient page
-                        if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
-                            emr.navigateTo({ applicationUrl: (!EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.startsWith("/") ? '/' : '') + EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
-                        }
 
                     }
                 });
 
             };
+
 
             /*
              * watches the main model for changes and updates the score
@@ -97,6 +89,24 @@ angular.module("edTriagePatientController", [])
                 }
 
             }, true);
+
+            /* ---------------------------------------------------------
+            *  page initialization code starts here
+            * -------------------------------------------------------- */
+            //load the data for the page here
+            EdTriageDataService.loadConcept().then(function (concept) {
+                $scope.edTriagePatientConcept = concept;
+                var birthDate = new Date($filter('serverDate')(patientBirthDate));
+                EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
+                    EdTriageDataService.calculate(concept, data);
+                    $scope.edTriagePatient = data;
+                    $scope.debug = false;
+                    $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
+                    $scope.loading_complete = true;
+                    console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);
+
+                });
+            });
 
 }]).directive('conceptSelectorRow', function () {
     return {

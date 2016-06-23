@@ -61,7 +61,8 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
             Set<Obs> observations = enc.getObs();
             for(Obs obs : observations){
                 if(TRAIGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
-                        && TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueText())){
+                        && obs.getValueCoded() != null
+                        && TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())){
                     //this is an active record, so add it to the queue
                     ret.add(enc);
                     log.info(new StringBuilder().append("ADDED encounter for encounter uuid - ").append(enc.getUuid()).toString());

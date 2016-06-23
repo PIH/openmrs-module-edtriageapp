@@ -29,8 +29,6 @@ angular.module("edTriageViewQueueController", [])
             };
 
 
-
-            $scope.loadData();
             /*
              * the changes the status of the observation to consult
              * */
@@ -89,30 +87,16 @@ angular.module("edTriageViewQueueController", [])
                 return ret;
             };
 
+            /* helper function for finding an answer for a question in the concept def
+            * @param {EdTriageConcept} concept - the concepts
+            * @param {String} uuid - the answer UUID
+            * @return the answer object
+            * */
             $scope.findAnswer = function(concept, uuid){
-                var found = $filter('findAnswer')(concept, uuid);
-                return found;
-            }
-            
-            $scope.getColorClass = function(edTriagePatient){
-                var ret = "label-success";
-                var colorCode = edTriagePatient.score.colorCode.value;
-                if(colorCode == EdTriageConcept.score.red){
-                    ret = "label-danger";
-                }
-                else if(colorCode == EdTriageConcept.score.orange){
-                    ret = "label-warning";
-                }
-                else if(colorCode == EdTriageConcept.score.yellow){
-                    ret = "label-info";
-                }
-                else{
-                    ret = "label-success";
-                }
-                return ret;
-            } ;
+                return $filter('findAnswer')(concept, uuid);
+            };
 
-
+            /* the timer to refresh updates*/
             var stopTimeUpdates;
             $scope.startUpdateTime = function() {
 
@@ -142,9 +126,6 @@ angular.module("edTriageViewQueueController", [])
                 }, 10000);
             };
 
-            $scope.startUpdateTime();
-
-
             $scope.stopUpdateTime = function() {
                 if (angular.isDefined(stopTimeUpdates)) {
                     $interval.cancel(stopTimeUpdates);
@@ -156,6 +137,12 @@ angular.module("edTriageViewQueueController", [])
                 // Make sure that the interval is destroyed too
                 $scope.stopUpdateTime();
             });
+
+            /* ---------------------------------------------------------
+             *  page initialization code starts here
+             * -------------------------------------------------------- */
+            $scope.loadData();
+            $scope.startUpdateTime();
 
 
         }]).directive('showIfHasValue', function () {

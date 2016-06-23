@@ -107,28 +107,32 @@ angular.module("edTriagePatientFactory", [])
 
             return ret;
         };
-
+        /*  makes a list of triage encounters from a web service response
+        * @param {EdTriageConcept} concepts - the list of concepts that define the encounter
+        * @param {Array[Encounter]} data - the list of encounters from the web service
+        * @param {String} locationUuid - the current location uuid
+        * @return {Array[EdTriagePatient]} an array of EdTriagePatient objects
+        * */
         EdTriagePatient.buildList = function (concepts, data, locationUuid) {
-
+            //these fields are required for listing, but would be necessary, if we ran the calculate function
             var patientDateOfBirth = new Date("October 13, 1974 11:13:00");    //TODO:  need to get this information
             var patientGender = "F";         //TODO:  need to get this information
+            //-----------------------------------------------------------------------
             var ret = [];
             for(var i = 0;i<data.length;++i){
-                var patientUuid = data[i].patient.uuid;
-                var edTriagePatient = EdTriagePatient.build(concepts, data[i], patientDateOfBirth, patientGender, locationUuid);
-                //we need to do this, b/c I couldn't figure out how to make the web service filter these out.  if we figure this out
-                // then this line can be removed
-                if(edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation){
-                    ret.push(edTriagePatient);
-                }
-
+                ret.push(EdTriagePatient.build(concepts, data[i], patientDateOfBirth, patientGender, locationUuid));
             }
             return ret;
         };
         
         /**
          * builds a class from the edtriage concepts and the data from the web services
-         * 
+         * @param {EdTriageConcept} concepts - the list of concepts that define the encounter
+         * @param {Encounter} data - an encounter from the web service
+         * @param {Date} patientDateOfBirth - the patient's DOB (used for calculating the score only)
+         * @param {String} patientGender - the patient gender (used for showing different questions
+         * @param {String} locationUuid - the current location uuid
+         * @return EdTriagePatient the EdTriagePatient object
          */
         EdTriagePatient.build = function (concepts, data, patientDateOfBirth, patientGender, locationUuid) {
 
@@ -218,7 +222,9 @@ angular.module("edTriagePatientFactory", [])
 
             return ret;
 
-
+            /*
+            helper function for putting an answer from a list into the triage encounter
+            * */
             function _handleAnswerList(concept, value, obsUuid){
                 for(var i = 0;i<concept.answers.length;++i){
                     var answer =  concept.answers[i];

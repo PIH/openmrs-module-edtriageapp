@@ -174,23 +174,6 @@ angular.module("edTriageDataService", [])
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
-            // /* changes the status of the edtriage patient*/
-            // this.changeTriageQueueStatus = function(obsUuid, triageQueueStatusUuid){
-            //     var url = CONSTANTS.URLS.OBSERVATION + "/" + obsUuid;
-            //     var obs = {value: triageQueueStatusUuid};
-            //     return $http.post(url, obs)
-            //         .then(function (data) {
-            //                 return {status:200, data: data.data};
-            //             }
-            //             , function (error) {
-            //                 console.log({status:500, data:error});
-            //                 return {status:500, data:error};
-            //             });
-            //
-            // };
-
-
-
             /* removes all the existing observations for a patient, we need to do this before we save a patient's info
             * b/c there might be observations that were removed and it's easier to just start from scratch
             * @param {Array} list - a list of obs uuid's
@@ -257,11 +240,6 @@ angular.module("edTriageDataService", [])
 
             this.update = function (edTriagePatient) {
                 $http.put(url + edTriagePatient.patientId, this);
-            };
-
-            this.canSave = function (edTriagePatient) {
-                return !!(edTriagePatient.patientId || edTriagePatient.patientId > 0);
-
             };
 
             /*

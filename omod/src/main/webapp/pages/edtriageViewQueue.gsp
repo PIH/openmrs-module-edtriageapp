@@ -37,7 +37,7 @@
     var breadcrumbs = [
         {icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm'},
         {
-            label: "${ ui.message("edtriageapp.label") }",
+            label: "${ ui.message("edtriageapp.queueLabel") }",
             link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }"
         }
 

@@ -59,7 +59,6 @@
         </button>
         {{message.text}}
 
-        {{edTriagePatientQueue || json}}
     </div>
 
     <div>
@@ -75,7 +74,7 @@
             </thead>
             <tbody>
 
-            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore.value', waitTime()]" >
+            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore', waitTime()]" >
                 <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} </a></td>
                 <td>{{model.waitTime(serverTimeDelta)}}</td>
@@ -109,8 +108,24 @@
             </tbody>
         </table>
     </div>
-</div>
 
+    <div ng-if="debug">
+        <br/><br/><br/>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Debug Info</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-11">
+                    <div>
+                        <h2>Queue/h2>
+                            <pre>{{edTriagePatientQueue | json}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
 

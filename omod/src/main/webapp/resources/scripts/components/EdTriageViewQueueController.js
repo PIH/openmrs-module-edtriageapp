@@ -8,6 +8,7 @@ angular.module("edTriageViewQueueController", [])
             $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
             $scope.lastUpdatedAtStr = "2:00 ";
             $scope.triageStatusCodes =  EdTriageConcept.status;
+            $scope.debug = false;
 
             /*  loads the patient list
              * */

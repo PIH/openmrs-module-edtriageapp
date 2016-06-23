@@ -43,7 +43,7 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
     private static final int DEFAULT_HOURS_BACK = 24;
 
 	private final SearchQuery searchQuery = new SearchQuery.Builder("Gets EdTriage Encounters")
-			.withOptionalParameters(REQUEST_PARAM_PATIENT, REQUEST_PARAM_LOCATION, REQUEST_PARAM_HOURS_BACK).build();
+			.withOptionalParameters(REQUEST_PARAM_PATIENT, REQUEST_PARAM_LOCATION, REQUEST_PARAM_HOURS_BACK, REQUEST_PARAM_DEBUG).build();
 
 
 	private final SearchConfig searchConfig = new SearchConfig("getActiveEdTriageEncounters", RestConstants.VERSION_1 + "/encounter",
@@ -68,13 +68,15 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
 		int hoursBack = toInt(context.getParameter(REQUEST_PARAM_HOURS_BACK), DEFAULT_HOURS_BACK);
 
 		EdTriageAppService edTriageAppService = Context.getService(EdTriageAppService.class);
-		List<Encounter> encounters;
-		if(debug){
-			encounters = edTriageAppService.getAllEncounters(hoursBack, location, patient);
-		}
-		else{
-			encounters = edTriageAppService.getActiveEncounters(hoursBack, location, patient);
-		}
+		List<Encounter> encounters = edTriageAppService.getAllEncounters(hoursBack, location, patient);
+		//was trying to figure out how to filter based on a coded observation, but couldn't
+		// so did it on the client side
+//		if(debug){
+//			encounters = edTriageAppService.getAllEncounters(hoursBack, location, patient);
+//		}
+//		else{
+//			encounters = edTriageAppService.getActiveEncounters(hoursBack, location, patient);
+//		}
 
 		context.setRepresentation(Representation.FULL); //we want the full representation
 		return new NeedsPaging<Encounter>(encounters, context);

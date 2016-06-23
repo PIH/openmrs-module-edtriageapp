@@ -69,18 +69,25 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
                     break;
                 }
                 else{
-                    log.info(new StringBuilder().append(" for encounter uuid - ").append(enc.getUuid())
+                    String msg = new StringBuilder().append(" for encounter uuid - ").append(enc.getUuid())
                             .append("skipping the observeration, b/c TRAIGE_QUEUE_STATUS_CONCEPT_UUID(")
                             .append(TRAIGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
                             .append(obs.getConcept().getUuid()).append(" and TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID(")
                             .append("TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID").append(") <>")
-                            .append(obs.getValueText()).toString());
+                            .append(obs.getValueText())
+                            .append(" getValueAsString=").append(obs.getValueAsString(null))
+                            .append(" getValueCoded=").append(obs.getValueCoded())
+                            .append(" getUuid=").append(obs.getUuid())
+                            .append(" getValueCodedName=").append(obs.getValueCodedName())
+                            .append(" getValueComplex=").append(obs.getValueComplex())
+                            .toString();
+                    log.info(msg);
                 }
             }
 
         }
 
-        return temp;
+        return ret;
     }
 
     /*

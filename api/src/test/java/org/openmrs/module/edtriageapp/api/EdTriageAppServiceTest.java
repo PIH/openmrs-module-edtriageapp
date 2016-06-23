@@ -59,7 +59,7 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocation() throws Exception {
         List<Encounter> list = service.getActiveEncounters(getHoursBack(), TEST_LOCATION, null);
         printResults(list);
-        assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
+        assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocationForPatient() throws Exception {
         List<Encounter> list = service.getActiveEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
         printResults(list);
-        assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
+        assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test

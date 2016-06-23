@@ -275,7 +275,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
             <button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
         <div class="col-sm-3" ng-if="edTriagePatient.encounterUuid">
-			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.beginConsult") }</button>
+			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
         </div>
         <div class="col-sm-3">
             <a href="${ ui.pageLink("edtriageapp", "findPatient?appId=" + appId) }" class="btn btn-default" role="button">${ ui.message("edtriageapp.exitButton") }</a>

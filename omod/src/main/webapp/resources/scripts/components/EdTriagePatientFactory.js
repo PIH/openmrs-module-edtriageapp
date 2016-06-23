@@ -115,7 +115,13 @@ angular.module("edTriagePatientFactory", [])
             var ret = [];
             for(var i = 0;i<data.length;++i){
                 var patientUuid = data[i].patient.uuid;
-                ret.push(EdTriagePatient.build(concepts, data[i], patientDateOfBirth, patientGender, locationUuid))
+                var edTriagePatient = EdTriagePatient.build(concepts, data[i], patientDateOfBirth, patientGender, locationUuid);
+                //we need to do this, b/c I couldn't figure out how to make the web service filter these out.  if we figure this out
+                // then this line can be removed
+                if(edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation){
+                    ret.push(edTriagePatient);
+                }
+
             }
             return ret;
         };
@@ -211,6 +217,7 @@ angular.module("edTriagePatientFactory", [])
             }
 
             return ret;
+
 
             function _handleAnswerList(concept, value, obsUuid){
                 for(var i = 0;i<concept.answers.length;++i){

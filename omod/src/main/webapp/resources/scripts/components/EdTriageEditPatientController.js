@@ -27,7 +27,6 @@ angular.module("edTriagePatientController", [])
                 EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatient = data;
-                    $scope.edTriageConcept = concept;
                     $scope.debug = false;
                     $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     $scope.loading_complete = true;
@@ -45,7 +44,7 @@ angular.module("edTriagePatientController", [])
             $scope.save = function () {
                 $scope.isSaving = true;
                 $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
-                EdTriageDataService.save($scope.edTriageConcept, $scope.edTriagePatient).then(function (res) {
+                EdTriageDataService.save($scope.edTriagePatientConcept, $scope.edTriagePatient).then(function (res) {
                     $scope.isSaving = false;
                     if (res.status != 200) {
                         $scope.message = {type: 'danger', text: $filter('json')(res.data)};
@@ -61,12 +60,35 @@ angular.module("edTriagePatientController", [])
                     }
                 });
             };
+
+            /*
+             * the changes the status of the observation to consult
+             * */
+            $scope.beginConsult = function () {
+                $scope.isSaving = true;
+
+                return EdTriageDataService.beginConsult($scope.edTriagePatientConcept , $scope.edTriagePatient).then(function(res){
+                    $scope.isSaving = false;
+                    if(res.status != 200){
+                        $scope.message = {type: 'danger', text: "The system was not able to update the record"};
+                    }
+                    else{
+                        // go to the add patient page
+                        if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
+                            emr.navigateTo({ applicationUrl: (!EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.startsWith("/") ? '/' : '') + EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
+                        }
+
+                    }
+                });
+
+            };
+
             /*
              * watches the main model for changes and updates the score
              * */
             $scope.$watch('edTriagePatient', function (newValue, oldValue) {
-                if ($scope.edTriageConcept != null && newValue != null) {
-                    EdTriageDataService.calculate($scope.edTriageConcept, newValue);
+                if ($scope.edTriagePatientConcept != null && newValue != null) {
+                    EdTriageDataService.calculate($scope.edTriagePatientConcept, newValue);
                     $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
                     $scope.currentScore.individualScores = $scope.edTriagePatient.score.individualScores;
                     $scope.currentScore.vitalsScore = $scope.edTriagePatient.score.vitalsScore;

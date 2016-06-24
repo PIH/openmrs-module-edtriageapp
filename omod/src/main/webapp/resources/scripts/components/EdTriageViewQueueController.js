@@ -88,6 +88,18 @@ angular.module("edTriageViewQueueController", [])
                 return ret;
             };
 
+            /* checkes whether at least one symptom was answered*/
+            $scope.hasSymptoms = function(edTriagePatient){
+                for(var prop in edTriagePatient.symptoms){
+                    var v = edTriagePatient.symptoms[prop].value;
+                    if(v != null){
+                        return true;
+                    }
+                }
+                return false;
+
+            };
+
             /* helper function for finding an answer for a question in the concept def
             * @param {EdTriageConcept} concept - the concepts
             * @param {String} uuid - the answer UUID

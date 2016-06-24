@@ -25,7 +25,7 @@ public class EdtriageEditPatientPageController {
         model.addAttribute("breadcrumbOverride", breadcrumbOverride);
         model.addAttribute("locale", uiSessionContext.getLocale());
         model.addAttribute("location", uiSessionContext.getSessionLocation());
-
+        model.addAttribute("patient", patient);
         return null;
 
     }

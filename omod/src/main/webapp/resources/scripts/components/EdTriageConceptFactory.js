@@ -112,7 +112,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
                     toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 trauma: toAnswers('trauma',[
-                    toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Serious trauma", EdTriageConcept.score.orange),
+                    toAnswer("3b7f125b-6254-4442-be14-f8f6543c8d63", "serious trauma", EdTriageConcept.score.orange),
                     toAnswer("cef19dbc-e015-4123-9479-986f26a7ca8c", "threatened limb", EdTriageConcept.score.orange, 'A'),
                     toAnswer("aca0abff-a38a-4191-a5c4-041fa1809306", "dislocation of larger joint (not finger or toe)", EdTriageConcept.score.orange),
                     toAnswer("132338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "open fracture", EdTriageConcept.score.orange),
@@ -130,7 +130,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
                     toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pregnancy: toAnswers('pregnancy',[
-                    toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Pregnancy & abdominal trauma or pain", EdTriageConcept.score.orange),
+                    toAnswer("153551AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "pregnancy & abdominal trauma or pain", EdTriageConcept.score.orange),
                     toAnswer("117617AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "pregnancy & trauma or vaginal bleeding uuid_goes_here", EdTriageConcept.score.yellow),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
                     toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
@@ -147,10 +147,10 @@ angular.module("edTriageConceptFactory", [])
                 pain: toAnswers('pain',[
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain", EdTriageConcept.score.orange),
                     toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain", EdTriageConcept.score.yellow),
-                    toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Mild pain", EdTriageConcept.score.green),
+                    //toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Mild pain", EdTriageConcept.score.green),
                     toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain", EdTriageConcept.score.orange, 'A'),
                     toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain", EdTriageConcept.score.yellow),
-                    toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Other pain", EdTriageConcept.score.green),
+                    toAnswer("7c4d837b-5967-4ba6-902c-ca7651bebf34", "Other pain", EdTriageConcept.score.green),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),
                     toAnswer(unknown_concept_uuid, "Unknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 other: toAnswers('other',[

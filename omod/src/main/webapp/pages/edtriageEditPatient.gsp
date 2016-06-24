@@ -182,9 +182,9 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<td><label>{{edTriagePatientConcept.vitals.trauma.answers[0].label}}</label></td>
 							<td>
 								<label class="radio-inline"><input type="radio" name="trauma"
-																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">Yes</label>
+																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">${ ui.message("uicommons.yes")}</label>
 								<label class="radio-inline"><input type="radio" name="trauma"
-																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="">No</label>
+																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="">${ ui.message("uicommons.no")} </label>
 							</td>
 							<td></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.uuid]"></score-display></td>

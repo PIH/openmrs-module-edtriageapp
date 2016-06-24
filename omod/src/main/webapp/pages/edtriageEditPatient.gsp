@@ -180,8 +180,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.trauma.uuid}}</label></td>
-							<td> edTriagePatientConcept.vitals.trauma.uuid={{edTriagePatientConcept.vitals.trauma.uuid}}<br/>
-								edTriagePatient.vitals.trauma.value={{edTriagePatient.vitals.trauma.value}}<br/>
+							<td>
 								<label class="radio-inline"><input type="radio" name="trauma"
 																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">Yes</label>
 								<label class="radio-inline"><input type="radio" name="trauma"

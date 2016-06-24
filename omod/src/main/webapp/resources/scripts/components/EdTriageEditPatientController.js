@@ -4,7 +4,7 @@ angular.module("edTriagePatientController", [])
         function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
-            $scope.debug = true; // if true, will show debug info on client
+            $scope.debug = false; // if true, will show debug info on client
 
             /* helper function to get the color class for the score
             * @param {String} colorCode - the uuid for the color

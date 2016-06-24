@@ -84,6 +84,8 @@
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value>
+                        <li ng-if="model.vitals.trauma.value">{{findAnswer(edTriagePatientConcept.vitals.trauma, model.vitals.trauma.value).label}}: ${ui.message("uicommons.yes")}</li>
+                        <li ng-if="model.vitals.mobility.value">${ui.message("edtriageapp.mobility")}: {{findAnswer(edTriagePatientConcept.vitals.mobility, model.vitals.mobility.value).label}}</li>
                     </ul>
                     <!-- <h4><span class="label label-info">Symptoms</span></h4> -->
                     <ul>

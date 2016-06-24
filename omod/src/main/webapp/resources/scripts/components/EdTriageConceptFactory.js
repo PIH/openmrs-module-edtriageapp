@@ -105,8 +105,8 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer(unknown_concept_uuid, "Uknown", EdTriageConcept.score.green)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
                     toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck", EdTriageConcept.score.red),
-                    toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Burn over 20% or circumferential", EdTriageConcept.score.orange, 'A'),
-                    toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Burn over 10% or circumferential", EdTriageConcept.score.orange, 'CI'),
+                    toAnswer("163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Significant burn of skin was (burn over 20% or circumferential)", EdTriageConcept.score.orange, 'ACI'),
+                    //toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Burn over 10% or circumferential", EdTriageConcept.score.orange, 'CI'),
                     toAnswer("c05b25f1-07d1-47de-a61e-fc9d3bfe95eb", "Burn - electrical or chemical", EdTriageConcept.score.orange),
                     toAnswer("3ccd21e8-26fe-102b-80cb-0017a47871b2", "burn-other", EdTriageConcept.score.yellow),
                     toAnswer(none_concept_uuid, "None", EdTriageConcept.score.green),

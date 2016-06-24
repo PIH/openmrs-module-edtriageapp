@@ -179,7 +179,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
 
 						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.trauma.uuid}}</label></td>
+							<td><label>{{edTriagePatientConcept.vitals.trauma.answers[0].label}}</label></td>
 							<td>
 								<label class="radio-inline"><input type="radio" name="trauma"
 																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">Yes</label>

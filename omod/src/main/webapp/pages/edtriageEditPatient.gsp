@@ -179,13 +179,16 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
 
 						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.trauma.label}}</label></td>
-							<td>
-								<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value">Yes</label>
-								<label class="radio-inline"><input type="radio" name="trauma">No</label>
+							<td><label>{{edTriagePatientConcept.vitals.trauma.uuid}}</label></td>
+							<td> edTriagePatientConcept.vitals.trauma.uuid={{edTriagePatientConcept.vitals.trauma.uuid}}<br/>
+								edTriagePatient.vitals.trauma.value={{edTriagePatient.vitals.trauma.value}}<br/>
+								<label class="radio-inline"><input type="radio" name="trauma"
+																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">Yes</label>
+								<label class="radio-inline"><input type="radio" name="trauma"
+																   ng-model="edTriagePatient.vitals.trauma.value" ng-value="">No</label>
 							</td>
 							<td></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.trauma.heartRate.uuid]"></score-display></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.uuid]"></score-display></td>
 						</tr>
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.weight.label}}</label></td>

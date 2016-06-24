@@ -187,9 +187,9 @@ angular.module("edTriagePatientFactory", [])
                 else if (uuid == concepts.vitals.temperature.uuid) {
                     ret.vitals.temperature = _v(v, obsUuid);
                 }
-                else if (uuid == concepts.vitals.trauma.uuid) {
-                    ret.vitals.trauma = _v(v, obsUuid);
-                }
+                // else if (uuid == concepts.vitals.trauma.uuid) {
+                //     ret.vitals.trauma = _v(v, obsUuid);
+                // }
                 else if (uuid == concepts.vitals.weight.uuid) {
                     ret.vitals.weight = _v(v, obsUuid);
                 }
@@ -204,6 +204,12 @@ angular.module("edTriagePatientFactory", [])
                     var found = _handleAnswerList(concepts.vitals.consciousness, v.uuid, obsUuid);
                     if(found != null){
                         ret.vitals.consciousness =  found;
+                        continue;
+                    }
+
+                    var found = _handleAnswerList(concepts.vitals.trauma, v.uuid, obsUuid);
+                    if(found != null){
+                        ret.vitals.trauma =  found;
                         continue;
                     }
 

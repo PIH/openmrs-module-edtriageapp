@@ -88,7 +88,7 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("162645AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "reacts to voice", 1),
                         toAnswer("162644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "responds to pain", 2),
                         toAnswer("f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100", "unresponsive", 3)],GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
-                trauma: toAnswer("124193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "trauma", function(ageType, value){return value>0?1:0;}),
+                trauma: toAnswers('trauma', [toAnswer("124193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "trauma", function(ageType, value){return value>0?1:0;})], GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 weight: toAnswer("3ce93b62-26fe-102b-80cb-0017a47871b2", "weight", function(ageType, value){return 0;})
             } ;
 

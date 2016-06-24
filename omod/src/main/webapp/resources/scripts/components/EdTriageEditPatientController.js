@@ -4,6 +4,7 @@ angular.module("edTriagePatientController", [])
         function ($scope, $filter, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
+            $scope.debug = true; // if true, will show debug info on client
 
             /* helper function to get the color class for the score
             * @param {String} colorCode - the uuid for the color
@@ -100,7 +101,7 @@ angular.module("edTriagePatientController", [])
                 EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatient = data;
-                    $scope.debug = false;
+
                     $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     $scope.loading_complete = true;
                     console.log("$scope.edTriagePatient is " + $scope.edTriagePatient);

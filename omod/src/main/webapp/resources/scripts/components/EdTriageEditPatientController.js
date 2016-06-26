@@ -8,6 +8,8 @@ angular.module("edTriagePatientController", [])
             $scope.traumaString = "";
             $scope.weightInKg = null;
             $scope.weightInLb = null;
+            $scope.tempInC = null;
+            $scope.tempInF = null;
 
             /* helper function to get the color class for the score
             * @param {String} colorCode - the uuid for the color
@@ -89,7 +91,31 @@ angular.module("edTriagePatientController", [])
                 }
                 $scope.edTriagePatient.vitals.weight = {concept:$scope.edTriagePatientConcept.vitals.weight.uuid, value:$scope.weightInKg};
 
-            }
+            };
+
+            /* handles converting the temp from C to F
+             * @param {String} convType = the type of converstion (c, f)
+             * */
+            $scope.handleTempChange = function(convType){
+                if(convType == 'c'){
+                    if($scope.tempInC  == null){
+                        $scope.tempInF = null;
+                        $scope.edTriagePatient.vitals.temperature = null;
+                        return;
+                    }
+                    $scope.tempInF = Math.round((($scope.tempInC * (9/5)) + 32)*10)/10;
+                }
+                else{
+                    if($scope.tempInF  == null){
+                        $scope.tempInC = null;
+                        $scope.edTriagePatient.vitals.temperature = null;
+                        return;
+                    }
+                    $scope.tempInC =   Math.round((($scope.tempInF - 32) * 5 / 9)*10)/10;
+                }
+                $scope.edTriagePatient.vitals.temperature = {concept:$scope.edTriagePatientConcept.vitals.temperature.uuid, value:$scope.tempInC};
+
+            };
 
             /* helper function for finding an answer for a question in the concept def
              * @param {EdTriageConcept} concept - the concepts
@@ -152,6 +178,12 @@ angular.module("edTriagePatientController", [])
                         $scope.weightInKg = Math.round($scope.edTriagePatient.vitals.weight.value);
                         $scope.handleWeightChange('kg');
                     }
+
+                    if($scope.edTriagePatient.vitals.temperature){
+                        $scope.tempInC = Math.round($scope.edTriagePatient.vitals.temperature.value);
+                        $scope.handleTempChange('c');
+                    }
+
                     $scope.currentScore = angular.extend({colorClass:$scope.getColorClass($scope.edTriagePatient.score.colorCode)}, $scope.edTriagePatient.score);
                     $scope.loading_complete = true;
 

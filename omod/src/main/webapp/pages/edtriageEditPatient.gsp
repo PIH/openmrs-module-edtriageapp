@@ -207,11 +207,11 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.temperature.label}}</label></td>
-							<td><input class="form-control" id="temperatureC" type="number" min="1" max="50"
-									   ng-model="edTriagePatient.vitals.temperature.value" /></td>
+							<td><input class="form-control" id="temperatureC" type="number" min="1" max="100"
+									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
 							<td class="pull-left">C</td>
-							<td><input class="form-control" id="temperatureC" type="number" min="1" max="50"
-									   ng-model="edTriagePatient.vitals.temperature.value" /></td>
+							<td><input class="form-control" id="temperatureF" type="number" min="32" max="212"
+									   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
 							<td>F</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>
 						</tr>

@@ -6,10 +6,12 @@ angular.module("edTriageDataService", [])
                     //FIND_PATIENT: "edtriageapp/findPatient.page?appId=mirebalais.liveCheckin", //  was "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage";
                     FIND_PATIENT: "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
-                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&patient=PATIENT_UUID&location=LOCATION_UUID",
-                    VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&location=LOCATION_UUID",
+                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
+                   // VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&location=LOCATION_UUID",
+                    VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&location=LOCATION_UUID",
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
-                    OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs"
+                    OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs",
+                    PATIENT_DASHBOARD:"coreapps/clinicianfacing/patient.page?patientId=PATIENT_UUID&app=pih.app.clinicianDashboard"
                 },
                 NONE_CONCEPT_UUID: "3cd743f8-26fe-102b-80cb-0017a47871b2",
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
@@ -227,7 +229,7 @@ angular.module("edTriageDataService", [])
                     //if it's none, then we don' have to put anything in there
                     console.log("ignoring " + id + "=" + value + " b/c it is none concept");
                 }
-                else if (value != null) {
+                else if (value != null && (value.length > 0 || value*1==value)) {
                     console.log("will save an observation concept_uuid=" + id + " and value=" + value);
                     list.push(buildObs(id, value, uuid));
                 }
@@ -335,9 +337,21 @@ angular.module("edTriageDataService", [])
                             var answers = concept.symptoms[prop].answers;
                             for(var i=0;i<answers.length;++i){
                                 if(answers[i].uuid == p.value){
-                                    console.log("symptoms score is " + answers[i].score(edTriagePatient.patient.ageType, p.value));
-                                    individualScores[p.value] = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                    var sc = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                    console.log("symptoms score is " + sc);
+                                    individualScores[p.value] = sc;
                                     ++symptomsScore[individualScores[p.value]];
+
+                                    //add any stuff for special property handling
+                                    if(prop == 'trauma' && p.value != concept.NONE_CONCEPT_UUID){
+                                        //when you select a trauma, you need to set the vitals trauma to true
+                                        var traumaObj = concept.vitals.trauma;
+                                        var traumaAnwser = traumaObj.answers[0];
+                                        var traumaVal =  traumaAnwser.score(edTriagePatient.patient.ageType, p.value != concept.NONE_CONCEPT_UUID);
+                                        individualScores[traumaObj.uuid] = traumaVal;
+                                        vistalsScore = vistalsScore + individualScores[traumaObj.uuid];
+
+                                    }
                                     break;
                                 }
                             }
@@ -378,6 +392,27 @@ angular.module("edTriageDataService", [])
                 function _ans(v){
                     return v != null && ((typeof v == 'string')?v.length>0:true);
                 }
+            };
+
+            /* helper function to get the color class for the score
+             * @param {String} colorCode - the uuid for the color
+             * @return the class suffix
+             * */
+            this.getColorClass = function(colorCode){
+                var ret = null;
+                if(colorCode == EdTriageConcept.score.red){
+                    ret = "red";
+                }
+                else if(colorCode == EdTriageConcept.score.orange){
+                    ret = "orange";
+                }
+                else if(colorCode == EdTriageConcept.score.yellow){
+                    ret = "yellow";
+                }
+                else if(colorCode == EdTriageConcept.score.green){
+                    ret = "green";
+                }
+                return ret;
             };
 
             this.CONSTANTS = CONSTANTS;

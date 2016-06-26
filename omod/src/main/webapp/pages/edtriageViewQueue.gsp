@@ -44,6 +44,13 @@
     ];
 </script>
 
+<style>
+li{
+    margin: 10px 0;
+}
+
+</style>
+
 
 <div class="container" ng-app="edTriageApp" ng-controller="viewQueueController">
     <div class="jumbotron">
@@ -65,6 +72,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th></th>
                 <th>${ ui.message("uicommons.patient") }</th>
                 <th>${ ui.message("edtriageapp.waitTime") }</th>
                 <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
@@ -75,25 +83,70 @@
             <tbody>
 
             <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore', waitTime()]" >
-                <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}} </a></td>
+                <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td>
+                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}
+                        <span class="label label-default">
+                            {{model.patient.age}} ${ui.message("uicommons.multipleInputDate.years.label")}
+                            <span ng-if="model.patient.gender=='M'">${ui.message("Patient.gender.male")}</span><span ng-if="model.patient.gender=='F'">${ui.message("Patient.gender.female")}</span>
+                        </span>
+                    </a>
+                </td>
                 <td>{{model.waitTime(serverTimeDelta)}}</td>
                 <td>{{model.chiefComplaint.value}}</td>
                 <td>
                     <ul class="list-unstyled">
+                        <show-list-item-if-has-value item-value="model.vitals.mobility.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.vitals.mobility, model, model.vitals.mobility.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.vitals.mobility, model.vitals.mobility.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.vitals.mobility, model, model.vitals.mobility.value)"></show-list-item-if-has-value>
+
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value>
+                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'oxygenSaturation'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value>
                         <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value>
-                        <li ng-if="model.vitals.trauma.value">{{findAnswer(edTriagePatientConcept.vitals.trauma, model.vitals.trauma.value).label}}: ${ui.message("uicommons.yes")}</li>
-                        <li ng-if="model.vitals.mobility.value">${ui.message("edtriageapp.mobility")}: {{findAnswer(edTriagePatientConcept.vitals.mobility, model.vitals.mobility.value).label}}</li>
-                        <li ng-if="model.symptoms.neurological.value">{{findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).label}}</li>
-                        <li ng-if="model.symptoms.burn.value">{{findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).label}}</li>
-                        <li ng-if="model.symptoms.trauma.value">{{findAnswer(edTriagePatientConcept.symptoms.trauma, model.symptoms.trauma.value).label}}</li>
-                        <li ng-if="model.symptoms.digestive.value">{{findAnswer(edTriagePatientConcept.symptoms.digestive, model.symptoms.digestive.value).label}}</li>
-                        <li ng-if="model.symptoms.pregnancy.value">{{findAnswer(edTriagePatientConcept.symptoms.pregnancy, model.symptoms.pregnancy.value).label}}</li>
-                        <li ng-if="model.symptoms.respiratory.value">{{findAnswer(edTriagePatientConcept.symptoms.respiratory, model.symptoms.respiratory.value).label}}</li>
-                        <li ng-if="model.symptoms.pain.value">{{findAnswer(edTriagePatientConcept.symptoms.pain, model.symptoms.pain.value).label}}</li>
-                        <li ng-if="model.symptoms.other.value">{{findAnswer(edTriagePatientConcept.symptoms.other, model.symptoms.other.value).label}}</li>
+                        <show-list-item-if-has-value item-value="model.vitals.consciousness.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"></show-list-item-if-has-value>
+
+                        <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
+                                                     score="1"
+                                                     item-label="'${ui.message('edtriageapp.trauma')}'"
+                                                     color="'score'"></show-list-item-if-has-value>
+
+                        <show-list-item-if-has-value item-value="model.symptoms.neurological.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.neurological, model, model.symptoms.neurological.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.neurological, model, model.symptoms.neurological.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.burn.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.burn, model, model.symptoms.burn.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.burn, model, model.symptoms.burn.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.trauma, model, model.symptoms.trauma.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.trauma, model.symptoms.trauma.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.trauma, model, model.symptoms.trauma.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.digestive.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.digestive, model, model.symptoms.digestive.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.digestive, model.symptoms.digestive.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.digestive, model, model.symptoms.digestive.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.pregnancy.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.pregnancy, model, model.symptoms.pregnancy.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.pregnancy, model.symptoms.pregnancy.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.pregnancy, model, model.symptoms.pregnancy.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.respiratory.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.respiratory, model, model.symptoms.respiratory.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.respiratory, model.symptoms.respiratory.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.respiratory, model, model.symptoms.respiratory.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.pain.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.pain, model, model.symptoms.pain.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.pain, model.symptoms.pain.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.pain, model, model.symptoms.pain.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.other.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.other, model, model.symptoms.other.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.other, model.symptoms.other.value).label"
+                                                     color="getColorClass(edTriagePatientConcept.symptoms.other, model, model.symptoms.other.value)"></show-list-item-if-has-value>
                     </ul>
                 </td>
                 <td>

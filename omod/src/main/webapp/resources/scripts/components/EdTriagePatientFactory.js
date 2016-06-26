@@ -115,11 +115,11 @@ angular.module("edTriagePatientFactory", [])
         * */
         EdTriagePatient.buildList = function (concepts, data, locationUuid) {
             //these fields are required for listing, but would be necessary, if we ran the calculate function
-            var patientDateOfBirth = new Date("October 13, 1974 11:13:00");    //TODO:  need to get this information
-            var patientGender = "F";         //TODO:  need to get this information
             //-----------------------------------------------------------------------
             var ret = [];
             for(var i = 0;i<data.length;++i){
+                var patientDateOfBirth = new Date(data[i].patient.person.birthdate);
+                var patientGender = data[i].patient.person.gender;
                 ret.push(EdTriagePatient.build(concepts, data[i], patientDateOfBirth, patientGender, locationUuid));
             }
             return ret;

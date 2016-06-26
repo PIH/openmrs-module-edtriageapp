@@ -44,7 +44,10 @@ angular.module("edTriageViewQueueController", [])
                     }
                     else{
                         //just reload the data, there might be new ones in the queue
-                        return $scope.loadPatientData();
+                        //return $scope.loadPatientData();
+                        var url = EdTriageDataService.CONSTANTS.URLS.PATIENT_DASHBOARD.replace("PATIENT_UUID", edTriagePatient.patient.uuid);
+                        emr.navigateTo({ applicationUrl: url});
+
                     }
                 });
                 
@@ -99,6 +102,31 @@ angular.module("edTriageViewQueueController", [])
                 return false;
 
             };
+
+            /* helper function to get the color class for the score
+             * @param {String} colorCode - the uuid for the color
+             * @return the class suffix
+             * */
+            $scope.getColorClass = function(concept, edTriagePatient, uuid){
+                var score = $scope.getScoreForProp(concept, edTriagePatient, uuid);
+                var color =  EdTriageDataService.getColorClass(score);
+                if(color == null){
+                    //this means we didn't have a color, it's some kind of numeric score,
+                    //so just use the default val
+                    color = 'score';
+                }
+                return color;
+            };
+
+            $scope.getScoreForProp = function(concept, edTriagePatient, uuid){
+                if(uuid == null){
+                    return -1;
+                }
+                var answer = $scope.findAnswer(concept, uuid);
+                var score = answer.score(edTriagePatient.patient.ageType, uuid);
+                return score;
+
+            } ;
 
             /* helper function for finding an answer for a question in the concept def
             * @param {EdTriageConcept} concept - the concepts
@@ -169,6 +197,19 @@ angular.module("edTriageViewQueueController", [])
                 propValueName: "="
             },
             template:
-                "<li ng-if='model[propTypeName][propValueName].value'>{{concept[propTypeName][propValueName].label}}: {{model[propTypeName][propValueName].value}}</li>"
+                "<li ng-if='model[propTypeName][propValueName].value && concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)'>" +
+                "<span class='label label-default'>{{concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)}}</span>&nbsp;{{concept[propTypeName][propValueName].label}}: {{model[propTypeName][propValueName].value}}</li>"
         };
-    });
+    }).directive('showListItemIfHasValue', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            itemValue: "=",
+            itemLabel:"=",
+            color: "=",
+            score:"="
+        },
+        template:
+            "<li ng-if='itemValue && score != 0'><span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>&nbsp;{{itemLabel}}</li>"
+};
+});;

@@ -36,6 +36,7 @@ import java.util.List;
 @Component
 public class EdTriageSearchHandler1_10 implements SearchHandler {
 
+	private static final String REQUEST_PARAM_OVERRIDE_REPRESENTATION= "voveride";
 	private static final String REQUEST_PARAM_DEBUG= "debug";
 	private static final String REQUEST_PARAM_PATIENT= "patient";
     private static final String REQUEST_PARAM_LOCATION = "location";
@@ -43,7 +44,7 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
     private static final int DEFAULT_HOURS_BACK = 24;
 
 	private final SearchQuery searchQuery = new SearchQuery.Builder("Gets EdTriage Encounters")
-			.withOptionalParameters(REQUEST_PARAM_PATIENT, REQUEST_PARAM_LOCATION, REQUEST_PARAM_HOURS_BACK, REQUEST_PARAM_DEBUG).build();
+			.withOptionalParameters(REQUEST_PARAM_PATIENT, REQUEST_PARAM_LOCATION, REQUEST_PARAM_HOURS_BACK, REQUEST_PARAM_DEBUG, REQUEST_PARAM_OVERRIDE_REPRESENTATION).build();
 
 
 	private final SearchConfig searchConfig = new SearchConfig("getActiveEdTriageEncounters", RestConstants.VERSION_1 + "/encounter",
@@ -63,6 +64,7 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
 	@Override
 	public PageableResult search(RequestContext context) throws ResponseException {
 		boolean debug = toInt(context.getParameter(REQUEST_PARAM_DEBUG),0)>0;
+		boolean useFullRepresentation = toInt(context.getParameter(REQUEST_PARAM_OVERRIDE_REPRESENTATION),0)>0;
 		String patient = context.getParameter(REQUEST_PARAM_PATIENT);
 		String location = context.getParameter(REQUEST_PARAM_LOCATION);
 		int hoursBack = toInt(context.getParameter(REQUEST_PARAM_HOURS_BACK), DEFAULT_HOURS_BACK);
@@ -78,7 +80,10 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
 			encounters = edTriageAppService.getActiveEncounters(hoursBack, location, patient);
 		}
 
-		context.setRepresentation(Representation.FULL); //we want the full representation
+		if(useFullRepresentation){
+			context.setRepresentation(Representation.FULL); //we want the full representation
+		}
+
 		return new NeedsPaging<Encounter>(encounters, context);
 	}
 

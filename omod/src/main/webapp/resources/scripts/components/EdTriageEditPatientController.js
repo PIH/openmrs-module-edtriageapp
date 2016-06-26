@@ -66,16 +66,18 @@ angular.module("edTriagePatientController", [])
 
             };
 
-            $scope.handleWeightChange = function(convertionFactor){
+            /* handles converting the weight from kg to lb and back
+            * @param {String} convType = the type of converstion (kg, lb)
+            * */
+            $scope.handleWeightChange = function(convType){
                 var CONVERSTION_FACTOR = 0.453592;
-                console.log(convertionFactor);
-                if(convertionFactor == 'kg'){
+                if(convType == 'kg'){
                     if($scope.weightInKg  == null){
                         $scope.weightInLb = null;
                         $scope.edTriagePatient.vitals.weight = null;
                         return;
                     }
-                    $scope.weightInLb = Math.round($scope.weightInKg*0.453592);
+                    $scope.weightInLb = Math.round($scope.weightInKg*CONVERSTION_FACTOR);
                 }
                 else{
                     if($scope.weightInLb  == null){

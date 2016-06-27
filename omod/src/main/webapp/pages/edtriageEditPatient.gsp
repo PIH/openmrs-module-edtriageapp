@@ -197,7 +197,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							</td>
 							<td class="text-center">/</td>
 							<td>
-								<input class="form-control weight-box" style="" id="bloodPressureDiastolic" type="text" min="1" max="999"
+								<input class="form-control weight-box" style="" id="bloodPressureDiastolic" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 
 							</td>

@@ -162,6 +162,10 @@ angular.module("edTriagePatientController", [])
                         input.focus();
                     });
                 }
+            }          ;
+
+            $scope.sortAnswer = function(answer){
+                return answer.labelTranslated($scope.edTriagePatient);
             }
 
             /* ---------------------------------------------------------
@@ -203,26 +207,29 @@ angular.module("edTriagePatientController", [])
             concept: "=",
             selectedConcept: "=",
             score:"=",
-            scoreLabelClass:"="
+            scoreLabelClass:"=" ,
+            sorter:"="
         },
         template: '<tr>' +
         '<td><label>{{conceptLabel}}</label></td>'  +
-        '<td colspan="4"><concept-select-box ed-triage-patient="edTriagePatient" concept="concept" ' +
+        '<td colspan="4"><concept-select-box ed-triage-patient="edTriagePatient" sorter="sorter" concept="concept" ' +
         ' selected-concept="selectedConcept"></concept-select-box></td>' +
          '<td><score-display ng-if="score" score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
         };
 }).directive('conceptSelectBox', function () {
+
     return {
         restrict: 'E',
         scope: {
             edTriagePatient: "=",
             concept: "=",
             selectedConcept: "=",
-            inputId:"="
+            inputId:"=",
+            sorter:"="
         },
         template: '<select class="form-control" id="{{inputId}}" ng-model="selectedConcept">' +
             '<option value=""></option>' +
-        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers | orderBy:\'label\'" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.label}}</option>' +
+        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers | orderBy:sorter" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.labelTranslated(edTriagePatient.patient.ageType)}}</option>' +
         '</select>'
     };
 }).directive('scoreDisplay', function () {
@@ -233,6 +240,6 @@ angular.module("edTriagePatientController", [])
             score: "=",
             scoreLabelClass:"="
         },
-        template: '<span class="label {{scoreLabelClass}}">{{score}}</span> xx{{labelClass}}yy'
+        template: '<span class="label {{scoreLabelClass}}">{{score}}</span> {{labelClass}}'
     };
 });

@@ -229,7 +229,10 @@ angular.module("edTriageDataService", [])
                     //if it's none, then we don' have to put anything in there
                     console.log("ignoring " + id + "=" + value + " b/c it is none concept");
                 }
-                else if (value != null && (value.length > 0 || value*1==value)) {
+                else if (value == null || (typeof value == 'string' && value.length==0)){
+                    console.log("ignoring " + id + "=" + value + " b/c it empty");
+                }
+                else{
                     console.log("will save an observation concept_uuid=" + id + " and value=" + value);
                     list.push(buildObs(id, value, uuid));
                 }
@@ -285,7 +288,6 @@ angular.module("edTriageDataService", [])
                         var p =  edTriagePatient.vitals[prop];
                         if(_ans(p)){
                             ++completedItems;
-                            //TODO:  need to calc the score based on the rules for each vital
                             if(concept.vitals.hasOwnProperty(prop)){
                                 var c = concept.vitals[prop];
                                 if(c.hasOwnProperty("answers")){

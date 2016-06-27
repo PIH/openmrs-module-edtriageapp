@@ -146,8 +146,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                     <h3 class="panel-title">${ ui.message("edtriageapp.vitals") }</h3>
                 </div>
                 <div class="panel-body ">
-
-
 					<table class="table table-condensed borderless">
 						<thead>
 						<tr ng-if="debug">
@@ -160,11 +158,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						</tr>
 						</thead>
 						<tbody>
-						<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.mobility"
+						<tr concept-selector-row ed-triage-patient="edTriagePatient"
+							concept="edTriagePatientConcept.vitals.mobility"
 							concept-label="'${ui.message("edtriageapp.mobility")}'"
-												selected-concept="edTriagePatient.vitals.mobility.value"
-							                    score-label-class="'edtriage-label-score'"
-												score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
+							sorter="sortAnswer"
+							selected-concept="edTriagePatient.vitals.mobility.value"
+							score-label-class="'edtriage-label-score'"
+							score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
 							<td colspan="3"><input class="form-control" type="number" min="1" max="200"
@@ -189,7 +189,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
 						</tr>
 
-						<tr >
+						<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">
 							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
 							<td>
 								<input class="form-control weight-box" id="bloodPressureSystolic" type="number" min="1" max="999"
@@ -217,6 +217,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						</tr>
 
 						<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness"
+							sorter="sortAnswer"
 							concept-label="'${ui.message("edtriageapp.consciousness")}'"
 							selected-concept="edTriagePatient.vitals.consciousness.value" score-label-class="'edtriage-label-score'"
 							score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
@@ -245,42 +246,50 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<table class="borderless">
 						<tbody>
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.neurological.value"  concept-label="'${ui.message("edtriageapp.neurological")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></tr>
 						                     <!-- getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])-->
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.burn.value"  concept-label="'${ui.message("edtriageapp.burn")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.burn.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.trauma.value" concept-label="'${ui.message("edtriageapp.trauma")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.trauma.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.digestive.value" concept-label="'${ui.message("edtriageapp.digestive")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.digestive.value])"></tr>
 
 								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'" ng-if="edTriagePatient.patient.gender == 'F'"
 								concept="edTriagePatientConcept.symptoms.pregnancy"
-								selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"
 									score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pregnancy.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.respiratory.value" concept-label="'${ui.message("edtriageapp.respiratory")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.respiratory.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.pain.value" concept-label="'${ui.message("edtriageapp.pain")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.pain.value])"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other"
+								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
 								score-label-class="'edtriage-label-' + getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"
 								score="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'" scorex=="getColorClass(currentScore.individualScores[edTriagePatient.symptoms.other.value])"></tr>
@@ -343,11 +352,34 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 
 <script type="text/javascript">
+	var translations = {
+		'12d9f052-6980-4542-91ef-190247811228':'${ui.message("edtriageapp.12d9f052-6980-4542-91ef-190247811228")}',
+		'130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
+		'139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
+		'163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
+		'3ccccc20-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ccccc20-26fe-102b-80cb-0017a47871b2")}',
+		'3ccd21e8-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ccd21e8-26fe-102b-80cb-0017a47871b2")}',
+		'3cce938e-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3cce938e-26fe-102b-80cb-0017a47871b2")}',
+		'3ceade68-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ceade68-26fe-102b-80cb-0017a47871b2")}',
+		'3cf1a95a-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3cf1a95a-26fe-102b-80cb-0017a47871b2")}',
+		'4bb094a6-c74b-4481-8f81-b98ff8e4cc39':'${ui.message("edtriageapp.4bb094a6-c74b-4481-8f81-b98ff8e4cc39")}',
+		'641f4fe3-cac2-46c4-aa94-c8b6d05e9407':'${ui.message("edtriageapp.641f4fe3-cac2-46c4-aa94-c8b6d05e9407")}',
+		'7c4d837b-5967-4ba6-902c-ca7651bebf34':'${ui.message("edtriageapp.7c4d837b-5967-4ba6-902c-ca7651bebf34")}',
+		'A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
+		'ad52aee5-c789-4442-8dfc-2242375f22e8':'${ui.message("edtriageapp.ad52aee5-c789-4442-8dfc-2242375f22e8")}',
+		'eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c':'${ui.message("edtriageapp.eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c")}',
+		'f4433b74-6396-47ff-aa63-3900493ebf23':'${ui.message("edtriageapp.f4433b74-6396-47ff-aa63-3900493ebf23")}',
+		'I.641f4fe3-cac2-46c4-aa94-c8b6d05e9407':'${ui.message("edtriageapp.I.641f4fe3-cac2-46c4-aa94-c8b6d05e9407")}'
+	} ;
+
+	console.log(translations) ;
+
 	angular.module('edTriageApp')
 			.value('patientUuid', '${ patient.uuid }')
 			.value('patientBirthDate', '${ patient.birthdate }')
 			.value('patientGender', '${ patient.gender }')
 			.value('locationUuid', '${ location.uuid }')
+			.value('translations', translations)
 
 	;
 	//angular.bootstrap('#edTriageApp', [ "edTriageApp" ])   ;

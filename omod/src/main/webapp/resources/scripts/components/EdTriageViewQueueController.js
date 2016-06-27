@@ -198,7 +198,7 @@ angular.module("edTriageViewQueueController", [])
             },
             template:
                 "<li ng-if='model[propTypeName][propValueName].value && concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)'>" +
-                "<span class='label label-default'>{{concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)}}</span>&nbsp;{{concept[propTypeName][propValueName].label}}: {{model[propTypeName][propValueName].value}}</li>"
+                "<span class='label label-default'>{{concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)}}</span>&nbsp;{{concept[propTypeName][propValueName].labelTranslated(model.patient.ageType)}}: {{model[propTypeName][propValueName].value}}</li>"
         };
     }).directive('showListItemIfHasValue', function () {
     return {

@@ -45,10 +45,7 @@
 </script>
 
 <style>
-li{
-    margin: 10px 0;
-    font-size:12px;
-}
+
 </style>
 
 
@@ -87,8 +84,8 @@ li{
                 <td>
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}
                         <br/>
-                        <span class="label label-default">
-                            {{model.patient.age}} ${ui.message("uicommons.multipleInputDate.years.label")}
+                        <span class="label edtriage-label-{{model.patient.lessThan4WeeksOld?'red':'score'}}">
+                            {{model.patient.lessThan4WeeksOld?'${ ui.message("edtriageapp.lessThan4WeeksOld") }':model.patient.age + '${ui.message("uicommons.multipleInputDate.years.label")}'}}
                             <span ng-if="model.patient.gender=='M'">${ui.message("Patient.gender.male")}</span><span ng-if="model.patient.gender=='F'">${ui.message("Patient.gender.female")}</span>
                         </span>
                     </a>
@@ -102,15 +99,32 @@ li{
                                                      item-label="findAnswer(edTriagePatientConcept.vitals.mobility, model.vitals.mobility.value).label"
                                                      color="getColorClass(edTriagePatientConcept.vitals.mobility, model, model.vitals.mobility.value)"></show-list-item-if-has-value>
 
-                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'respiratoryRate'"></show-if-has-value>
-                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'oxygenSaturation'"></show-if-has-value>
-                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'heartRate'"></show-if-has-value>
-                        <show-if-has-value concept="edTriagePatientConcept" model="model" prop-type-name="'vitals'" prop-value-name="'temperature'"></show-if-has-value>
+
+                        <show-if-has-value item-value="model.vitals.respiratoryRate.value"
+                                                     score="edTriagePatientConcept.vitals.respiratoryRate.score(model.patient.ageType, model.vitals.heartRate.value)"
+                                                     item-label="edTriagePatientConcept.vitals.respiratoryRate.labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(edTriagePatientConcept.vitals.respiratoryRate.score(model.patient.ageType, model.vitals.respiratoryRate.value))"></show-if-has-value>
+
+                        <show-if-has-value item-value="model.vitals.oxygenSaturation.value"
+                                           score="edTriagePatientConcept.vitals.oxygenSaturation.score(model.patient.ageType, model.vitals.oxygenSaturation.value)"
+                                           item-label="edTriagePatientConcept.vitals.oxygenSaturation.labelTranslated(model.patient.ageType)"
+                                           color="getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.score(model.patient.ageType, model.vitals.oxygenSaturation.value))"></show-if-has-value>
+
+                        <show-if-has-value item-value="model.vitals.heartRate.value"
+                                           score="edTriagePatientConcept.vitals.heartRate.score(model.patient.ageType, model.vitals.heartRate.value)"
+                                           item-label="edTriagePatientConcept.vitals.heartRate.labelTranslated(model.patient.ageType)"
+                                           color="getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.score(model.patient.ageType, model.vitals.heartRate.value))"></show-if-has-value>
+
+                        <show-if-has-value item-value="model.vitals.temperature.value"
+                                           score="edTriagePatientConcept.vitals.temperature.score(model.patient.ageType, model.vitals.temperature.value)"
+                                           item-label="edTriagePatientConcept.vitals.temperature.labelTranslated(model.patient.ageType)"
+                                           color="getColorClassFromScore(edTriagePatientConcept.vitals.temperature.score(model.patient.ageType, model.vitals.temperature.value))"></show-if-has-value>
+
+
                         <show-list-item-if-has-value item-value="model.vitals.consciousness.value"
                                                      score="getScoreForProp(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).label"
                                                      color="getColorClass(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"></show-list-item-if-has-value>
-
                         <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
                                                      score="1"
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"
@@ -180,27 +194,9 @@ li{
     </div>
 </div>
 
-<script type="text/javascript">
-    var translations = {
-        '12d9f052-6980-4542-91ef-190247811228':'${ui.message("edtriageapp.12d9f052-6980-4542-91ef-190247811228")}',
-        '130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-        '139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-        '163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-        '3ccccc20-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ccccc20-26fe-102b-80cb-0017a47871b2")}',
-        '3ccd21e8-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ccd21e8-26fe-102b-80cb-0017a47871b2")}',
-        '3cce938e-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3cce938e-26fe-102b-80cb-0017a47871b2")}',
-        '3ceade68-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ceade68-26fe-102b-80cb-0017a47871b2")}',
-        '3cf1a95a-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3cf1a95a-26fe-102b-80cb-0017a47871b2")}',
-        '4bb094a6-c74b-4481-8f81-b98ff8e4cc39':'${ui.message("edtriageapp.4bb094a6-c74b-4481-8f81-b98ff8e4cc39")}',
-        '641f4fe3-cac2-46c4-aa94-c8b6d05e9407':'${ui.message("edtriageapp.641f4fe3-cac2-46c4-aa94-c8b6d05e9407")}',
-        '7c4d837b-5967-4ba6-902c-ca7651bebf34':'${ui.message("edtriageapp.7c4d837b-5967-4ba6-902c-ca7651bebf34")}',
-        'A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-        'ad52aee5-c789-4442-8dfc-2242375f22e8':'${ui.message("edtriageapp.ad52aee5-c789-4442-8dfc-2242375f22e8")}',
-        'eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c':'${ui.message("edtriageapp.eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c")}',
-        'f4433b74-6396-47ff-aa63-3900493ebf23':'${ui.message("edtriageapp.f4433b74-6396-47ff-aa63-3900493ebf23")}',
-        'I.641f4fe3-cac2-46c4-aa94-c8b6d05e9407':'${ui.message("edtriageapp.I.641f4fe3-cac2-46c4-aa94-c8b6d05e9407")}'
-    } ;
+${ ui.includeFragment("edtriageapp", "translations") }
 
+<script type="text/javascript">
     angular.module('edTriageApp')
             .value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
             .value('locationUuid', '${ location.uuid }')

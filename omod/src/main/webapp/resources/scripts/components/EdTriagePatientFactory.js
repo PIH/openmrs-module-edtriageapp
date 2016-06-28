@@ -9,9 +9,8 @@ angular.module("edTriagePatientFactory", [])
             this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
-            this.percentComplete = 0;  // this is used when the score is calculated
             this.originalObservationUuids = [];
-            this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, display:null};
+            this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, lessThan4WeeksOld:false, display:null};
             this.location = null;
             this.chiefComplaint = null;
             this.vitals = {
@@ -66,7 +65,7 @@ angular.module("edTriagePatientFactory", [])
             var date = new Date(this.encounterDateTime);
             var now = new Date();
             var delta = serverDateTimeDeltaInMillis==null?0:serverDateTimeDeltaInMillis;
-            var w = (delta + now.getTime() - date.getTime())/1000;
+            var w = (now.getTime() - date.getTime() - delta )/1000;
             //this fixes any small differences in time, it shouldn't happen
             if(w < 0){
                 w =0;
@@ -89,17 +88,19 @@ angular.module("edTriagePatientFactory", [])
             var ret = new EdTriagePatient();
             var diff = Math.floor(new Date().getTime() - dateOfBirth.getTime());
             var yr = 1000 * 60 * 60 * 24 *365;
+            var fourWeeks = 1000*60*60*24*28;
             var age = Math.floor(diff/yr) ; //TODO: calc the real age
-            var ageType = 'A';
+            var ageType = EdTriageConcept.ageType.ADULT;
             if(age < 3){
-               ageType = 'I';
+                ageType = EdTriageConcept.ageType.INFANT;
             }
             else if (age < 13){
-                ageType = 'C';
+                ageType = EdTriageConcept.ageType.CHILD;
             }
             ret.patient.uuid = uuid;
             ret.patient.age = age;
             ret.patient.birthdate=dateOfBirth;
+            ret.patient.lessThan4WeeksOld = (diff < fourWeeks);
             ret.patient.gender=gender;
             ret.patient.age = age;
             ret.patient.ageType=ageType;

@@ -19,6 +19,26 @@ angular.module("edTriagePatientController", [])
                 return EdTriageDataService.getColorClass(colorCode);
             };
 
+            /* determines if a score is numeric or a color
+            * @param {String} the concept UUID
+            * @return true if it is a number
+            * */
+            $scope.isNumericScore = function(uuid){
+                var v = $scope.getScore(uuid);
+                return v*1==v;
+            };
+
+            /* gets the score
+             * @param {String} the concept UUID
+             * @return the score
+             * */
+            $scope.getScore = function(uuid){
+                if(uuid === undefined || $scope.currentScore === undefined ){
+                    return null;
+                }
+                return $scope.currentScore.individualScores[uuid];
+            };
+
             /* navigates to the find patient page*/
             $scope.goToFindPatient = function(){
                 // go to the add patient page
@@ -155,10 +175,8 @@ angular.module("edTriagePatientController", [])
             * */
             $scope.setFocus = function(id){
                 var input = $element.find(id);
-                console.log("setting focus to - " + input);
                 if (input) {
                     $timeout(function() {
-                        console.log(input);
                         input.focus();
                     });
                 }
@@ -166,7 +184,8 @@ angular.module("edTriagePatientController", [])
 
             $scope.sortAnswer = function(answer){
                 return answer.labelTranslated($scope.edTriagePatient);
-            }
+            };
+
 
             /* ---------------------------------------------------------
             *  page initialization code starts here
@@ -240,6 +259,6 @@ angular.module("edTriagePatientController", [])
             score: "=",
             scoreLabelClass:"="
         },
-        template: '<span class="label {{scoreLabelClass}}">{{score}}</span> {{labelClass}}'
+        template: '<span class="label {{scoreLabelClass}}">{{score}}</span>'
     };
 });

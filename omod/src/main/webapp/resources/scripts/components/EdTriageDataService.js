@@ -13,7 +13,6 @@ angular.module("edTriageDataService", [])
                     OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs",
                     PATIENT_DASHBOARD:"coreapps/clinicianfacing/patient.page?patientId=PATIENT_UUID&app=pih.app.clinicianDashboard"
                 },
-                NONE_CONCEPT_UUID: "3cd743f8-26fe-102b-80cb-0017a47871b2",
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
                 ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77"
             };
@@ -220,20 +219,11 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-
-                if (id == '11111111-1111-1111-1111-111111111111') {
-                    //TODO:  delete this eventually, once we have all the concepts written
-                    console.log("we found a debug concept id=" + id + " so " + value + " will not be written");
-                }
-                else if (value == CONSTANTS.NONE_CONCEPT_UUID) {
-                    //if it's none, then we don' have to put anything in there
-                    console.log("ignoring " + id + "=" + value + " b/c it is none concept");
-                }
-                else if (value == null || (typeof value == 'string' && value.length==0)){
-                    console.log("ignoring " + id + "=" + value + " b/c it empty");
+                if (value == null || (typeof value == 'string' && value.length==0)){
+                    //console.log("ignoring " + id + "=" + value + " b/c it empty");
                 }
                 else{
-                    console.log("will save an observation concept_uuid=" + id + " and value=" + value);
+                    //console.log("will save an observation concept_uuid=" + id + " and value=" + value);
                     list.push(buildObs(id, value, uuid));
                 }
 
@@ -261,23 +251,11 @@ angular.module("edTriageDataService", [])
 
                 var vistalsScore = 0;
                 var symptomsScore = {};
-                symptomsScore[EdTriageConcept.score.red]=0;
+                symptomsScore[EdTriageConcept.score.red]=edTriagePatient.patient.lessThan4WeeksOld?1:0;
                 symptomsScore[EdTriageConcept.score.orange]=0;
                 symptomsScore[EdTriageConcept.score.yellow]=0;
                 symptomsScore[EdTriageConcept.score.green]=0;
-                /*
-                  for the percent complete, we calculate it like this:
-                  1/3 complete for filling in complaint
-                  1/3 complete for filling in at least one symptom
-                  1/3 complete depending on how many vitals were entered
-                */
-                var totalVitals = 9;
-                var totalItems = 3*totalVitals;
-                var completedItems = 0;
 
-                if(_ans(edTriagePatient.chiefComplaint)){
-                    completedItems += totalVitals;
-                }
                 //iterate through the vitals and ...
                 // 1) check that they are entered
                 // 2) update the score based on the vital
@@ -287,7 +265,6 @@ angular.module("edTriageDataService", [])
                     if (edTriagePatient.vitals.hasOwnProperty(prop)) {
                         var p =  edTriagePatient.vitals[prop];
                         if(_ans(p)){
-                            ++completedItems;
                             if(concept.vitals.hasOwnProperty(prop)){
                                 var c = concept.vitals[prop];
                                 if(c.hasOwnProperty("answers")){
@@ -306,7 +283,15 @@ angular.module("edTriageDataService", [])
                                     // function, if it does then call it, otherwise move on
                                     if(typeof c.score === "function"){
                                         individualScores[c.uuid] = c.score(ageType, p.value);
-                                        vistalsScore = vistalsScore + individualScores[c.uuid];
+                                        if(individualScores[c.uuid]*1==individualScores[c.uuid]){
+                                            //this is a straight number, just add it
+                                            vistalsScore = vistalsScore + individualScores[c.uuid];
+                                        }
+                                        else{
+                                            //this is a color so add it to the appropriate box
+                                            ++symptomsScore[individualScores[c.uuid]];
+                                        }
+
                                     }
                                 }
                             }
@@ -330,26 +315,23 @@ angular.module("edTriageDataService", [])
 
                 // 1) check that they are entered
                 // 2) update the score based on the symptom
-                var haveAtLeastOneSymptom = false;
                 for (var prop in edTriagePatient.symptoms) {
                     if (edTriagePatient.symptoms.hasOwnProperty(prop)) {
                         var p =  edTriagePatient.symptoms[prop];
                         if(_ans(p)){
-                            haveAtLeastOneSymptom = true;
                             var answers = concept.symptoms[prop].answers;
                             for(var i=0;i<answers.length;++i){
                                 if(answers[i].uuid == p.value){
                                     var sc = answers[i].score(edTriagePatient.patient.ageType, p.value);
-                                    console.log("symptoms score is " + sc);
                                     individualScores[p.value] = sc;
                                     ++symptomsScore[individualScores[p.value]];
 
                                     //add any stuff for special property handling
-                                    if(prop == 'trauma' && p.value != concept.NONE_CONCEPT_UUID){
+                                    if(prop == 'trauma' && p.value != null){
                                         //when you select a trauma, you need to set the vitals trauma to true
                                         var traumaObj = concept.vitals.trauma;
                                         var traumaAnwser = traumaObj.answers[0];
-                                        var traumaVal =  traumaAnwser.score(edTriagePatient.patient.ageType, p.value != concept.NONE_CONCEPT_UUID);
+                                        var traumaVal =  traumaAnwser.score(edTriagePatient.patient.ageType, true);
                                         individualScores[traumaObj.uuid] = traumaVal;
                                         vistalsScore = vistalsScore + individualScores[traumaObj.uuid];
 
@@ -360,10 +342,6 @@ angular.module("edTriageDataService", [])
                         }
                     }
                 }
-                if(haveAtLeastOneSymptom){
-                    completedItems += totalVitals;
-                }
-
 
                 // the scoring works like this:
                 //  if you have at least one red, then your
@@ -374,11 +352,11 @@ angular.module("edTriageDataService", [])
                 var numericScore = 0;
                 if(symptomsScore[EdTriageConcept.score.red]>0){
                     colorCode = EdTriageConcept.score.red;
-                    numericScore =  symptomsScore[EdTriageConcept.score.red]*20;
+                    numericScore =  symptomsScore[EdTriageConcept.score.red]*100;
                 }
                 else if(symptomsScore[EdTriageConcept.score.orange]>0){
                     colorCode = EdTriageConcept.score.orange;
-                    numericScore =  symptomsScore[EdTriageConcept.score.orange]*5;
+                    numericScore =  symptomsScore[EdTriageConcept.score.orange]*10;
                 }
                 else if(symptomsScore[EdTriageConcept.score.yellow]>0){
                     colorCode = EdTriageConcept.score.yellow;
@@ -387,7 +365,6 @@ angular.module("edTriageDataService", [])
 
                 var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores, vitalsScore:vistalsScore};
                 edTriagePatient.score = score;
-                edTriagePatient.percentComplete = Math.round(completedItems / totalItems * 100);
 
                 return score;
 
@@ -416,6 +393,7 @@ angular.module("edTriageDataService", [])
                 }
                 return ret;
             };
+
 
             this.CONSTANTS = CONSTANTS;
         }]);

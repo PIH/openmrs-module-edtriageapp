@@ -54,40 +54,20 @@
 	}
 
 	jq(function() {
-		console.log("jquery is working");
-
 		jq(window).scroll(sticky_relocate);
 		sticky_relocate();
-
 	});
 
 </script>
 
 <style>
-	.weight-box{
-		  width:75px;
-	}
 
-	.blood-pressure-box{
-		width:10px;
-	}
 
 </style>
 
 ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
-
 <div class="container" ng-app="edTriageApp" ng-controller="patientEditController" ng-show="loading_complete">
-
-	<div ng-if="debug" class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title">${ui.message("uicommons.patient")}</h3>
-		</div>
-		<div class="panel-body">
-			Patient Id {{edTriagePatient.patient.uuid}} ({{edTriagePatient.patient.gender}} age {{edTriagePatient.patient.age}})
-		</div>
-	</div>
-
 	<div id="sticky-anchor"></div>
 	<div class="panel panel-info" id="sticky">
 		<div class="panel-heading">
@@ -124,13 +104,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="row">
 				<div class="col-xs-6">
 					<label for="weight_in_kg">Weight in kg.</label>
-					<input class="form-control weight-box" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
+					<input class="form-control edtriage-weight-box" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
 					   ng-model="weightInKg" />
 				</div>
 
 				<div class="col-xs-6">
 					<label for="weight_in_lb">Weight in lbs.</label>
-					<input class="form-control weight-box" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
+					<input class="form-control edtriage-weight-box" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
 					   ng-model="weightInLb" />
 				</div>
 
@@ -186,18 +166,19 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<td colspan="3"><input class="form-control" id="heartRate" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
+							<td><score-display score-label-class="'edtriage-label-' + (isNumericScore(edTriagePatientConcept.vitals.heartRate.uuid)?'score':getColorClass(getScore(edTriagePatientConcept.vitals.heartRate.uuid)))"
+											   score="isNumericScore(edTriagePatientConcept.vitals.heartRate.uuid)?getScore(edTriagePatientConcept.vitals.heartRate.uuid):'&nbsp;&nbsp;'"></score-display></td>
 						</tr>
 
 						<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">
 							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
 							<td>
-								<input class="form-control weight-box" id="bloodPressureSystolic" type="number" min="1" max="999"
+								<input class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
 							</td>
 							<td class="text-center">/</td>
 							<td>
-								<input class="form-control weight-box" style="" id="bloodPressureDiastolic" type="number" min="1" max="999"
+								<input class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 
 							</td>
@@ -226,6 +207,11 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<td><label>{{edTriagePatientConcept.vitals.trauma.answers[0].label}}</label></td>
 							<td colspan="4">  {{findAnswerLabel(edTriagePatientConcept.symptoms.trauma, traumaString)}}</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.uuid]"></score-display></td>
+						</tr>
+						<tr ng-if="edTriagePatient.patient.lessThan4WeeksOld">
+							<td>${ui.message("Person.age")}</td>
+							<td colspan="4">${ ui.message("edtriageapp.lessThan4WeeksOld") }</td>
+							<td><score-display score-label-class="'edtriage-label-red'" score="'&nbsp;&nbsp;'"></score-display></td>
 						</tr>
 						<tr>
 							<td><label>${ui.message("edtriageapp.total")}</label></td>
@@ -350,39 +336,15 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 </div>
 
 
+${ ui.includeFragment("edtriageapp", "translations") }
 
 <script type="text/javascript">
-	var translations = {
-		'12d9f052-6980-4542-91ef-190247811228':'${ui.message("edtriageapp.12d9f052-6980-4542-91ef-190247811228")}',
-		'130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-		'139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-		'163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-		'3ccccc20-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ccccc20-26fe-102b-80cb-0017a47871b2")}',
-		'3ccd21e8-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ccd21e8-26fe-102b-80cb-0017a47871b2")}',
-		'3cce938e-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3cce938e-26fe-102b-80cb-0017a47871b2")}',
-		'3ceade68-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3ceade68-26fe-102b-80cb-0017a47871b2")}',
-		'3cf1a95a-26fe-102b-80cb-0017a47871b2':'${ui.message("edtriageapp.3cf1a95a-26fe-102b-80cb-0017a47871b2")}',
-		'4bb094a6-c74b-4481-8f81-b98ff8e4cc39':'${ui.message("edtriageapp.4bb094a6-c74b-4481-8f81-b98ff8e4cc39")}',
-		'641f4fe3-cac2-46c4-aa94-c8b6d05e9407':'${ui.message("edtriageapp.641f4fe3-cac2-46c4-aa94-c8b6d05e9407")}',
-		'7c4d837b-5967-4ba6-902c-ca7651bebf34':'${ui.message("edtriageapp.7c4d837b-5967-4ba6-902c-ca7651bebf34")}',
-		'A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
-		'ad52aee5-c789-4442-8dfc-2242375f22e8':'${ui.message("edtriageapp.ad52aee5-c789-4442-8dfc-2242375f22e8")}',
-		'eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c':'${ui.message("edtriageapp.eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c")}',
-		'f4433b74-6396-47ff-aa63-3900493ebf23':'${ui.message("edtriageapp.f4433b74-6396-47ff-aa63-3900493ebf23")}',
-		'I.641f4fe3-cac2-46c4-aa94-c8b6d05e9407':'${ui.message("edtriageapp.I.641f4fe3-cac2-46c4-aa94-c8b6d05e9407")}'
-	} ;
-
-	console.log(translations) ;
-
 	angular.module('edTriageApp')
 			.value('patientUuid', '${ patient.uuid }')
 			.value('patientBirthDate', '${ patient.birthdate }')
 			.value('patientGender', '${ patient.gender }')
 			.value('locationUuid', '${ location.uuid }')
-			.value('translations', translations)
-
-	;
-	//angular.bootstrap('#edTriageApp', [ "edTriageApp" ])   ;
+			.value('translations', translations);
 
 	jq(function() {
 		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header

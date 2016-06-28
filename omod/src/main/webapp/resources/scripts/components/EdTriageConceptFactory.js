@@ -4,8 +4,6 @@ angular.module("edTriageConceptFactory", [])
          * Constructor, with class name
          */
         function EdTriageConcept() {
-            this.NONE_CONCEPT_UUID = "3cd743f8-26fe-102b-80cb-0017a47871b2";
-            var unknown_concept_uuid = "3cd6fac4-26fe-102b-80cb-0017a47871b2";
             var GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID = "060f63dd-9588-4dc2-bf19-c90da02bff15";
             // Public properties, assigned to the instance ('this')
             this.triageQueueStatus =  toAnswers("triageQueueStatus", [
@@ -60,7 +58,8 @@ angular.module("edTriageConceptFactory", [])
                         if(value < 101) return 0;
                         if(value < 111) return 1;
                         if(value < 130) return 2;
-                        return 3;
+                        if(value < 146) return 3;
+                        return EdTriageConcept.score.red;
                     }
                     if(ageType == 'C'){
                         if(value < 60) return 3;
@@ -208,6 +207,13 @@ angular.module("edTriageConceptFactory", [])
             outpatientConsultation: "3cdc871e-26fe-102b-80cb-0017a47871b2",
             removed: "45d0c3d2-2188-4186-8a19-0063b92914ee",
             expired: "1fa8d25e-7471-4201-815f-79fac44d9a5f"
+        };
+
+        EdTriageConcept.ageType = {
+            ADULT: 'A',
+            CHILD:'C',
+            INFANT:'I',
+            ALL:'ACI'
         };
 
         /**

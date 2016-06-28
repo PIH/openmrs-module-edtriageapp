@@ -40,12 +40,18 @@ $fontPath: "../fonts";
 	position: fixed;
 	top: 0;
 	z-index: 10000;
-	/*border-radius: 0 0 0.5em 0.5em;*/
 }
 
 .borderless td, .borderless th {
 	border: none;
 }
 
-/* .edtriage */
+.edtriage-weight-box{
+	width:75px;
+}
+
+.edtriage-queue-list-item{
+	margin: 10px 0;
+	font-size:12px;
+}
 

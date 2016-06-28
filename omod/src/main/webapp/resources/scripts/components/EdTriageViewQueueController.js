@@ -9,7 +9,8 @@ angular.module("edTriageViewQueueController", [])
             $scope.lastUpdatedAtStr = "2:00 ";
             $scope.triageStatusCodes =  EdTriageConcept.status;
             $scope.debug = false;
-
+            $scope.dataRefreshIntervalInSeconds = 120;
+            $scope.timerRefreshIntervalInSeconds = 10;
             /*  loads the patient list
              * */
             $scope.loadPatientData = function(){
@@ -109,6 +110,14 @@ angular.module("edTriageViewQueueController", [])
              * */
             $scope.getColorClass = function(concept, edTriagePatient, uuid){
                 var score = $scope.getScoreForProp(concept, edTriagePatient, uuid);
+                return $scope.getColorClassFromScore(score);
+            };
+
+            /* helper function to get the color class for the score
+             * @param {String} colorCode - the uuid for the color
+             * @return the class suffix
+             * */
+            $scope.getColorClassFromScore = function(score){
                 var color =  EdTriageDataService.getColorClass(score);
                 if(color == null){
                     //this means we didn't have a color, it's some kind of numeric score,
@@ -145,7 +154,7 @@ angular.module("edTriageViewQueueController", [])
                 if ( angular.isDefined(stopTimeUpdates) ) return;
 
                 stopTimeUpdates = $interval(function() {
-                    var refreshInterval = 120;
+                    var refreshInterval = $scope.dataRefreshIntervalInSeconds;
                     //$scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
                     
                     
@@ -164,7 +173,7 @@ angular.module("edTriageViewQueueController", [])
                     }
 
                     $scope.lastUpdatedAtStr = minutes + ":" + seconds;
-                }, 10000);
+                }, $scope.timerRefreshIntervalInSeconds*1000);
             };
 
             $scope.stopUpdateTime = function() {
@@ -187,18 +196,18 @@ angular.module("edTriageViewQueueController", [])
 
 
         }]).directive('showIfHasValue', function () {
-        //&& concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)>
         return {
             restrict: 'E',
             scope: {
-                concept: "=",
-                model: "=",
-                propTypeName:"=",
-                propValueName: "="
+                itemValue: "=",
+                itemLabel: "=",
+                color:"=",
+                score: "="
             },
             template:
-                "<li ng-if='model[propTypeName][propValueName].value && concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)'>" +
-                "<span class='label label-default'>{{concept[propTypeName][propValueName].score(model.patient.ageType,model[propTypeName][propValueName].value)}}</span>&nbsp;{{concept[propTypeName][propValueName].labelTranslated(model.patient.ageType)}}: {{model[propTypeName][propValueName].value}}</li>"
+                "<li class='edtriage-queue-list-item' ng-if='itemValue && score != 0'>" +
+                "<span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>" +
+                "&nbsp;{{itemLabel}}: {{itemValue}}</li>"
         };
     }).directive('showListItemIfHasValue', function () {
     return {
@@ -210,6 +219,6 @@ angular.module("edTriageViewQueueController", [])
             score:"="
         },
         template:
-            "<li ng-if='itemValue && score != 0'><span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>&nbsp;{{itemLabel}}</li>"
-};
-});;
+            "<li  class='edtriage-queue-list-item' ng-if='itemValue && score != 0'><span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>&nbsp;{{itemLabel}}</li>"
+    };
+});

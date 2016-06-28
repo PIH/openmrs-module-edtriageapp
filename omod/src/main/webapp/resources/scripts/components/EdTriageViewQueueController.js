@@ -11,6 +11,7 @@ angular.module("edTriageViewQueueController", [])
             $scope.dataRefreshIntervalInSeconds = 120;
             $scope.timerRefreshIntervalInSeconds = 10;
             $scope.scores = [];
+            $scope.patientFilter = null; //used to filter the liset
             /*  loads the patient list
              * */
             $scope.loadPatientData = function(){

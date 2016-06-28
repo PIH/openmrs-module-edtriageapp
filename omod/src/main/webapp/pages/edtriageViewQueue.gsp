@@ -37,8 +37,7 @@
     var breadcrumbs = [
         {icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm'},
         {
-            label: "${ ui.message("edtriageapp.queueLabel") }",
-            link: "${ ui.pageLink("edtriageapp", "findPatient?app=" + appId) }"
+            label: "${ ui.message("edtriageapp.queueLabel") }"
         }
 
     ];
@@ -55,6 +54,7 @@
         <a ng-if="debug" href="${ui.pageLink("edtriageapp", "findPatient?appId=" + appId)}"
            role="button" class="btn btn-default">${ ui.message("edtriageapp.queueAddNewButton") }</a>
         </p>
+
     </div>
 
     <div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
@@ -62,8 +62,13 @@
             <span aria-hidden="true">&times;</span>
         </button>
         {{message.text}}
-
     </div>
+
+
+    <div class="input-group"> <span class="input-group-addon">${ui.message("edtriageapp.filter")}</span>
+        <input id="filter" type="text" class="form-control" placeholder="" ng-model="patientFilter">
+    </div>
+    <br/>
 
     <div>
         <table class="table">
@@ -79,7 +84,7 @@
             </thead>
             <tbody>
 
-            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore', waitTime()]" >
+            <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore', waitTime()] | filter:patientFilter" >
                 <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                 <td>
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}

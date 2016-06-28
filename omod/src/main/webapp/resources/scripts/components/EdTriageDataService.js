@@ -352,15 +352,15 @@ angular.module("edTriageDataService", [])
                 var numericScore = 0;
                 if(symptomsScore[EdTriageConcept.score.red]>0){
                     colorCode = EdTriageConcept.score.red;
-                    numericScore =  symptomsScore[EdTriageConcept.score.red]*100;
+                    numericScore =  100;
                 }
                 else if(symptomsScore[EdTriageConcept.score.orange]>0){
                     colorCode = EdTriageConcept.score.orange;
-                    numericScore =  symptomsScore[EdTriageConcept.score.orange]*10;
+                    numericScore =  50;
                 }
                 else if(symptomsScore[EdTriageConcept.score.yellow]>0){
                     colorCode = EdTriageConcept.score.yellow;
-                    numericScore =  symptomsScore[EdTriageConcept.score.yellow];
+                    numericScore =  25;
                 }
 
                 var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores, vitalsScore:vistalsScore};

@@ -1,7 +1,6 @@
 angular.module("edTriageViewQueueController", [])
     .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid', 'serverDateTimeInMillis',
         function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis) {
-            console.log("locationUuid=" + locationUuid);
             // used to determine if we should disable things
             $scope.isSaving = false;
             $scope.lastUpdatedAtInMillis = new Date().getTime();
@@ -11,11 +10,20 @@ angular.module("edTriageViewQueueController", [])
             $scope.debug = false;
             $scope.dataRefreshIntervalInSeconds = 120;
             $scope.timerRefreshIntervalInSeconds = 10;
+            $scope.scores = [];
             /*  loads the patient list
              * */
             $scope.loadPatientData = function(){
                 $scope.lastUpdatedAtInMillis = new Date().getTime();
                 return EdTriageDataService.loadQueue($scope.edTriagePatientConcept, locationUuid).then(function(edTriagePatientQueue){
+                    //iterate through the list and save the scores, so that we can use them without having to
+                    //recalculate them later
+                    for(var i=0;i<edTriagePatientQueue.data.length;++i){
+                        var p = edTriagePatientQueue.data[i];
+                        var score = EdTriageDataService.calculate($scope.edTriagePatientConcept, p);
+                        $scope.scores[p.patient.uuid] = score;
+
+                    }
                     $scope.edTriagePatientQueue = edTriagePatientQueue.data;
                 });
             };
@@ -92,32 +100,12 @@ angular.module("edTriageViewQueueController", [])
                 return ret;
             };
 
-            /* checkes whether at least one symptom was answered*/
-            $scope.hasSymptoms = function(edTriagePatient){
-                for(var prop in edTriagePatient.symptoms){
-                    var v = edTriagePatient.symptoms[prop].value;
-                    if(v != null){
-                        return true;
-                    }
-                }
-                return false;
-
-            };
-
             /* helper function to get the color class for the score
              * @param {String} colorCode - the uuid for the color
              * @return the class suffix
              * */
-            $scope.getColorClass = function(concept, edTriagePatient, uuid){
-                var score = $scope.getScoreForProp(concept, edTriagePatient, uuid);
-                return $scope.getColorClassFromScore(score);
-            };
-
-            /* helper function to get the color class for the score
-             * @param {String} colorCode - the uuid for the color
-             * @return the class suffix
-             * */
-            $scope.getColorClassFromScore = function(score){
+            $scope.getColorClassFromScore = function(patientUuid, answerUuid){
+                var score = $scope.getScore(patientUuid, answerUuid);
                 var color =  EdTriageDataService.getColorClass(score);
                 if(color == null){
                     //this means we didn't have a color, it's some kind of numeric score,
@@ -127,12 +115,18 @@ angular.module("edTriageViewQueueController", [])
                 return color;
             };
 
+            $scope.getScore = function(patientUuid, answerUuid){
+                if($scope.scores !== undefined && patientUuid &&  answerUuid){
+                     return $scope.scores[patientUuid].individualScores[answerUuid];
+                }
+
+            }
             $scope.getScoreForProp = function(concept, edTriagePatient, uuid){
                 if(uuid == null){
                     return -1;
                 }
                 var answer = $scope.findAnswer(concept, uuid);
-                var score = answer.score(edTriagePatient.patient.ageType, uuid);
+                var score = $scope.getScore(edTriagePatient.patient.uuid, answer.uuid);
                 return score;
 
             } ;

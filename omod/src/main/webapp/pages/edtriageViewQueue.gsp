@@ -96,35 +96,34 @@
                     <ul class="list-unstyled">
                         <show-list-item-if-has-value item-value="model.vitals.mobility.value"
                                                      score="getScoreForProp(edTriagePatientConcept.vitals.mobility, model, model.vitals.mobility.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.vitals.mobility, model.vitals.mobility.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.vitals.mobility, model, model.vitals.mobility.value)"></show-list-item-if-has-value>
-
+                                                     item-label="findAnswer(edTriagePatientConcept.vitals.mobility, model.vitals.mobility.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.vitals.mobility.value)"></show-list-item-if-has-value>
 
                         <show-if-has-value item-value="model.vitals.respiratoryRate.value"
-                                                     score="edTriagePatientConcept.vitals.respiratoryRate.score(model.patient.ageType, model.vitals.heartRate.value)"
+                                                     score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.respiratoryRate.uuid)"
                                                      item-label="edTriagePatientConcept.vitals.respiratoryRate.labelTranslated(model.patient.ageType)"
-                                                     color="getColorClassFromScore(edTriagePatientConcept.vitals.respiratoryRate.score(model.patient.ageType, model.vitals.respiratoryRate.value))"></show-if-has-value>
+                                                     color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.respiratoryRate.uuid)"></show-if-has-value>
 
                         <show-if-has-value item-value="model.vitals.oxygenSaturation.value"
-                                           score="edTriagePatientConcept.vitals.oxygenSaturation.score(model.patient.ageType, model.vitals.oxygenSaturation.value)"
+                                           score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.oxygenSaturation.uuid)"
                                            item-label="edTriagePatientConcept.vitals.oxygenSaturation.labelTranslated(model.patient.ageType)"
-                                           color="getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.score(model.patient.ageType, model.vitals.oxygenSaturation.value))"></show-if-has-value>
+                                           color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.oxygenSaturation.uuid)"></show-if-has-value>
 
                         <show-if-has-value item-value="model.vitals.heartRate.value"
-                                           score="edTriagePatientConcept.vitals.heartRate.score(model.patient.ageType, model.vitals.heartRate.value)"
+                                           score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.heartRate.uuid)"
                                            item-label="edTriagePatientConcept.vitals.heartRate.labelTranslated(model.patient.ageType)"
-                                           color="getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.score(model.patient.ageType, model.vitals.heartRate.value))"></show-if-has-value>
+                                           color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.heartRate.uuid)"></show-if-has-value>
 
                         <show-if-has-value item-value="model.vitals.temperature.value"
-                                           score="edTriagePatientConcept.vitals.temperature.score(model.patient.ageType, model.vitals.temperature.value)"
+                                           score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.temperature.uuid)"
                                            item-label="edTriagePatientConcept.vitals.temperature.labelTranslated(model.patient.ageType)"
-                                           color="getColorClassFromScore(edTriagePatientConcept.vitals.temperature.score(model.patient.ageType, model.vitals.temperature.value))"></show-if-has-value>
+                                           color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.temperature.uuid)"></show-if-has-value>
 
 
                         <show-list-item-if-has-value item-value="model.vitals.consciousness.value"
                                                      score="getScoreForProp(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.vitals.consciousness.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
                                                      score="1"
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"
@@ -132,36 +131,36 @@
 
                         <show-list-item-if-has-value item-value="model.symptoms.neurological.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.neurological, model, model.symptoms.neurological.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.neurological, model, model.symptoms.neurological.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.neurological.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.burn.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.burn, model, model.symptoms.burn.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.burn, model, model.symptoms.burn.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.burn.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.trauma, model, model.symptoms.trauma.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.trauma, model.symptoms.trauma.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.trauma, model, model.symptoms.trauma.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.trauma, model.symptoms.trauma.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.trauma.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.digestive.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.digestive, model, model.symptoms.digestive.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.digestive, model.symptoms.digestive.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.digestive, model, model.symptoms.digestive.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.digestive, model.symptoms.digestive.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.digestive.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.pregnancy.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.pregnancy, model, model.symptoms.pregnancy.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.pregnancy, model.symptoms.pregnancy.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.pregnancy, model, model.symptoms.pregnancy.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.pregnancy, model.symptoms.pregnancy.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.pregnancy.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.respiratory.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.respiratory, model, model.symptoms.respiratory.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.respiratory, model.symptoms.respiratory.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.respiratory, model, model.symptoms.respiratory.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.respiratory, model.symptoms.respiratory.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.respiratory.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.pain.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.pain, model, model.symptoms.pain.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.pain, model.symptoms.pain.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.pain, model, model.symptoms.pain.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.pain, model.symptoms.pain.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.pain.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.other.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.other, model, model.symptoms.other.value)"
-                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.other, model.symptoms.other.value).label"
-                                                     color="getColorClass(edTriagePatientConcept.symptoms.other, model, model.symptoms.other.value)"></show-list-item-if-has-value>
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.other, model.symptoms.other.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid,model.symptoms.other.value)"></show-list-item-if-has-value>
                     </ul>
                 </td>
                 <td>

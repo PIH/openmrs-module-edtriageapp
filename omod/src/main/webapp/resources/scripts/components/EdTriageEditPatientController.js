@@ -192,10 +192,10 @@ angular.module("edTriagePatientController", [])
             * -------------------------------------------------------- */
             //load the data for the page here
             EdTriageDataService.loadConcept().then(function (concept) {
-                $scope.edTriagePatientConcept = concept;
                 var birthDate = new Date($filter('serverDate')(patientBirthDate));
                 EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
                     EdTriageDataService.calculate(concept, data);
+                    $scope.edTriagePatientConcept = concept;
                     $scope.edTriagePatient = data;
                     if($scope.edTriagePatient.vitals.weight){
                         $scope.weightInKg = Math.round($scope.edTriagePatient.vitals.weight.value);

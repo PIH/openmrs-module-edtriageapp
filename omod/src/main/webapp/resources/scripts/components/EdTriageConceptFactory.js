@@ -25,24 +25,24 @@ angular.module("edTriageConceptFactory", [])
                     [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", 2),
                         toAnswer("d335ec09-c724-4327-9726-f3c984bb1ca1", "with help", 1, 'AC'),
                         toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", 0, 'AC'),
-                        toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", 0, 'I')]
+                        toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", 0, EdTriageConcept.ageType.INFANT)]
                     , "611e7b0a-5b34-47ac-b352-02c2dc653255"),
                 respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", function(ageType, value){
-                    if(ageType == 'A'){
+                    if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 9) return 2;
                         if(value < 15) return 0;
                         if(value < 21) return 1;
                         if(value < 30) return 2;
                         return 3;
                     }
-                    if(ageType == 'C'){
+                    if(ageType == EdTriageConcept.ageType.CHILD){
                         if(value < 15) return 3;
                         if(value < 17) return 2;
                         if(value < 22) return 0;
                         if(value < 27) return 1;
                         return 2;
                     }
-                    if(ageType == 'I'){
+                    if(ageType == EdTriageConcept.ageType.INFANT){
                         if(value < 20) return 3;
                         if(value < 26) return 2;
                         if(value < 40) return 0;
@@ -52,7 +52,7 @@ angular.module("edTriageConceptFactory", [])
                 }),
                 oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){return 0;}),
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
-                    if(ageType == 'A'){
+                    if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 41) return 2;
                         if(value < 51) return 1;
                         if(value < 101) return 0;
@@ -61,14 +61,14 @@ angular.module("edTriageConceptFactory", [])
                         if(value < 146) return 3;
                         return EdTriageConcept.score.red;
                     }
-                    if(ageType == 'C'){
+                    if(ageType == EdTriageConcept.ageType.CHILD){
                         if(value < 60) return 3;
                         if(value < 80) return 2;
                         if(value < 100) return 0;
                         if(value < 130) return 1;
                         return 2;
                     }
-                    if(ageType == 'I'){
+                    if(ageType == EdTriageConcept.ageType.INFANT){
                         if(value < 70) return 3;
                         if(value < 80) return 2;
                         if(value < 131) return 0;
@@ -77,7 +77,7 @@ angular.module("edTriageConceptFactory", [])
                     }
                 }),
                 systolicBloodPressure: toAnswer("3ce934fa-26fe-102b-80cb-0017a47871b2", "systolicBloodPressure", function(ageType, value){
-                    if(ageType == 'A'){
+                    if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 71) return 3;
                         if(value < 81) return 2;
                         if(value < 101) return 1;
@@ -85,8 +85,8 @@ angular.module("edTriageConceptFactory", [])
                         return 2;
                     }
                     return 0;
-                }, 'A'),
-                diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){return 0;}, 'A'),
+                }, EdTriageConcept.ageType.ADULT),
+                diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){return 0;}, EdTriageConcept.ageType.ADULT),
                 temperature: toAnswer("3ce939d2-26fe-102b-80cb-0017a47871b2", "temperature", function(ageType, value){
                     if(value < 35) return 2;
                     if(value < 38.4) return 0;
@@ -110,23 +110,22 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("f4433b74-6396-47ff-aa63-3900493ebf23", "acute focal neurologic deficit", EdTriageConcept.score.orange),
                     toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced", EdTriageConcept.score.orange),
                     toAnswer("3ccea7fc-26fe-102b-80cb-0017a47871b2", "psychosis", EdTriageConcept.score.orange, 'AC'),
-                    toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia", EdTriageConcept.score.orange, 'I'),
-                    toAnswer("43582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying", EdTriageConcept.score.orange, 'I')]
+                    toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia", EdTriageConcept.score.orange, EdTriageConcept.ageType.INFANT),
+                    toAnswer("43582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying", EdTriageConcept.score.orange, EdTriageConcept.ageType.INFANT)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
                     toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck", EdTriageConcept.score.red),
-                    toAnswer("163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "significant burn of skin was (burn over 20% or circumferential)", EdTriageConcept.score.orange, 'ACI'),
-                    //toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Burn over 10% or circumferential", EdTriageConcept.score.orange, 'CI'),
+                    toAnswer("163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "significant burn of skin was (burn over 20% or circumferential)", EdTriageConcept.score.orange),
                     toAnswer("c05b25f1-07d1-47de-a61e-fc9d3bfe95eb", "Burn - electrical or chemical", EdTriageConcept.score.orange),
                     toAnswer("3ccd21e8-26fe-102b-80cb-0017a47871b2", "burn-other", EdTriageConcept.score.yellow)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 trauma: toAnswers('trauma',[
                     toAnswer("3b7f125b-6254-4442-be14-f8f6543c8d63", "serious trauma", EdTriageConcept.score.orange),
-                    toAnswer("cef19dbc-e015-4123-9479-986f26a7ca8c", "threatened limb", EdTriageConcept.score.orange, 'A'),
+                    toAnswer("cef19dbc-e015-4123-9479-986f26a7ca8c", "threatened limb", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
                     toAnswer("aca0abff-a38a-4191-a5c4-041fa1809306", "dislocation of larger joint (not finger or toe)", EdTriageConcept.score.orange),
                     toAnswer("132338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "open fracture", EdTriageConcept.score.orange),
                     toAnswer("628ccc25-d0b3-4e73-b01e-1fdd840256bd", "haemorrhage - uncontrolled", EdTriageConcept.score.orange),
-                    toAnswer("6720b77d-b563-44dc-aa17-c9dcb37db8e8", "Cannot support any weight", EdTriageConcept.score.yellow, 'I'),
+                    toAnswer("6720b77d-b563-44dc-aa17-c9dcb37db8e8", "Cannot support any weight", EdTriageConcept.score.yellow, EdTriageConcept.ageType.INFANT),
                     toAnswer("a218b3d9-2ead-4fa2-afbd-64849012e125", "dislocation of finger or toe", EdTriageConcept.score.yellow),
                     toAnswer("139899AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "fracture - closed", EdTriageConcept.score.yellow),
                     toAnswer("6807f3b3-4176-49d7-80ff-41603d5c612b", "haemorrhage - controlled", EdTriageConcept.score.yellow)]
@@ -134,7 +133,7 @@ angular.module("edTriageConceptFactory", [])
                 digestive: toAnswers('digestive',[
                     toAnswer("139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - fresh blood", EdTriageConcept.score.orange),
                     toAnswer("130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - persistent", EdTriageConcept.score.yellow),
-                    toAnswer("2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1", "refuses to feed/drink", EdTriageConcept.score.yellow, 'I')]
+                    toAnswer("2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1", "refuses to feed/drink", EdTriageConcept.score.yellow, EdTriageConcept.ageType.INFANT)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pregnancy: toAnswers('pregnancy',[
                     toAnswer("153551AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "pregnancy & abdominal trauma or pain", EdTriageConcept.score.orange),
@@ -144,16 +143,16 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("f7ef0b85-6af3-43b9-87a5-5abf89e3a3f5", "hypersalivation", EdTriageConcept.score.red, 'CI'),
                     toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor", EdTriageConcept.score.orange, 'CI'),
                     toAnswer("fd69691c-5a78-4c74-9d2f-16d681d7ce43", "oxygen < 85%", EdTriageConcept.score.red),
-                    toAnswer("12d9f052-6980-4542-91ef-190247811228", "shortness of breath - acute", EdTriageConcept.score.orange, 'A'),
+                    toAnswer("12d9f052-6980-4542-91ef-190247811228", "shortness of breath - acute", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
                     toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath", EdTriageConcept.score.orange, 'CI'),
-                    toAnswer("4c1c143e-c1b3-4225-8053-93ab22f7bbb3", "coughing blood ", EdTriageConcept.score.orange, 'A   '),
+                    toAnswer("4c1c143e-c1b3-4225-8053-93ab22f7bbb3", "coughing blood ", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
                     toAnswer("3ceade68-26fe-102b-80cb-0017a47871b2", "sibilance", EdTriageConcept.score.orange, 'CI')]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pain: toAnswers('pain',[
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain", EdTriageConcept.score.orange),
                     toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain", EdTriageConcept.score.yellow),
                     //toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Mild pain", EdTriageConcept.score.green),
-                    toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain", EdTriageConcept.score.orange, 'A'),
+                    toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
                     toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain", EdTriageConcept.score.yellow)
                     //toAnswer("7c4d837b-5967-4ba6-902c-ca7651bebf34", "other pain", EdTriageConcept.score.green)
                     ]
@@ -161,12 +160,12 @@ angular.module("edTriageConceptFactory", [])
                 other: toAnswers('other',[
                     toAnswer("3ccccc20-26fe-102b-80cb-0017a47871b2", "toxicity-Poisoning/overdose", EdTriageConcept.score.orange),
                     toAnswer("15bd52f1-a35b-489d-a283-ece958c4ef1e", "purpura", EdTriageConcept.score.orange, 'CI'),
-                    toAnswer("8084b7b2-adc4-4b83-aafc-647d1308c988", "drowsiness", EdTriageConcept.score.orange, 'C'),
+                    toAnswer("8084b7b2-adc4-4b83-aafc-647d1308c988", "drowsiness", EdTriageConcept.score.orange, EdTriageConcept.ageType.CHILD),
                     toAnswer("137646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "incoherent story (or history)", EdTriageConcept.score.yellow, 'CI'),
-                    toAnswer("148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "anuria", EdTriageConcept.score.yellow, 'I'),
-                    toAnswer("641f4fe3-cac2-46c4-aa94-c8b6d05e9407", "diabetic: Glucose < 60", EdTriageConcept.score.red, 'A'),
-                    toAnswer("07ece75a-2a53-44ff-be48-15a4f7abc28a", "diabetic: Glucose > 200 & ketonuria", EdTriageConcept.score.orange, 'A'),
-                    toAnswer("4bb094a6-c74b-4481-8f81-b98ff8e4cc39", "diabetic: Glucose > 300 & (no ketonuria) ", EdTriageConcept.score.yellow, 'A')]
+                    toAnswer("148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "anuria", EdTriageConcept.score.yellow, EdTriageConcept.ageType.INFANT),
+                    toAnswer("641f4fe3-cac2-46c4-aa94-c8b6d05e9407", "diabetic: Glucose < 60", EdTriageConcept.score.red, EdTriageConcept.ageType.ADULT),
+                    toAnswer("07ece75a-2a53-44ff-be48-15a4f7abc28a", "diabetic: Glucose > 200 & ketonuria", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
+                    toAnswer("4bb094a6-c74b-4481-8f81-b98ff8e4cc39", "diabetic: Glucose > 300 & (no ketonuria) ", EdTriageConcept.score.yellow, EdTriageConcept.ageType.ADULT)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID)
 
             }
@@ -188,7 +187,7 @@ angular.module("edTriageConceptFactory", [])
                 scoreFunction = function(){return score};
             }
 
-            return {uuid: uuid, label: label, score: scoreFunction, scope: scope == null ? 'ACI' : scope, value: null,
+            return {uuid: uuid, label: label, score: scoreFunction, scope: scope == null ? EdTriageConcept.ageType.ALL : scope, value: null,
             labelTranslated:function(ageType){
                 return $filter('translate')(this.label, this.uuid, ageType);
             }};
@@ -211,9 +210,9 @@ angular.module("edTriageConceptFactory", [])
 
         EdTriageConcept.ageType = {
             ADULT: 'A',
-            CHILD:'C',
-            INFANT:'I',
-            ALL:'ACI'
+            CHILD: 'C',
+            INFANT: 'I',
+            ALL: 'ACI'
         };
 
         /**

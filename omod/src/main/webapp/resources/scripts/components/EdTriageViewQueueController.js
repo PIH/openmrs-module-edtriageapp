@@ -11,7 +11,7 @@ angular.module("edTriageViewQueueController", [])
             $scope.dataRefreshIntervalInSeconds = 120;
             $scope.timerRefreshIntervalInSeconds = 10;
             $scope.scores = [];
-            $scope.patientFilter = null; //used to filter the liset
+            $scope.patientFilter = null; //used to filter the list
             /*  loads the patient list
              * */
             $scope.loadPatientData = function(){
@@ -200,7 +200,7 @@ angular.module("edTriageViewQueueController", [])
                 score: "="
             },
             template:
-                "<li class='edtriage-queue-list-item' ng-if='itemValue && score != 0'>" +
+                "<li class='edtriage-queue-list-item' ng-if='itemValue && (score > 0 || score.length > 0)'>" +
                 "<span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>" +
                 "&nbsp;{{itemLabel}}: {{itemValue}}</li>"
         };

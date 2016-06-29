@@ -119,6 +119,11 @@
                                            item-label="edTriagePatientConcept.vitals.heartRate.labelTranslated(model.patient.ageType)"
                                            color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.heartRate.uuid)"></show-if-has-value>
 
+                        <show-if-has-value item-value="model.vitals.systolicBloodPressure.value + '/' + model.vitals.diastolicBloodPressure.value"
+                                           score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.systolicBloodPressure.uuid)"
+                                           item-label="'${ui.message("edtriageapp.bloodPressure")}'"
+                                           color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.systolicBloodPressure.uuid)"></show-if-has-value>
+
                         <show-if-has-value item-value="model.vitals.temperature.value"
                                            score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.temperature.uuid)"
                                            item-label="edTriagePatientConcept.vitals.temperature.labelTranslated(model.patient.ageType)"

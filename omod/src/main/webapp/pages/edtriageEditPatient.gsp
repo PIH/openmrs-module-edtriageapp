@@ -102,18 +102,20 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-xs-6">
-					<label for="weight_in_kg">Weight in kg.</label>
-					<input class="form-control edtriage-weight-box" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
+				<div class="col-xs-3">
+					<input class="form-control" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
 					   ng-model="weightInKg" />
 				</div>
-
-				<div class="col-xs-6">
-					<label for="weight_in_lb">Weight in lbs.</label>
-					<input class="form-control edtriage-weight-box" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
+				<div class="col-xs-1">
+					${ui.message("uicommons.units.kilograms")}
+				</div>
+				<div class="col-xs-3">
+					<input class="form-control" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
 					   ng-model="weightInLb" />
 				</div>
-
+				<div class="col-xs-1 text-left">
+					${ui.message("uicommons.units.lbs")}
+				</div>
 			</div>
 		</div>
 	</div>

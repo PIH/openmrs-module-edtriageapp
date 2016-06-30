@@ -189,7 +189,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						</tr>
 
 						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.temperature.label}}</label></td>
+							<td><label>${ui.message("edtriageapp.temperature")}</label></td>
 							<td><input class="form-control" id="temperatureC" type="number" min="1" max="100"
 									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
 							<td class="pull-left">C</td>

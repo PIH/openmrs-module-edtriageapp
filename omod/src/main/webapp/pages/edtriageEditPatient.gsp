@@ -206,7 +206,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
 
 						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.trauma.answers[0].label}}</label></td>
+							<td><label>${ui.message("edtriageapp.trauma")}</label></td>
 							<td colspan="4">  {{findAnswerLabel(edTriagePatientConcept.symptoms.trauma, traumaString)}}</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.uuid]"></score-display></td>
 						</tr>

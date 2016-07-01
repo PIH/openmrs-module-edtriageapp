@@ -1,6 +1,6 @@
 angular.module("edTriageDataService", [])
-    .service('EdTriageDataService', ['$q', '$http', '$filter', 'EdTriageConcept', 'EdTriagePatient',
-        function ($q, $http, $filter, EdTriageConcept, EdTriagePatient) {
+    .service('EdTriageDataService', ['$q', '$http', '$filter', 'SessionInfo', 'EdTriageConcept', 'EdTriagePatient',
+        function ($q, $http, $filter, SessionInfo, EdTriageConcept, EdTriagePatient) {
             var CONSTANTS = {
                 URLS: {
                     //FIND_PATIENT: "edtriageapp/findPatient.page?appId=mirebalais.liveCheckin", //  was "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage";
@@ -14,7 +14,8 @@ angular.module("edTriageDataService", [])
                     PATIENT_DASHBOARD:"coreapps/clinicianfacing/patient.page?patientId=PATIENT_UUID&app=pih.app.clinicianDashboard"
                 },
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
-                ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77"
+                ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77",
+                CONSULTING_CLINICIAN_ENCOUNTER_ROLE: "4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
             };
 
             /* load a the concept definition for a ed triage patient
@@ -96,12 +97,20 @@ angular.module("edTriageDataService", [])
             /*
              saves an encounter for a patient
              * */
+
             this.save = function (edTriageConcept, edTriagePatient) {
+
+                var encounterProvider = {
+                    provider: this.session.currentProvider ? this.session.currentProvider.uuid : "",
+                    encounterRole: CONSTANTS.CONSULTING_CLINICIAN_ENCOUNTER_ROLE
+                }
+
                 var encounter = {
                     uuid:edTriagePatient.uuid,
                     patient: edTriagePatient.patient.uuid,
                     encounterType: CONSTANTS.ED_TRIAGE_ENCOUNTER_TYPE,
-                    location:edTriagePatient.location,
+                    location: edTriagePatient.location,
+                    encounterProviders: this.session.currentProvider ? [ encounterProvider ] : [],
                     obs: []
                 };
 
@@ -396,4 +405,5 @@ angular.module("edTriageDataService", [])
 
 
             this.CONSTANTS = CONSTANTS;
+            this.session =  SessionInfo.get();
         }]);

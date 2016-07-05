@@ -6,8 +6,9 @@ angular.module("edTriageDataService", [])
                     //FIND_PATIENT: "edtriageapp/findPatient.page?appId=mirebalais.liveCheckin", //  was "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage";
                     FIND_PATIENT: "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
-                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
-                   // VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&location=LOCATION_UUID",
+                    ACTIVE_ENCOUNTER_SEARCH: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
+                    ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter/ENCOUNTER_UUID?v=custom:(uuid,encounterDatetime,patient,obs)",
+                    // VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&location=LOCATION_UUID",
                     VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&location=LOCATION_UUID",
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
                     OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs",
@@ -68,11 +69,19 @@ angular.module("edTriageDataService", [])
             *  @param {String} locationUuid - the location uuid
             * @returns {EdTriagePatient} the concepts that make up this app
             * */
-            this.load = function (concept, uuid, dateOfBirth, gender, locationUuid) {
-                var url = CONSTANTS.URLS.ENCOUNTER.replace("PATIENT_UUID",uuid).replace("LOCATION_UUID", locationUuid);
+            this.load = function (concept, patientUuid, dateOfBirth, gender, locationUuid, encounterUuid) {
+
+                // load existing encounter if encounterUuid present, otherwise search for an active triage encounter
+                var search = encounterUuid ? false : true;
+
+                var url = (search ?
+                    CONSTANTS.URLS.ACTIVE_ENCOUNTER_SEARCH.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid) :
+                    CONSTANTS.URLS.ENCOUNTER.replace("ENCOUNTER_UUID",encounterUuid) );
+
+
                 return $http.get(url).then(function (resp) {
-                    if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
-                        var rec = resp.data.results[0]; //should only be one records, but web service returns array for consistency
+                    if (resp.status == 200 && ((!search && resp.data) || (resp.data.results != null && resp.data.results.length > 0))) {
+                        var rec = (search ? resp.data.results[0] : resp.data); // search should only return one record, but web service returns array for consistency
                         var temp =  EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
                         if(temp.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation){
                             //we need to do this, b/c I couldn't figure out how to make the web service filter these out.  if we figure this out
@@ -80,17 +89,17 @@ angular.module("edTriageDataService", [])
                             return temp;
                         }
                         else{
-                            return EdTriagePatient.newInstance(uuid,dateOfBirth, gender, locationUuid);
+                            return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
                         }
                     }
                     else {
                         //if there is an error or the record doesn't exist, then create a new one
-                        return EdTriagePatient.newInstance(uuid,dateOfBirth, gender, locationUuid);
+                        return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
                     }
 
                 }, function (err) {
                     //if we cannot get a record, then just create a new instance for now
-                    return EdTriagePatient.newInstance(uuid,dateOfBirth, gender, locationUuid);
+                    return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
                 });
             };
 

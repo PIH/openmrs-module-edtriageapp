@@ -310,7 +310,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
     </div>
 
 
-	<div ng-if="debug">
+	<!--<div ng-if="debug">
 		<br/><br/><br/>
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -333,7 +333,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 
 </div>
@@ -347,6 +347,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			.value('patientBirthDate', '${ patient.birthdate }')
 			.value('patientGender', '${ patient.gender }')
 			.value('locationUuid', '${ location.uuid }')
+			.value('encounterUuid', '${ encounter ? encounter.uuid : '' }')
 			.value('translations', translations);
 
 	jq(function() {

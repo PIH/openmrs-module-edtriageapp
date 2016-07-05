@@ -34,7 +34,7 @@ import java.util.Set;
 public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
     private final Log log = LogFactory.getLog(this.getClass());
     private SessionFactory sessionFactory;
-    private static final String TRAIGE_QUEUE_STATUS_CONCEPT_UUID = "66c18ba5-459e-4049-94ab-f80aca5c6a98";
+    private static final String TRIAGE_QUEUE_STATUS_CONCEPT_UUID = "66c18ba5-459e-4049-94ab-f80aca5c6a98";
     private static final String TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID = "4dd3244d-fcb9-424d-ad8a-afd773c69923";
     /**
      * @param sessionFactory the sessionFactory to set
@@ -60,7 +60,7 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
         for(Encounter enc : temp){
             Set<Obs> observations = enc.getObs();
             for(Obs obs : observations){
-                if(TRAIGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+                if(TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
                         && obs.getValueCoded() != null
                         && TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())){
                     //this is an active record, so add it to the queue
@@ -70,9 +70,10 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
                     break;
                 }
                 else{
+                    // this block only for debugging, no functionality here
                     String msg = new StringBuilder().append(" for encounter uuid - ").append(enc.getUuid())
-                            .append("skipping the observeration, b/c TRAIGE_QUEUE_STATUS_CONCEPT_UUID(")
-                            .append(TRAIGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
+                            .append("skipping the observeration, b/c TRIAGE_QUEUE_STATUS_CONCEPT_UUID(")
+                            .append(TRIAGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
                             .append(obs.getConcept().getUuid()).append(" and TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID(")
                             .append("TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID").append(") <>")
                             .append(obs.getValueText())

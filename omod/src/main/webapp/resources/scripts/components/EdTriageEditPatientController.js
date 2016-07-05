@@ -1,7 +1,7 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid',
-        function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid) {
+        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid',
+        function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid, encounterUuid) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
@@ -193,7 +193,7 @@ angular.module("edTriagePatientController", [])
             //load the data for the page here
             EdTriageDataService.loadConcept().then(function (concept) {
                 var birthDate = new Date($filter('serverDate')(patientBirthDate));
-                EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid).then(function (data) {
+                EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid, encounterUuid).then(function (data) {
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatientConcept = concept;
                     $scope.edTriagePatient = data;

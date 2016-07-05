@@ -71,36 +71,34 @@ angular.module("edTriageDataService", [])
             * */
             this.load = function (concept, patientUuid, dateOfBirth, gender, locationUuid, encounterUuid) {
 
-                // load existing encounter if encounterUuid present, otherwise search for an active triage encounter
-                var search = encounterUuid ? false : true;
-
-                var url = (search ?
-                    CONSTANTS.URLS.ACTIVE_ENCOUNTER_SEARCH.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid) :
-                    CONSTANTS.URLS.ENCOUNTER.replace("ENCOUNTER_UUID",encounterUuid) );
-
-
-                return $http.get(url).then(function (resp) {
-                    if (resp.status == 200 && ((!search && resp.data) || (resp.data.results != null && resp.data.results.length > 0))) {
-                        var rec = (search ? resp.data.results[0] : resp.data); // search should only return one record, but web service returns array for consistency
-                        var temp =  EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
-                        if(temp.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation){
-                            //we need to do this, b/c I couldn't figure out how to make the web service filter these out.  if we figure this out
-                            // then this line can be removed
-                            return temp;
+                if (encounterUuid) {
+                    // load specific existing encounter workflow
+                    return $http.get(CONSTANTS.URLS.ENCOUNTER.replace("ENCOUNTER_UUID",encounterUuid) ).then(function (resp) {
+                        if (resp.status == 200 && resp.data) {
+                            return EdTriagePatient.build(concept, resp.data, dateOfBirth, gender, locationUuid);
                         }
-                        else{
-                            return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
-                        }
-                    }
-                    else {
-                        //if there is an error or the record doesn't exist, then create a new one
+                        // otherwise, create a new instance TODO: what should we *really* do here?
                         return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
-                    }
-
-                }, function (err) {
-                    //if we cannot get a record, then just create a new instance for now
-                    return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
-                });
+                    });
+                }
+                else {
+                    // search for existing matching encounter workflow
+                    return $http.get(CONSTANTS.URLS.ACTIVE_ENCOUNTER_SEARCH.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid)).then(function (resp) {
+                        if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
+                            var rec = resp.data.results[0]; // search should only return one record, but web service returns array for consistency
+                            var patient =  EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
+                            // if we have found a matching encounter in "waiting for evaluation" state, return that
+                            if(patient.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation){
+                                return patient;
+                            }
+                        }
+                        // otherwise, create a new instance
+                        return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
+                    }, function (err) {
+                        //if we cannot get a record, then just create a new instance for now
+                        return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
+                    });
+                }
             };
 
             /*

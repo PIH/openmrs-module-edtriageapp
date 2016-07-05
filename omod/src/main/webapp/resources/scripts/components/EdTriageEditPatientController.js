@@ -58,10 +58,6 @@ angular.module("edTriagePatientController", [])
                         $scope.message = {type: 'danger', text: $filter('json')(res.data)};
                     }
                     else {
-                        $scope.message = {
-                            type: 'info',
-                            text: 'The patient has been added to the queue, the encounter id is ' + res.data.uuid
-                        };
                         if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
                             emr.navigateTo({ applicationUrl: EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
                         }

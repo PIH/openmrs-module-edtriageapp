@@ -32,10 +32,12 @@ import java.util.Set;
  * It is a default implementation of  {@link EdTriageAppDAO}.
  */
 public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
+
     private final Log log = LogFactory.getLog(this.getClass());
     private SessionFactory sessionFactory;
     private static final String TRIAGE_QUEUE_STATUS_CONCEPT_UUID = "66c18ba5-459e-4049-94ab-f80aca5c6a98";
     private static final String TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID = "4dd3244d-fcb9-424d-ad8a-afd773c69923";
+
     /**
      * @param sessionFactory the sessionFactory to set
      */

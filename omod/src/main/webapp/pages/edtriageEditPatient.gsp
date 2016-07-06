@@ -20,9 +20,8 @@
 	ui.includeJavascript("uicommons", "model/user-model.js")
 	ui.includeJavascript("uicommons", "model/encounter-model.js")
 
-
 	ui.includeCss("edtriageapp", "bootstrap.css")
-
+	ui.includeCss("edtriageapp", "edtriageapp.css")
 
 	ui.includeJavascript("edtriageapp", "filters.js")
 	ui.includeJavascript("edtriageapp", "components/EdTriageViewQueueController.js")

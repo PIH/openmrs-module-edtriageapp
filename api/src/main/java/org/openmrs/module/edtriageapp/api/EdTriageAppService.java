@@ -38,7 +38,7 @@ public interface EdTriageAppService extends OpenmrsService {
      * @param locationUUid - (optional) the location UUID for the encounters
      * @param patientUuid - (optional) the patient UUID for the encounters
      */
-    public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientUuid);
+    List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientUuid);
 
      /*
      * gets the all encounters for a patient at a location
@@ -46,6 +46,6 @@ public interface EdTriageAppService extends OpenmrsService {
      * @param locationUUid - (optional) the location UUID for the encounters
      * @param patientUuid - (optional) the patient UUID for the encounters
      */
-    public List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid);
+    List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid);
 
 }

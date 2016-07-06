@@ -31,7 +31,7 @@ public interface EdTriageAppDAO {
      * @param locationUUid - (optional) the location UUID for the encounters
      * @param patientUuid - (optional) the patient UUID for the encounters
      */
-    public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
+    List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
 
     /*
      * gets the all encounters for a patient at a location, the location and or the patient are not provided
@@ -40,5 +40,5 @@ public interface EdTriageAppDAO {
      * @param locationUUid - (optional) the location UUID for the encounters
      * @param patientUuid - (optional) the patient UUID for the encounters
      */
-    public List<Encounter> getAllEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
+    List<Encounter> getAllEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
 }

@@ -2,7 +2,6 @@
 
 <module configVersion="1.2">
 
-	<!-- Module Properties -->
 	<id>${project.parent.artifactId}</id>
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
@@ -13,7 +12,6 @@
 	</description>
 	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
 	<require_version>${openMRSVersion}</require_version>
-	<!-- / Module Properties -->
 
     <require_modules>
         <require_module version="${appframeworkVersion}">org.openmrs.module.appframework</require_module>
@@ -22,26 +20,9 @@
         <require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
         <require_module version="${webservicesRestVersion}">org.openmrs.module.webservices.rest</require_module>
     </require_modules>
-	
-	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.${project.parent.artifactId}.EDTriageAppActivator</activator>
-	
-	
-	<!-- Adds link to admin page -->
-	<extension>
-		<point>org.openmrs.admin.list</point>
-		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
-	</extension>
-	
-	<!-- Maps hibernate file's, if present -->
-	<mappingFiles>
-				
-		EdTriageApp.hbm.xml
-				
-	</mappingFiles>
 
-	<!-- Internationalization -->
-	<!-- All message codes should start with ${project.parent.artifactId}. -->
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.EDTriageAppActivator</activator>
+
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
@@ -50,11 +31,6 @@
 		<lang>fr</lang>
 		<file>messages_fr.properties</file>
 	</messages>
-	<messages>
-		<lang>es</lang>
-		<file>messages_es.properties</file>
-	</messages>
-	<!-- /Internationalization -->
 
     <privilege>
         <name>App: edtriage.app.triage</name>

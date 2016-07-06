@@ -24,7 +24,8 @@ import java.util.List;
  * It is a default implementation of {@link EdTriageAppService}.
  */
 public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTriageAppService {
-	private EdTriageAppDAO dao;
+
+    private EdTriageAppDAO dao;
 	
 	/**
      * @param dao the dao to set
@@ -39,7 +40,6 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
     public EdTriageAppDAO getDao() {
 	    return dao;
     }
-
 
     @Override
     public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientUuid) {

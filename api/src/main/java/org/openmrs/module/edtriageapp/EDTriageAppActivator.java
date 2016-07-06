@@ -14,53 +14,25 @@
 package org.openmrs.module.edtriageapp;
 
 
-import org.apache.commons.logging.Log; 
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.module.BaseModuleActivator;
 import org.openmrs.module.ModuleActivator;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
  */
-public class EDTriageAppActivator implements ModuleActivator {
+public class EDTriageAppActivator extends BaseModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
-		
-	/**
-	 * @see ModuleActivator#willRefreshContext()
-	 */
-	public void willRefreshContext() {
-		log.info("Refreshing ED Triage App Module");
-	}
-	
-	/**
-	 * @see ModuleActivator#contextRefreshed()
-	 */
-	public void contextRefreshed() {
-		log.info("ED Triage App Module refreshed");
-	}
-	
-	/**
-	 * @see ModuleActivator#willStart()
-	 */
-	public void willStart() {
-		log.info("Starting ED Triage App Module");
-	}
 	
 	/**
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-
 		log.info("ED Triage App Module started");
 	}
-	
-	/**
-	 * @see ModuleActivator#willStop()
-	 */
-	public void willStop() {
-		log.info("Stopping ED Triage App Module");
-	}
-	
+
 	/**
 	 * @see ModuleActivator#stopped()
 	 */

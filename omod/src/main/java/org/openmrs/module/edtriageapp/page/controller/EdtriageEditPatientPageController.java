@@ -15,6 +15,7 @@ public class EdtriageEditPatientPageController {
                              @RequestParam(value = "appId", required = false) AppDescriptor app,
                              @RequestParam(value = "search", required = false) String search,
                              @RequestParam(value = "breadcrumbOverride", required = false) String breadcrumbOverride,
+                             @RequestParam(value = "returnUrl", required = false) String returnUrl,
                              UiSessionContext uiSessionContext) {
 
         if (patient.isVoided() || patient.isPersonVoided()) {
@@ -24,6 +25,7 @@ public class EdtriageEditPatientPageController {
         model.addAttribute("appId", app !=null ? app.getId() : null);
         model.addAttribute("search", search);
         model.addAttribute("breadcrumbOverride", breadcrumbOverride);
+        model.addAttribute("returnUrl",  returnUrl);
         model.addAttribute("locale", uiSessionContext.getLocale());
         model.addAttribute("location", uiSessionContext.getSessionLocation());
         model.addAttribute("patient", patient);

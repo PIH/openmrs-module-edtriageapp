@@ -300,11 +300,11 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
         <div class="col-sm-offset-3 col-sm-3">
             <button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
-        <div class="col-sm-3" ng-if="edTriagePatient.encounterUuid">
+        <div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
         </div>
         <div class="col-sm-3">
-			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="goToFindPatient()">${ ui.message("edtriageapp.exitButton") }</button>
+			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ ui.message("edtriageapp.exitButton") }</button>
         </div>
     </div>
 
@@ -346,7 +346,8 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			.value('patientBirthDate', '${ patient.birthdate }')
 			.value('patientGender', '${ patient.gender }')
 			.value('locationUuid', '${ location.uuid }')
-			.value('encounterUuid', '${ encounter ? encounter.uuid : '' }')
+			.value('encounterUuid', '${ encounter ? encounter.uuid : "" }')
+			.value('returnUrl', '${ returnUrl ? returnUrl : "" }')
 			.value('translations', translations);
 
 	jq(function() {

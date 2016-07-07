@@ -1,7 +1,8 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid',
-        function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate, patientGender, locationUuid, encounterUuid) {
+        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl',
+        function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate,
+                  patientGender, locationUuid, encounterUuid, returnUrl) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
@@ -40,10 +41,12 @@ angular.module("edTriagePatientController", [])
             };
 
             /* navigates to the find patient page*/
-            $scope.goToFindPatient = function(){
-                // go to the add patient page
-                if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
-                    emr.navigateTo({ applicationUrl:EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
+            $scope.cancel = function(){
+                if (returnUrl) {
+                    emr.navigateTo({ url: returnUrl });
+                }
+                else {
+                    emr.navigateTo({ applicationUrl:  EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
                 }
             };
             /*
@@ -58,12 +61,26 @@ angular.module("edTriagePatientController", [])
                         $scope.message = {type: 'danger', text: $filter('json')(res.data)};
                     }
                     else {
-                        if(EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT.length>0){
-                            emr.navigateTo({ applicationUrl: EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
+                        if (returnUrl) {
+                            emr.navigateTo({ url: returnUrl });
+                        }
+                        else {
+                            emr.navigateTo({ applicationUrl:  EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
                         }
                     }
                 });
             };
+
+
+            $scope.isWaitingForConsult = function() {
+                return $scope.edTriagePatient &&
+                    $scope.edTriagePatient.triageQueueStatus &&
+                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation;
+            }
+
+            $scope.hasExistingEncounter = function() {
+                return $scope.edTriagePatient.encounterUuid ? true : false;
+            }
 
             /*
              * the changes the status of the observation to consult

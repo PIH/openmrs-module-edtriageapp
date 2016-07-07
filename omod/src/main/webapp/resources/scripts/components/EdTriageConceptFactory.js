@@ -160,10 +160,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("15bd52f1-a35b-489d-a283-ece958c4ef1e", "purpura", EdTriageConcept.score.orange, 'CI'),
                     toAnswer("8084b7b2-adc4-4b83-aafc-647d1308c988", "drowsiness", EdTriageConcept.score.orange, EdTriageConcept.ageType.CHILD),
                     toAnswer("137646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "incoherent story (or history)", EdTriageConcept.score.yellow, 'CI'),
-                    toAnswer("148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "anuria", EdTriageConcept.score.yellow, EdTriageConcept.ageType.INFANT),
-                    toAnswer("641f4fe3-cac2-46c4-aa94-c8b6d05e9407", "diabetic: Glucose < 60", EdTriageConcept.score.red, EdTriageConcept.ageType.ADULT),
-                    toAnswer("07ece75a-2a53-44ff-be48-15a4f7abc28a", "diabetic: Glucose > 200 & ketonuria", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
-                    toAnswer("4bb094a6-c74b-4481-8f81-b98ff8e4cc39", "diabetic: Glucose > 300 & (no ketonuria) ", EdTriageConcept.score.yellow, EdTriageConcept.ageType.ADULT)]
+                    toAnswer("148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "anuria", EdTriageConcept.score.yellow, EdTriageConcept.ageType.INFANT)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID)
 
             }

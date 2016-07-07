@@ -53,13 +53,11 @@ angular.module("edTriageConceptFactory", [])
                 oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){return 0;}),
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
                     if(ageType == EdTriageConcept.ageType.ADULT){
-                        if(value < 41) return 2;
-                        if(value < 51) return 1;
-                        if(value < 101) return 0;
-                        if(value < 111) return 1;
-                        if(value < 130) return 2;
-                        if(value < 146) return 3;
-                        return EdTriageConcept.score.red;
+                        if(value < 71) return 3;
+                        if(value < 81) return 2;
+                        if(value < 101) return 1;
+                        if(value < 200) return 0;
+                        return 2;
                     }
                     if(ageType == EdTriageConcept.ageType.CHILD){
                         if(value < 60) return 3;

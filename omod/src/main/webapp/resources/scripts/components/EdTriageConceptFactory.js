@@ -28,6 +28,9 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", 0, EdTriageConcept.ageType.INFANT)]
                     , "611e7b0a-5b34-47ac-b352-02c2dc653255"),
                 respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", function(ageType, value){
+                    if (!isNumber(value)) {
+                        return 0;
+                    }
                     if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 9) return 2;
                         if(value < 15) return 0;
@@ -52,6 +55,9 @@ angular.module("edTriageConceptFactory", [])
                 }),
                 oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){return 0;}),
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
+                    if (!isNumber(value)) {
+                        return 0;
+                    }
                     if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 71) return 3;
                         if(value < 81) return 2;
@@ -75,6 +81,9 @@ angular.module("edTriageConceptFactory", [])
                     }
                 }),
                 systolicBloodPressure: toAnswer("3ce934fa-26fe-102b-80cb-0017a47871b2", "systolicBloodPressure", function(ageType, value){
+                    if (!isNumber(value)) {
+                        return 0;
+                    }
                     if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 71) return 3;
                         if(value < 81) return 2;
@@ -86,8 +95,15 @@ angular.module("edTriageConceptFactory", [])
                 }, EdTriageConcept.ageType.ADULT),
                 diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){return 0;}, EdTriageConcept.ageType.ADULT),
                 temperature: toAnswer("3ce939d2-26fe-102b-80cb-0017a47871b2", "temperature", function(ageType, value){
-                    if(value < 35) return 2;
-                    if(value < 38.4) return 0;
+                    if (!isNumber(value)) {
+                        return 0;
+                    }
+                    if(value < 35) {
+                        return 2;
+                    }
+                    if(value < 38.4) {
+                        return 0;
+                    }
                     return 2;
                 }),
                 consciousness: toAnswers(        'consciousness',
@@ -109,7 +125,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced", EdTriageConcept.score.orange),
                     toAnswer("3ccea7fc-26fe-102b-80cb-0017a47871b2", "psychosis", EdTriageConcept.score.orange, 'AC'),
                     toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia", EdTriageConcept.score.orange, EdTriageConcept.ageType.INFANT),
-                    toAnswer("43582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying", EdTriageConcept.score.orange, EdTriageConcept.ageType.INFANT)]
+                    toAnswer("43582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying", EdTriageConcept.score.yellow, EdTriageConcept.ageType.INFANT)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
                     toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck", EdTriageConcept.score.red),
@@ -139,7 +155,7 @@ angular.module("edTriageConceptFactory", [])
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 respiratory: toAnswers('respiratory',[
                     toAnswer("f7ef0b85-6af3-43b9-87a5-5abf89e3a3f5", "hypersalivation", EdTriageConcept.score.red, 'CI'),
-                    toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor", EdTriageConcept.score.orange, 'CI'),
+                    toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor", EdTriageConcept.score.red, 'CI'),
                     toAnswer("fd69691c-5a78-4c74-9d2f-16d681d7ce43", "oxygen < 85%", EdTriageConcept.score.red),
                     toAnswer("12d9f052-6980-4542-91ef-190247811228", "shortness of breath - acute", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
                     toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath", EdTriageConcept.score.orange, 'CI'),
@@ -149,10 +165,8 @@ angular.module("edTriageConceptFactory", [])
                 pain: toAnswers('pain',[
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain", EdTriageConcept.score.orange),
                     toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain", EdTriageConcept.score.yellow),
-                    //toAnswer("11111111-1111-1111-1111-111111111111", "(MISSING)Mild pain", EdTriageConcept.score.green),
                     toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain", EdTriageConcept.score.orange, EdTriageConcept.ageType.ADULT),
                     toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain", EdTriageConcept.score.yellow)
-                    //toAnswer("7c4d837b-5967-4ba6-902c-ca7651bebf34", "other pain", EdTriageConcept.score.green)
                     ]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 other: toAnswers('other',[
@@ -179,7 +193,9 @@ angular.module("edTriageConceptFactory", [])
         function toAnswer(uuid, label, score, scope) {
             var scoreFunction = score;
             if (typeof scoreFunction !== "function") {
-                scoreFunction = function(){return score};
+                scoreFunction = function(){
+                    return score
+                };
             }
 
             return {uuid: uuid, label: label, score: scoreFunction, scope: scope == null ? EdTriageConcept.ageType.ALL : scope, value: null,
@@ -188,6 +204,10 @@ angular.module("edTriageConceptFactory", [])
             }};
         }
 
+        function isNumber(obj) {
+            return !isNaN(parseFloat(obj));
+        }
+        
         //some static vars for the scores for symptoms
         EdTriageConcept.score = {
             red: "762ecf40-3065-47aa-93c3-15372d98d393",

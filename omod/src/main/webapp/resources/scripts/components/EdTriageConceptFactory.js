@@ -60,12 +60,13 @@ angular.module("edTriageConceptFactory", [])
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
                     if(ageType == EdTriageConcept.ageType.ADULT){
-                        if(value < 71) return { numericScore: 3, colorCode: EdTriageConcept.score.green };
-                        if(value < 81) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
-                        if(value < 101) return { numericScore: 1, colorCode: EdTriageConcept.score.green };
-                        if(value < 145) return { numericScore: 0, colorCode: EdTriageConcept.score.green };
-                        if(value < 200) return { numericScore: 0, colorCode: EdTriageConcept.score.red };
-                        return { numericScore: 2, colorCode: EdTriageConcept.score.red };
+                        if(value < 41) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
+                        if(value < 51) return { numericScore: 1, colorCode: EdTriageConcept.score.green };
+                        if(value < 101) return { numericScore: 0, colorCode: EdTriageConcept.score.green };
+                        if(value < 111) return { numericScore: 1, colorCode: EdTriageConcept.score.green };
+                        if(value < 130) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
+                        if(value < 146) return { numericScore: 3, colorCode: EdTriageConcept.score.green };
+                        return { numericScore: 3, colorCode: EdTriageConcept.score.red };
                     }
                     if(ageType == EdTriageConcept.ageType.CHILD){
                         if(value < 60) return { numericScore: 3, colorCode: EdTriageConcept.score.green };

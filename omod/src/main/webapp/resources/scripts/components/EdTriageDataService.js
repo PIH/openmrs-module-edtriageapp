@@ -265,7 +265,7 @@ angular.module("edTriageDataService", [])
                     return;
                 }
 
-                var vistalsScore = 0;
+                var vitalsScore = 0;
                 var symptomsScore = {};
                 symptomsScore[EdTriageConcept.score.red]=edTriagePatient.patient.lessThan4WeeksOld?1:0;
                 symptomsScore[EdTriageConcept.score.orange]=0;
@@ -289,7 +289,7 @@ angular.module("edTriageDataService", [])
                                         if(answers[i].uuid == p.value){
                                             //this is the answer that they chose
                                             individualScores[answers[i].uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
-                                            vistalsScore = vistalsScore + individualScores[answers[i].uuid];
+                                            vitalsScore = vitalsScore + individualScores[answers[i].uuid].numericScore;
                                             break;
                                         }
                                     }
@@ -299,15 +299,8 @@ angular.module("edTriageDataService", [])
                                     // function, if it does then call it, otherwise move on
                                     if(typeof c.score === "function"){
                                         individualScores[c.uuid] = c.score(ageType, p.value);
-                                        if(individualScores[c.uuid]*1==individualScores[c.uuid]){
-                                            //this is a straight number, just add it
-                                            vistalsScore = vistalsScore + individualScores[c.uuid];
-                                        }
-                                        else{
-                                            //this is a color so add it to the appropriate box
-                                            ++symptomsScore[individualScores[c.uuid]];
-                                        }
-
+                                        vitalsScore = vitalsScore + individualScores[c.uuid].numericScore
+                                        ++symptomsScore[individualScores[c.uuid].colorCode];
                                     }
                                 }
                             }
@@ -318,13 +311,13 @@ angular.module("edTriageDataService", [])
                         }
                     }
                 }
-                if(vistalsScore > 6){
+                if(vitalsScore > 6){
                     ++symptomsScore[EdTriageConcept.score.red];
                 }
-                else if(vistalsScore > 4){
+                else if(vitalsScore > 4){
                     ++symptomsScore[EdTriageConcept.score.orange];
                 }
-                else if(vistalsScore > 2){
+                else if(vitalsScore > 2){
                     ++symptomsScore[EdTriageConcept.score.yellow];
                 }
 
@@ -340,7 +333,7 @@ angular.module("edTriageDataService", [])
                                 if(answers[i].uuid == p.value){
                                     var sc = answers[i].score(edTriagePatient.patient.ageType, p.value);
                                     individualScores[p.value] = sc;
-                                    ++symptomsScore[individualScores[p.value]];
+                                    ++symptomsScore[individualScores[p.value].colorCode];
 
                                     //add any stuff for special property handling
                                     if(prop == 'trauma' && p.value != null){
@@ -349,7 +342,7 @@ angular.module("edTriageDataService", [])
                                         var traumaAnwser = traumaObj.answers[0];
                                         var traumaVal =  traumaAnwser.score(edTriagePatient.patient.ageType, true);
                                         individualScores[traumaObj.uuid] = traumaVal;
-                                        vistalsScore = vistalsScore + individualScores[traumaObj.uuid];
+                                        vitalsScore = vitalsScore + individualScores[traumaObj.uuid].numericScore;
 
                                     }
                                     break;
@@ -379,7 +372,7 @@ angular.module("edTriageDataService", [])
                     numericScore =  25;
                 }
 
-                var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores, vitalsScore:vistalsScore};
+                var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores, vitalsScore:vitalsScore};
                 edTriagePatient.score = score;
 
                 return score;
@@ -393,18 +386,18 @@ angular.module("edTriageDataService", [])
              * @param {String} colorCode - the uuid for the color
              * @return the class suffix
              * */
-            this.getColorClass = function(colorCode){
+            this.getColorClass = function(score){
                 var ret = null;
-                if(colorCode == EdTriageConcept.score.red){
+                if(score == EdTriageConcept.score.red){
                     ret = "red";
                 }
-                else if(colorCode == EdTriageConcept.score.orange){
+                else if(score == EdTriageConcept.score.orange){
                     ret = "orange";
                 }
-                else if(colorCode == EdTriageConcept.score.yellow){
+                else if(score == EdTriageConcept.score.yellow){
                     ret = "yellow";
                 }
-                else if(colorCode == EdTriageConcept.score.green){
+                else if(score == EdTriageConcept.score.green){
                     ret = "green";
                 }
                 return ret;

@@ -13,7 +13,25 @@ angular.module("edTriagePatientController", [])
             $scope.tempInF = null;
 
             /* helper function to get the color class for the score
-            * @param {String} colorCode - the uuid for the color
+             * @param {String} colorCode - the uuid for the color
+             * @return the class suffix
+             * */
+            $scope.getColorClassFromScore = function(answerUuid){
+                var color;
+                var score = $scope.getScore(answerUuid);
+                if (score) {
+                    color = EdTriageDataService.getColorClass(score.colorCode);
+                }
+                if(color == null){
+                    //this means we didn't have a color, it's some kind of numeric score,
+                    //so just use the default val
+                    color = 'score';
+                }
+                return color;
+            };
+
+            /* helper function to get the color class for the score
+             * @param {String} colorCode - the uuid for the color
              * @return the class suffix
              * */
             $scope.getColorClass = function(colorCode){
@@ -246,7 +264,7 @@ angular.module("edTriagePatientController", [])
         '<td><label>{{conceptLabel}}</label></td>'  +
         '<td colspan="4"><concept-select-box ed-triage-patient="edTriagePatient" sorter="sorter" concept="concept" ' +
         ' selected-concept="selectedConcept"></concept-select-box></td>' +
-         '<td><score-display ng-if="score" score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
+         '<td><score-display score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
         };
 }).directive('conceptSelectBox', function () {
 
@@ -272,6 +290,6 @@ angular.module("edTriagePatientController", [])
             score: "=",
             scoreLabelClass:"="
         },
-        template: '<span class="label {{scoreLabelClass}}">{{score}}</span>'
+        template: '<span class="label {{scoreLabelClass}}">{{ score.numericScore }}</span>'
     };
 });

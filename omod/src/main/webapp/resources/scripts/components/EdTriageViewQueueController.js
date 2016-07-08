@@ -106,8 +106,11 @@ angular.module("edTriageViewQueueController", [])
              * @return the class suffix
              * */
             $scope.getColorClassFromScore = function(patientUuid, answerUuid){
+                var color;
                 var score = $scope.getScore(patientUuid, answerUuid);
-                var color =  EdTriageDataService.getColorClass(score);
+                if (score) {
+                    color = EdTriageDataService.getColorClass(score.colorCode);
+                }
                 if(color == null){
                     //this means we didn't have a color, it's some kind of numeric score,
                     //so just use the default val

@@ -54,7 +54,15 @@ angular.module("edTriageConceptFactory", [])
                     }
                 }),
                 oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){
-                    return  { numericScore: 0, colorCode: EdTriageConcept.score.green };}),
+                    if (!isNumber(value)) {
+                        return { numericScore: 0, colorCode: EdTriageConcept.score.green };
+                    }
+                    if (ageType = EdTriageConcept.ageType.ADULT) {
+                        if(value < 85) { return { numericScore: 0, colorCode: EdTriageConcept.score.red }; }
+                        return { numericScore: 0, colorCode: EdTriageConcept.score.green };
+                    }
+                    return { numericScore: 0, colorCode: EdTriageConcept.score.green };
+                }),
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };

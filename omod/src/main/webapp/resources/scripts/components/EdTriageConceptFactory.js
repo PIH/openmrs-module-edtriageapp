@@ -168,7 +168,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("6807f3b3-4176-49d7-80ff-41603d5c612b", "haemorrhage - controlled",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow })]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 digestive: toAnswers('digestive',[
-                    toAnswer("139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - fresh blood",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }),
+                    toAnswer("139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - fresh blood",  { numericScore: 0, colorCode: EdTriageConcept.score.orange}, 'AC'),
                     toAnswer("130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - persistent",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }),
                     toAnswer("139582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Gastrointestinal hemorrhage",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.INFANT),
                     toAnswer("2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1", "refuses to feed/drink",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT)]

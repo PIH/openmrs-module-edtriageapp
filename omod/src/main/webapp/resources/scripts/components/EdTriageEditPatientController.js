@@ -17,16 +17,16 @@ angular.module("edTriagePatientController", [])
              * @return the class suffix
              * */
             $scope.getColorClassFromScore = function(answerUuid){
-                var color;
+                var color = null;
                 var score = $scope.getScore(answerUuid);
                 if (score) {
                     color = EdTriageDataService.getColorClass(score.colorCode);
+
                 }
-                if(color == null){
-                    //this means we didn't have a color, it's some kind of numeric score,
-                    //so just use the default val
-                    color = 'score';
+                if (color == null) {
+                    color = "white";
                 }
+
                 return color;
             };
 
@@ -290,6 +290,6 @@ angular.module("edTriagePatientController", [])
             score: "=",
             scoreLabelClass:"="
         },
-        template: '<span class="label {{scoreLabelClass}}">{{ score.numericScore }}</span>'
+        template: '<span class="label {{scoreLabelClass}}">{{ score.numericScore ? score.numericScore : "&nbsp;&nbsp;" }}</span>'
     };
 });

@@ -386,18 +386,18 @@ angular.module("edTriageDataService", [])
              * @param {String} colorCode - the uuid for the color
              * @return the class suffix
              * */
-            this.getColorClass = function(score){
+            this.getColorClass = function(colorCode){
                 var ret = null;
-                if(score == EdTriageConcept.score.red){
+                if(colorCode == EdTriageConcept.score.red){
                     ret = "red";
                 }
-                else if(score == EdTriageConcept.score.orange){
+                else if(colorCode == EdTriageConcept.score.orange){
                     ret = "orange";
                 }
-                else if(score == EdTriageConcept.score.yellow){
+                else if(colorCode == EdTriageConcept.score.yellow){
                     ret = "yellow";
                 }
-                else if(score == EdTriageConcept.score.green){
+                else if(colorCode == EdTriageConcept.score.green){
                     ret = "green";
                 }
                 return ret;

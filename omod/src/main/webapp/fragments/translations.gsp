@@ -13,6 +13,7 @@
 		'A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.A.163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}',
 		'ad52aee5-c789-4442-8dfc-2242375f22e8':'${ui.message("edtriageapp.ad52aee5-c789-4442-8dfc-2242375f22e8")}',
 		'eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c':'${ui.message("edtriageapp.eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c")}',
-		'f4433b74-6396-47ff-aa63-3900493ebf23':'${ui.message("edtriageapp.f4433b74-6396-47ff-aa63-3900493ebf23")}'
+		'f4433b74-6396-47ff-aa63-3900493ebf23':'${ui.message("edtriageapp.f4433b74-6396-47ff-aa63-3900493ebf23")}',
+		'139582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':'${ui.message("edtriageapp.139582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}'
 	} ;
 </script>

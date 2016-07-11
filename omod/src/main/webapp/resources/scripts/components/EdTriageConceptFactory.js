@@ -143,6 +143,11 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("c05b25f1-07d1-47de-a61e-fc9d3bfe95eb", "Burn - electrical or chemical",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }),
                     toAnswer("3ccd21e8-26fe-102b-80cb-0017a47871b2", "burn-other",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow })]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
+                diabetic: toAnswers('diabetic',[
+                    toAnswer("641f4fe3-cac2-46c4-aa94-c8b6d05e9407", "Hypoglycemia",  { numericScore: 0, colorCode: EdTriageConcept.score.red }),
+                    toAnswer("07ece75a-2a53-44ff-be48-15a4f7abc28a", "Ketotic hyperglycemia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'AC'),
+                    toAnswer("4bb094a6-c74b-4481-8f81-b98ff8e4cc39", "Hyperglycemia",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, 'AC')]
+                    ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 trauma: toAnswers('trauma',[
                     toAnswer("3b7f125b-6254-4442-be14-f8f6543c8d63", "serious trauma",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }),
                     toAnswer("cef19dbc-e015-4123-9479-986f26a7ca8c", "threatened limb",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT),

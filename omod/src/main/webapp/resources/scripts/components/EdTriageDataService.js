@@ -147,6 +147,7 @@ angular.module("edTriageDataService", [])
                 // // symptoms  ----
                 addObs(encounter.obs, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
                 addObs(encounter.obs, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
+                addObs(encounter.obs, edTriageConcept.symptoms.diabetic.uuid, edTriagePatient.symptoms.diabetic);
                 addObs(encounter.obs, edTriageConcept.symptoms.trauma.uuid, edTriagePatient.symptoms.trauma);
                 addObs(encounter.obs, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
                 addObs(encounter.obs, edTriageConcept.symptoms.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);

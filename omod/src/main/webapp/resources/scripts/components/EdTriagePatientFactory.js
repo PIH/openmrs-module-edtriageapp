@@ -28,6 +28,7 @@ angular.module("edTriagePatientFactory", [])
             this.symptoms = {
                 neurological: null,
                 burn: null,
+                diabetic: null,
                 trauma: null,
                 digestive: null,
                 pregnancy: null,

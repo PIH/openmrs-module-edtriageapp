@@ -148,6 +148,10 @@
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.burn, model, model.symptoms.burn.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.symptoms.burn, model.symptoms.burn.value).labelTranslated(model.patient.ageType)"
                                                      color="getColorClassFromScore(model.patient.uuid, model.symptoms.burn.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.diabetic.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.diabetic, model, model.symptoms.diabetic.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.diabetic, model.symptoms.diabetic.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.diabetic.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.trauma, model, model.symptoms.trauma.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.symptoms.trauma, model.symptoms.trauma.value).labelTranslated(model.patient.ageType)"

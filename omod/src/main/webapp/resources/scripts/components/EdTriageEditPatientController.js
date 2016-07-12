@@ -123,7 +123,7 @@ angular.module("edTriagePatientController", [])
             * @param {String} convType = the type of converstion (kg, lb)
             * */
             $scope.handleWeightChange = function(convType){
-                var CONVERSTION_FACTOR = 0.453592;
+                var CONVERSTION_FACTOR = 2.2;
                 if(convType == 'kg'){
                     if($scope.weightInKg  == null){
                         $scope.weightInLb = null;

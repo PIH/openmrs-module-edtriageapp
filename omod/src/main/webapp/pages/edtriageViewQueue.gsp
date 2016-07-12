@@ -91,7 +91,7 @@
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}
                         <br/>
                         <span class="label edtriage-label-{{model.patient.lessThan4WeeksOld?'red':'score'}}">
-                            {{model.patient.lessThan4WeeksOld?'${ ui.message("edtriageapp.lessThan4WeeksOld") }':model.patient.age + '${ui.message("uicommons.multipleInputDate.years.label")}'}}
+                            {{model.patient.lessThan4WeeksOld ? "${ ui.message('edtriageapp.lessThan4WeeksOld') }":model.patient.age + "${ui.message('uicommons.multipleInputDate.years.label')}"}}
                             <span ng-if="model.patient.gender=='M'">${ui.message("Patient.gender.male")}</span><span ng-if="model.patient.gender=='F'">${ui.message("Patient.gender.female")}</span>
                         </span>
                     </a>

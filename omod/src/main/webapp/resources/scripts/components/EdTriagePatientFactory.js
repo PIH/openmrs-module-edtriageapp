@@ -9,7 +9,9 @@ angular.module("edTriagePatientFactory", [])
             this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
-            this.originalObservationUuids = [];
+            // these two are a bit of a hack, to keep try of the obs uuids of color code and score
+            this.existingColorCodeObsUuid;
+            this.existingNumericScoreObsUuid;
             this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, lessThan4WeeksOld:false, display:null};
             this.location = null;
             this.chiefComplaint = null;
@@ -149,24 +151,18 @@ angular.module("edTriagePatientFactory", [])
                 var obsUuid = data.obs[i].uuid;
                 var v = data.obs[i].value;
 
-                if(obsUuid != null){
-                    //we keep these, so that we can clear out a person's observations before make the other
-                    // updates
-                    ret.originalObservationUuids.push(obsUuid);
-                }
-
                 if (uuid == concepts.triageQueueStatus.uuid) {
                     //this concept has answers that are uuid,
                     // so you need to get the uuid instead
                     ret.triageQueueStatus = _v(v.uuid, obsUuid);
                 }
                 else if (uuid == concepts.triageColorCode.uuid) {
-                    //the score is just the value, we convert it when we save it
-                    ret.score.colorCode = v.uuid
+                    ret.score.colorCode = v.uuid;
+                    ret.existingColorCodeObsUuid = obsUuid;
                 }
                 else if (uuid == concepts.triageScore.uuid) {
-                    //the score is just the value, we convert it when we save it
                     ret.score.numericScore = v;
+                    ret.existingNumericScoreObsUuid = obsUuid;
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
                     ret.chiefComplaint = _v(v, obsUuid);
@@ -244,8 +240,8 @@ angular.module("edTriagePatientFactory", [])
             }
 
             /* helper function to make a value object, we need the uuid for saving*/
-            function _v(value, obs_id){
-                return {value:value, obs_id:obs_id};
+            function _v(value, uuid){
+                return {value:value, uuid:uuid};
             }
         };
 

@@ -121,42 +121,44 @@ angular.module("edTriageDataService", [])
                     obs: []
                 };
 
+                var obsToDelete = [];
+
                 //status related fields
-                addObs(encounter.obs, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
-                addObs(encounter.obs, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore});
-                addObs(encounter.obs, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode});
+                addObs(encounter.obs, obsToDelete, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore, uuid: edTriagePatient.existingNumericScoreObsUuid });
+                addObs(encounter.obs, obsToDelete, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode, uuid: edTriagePatient.existingColorCodeObsUuid});
 
                 //chief complaint
-                addObs(encounter.obs, edTriageConcept.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.chiefComplaint.uuid, edTriagePatient.chiefComplaint);
 
                 //vitals ----
-                addObs(encounter.obs, edTriageConcept.vitals.mobility.uuid, edTriagePatient.vitals.mobility);
-                addObs(encounter.obs, edTriageConcept.vitals.respiratoryRate.uuid, edTriagePatient.vitals.respiratoryRate);
-                addObs(encounter.obs, edTriageConcept.vitals.oxygenSaturation.uuid, edTriagePatient.vitals.oxygenSaturation);
-                addObs(encounter.obs, edTriageConcept.vitals.heartRate.uuid, edTriagePatient.vitals.heartRate);
-                addObs(encounter.obs, edTriageConcept.vitals.systolicBloodPressure.uuid, edTriagePatient.vitals.systolicBloodPressure);
-                addObs(encounter.obs, edTriageConcept.vitals.diastolicBloodPressure.uuid, edTriagePatient.vitals.diastolicBloodPressure);
-                addObs(encounter.obs, edTriageConcept.vitals.temperature.uuid, edTriagePatient.vitals.temperature);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.mobility.uuid, edTriagePatient.vitals.mobility);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.respiratoryRate.uuid, edTriagePatient.vitals.respiratoryRate);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.oxygenSaturation.uuid, edTriagePatient.vitals.oxygenSaturation);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.heartRate.uuid, edTriagePatient.vitals.heartRate);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.systolicBloodPressure.uuid, edTriagePatient.vitals.systolicBloodPressure);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.diastolicBloodPressure.uuid, edTriagePatient.vitals.diastolicBloodPressure);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.temperature.uuid, edTriagePatient.vitals.temperature);
 
-                addObs(encounter.obs, edTriageConcept.vitals.trauma.uuid, edTriagePatient.vitals.trauma);
-                addObs(encounter.obs, edTriageConcept.vitals.weight.uuid, edTriagePatient.vitals.weight);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.trauma.uuid, edTriagePatient.vitals.trauma);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.weight.uuid, edTriagePatient.vitals.weight);
 
                 //this one has a set of answers tha are just observations, so just set to yes
-                addObs(encounter.obs, edTriageConcept.vitals.consciousness.uuid, edTriagePatient.vitals.consciousness);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.consciousness.uuid, edTriagePatient.vitals.consciousness);
 
                 // // symptoms  ----
-                addObs(encounter.obs, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
-                addObs(encounter.obs, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
-                addObs(encounter.obs, edTriageConcept.symptoms.diabetic.uuid, edTriagePatient.symptoms.diabetic);
-                addObs(encounter.obs, edTriageConcept.symptoms.trauma.uuid, edTriagePatient.symptoms.trauma);
-                addObs(encounter.obs, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
-                addObs(encounter.obs, edTriageConcept.symptoms.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
-                addObs(encounter.obs, edTriageConcept.symptoms.respiratory.uuid, edTriagePatient.symptoms.respiratory);
-                addObs(encounter.obs, edTriageConcept.symptoms.pain.uuid, edTriagePatient.symptoms.pain);
-                addObs(encounter.obs, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.diabetic.uuid, edTriagePatient.symptoms.diabetic);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.trauma.uuid, edTriagePatient.symptoms.trauma);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.digestive.uuid, edTriagePatient.symptoms.digestive);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.pregnancy.uuid, edTriagePatient.symptoms.pregnancy);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.respiratory.uuid, edTriagePatient.symptoms.respiratory);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.pain.uuid, edTriagePatient.symptoms.pain);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
 
 
-                return removeAllOldObservations(edTriagePatient.originalObservationUuids).then(function(){
+                return deleteObs(obsToDelete).then(function(){
                     var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
                     if(edTriagePatient.encounterUuid != null){
                         //if the encounte already exists, then append the UUID and it will update it
@@ -193,12 +195,7 @@ angular.module("edTriageDataService", [])
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
-            /* removes all the existing observations for a patient, we need to do this before we save a patient's info
-            * b/c there might be observations that were removed and it's easier to just start from scratch
-            * @param {Array} list - a list of obs uuid's
-             * @return {Array} the results from the delete
-              * */
-            function removeAllOldObservations(list) {
+            function deleteObs(list) {
                 var deferred = $q.defer();
                 var promise = deferred.promise;
 
@@ -220,15 +217,15 @@ angular.module("edTriageDataService", [])
             /*
              helper function to build an observation object
              * */
-            function buildObs(id, value, uuid) {
-                return {concept: id, value: value};
-                //return {concept: id, value: value, uuid:uuid};
+            function buildObs(concept, value, uuid) {
+                //return {concept: id, value: value};
+                return {concept: concept, value: value, uuid:uuid};
             }
 
             /*
              * helper function to add an observation to the list
              * */
-            function addObs(list, id, obs) {
+            function addObs(obsList, obsToDeleteList, concept, obs) {
                 if(obs == null){
                     return;
                 }
@@ -236,12 +233,11 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                if (value == null || (typeof value == 'string' && value.length==0)){
-                    //console.log("ignoring " + id + "=" + value + " b/c it empty");
+                if (value == null || (typeof value == 'string' && value.length==0)) {
+                    obsToDeleteList.push(uuid);
                 }
                 else{
-                    //console.log("will save an observation concept_uuid=" + id + " and value=" + value);
-                    list.push(buildObs(id, value, uuid));
+                    obsList.push(buildObs(concept, value, uuid));
                 }
 
             }

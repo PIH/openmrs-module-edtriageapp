@@ -191,7 +191,7 @@ angular.module("edTriagePatientController", [])
                     EdTriageDataService.calculate($scope.edTriagePatientConcept, newValue);
                     $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
                     $scope.currentScore.individualScores = $scope.edTriagePatient.score.individualScores;
-                    $scope.currentScore.vitalsScore = $scope.edTriagePatient.score.vitalsScore;
+                    $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
                     $scope.currentScore.colorCode = $scope.edTriagePatient.score.colorCode;
                     $scope.currentScore.colorClass = $scope.getColorClass($scope.currentScore.colorCode);
                     $scope.traumaString=$scope.edTriagePatient.symptoms.trauma==null?"":$scope.edTriagePatient.symptoms.trauma.value;

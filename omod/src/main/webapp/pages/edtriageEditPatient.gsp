@@ -217,7 +217,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						<tr>
 							<td><label>${ui.message("edtriageapp.total")}</label></td>
 							<td colspan="4"></td>
-							<td><h2><span class="label edtriage-label-score">{{currentScore.vitalsScore}}</span></h2></td>
+							<td><h2><span class="label edtriage-label-score">{{currentScore.numericScore}}</span></h2></td>
 						</tr>
 						</tbody>
 						</table>

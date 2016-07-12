@@ -262,12 +262,12 @@ angular.module("edTriageDataService", [])
                     return;
                 }
 
-                var vitalsScore = 0;
-                var symptomsScore = {};
-                symptomsScore[EdTriageConcept.score.red]=edTriagePatient.patient.lessThan4WeeksOld?1:0;
-                symptomsScore[EdTriageConcept.score.orange]=0;
-                symptomsScore[EdTriageConcept.score.yellow]=0;
-                symptomsScore[EdTriageConcept.score.green]=0;
+                var numericScore = 0;
+                var colorScores = {};
+                colorScores[EdTriageConcept.score.red]=edTriagePatient.patient.lessThan4WeeksOld?1:0;
+                colorScores[EdTriageConcept.score.orange]=0;
+                colorScores[EdTriageConcept.score.yellow]=0;
+                colorScores[EdTriageConcept.score.green]=0;
 
                 //iterate through the vitals and ...
                 // 1) check that they are entered
@@ -286,7 +286,7 @@ angular.module("edTriageDataService", [])
                                         if(answers[i].uuid == p.value){
                                             //this is the answer that they chose
                                             individualScores[answers[i].uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
-                                            vitalsScore = vitalsScore + individualScores[answers[i].uuid].numericScore;
+                                            numericScore = numericScore + individualScores[answers[i].uuid].numericScore;
                                             break;
                                         }
                                     }
@@ -296,8 +296,8 @@ angular.module("edTriageDataService", [])
                                     // function, if it does then call it, otherwise move on
                                     if(typeof c.score === "function"){
                                         individualScores[c.uuid] = c.score(ageType, p.value);
-                                        vitalsScore = vitalsScore + individualScores[c.uuid].numericScore
-                                        ++symptomsScore[individualScores[c.uuid].colorCode];
+                                        numericScore = numericScore + individualScores[c.uuid].numericScore
+                                        ++colorScores[individualScores[c.uuid].colorCode];
                                     }
                                 }
                             }
@@ -308,14 +308,14 @@ angular.module("edTriageDataService", [])
                         }
                     }
                 }
-                if(vitalsScore > 6){
-                    ++symptomsScore[EdTriageConcept.score.red];
+                if(numericScore > 6){
+                    ++colorScores[EdTriageConcept.score.red];
                 }
-                else if(vitalsScore > 4){
-                    ++symptomsScore[EdTriageConcept.score.orange];
+                else if(numericScore > 4){
+                    ++colorScores[EdTriageConcept.score.orange];
                 }
-                else if(vitalsScore > 2){
-                    ++symptomsScore[EdTriageConcept.score.yellow];
+                else if(numericScore > 2){
+                    ++colorScores[EdTriageConcept.score.yellow];
                 }
 
 
@@ -330,7 +330,7 @@ angular.module("edTriageDataService", [])
                                 if(answers[i].uuid == p.value){
                                     var sc = answers[i].score(edTriagePatient.patient.ageType, p.value);
                                     individualScores[p.value] = sc;
-                                    ++symptomsScore[individualScores[p.value].colorCode];
+                                    ++colorScores[individualScores[p.value].colorCode];
 
                                     //add any stuff for special property handling
                                     if(prop == 'trauma' && p.value != null){
@@ -339,7 +339,7 @@ angular.module("edTriageDataService", [])
                                         var traumaAnwser = traumaObj.answers[0];
                                         var traumaVal =  traumaAnwser.score(edTriagePatient.patient.ageType, true);
                                         individualScores[traumaObj.uuid] = traumaVal;
-                                        vitalsScore = vitalsScore + individualScores[traumaObj.uuid].numericScore;
+                                        numericScore = numericScore + individualScores[traumaObj.uuid].numericScore;
 
                                     }
                                     break;
@@ -351,25 +351,19 @@ angular.module("edTriageDataService", [])
 
                 // the scoring works like this:
                 //  if you have at least one red, then your
-                // color is red, then on down for the other
-                // priorities.  the numeric score is not used, but 
-                // could be used for scoring
+                // color is red, then on down for the others
                 var colorCode = EdTriageConcept.score.green;
-                var numericScore = 0;
-                if(symptomsScore[EdTriageConcept.score.red]>0){
+                if (colorScores[EdTriageConcept.score.red] > 0) {
                     colorCode = EdTriageConcept.score.red;
-                    numericScore =  100;
                 }
-                else if(symptomsScore[EdTriageConcept.score.orange]>0){
+                else if (colorScores[EdTriageConcept.score.orange] > 0) {
                     colorCode = EdTriageConcept.score.orange;
-                    numericScore =  50;
                 }
-                else if(symptomsScore[EdTriageConcept.score.yellow]>0){
+                else if(colorScores[EdTriageConcept.score.yellow] > 0) {
                     colorCode = EdTriageConcept.score.yellow;
-                    numericScore =  25;
                 }
 
-                var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores, vitalsScore:vitalsScore};
+                var score = {colorCode: colorCode, numericScore:numericScore, individualScores:individualScores};
                 edTriagePatient.score = score;
 
                 return score;

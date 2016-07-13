@@ -57,6 +57,7 @@
         <uiframeworkVersion>3.6</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
+        <emrapiVersion>1.16-SNAPSHOT</emrapiVersion>
     </properties>
 
     <dependencyManagement>
@@ -130,6 +131,14 @@
                 <version>${uiframeworkVersion}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.openmrs.module</groupId>
+                <artifactId>emrapi-api</artifactId>
+                <version>${emrapiVersion}</version>
+                <scope>provided</scope>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.openmrs.module</groupId>

@@ -12,7 +12,8 @@ angular.module("edTriageDataService", [])
                     VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&location=LOCATION_UUID",
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
                     OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs",
-                    PATIENT_DASHBOARD:"coreapps/clinicianfacing/patient.page?patientId=PATIENT_UUID&app=pih.app.clinicianDashboard"
+                    PATIENT_DASHBOARD:"coreapps/clinicianfacing/patient.page?patientId=PATIENT_UUID&app=pih.app.clinicianDashboard",
+                    ENSURE_ACTIVE_VIST: "/" + OPENMRS_CONTEXT_PATH  + "/ws/rest/emrapi/visit/ensureActiveVisit"
                 },
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
                 ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77",
@@ -113,7 +114,6 @@ angular.module("edTriageDataService", [])
                 }
 
                 var encounter = {
-                    uuid:edTriagePatient.uuid,
                     patient: edTriagePatient.patient.uuid,
                     encounterType: CONSTANTS.ED_TRIAGE_ENCOUNTER_TYPE,
                     location: edTriagePatient.location,
@@ -158,24 +158,16 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
 
 
-                return deleteObs(obsToDelete).then(function(){
-                    var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
-                    if(edTriagePatient.encounterUuid != null){
-                        //if the encounte already exists, then append the UUID and it will update it
-                        url +=   "/" + edTriagePatient.encounterUuid;
-                    }
-
-                    return $http.post(url, encounter)
-                        .then(function (data) {
+                return ensureActiveVisit(edTriagePatient)
+                    .then(saveEncounter(encounter, edTriagePatient.encounterUuid))
+                    .then(deleteObs(obsToDelete))
+                    .then(function (data) {
                                 return {status:200, data: data.data};
                             }
                             , function (error) {
                                 console.log({status:500, data:error});
                                 return {status:500, data:error};
                             });
-
-                });
-
 
             };
 
@@ -194,6 +186,22 @@ angular.module("edTriageDataService", [])
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.removed;
                 return this.save(edTriageConcept,edTriagePatient);
             };
+
+            function ensureActiveVisit(edTriagePatient) {
+                return $http.get(CONSTANTS.URLS.ENSURE_ACTIVE_VIST + "?patient=" + edTriagePatient.patient.uuid + "&location=" + edTriagePatient.location);
+            }
+
+            function saveEncounter(encounter, existingUuid) {
+                var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
+
+                if(existingUuid != null){
+                    //if the encounte already exists, then append the UUID and it will update it
+                    url +=   "/" + existingUuid;
+                    encounter['uuid'] = existingUuid;
+                }
+
+                return $http.post(url, encounter);
+            }
 
             function deleteObs(list) {
                 var deferred = $q.defer();

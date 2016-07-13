@@ -13,7 +13,7 @@ angular.module("edTriageDataService", [])
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
                     OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs",
                     PATIENT_DASHBOARD:"coreapps/clinicianfacing/patient.page?patientId=PATIENT_UUID&app=pih.app.clinicianDashboard",
-                    ENSURE_ACTIVE_VIST: "/" + OPENMRS_CONTEXT_PATH  + "/ws/rest/emrapi/visit/ensureActiveVisit"
+                    ACTIVE_VISIT: "/" + OPENMRS_CONTEXT_PATH  + "/ws/rest/emrapi/activevisit"
                 },
                 ED_TRIAGE_CONCEPT_UUIDS: ["123fa843-a734-40c9-910c-4fe7527427ef"] ,
                 ED_TRIAGE_ENCOUNTER_TYPE: "74cef0a6-2801-11e6-b67b-9e71128cae77",
@@ -188,7 +188,7 @@ angular.module("edTriageDataService", [])
             };
 
             function ensureActiveVisit(edTriagePatient) {
-                return $http.get(CONSTANTS.URLS.ENSURE_ACTIVE_VIST + "?patient=" + edTriagePatient.patient.uuid + "&location=" + edTriagePatient.location);
+                return $http.post(CONSTANTS.URLS.ACTIVE_VISIT + "?patient=" + edTriagePatient.patient.uuid + "&location=" + edTriagePatient.location);
             }
 
             function saveEncounter(encounter, existingUuid) {

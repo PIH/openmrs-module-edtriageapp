@@ -16,6 +16,7 @@ public class EdtriageEditPatientPageController {
                              @RequestParam(value = "search", required = false) String search,
                              @RequestParam(value = "breadcrumbOverride", required = false) String breadcrumbOverride,
                              @RequestParam(value = "returnUrl", required = false) String returnUrl,
+                             @RequestParam(value = "editable", required = false) Boolean editable,
                              UiSessionContext uiSessionContext) {
 
         if (patient.isVoided() || patient.isPersonVoided()) {
@@ -30,6 +31,7 @@ public class EdtriageEditPatientPageController {
         model.addAttribute("location", uiSessionContext.getSessionLocation());
         model.addAttribute("patient", patient);
         model.addAttribute("encounter", encounter);
+        model.addAttribute("editable", editable != null ? editable : true);
         return null;
 
     }

@@ -91,8 +91,9 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">{{edTriagePatientConcept.chiefComplaint.label}}</h3>
 		</div>
 		<div class="panel-body">
-			<textarea class="form-control" id="complaint" rows="3"
+			<textarea ng-show="editable" class="form-control" id="complaint" rows="3"
 					  ng-model="edTriagePatient.chiefComplaint.value"></textarea>
+			<span ng-hide="editable">{{ edTriagePatient.chiefComplaint.value }}</span>
 		</div>
 	</div>
 
@@ -103,14 +104,14 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-2">
-					<input class="form-control" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
+					<input ng-disabled="!editable" class="form-control" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
 					   ng-model="weightInKg" />
 				</div>
 				<div class="col-xs-1">
 					${ui.message("uicommons.units.kilograms")}
 				</div>
 				<div class="col-xs-2">
-					<input class="form-control" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
+					<input ng-disabled="!editable" class="form-control" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
 					   ng-model="weightInLb" />
 				</div>
 				<div class="col-xs-1 text-left">
@@ -141,6 +142,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						</thead>
 						<tbody>
 						<tr concept-selector-row ed-triage-patient="edTriagePatient"
+							editable="editable"
 							concept="edTriagePatientConcept.vitals.mobility"
 							concept-label="'${ui.message("edtriageapp.mobility")}'"
 							sorter="sortAnswer"
@@ -149,7 +151,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
-							<td colspan="3"><input class="form-control" type="number" min="1" max="200"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" min="1" max="200"
 									   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
@@ -157,7 +159,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label></td>
-							<td colspan="3"><input class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
 										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
 							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
@@ -165,7 +167,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
-							<td colspan="3"><input class="form-control" id="heartRate" type="number" min="1" max="999"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
@@ -174,12 +176,12 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">
 							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
 							<td>
-								<input class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" min="1" max="999"
+								<input ng-disabled="!editable" class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
 							</td>
 							<td class="text-center">/</td>
 							<td>
-								<input class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" min="1" max="999"
+								<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 
 							</td>
@@ -189,16 +191,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>${ui.message("edtriageapp.temperature")}</label></td>
-							<td><input class="form-control" id="temperatureC" type="number" min="1" max="100"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" min="1" max="100"
 									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
 							<td class="pull-left">C</td>
-							<td><input class="form-control" id="temperatureF" type="number" min="32" max="212"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" min="32" max="212"
 									   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
 							<td>F</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>
 						</tr>
 
 						<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness"
+							editable="editable"
 							sorter="sortAnswer"
 							concept-label="'${ui.message("edtriageapp.consciousness")}'"
 							selected-concept="edTriagePatient.vitals.consciousness.value" score-label-class="'edtriage-label-score'"
@@ -233,47 +236,56 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<table class="borderless">
 						<tbody>
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.neurological.value"  concept-label="'${ui.message("edtriageapp.neurological")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.neurological.value)"></tr>
 						                     <!-- getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])-->
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.burn.value"  concept-label="'${ui.message("edtriageapp.burn")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.burn.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'diabetic'" concept="edTriagePatientConcept.symptoms.diabetic"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.diabetic.value"  concept-label="'${ui.message("edtriageapp.diabetic")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.diabetic.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.trauma.value" concept-label="'${ui.message("edtriageapp.trauma")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.trauma.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.digestive.value" concept-label="'${ui.message("edtriageapp.digestive")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.digestive.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'" ng-if="edTriagePatient.patient.gender == 'F'"
+								editable="editable"
 								concept="edTriagePatientConcept.symptoms.pregnancy"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.pregnancy.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.respiratory.value" concept-label="'${ui.message("edtriageapp.respiratory")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.respiratory.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.pain.value" concept-label="'${ui.message("edtriageapp.pain")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.pain.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other"
+								editable="editable"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.other.value)"></tr>
@@ -294,13 +306,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-3">
-            <button type="button" class="btn btn-primary" ng-disabled="isSaving" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
+            <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="isSaving || !editable" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
         <div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
         </div>
         <div class="col-sm-3">
-			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ ui.message("edtriageapp.exitButton") }</button>
+			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ editable ? ui.message("edtriageapp.exitButton") : ui.message("edtriageapp.backButton") }</button>
         </div>
     </div>
 
@@ -344,7 +356,8 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			.value('locationUuid', '${ location.uuid }')
 			.value('encounterUuid', '${ encounter ? encounter.uuid : "" }')
 			.value('returnUrl', '${ returnUrl ? returnUrl : "" }')
-			.value('translations', translations);
+			.value('translations', translations)
+			.value('editable', ${ editable })
 
 	jq(function() {
 		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header

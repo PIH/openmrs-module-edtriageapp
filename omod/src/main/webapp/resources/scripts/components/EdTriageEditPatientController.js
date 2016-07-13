@@ -1,8 +1,8 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl',
+        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable',
         function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate,
-                  patientGender, locationUuid, encounterUuid, returnUrl) {
+                  patientGender, locationUuid, encounterUuid, returnUrl, editable) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
@@ -11,6 +11,7 @@ angular.module("edTriagePatientController", [])
             $scope.weightInLb = null;
             $scope.tempInC = null;
             $scope.tempInF = null;
+            $scope.editable = editable ? editable : false;
 
             /* helper function to get the color class for the score
              * @param {String} colorCode - the uuid for the color
@@ -258,13 +259,17 @@ angular.module("edTriagePatientController", [])
             selectedConcept: "=",
             score:"=",
             scoreLabelClass:"=" ,
-            sorter:"="
+            sorter:"=",
+            editable:"="
         },
         template: '<tr>' +
-        '<td><label>{{conceptLabel}}</label></td>'  +
-        '<td colspan="4"><concept-select-box ed-triage-patient="edTriagePatient" sorter="sorter" concept="concept" ' +
-        ' selected-concept="selectedConcept"></concept-select-box></td>' +
-         '<td><score-display score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
+            '<td><label>{{conceptLabel}}</label></td>'  +
+            '<td colspan="4">' +
+            '<concept-select-box ng-show="editable" ed-triage-patient="edTriagePatient" sorter="sorter" concept="concept" ' +
+            ' selected-concept="selectedConcept"></concept-select-box>' +
+            '<concept-display-box ng-show="!editable" concept="concept" selected-concept="selectedConcept"></concept-display-box>' +
+            '</td>' +
+            '<td><score-display score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
         };
 }).directive('conceptSelectBox', function () {
 
@@ -281,6 +286,16 @@ angular.module("edTriagePatientController", [])
             '<option value=""></option>' +
         '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers | orderBy:sorter" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.labelTranslated(edTriagePatient.patient.ageType)}}</option>' +
         '</select>'
+    };
+}).directive('conceptDisplayBox', function () {
+
+    return {
+        restrict: 'E',
+        scope: {
+            concept: "=",
+            selectedConcept: "="
+        },
+        template: "{{ concept | findAnswer: selectedConcept | property: 'label' }}"
     };
 }).directive('scoreDisplay', function () {
     return {

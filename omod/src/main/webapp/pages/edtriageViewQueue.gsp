@@ -38,7 +38,7 @@
     var breadcrumbs = [
         {icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm'},
         {
-            label: "${ ui.message("edtriageapp.queueLabel") }"
+            label: "${ ui.message("edtriageapp.queueLabel") }", link: "${ ui.pageLink("edtriageapp", "edtriageViewQueue?appId=edtriageapp.app.triageQueue") }"
         }
 
     ];
@@ -88,7 +88,7 @@
             <tr ng-repeat="model in edTriagePatientQueue | orderBy: ['-score.numericScore', waitTime()] | filter:patientFilter" >
                 <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                 <td>
-                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}')}}">{{model.patient.display}}
+                    <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}', '${ ui.message("edtriageapp.queueLabel") }')}}">{{model.patient.display}}
                         <br/>
                         <span class="label edtriage-label-{{model.patient.lessThan4WeeksOld?'red':'score'}}">
                             {{model.patient.lessThan4WeeksOld ? "${ ui.message('edtriageapp.lessThan4WeeksOld') }":model.patient.age + "${ui.message('uicommons.multipleInputDate.years.label')}"}}

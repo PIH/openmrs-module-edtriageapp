@@ -31,13 +31,15 @@
 	ui.includeJavascript("edtriageapp", "components/EdTriageEditPatientController.js")
 	ui.includeJavascript("edtriageapp", "app.js")
 
+	def middleLabel = returnLabel ?:  ui.message("edtriageapp.label")
+	def middleUrl   = returnUrl ?:  ui.pageLink("coreapps", "findpatient/findPatient?app=" + appId)
 
 %>
 
 <script type="text/javascript" xmlns="http://www.w3.org/1999/html">
 	var breadcrumbs = [
 		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
-		{ label: "${ ui.message("edtriageapp.label") }", link: "${ ui.pageLink("coreapps", "findpatient/findPatient?app=" + appId) }" },
+		{ label: "${ middleLabel }", link: "${ middleUrl }" },
 		{ label: "${ ui.escapeJs(ui.format(patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
 	];
 
@@ -69,7 +71,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 <div class="container" ng-app="edTriageApp" ng-controller="patientEditController" ng-show="loading_complete">
 	<div id="sticky-anchor"></div>
-	<div class="panel panel-info" id="sticky">
+	<div class="panel progress-bar edtriage-label-{{currentScore.colorClass}}" role="progressbar" aria-valuenow="100"
+		 aria-valuemin="0" aria-valuemax="100" id="sticky" style="height:50px;width:100%">
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">
@@ -77,12 +80,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</div>
 			</h3>
 		</div>
-		<div class="panel-body">
-			<div class="progress-bar edtriage-label-{{currentScore.colorClass}}" role="progressbar" aria-valuenow="100"
-				 aria-valuemin="0" aria-valuemax="100" style="height:50px;width:100%;">
-			</div>
 
-		</div>
 	</div>
 
 

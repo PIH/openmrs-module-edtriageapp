@@ -61,6 +61,28 @@ angular.module("edTriagePatientFactory", [])
             return ret;
         };
 
+        /*
+         * gets the weight for the color code
+         * */
+        EdTriagePatient.prototype.getColorWeight = function(){
+            var ret = 4;
+            var colorCode = this.score.colorCode;
+            if(colorCode == EdTriageConcept.score.red){
+                ret = 1;
+            }
+            else if(colorCode == EdTriageConcept.score.orange){
+                ret = 2;
+            }
+            else if(colorCode == EdTriageConcept.score.yellow){
+                ret = 3;
+            }
+            else{
+                ret = 4;
+            }
+            return ret;
+        };
+
+
         /* calculates the wait time for a patient
         * @param {num} serverDateTimeDeltaInMillis - the difference between the sevrver time and the client time
         * @return {String} the formatted wait time */

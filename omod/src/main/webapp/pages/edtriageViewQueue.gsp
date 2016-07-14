@@ -85,7 +85,7 @@
             </thead>
             <tbody>
 
-            <tr ng-repeat="model in edTriagePatientQueue | orderBy: [ getColorWeight(), waitTime()] | filter:patientFilter" >
+            <tr ng-repeat="model in edTriagePatientQueue | orderBy: [ 'getColorWeight()', '-waitTime()' ] | filter:patientFilter" >
                 <td><span class="label edtriage-label-{{model.getColorHtmlCode()}}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                 <td>
                     <a ng-href="{{getPatientLink(model.patient.uuid, '${appId}', '${ ui.message("edtriageapp.queueLabel") }')}}">{{model.patient.display}}

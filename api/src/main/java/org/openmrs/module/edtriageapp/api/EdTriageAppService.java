@@ -48,4 +48,8 @@ public interface EdTriageAppService extends OpenmrsService {
      */
     List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid);
 
+    /*
+    * expires ED Triage encounters with a status of "waiting for evaluation" for more than ED_TRIAGE_EXPIRE_HOURS (48 hours)
+     */
+    List<Encounter> expireEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid);
 }

@@ -51,5 +51,22 @@
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="edtriageTimerFactory" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
+		<property name="scheduledExecutorTasks">
+			<list>
+				<bean id="expireEDTriageEncounters" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
+					<property name="delay" value="120" /> <!-- delay 2 minutes -->
+					<property name="period" value="600" /> <!-- run every 10 minutes -->
+					<property name="fixedRate" value="false" /> <!-- Set whether to schedule as fixed-rate execution, rather than fixed-delay execution. Default is "false", that is, fixed delay. -->
+					<property name="timeUnit" value="SECONDS"/> <!-- Specify the time unit for the delay and period values. Default is milliseconds  -->
+					<property name="runnable">
+						<bean class="org.openmrs.module.edtriageapp.task.ExpireEDTriageEncountersTask" />
+					</property>
+				</bean>
+			</list>
+		</property>
+
+	</bean>
+
 </beans>

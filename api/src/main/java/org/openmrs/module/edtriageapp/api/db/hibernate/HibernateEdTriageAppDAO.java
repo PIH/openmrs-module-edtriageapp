@@ -21,6 +21,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
+import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
 
 import java.util.ArrayList;
@@ -35,8 +36,6 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
 
     private final Log log = LogFactory.getLog(this.getClass());
     private SessionFactory sessionFactory;
-    private static final String TRIAGE_QUEUE_STATUS_CONCEPT_UUID = "66c18ba5-459e-4049-94ab-f80aca5c6a98";
-    private static final String TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID = "4dd3244d-fcb9-424d-ad8a-afd773c69923";
 
     /**
      * @param sessionFactory the sessionFactory to set
@@ -56,26 +55,25 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
     * gets all active encounters at a current location for a patient
     * */
     public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
-        List<Encounter>  ret = new ArrayList<Encounter>();
+        List<Encounter> ret = new ArrayList<Encounter>();
         List<Encounter> temp = getAllEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
 
-        for(Encounter enc : temp){
+        for (Encounter enc : temp) {
             Set<Obs> observations = enc.getObs();
-            for(Obs obs : observations){
-                if(TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+            for (Obs obs : observations) {
+                if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
                         && obs.getValueCoded() != null
-                        && TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())){
+                        && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
                     //this is an active record, so add it to the queue
                     ret.add(enc);
                     log.info(new StringBuilder().append("ADDED encounter for encounter uuid - ").append(enc.getUuid()).toString());
 
                     break;
-                }
-                else{
+                } else {
                     // this block only for debugging, no functionality here
                     String msg = new StringBuilder().append(" for encounter uuid - ").append(enc.getUuid())
                             .append("skipping the observeration, b/c TRIAGE_QUEUE_STATUS_CONCEPT_UUID(")
-                            .append(TRIAGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
+                            .append(EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
                             .append(obs.getConcept().getUuid()).append(" and TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID(")
                             .append("TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID").append(") <>")
                             .append(obs.getValueText())
@@ -127,4 +125,59 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
         return criteria.list();
     }
 
+    /**
+     * gets all ED Triage encounters that are older than a given number of hours
+     *
+     * @param hoursBack    - how many hours old
+     * @param locationUuid - (optional) the location UUID for the encounters
+     * @param patientUuid  - (optional) the patient UUID for the encounters
+     * @return
+     */
+    @Override
+    public List<Encounter> getExpiredEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
+        List<Encounter> ret = null;
+
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class, "enc");
+        //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.HOUR, hoursBack * -1);
+        criteria.add(Restrictions.le("enc.encounterDatetime", now.getTime()));
+        criteria.add(Restrictions.eq("enc.voided", Boolean.FALSE));
+
+        criteria.createAlias("enc.encounterType", "encType");
+        criteria.add(Restrictions.eq("encType.uuid", EdTriageAppDAO.ENCOUNTER_TYPE_UUID));
+
+        if (locationUuid != null && locationUuid.length() > 0) {
+            criteria.createAlias("enc.location", "loc");
+            criteria.add(Restrictions.eq("loc.uuid", locationUuid));
+        }
+
+        if (patientUuid != null && patientUuid.length() > 0) {
+            criteria.createAlias("enc.patient", "pat");
+            criteria.add(Restrictions.eq("pat.uuid", patientUuid));
+        }
+
+        criteria.addOrder(Order.desc("enc.encounterDatetime"));
+
+        List<Encounter> temp = criteria.list();
+        if (temp != null && temp.size() > 0) {
+            ret = new ArrayList<Encounter>();
+            for (Encounter enc : temp) {
+                Set<Obs> observations = enc.getObs();
+                for (Obs obs : observations) {
+                    if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+                            && obs.getValueCoded() != null
+                            && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
+                        //this is an active record, so add it to the queue
+                        ret.add(enc);
+                        log.info(new StringBuilder().append("ADDED encounter for encounter uuid - ").append(enc.getUuid()).toString());
+                        break;
+                    }
+
+                }
+            }
+        }
+        return ret;
+    }
 }

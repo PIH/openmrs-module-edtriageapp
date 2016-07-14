@@ -14,11 +14,15 @@
 package org.openmrs.module.edtriageapp.api.impl;
 
 import org.openmrs.Encounter;
+import org.openmrs.Obs;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * It is a default implementation of {@link EdTriageAppService}.
@@ -49,6 +53,30 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
     @Override
     public List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid){
         return dao.getAllEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+    }
+
+    @Override
+    public List<Encounter> expireEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid) {
+
+        List<Encounter> expiredEncounters = dao.getExpiredEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+        if (expiredEncounters != null && expiredEncounters.size() > 0) {
+            for (Encounter encounter : expiredEncounters){
+                Set<Obs> observations = encounter.getObs(); {
+                    for (Obs obs : observations) {
+                        if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+                                && obs.getValueCoded() != null
+                                && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
+
+                            obs.setValueCoded(Context.getConceptService().getConcept(EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID));
+                            Context.getEncounterService().saveEncounter(encounter);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return expiredEncounters;
     }
 
 }

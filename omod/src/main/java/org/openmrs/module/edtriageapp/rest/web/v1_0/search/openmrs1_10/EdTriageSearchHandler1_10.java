@@ -41,7 +41,7 @@ public class EdTriageSearchHandler1_10 implements SearchHandler {
 	private static final String REQUEST_PARAM_PATIENT= "patient";
     private static final String REQUEST_PARAM_LOCATION = "location";
     private static final String REQUEST_PARAM_HOURS_BACK = "hours_back";
-    private static final int DEFAULT_HOURS_BACK = 24;
+    private static final int DEFAULT_HOURS_BACK = 48;
 
 	private final SearchQuery searchQuery = new SearchQuery.Builder("Gets EdTriage Encounters")
 			.withOptionalParameters(REQUEST_PARAM_PATIENT, REQUEST_PARAM_LOCATION, REQUEST_PARAM_HOURS_BACK, REQUEST_PARAM_DEBUG, REQUEST_PARAM_OVERRIDE_REPRESENTATION).build();

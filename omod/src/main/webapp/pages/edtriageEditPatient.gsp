@@ -46,7 +46,8 @@
 	function sticky_relocate() {
 		var window_top = jq(window).scrollTop();
 		var div_top = jq('#sticky-anchor').offset().top;
-		if (window_top > div_top) {
+		// UHM-2519, add a buffer before re-positioning the div to prevent the jittering 
+		if (window_top > (div_top + 20)) {
 			jq('#sticky').addClass('stick');
 			jq('#sticky-anchor').height(jq('#sticky').outerHeight());
 		} else {

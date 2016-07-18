@@ -159,16 +159,19 @@ angular.module("edTriageDataService", [])
 
 
                 return ensureActiveVisit(edTriagePatient)
-                    .then(saveEncounter(encounter, edTriagePatient.encounterUuid))
-                    .then(deleteObs(obsToDelete))
-                    .then(function (data) {
-                                return {status:200, data: data.data};
-                            }
-                            , function (error) {
-                                console.log({status:500, data:error});
-                                return {status:500, data:error};
-                            });
-
+                    .then(function () {
+                        return saveEncounter(encounter, edTriagePatient.encounterUuid)
+                    })
+                    .then(function () {
+                        return deleteObs(obsToDelete)
+                    })
+                    // TODO better error handling here?
+                    .then(function () {
+                            return {status: 200};
+                        }
+                        , function (error) {
+                            return {status: 500};
+                        });
             };
 
             /*

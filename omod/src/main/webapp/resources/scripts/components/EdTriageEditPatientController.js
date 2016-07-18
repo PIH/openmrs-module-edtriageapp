@@ -77,7 +77,8 @@ angular.module("edTriagePatientController", [])
                 EdTriageDataService.save($scope.edTriagePatientConcept, $scope.edTriagePatient).then(function (res) {
                     $scope.isSaving = false;
                     if (res.status != 200) {
-                        $scope.message = {type: 'danger', text: $filter('json')(res.data)};
+                        // TODO better error handling here?
+                        $scope.message = {type: 'danger', text: $filter('json')(res)};
                     }
                     else {
                         if (returnUrl) {

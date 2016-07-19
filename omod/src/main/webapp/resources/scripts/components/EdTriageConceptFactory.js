@@ -20,8 +20,9 @@ angular.module("edTriageConceptFactory", [])
                 , "f81631c8-f658-4472-a7eb-c618b05e6149");
             this.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
+            this.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             this.vitals = {
-                mobility: toAnswers(      'mobility',
+                mobility: toAnswers('mobility',
                     [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", { numericScore: 2, colorCode: EdTriageConcept.score.green }),
                         toAnswer("d335ec09-c724-4327-9726-f3c984bb1ca1", "with help", { numericScore: 1, colorCode: EdTriageConcept.score.green }, 'AC'),
                         toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", { numericScore: 0, colorCode: EdTriageConcept.score.green } , 'AC'),

@@ -80,6 +80,7 @@
                 <th>${ ui.message("edtriageapp.waitTime") }</th>
                 <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
                 <th>${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
+                <th>${ ui.message("edtriageapp.clinicalImpression") }</th>
                 <th></th>
             </tr>
             </thead>
@@ -178,6 +179,7 @@
                                                      color="getColorClassFromScore(model.patient.uuid,model.symptoms.other.value)"></show-list-item-if-has-value>
                     </ul>
                 </td>
+                <td>{{model.clinicalImpression.value}}</td>
                 <td>
                     <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-primary" ng-disabled="isSaving"
                             ng-click="beginConsult(model)">${ ui.message("edtriageapp.beginConsult") }</button>

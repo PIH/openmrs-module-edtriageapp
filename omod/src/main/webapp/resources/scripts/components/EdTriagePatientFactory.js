@@ -38,7 +38,7 @@ angular.module("edTriagePatientFactory", [])
                 pain: null,
                 other: null
             };
-
+            this.clinicalImpression = null;
         }
         /*
         * gets the html color for the code
@@ -215,6 +215,9 @@ angular.module("edTriagePatientFactory", [])
                 }
                 else if (uuid == concepts.vitals.mobility.uuid) {
                     ret.vitals.mobility = _v(v.uuid, obsUuid);
+                }
+                else if (uuid == concepts.clinicalImpression.uuid) {
+                    ret.clinicalImpression = _v(v, obsUuid);
                 }
                 else {
                     //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share

@@ -151,6 +151,8 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.pain.uuid, edTriagePatient.symptoms.pain);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.other.uuid, edTriagePatient.symptoms.other);
 
+                // clinical impressions
+                addObs(encounter.obs, obsToDelete, edTriageConcept.clinicalImpression.uuid, edTriagePatient.clinicalImpression);
 
                 return ensureActiveVisit(edTriagePatient)
                     .then(function () {

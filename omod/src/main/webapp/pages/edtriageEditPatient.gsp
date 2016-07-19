@@ -46,11 +46,11 @@
 	function sticky_relocate() {
 		var window_top = jq(window).scrollTop();
 		var div_top = jq('#sticky-anchor').offset().top;
-		// UHM-2519, add a buffer before re-positioning the div to prevent the jittering 
-		if (window_top > (div_top + 20)) {
+		// UHM-2519, add a buffer before re-positioning the div to prevent the jittering
+		if (window_top > (div_top + 30 ) ) {
 			jq('#sticky').addClass('stick');
 			jq('#sticky-anchor').height(jq('#sticky').outerHeight());
-		} else {
+		} else if (window_top < (div_top - 70 )) {
 			jq('#sticky').removeClass('stick');
 			jq('#sticky-anchor').height(0);
 		}
@@ -73,7 +73,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 <div class="container" ng-app="edTriageApp" ng-controller="patientEditController" ng-show="loading_complete">
 	<div id="sticky-anchor"></div>
 	<div class="panel progress-bar edtriage-label-{{currentScore.colorClass}}" role="progressbar" aria-valuenow="100"
-		 aria-valuemin="0" aria-valuemax="100" id="sticky" style="height:50px;width:100%">
+		 aria-valuemin="0" aria-valuemax="100" id="sticky">
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">

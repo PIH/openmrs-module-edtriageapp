@@ -38,13 +38,14 @@ $fontPath: "../fonts";
 	padding: 0.5ex;
 	height: 50px;
 	width: 940px;
+	transition: box-shadow 400ms;
 }
 
 #sticky.stick {
-	margin-top: 0 !important;
 	position: fixed;
 	top: 0;
-	z-index: 10000;
+	z-index: 2;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .borderless td, .borderless th {

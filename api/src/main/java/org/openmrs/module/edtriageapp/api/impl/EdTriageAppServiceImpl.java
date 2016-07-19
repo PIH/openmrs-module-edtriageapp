@@ -13,14 +13,23 @@
  */
 package org.openmrs.module.edtriageapp.api.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
 import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.api.LocationService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
+import org.openmrs.module.emrapi.adt.AdtService;
+import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +37,12 @@ import java.util.Set;
  * It is a default implementation of {@link EdTriageAppService}.
  */
 public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTriageAppService {
+
+    private AdtService adtService;
+
+    private PatientService patientService;
+
+    private LocationService locationService;
 
     private EdTriageAppDAO dao;
 	
@@ -45,17 +60,93 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 	    return dao;
     }
 
-    @Override
-    public List<Encounter> getActiveEncounters(int hoursBack, String locationUuid, String patientUuid) {
-        return dao.getActiveEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+    public AdtService getAdtService() {
+        return adtService;
+    }
+
+    public void setAdtService(AdtService adtService) {
+        this.adtService = adtService;
+    }
+
+    public PatientService getPatientService() {
+        return patientService;
+    }
+
+    public void setPatientService(PatientService patientService) {
+        this.patientService = patientService;
+    }
+
+    public LocationService getLocationService() {
+        return locationService;
+    }
+
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
     }
 
     @Override
-    public List<Encounter> getAllEncounters(int hoursBack, String locationUuid, String patientUuid){
-        return dao.getAllEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+    @Transactional(readOnly = true)
+    public List<Encounter> getActiveEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid) {
+
+        List<Encounter> ret = new ArrayList<Encounter>();
+        List<Encounter> temp = getAllEDTriageEncounters(hoursBack, locationUuid, patientUuid);
+
+        for (Encounter enc : temp) {
+            Set<Obs> observations = enc.getObs();
+            for (Obs obs : observations) {
+                if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+                        && obs.getValueCoded() != null
+                        && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
+                    //this is an active record, so add it to the queue
+                    ret.add(enc);
+                    break;
+                }
+            }
+
+        }
+
+        return ret;
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Encounter> getAllEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid){
+        return dao.getAllEDTriageEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Encounter getEDTriageEncounterForActiveVisit(String locationUuid, String patientUuid) {
+
+        if (StringUtils.isBlank(locationUuid) || StringUtils.isBlank(patientUuid)) {
+            return null;
+        }
+
+        Patient patient = patientService.getPatientByUuid(patientUuid);
+        Location location = locationService.getLocationByUuid(locationUuid);
+
+        if (patient == null || location == null) {
+            return null;
+        }
+
+        VisitDomainWrapper visit = adtService.getActiveVisit(patient, location);
+
+        if (visit == null) {
+            return null;
+        }
+
+        // there should only be one ED Triage encounter per visit, but if there are multiple, this will just return the most recent
+        for (Encounter encounter : visit.getSortedEncounters()) {
+            if (EDTriageConstants.ED_TRIAGE_ENCOUNTER_TYPE_UUID.equals(encounter.getEncounterType().getUuid())) {
+                return encounter;
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
     public List<Encounter> expireEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid) {
 
         List<Encounter> expiredEncounters = dao.getExpiredEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);

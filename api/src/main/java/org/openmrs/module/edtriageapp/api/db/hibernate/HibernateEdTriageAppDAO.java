@@ -52,53 +52,11 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
     }
 
     /*
-    * gets all active encounters at a current location for a patient
-    * */
-    public List<Encounter> getActiveEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
-        List<Encounter> ret = new ArrayList<Encounter>();
-        List<Encounter> temp = getAllEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
-
-        for (Encounter enc : temp) {
-            Set<Obs> observations = enc.getObs();
-            for (Obs obs : observations) {
-                if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
-                        && obs.getValueCoded() != null
-                        && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
-                    //this is an active record, so add it to the queue
-                    ret.add(enc);
-                    log.info(new StringBuilder().append("ADDED encounter for encounter uuid - ").append(enc.getUuid()).toString());
-
-                    break;
-                } else {
-                    // this block only for debugging, no functionality here
-                    String msg = new StringBuilder().append(" for encounter uuid - ").append(enc.getUuid())
-                            .append("skipping the observeration, b/c TRIAGE_QUEUE_STATUS_CONCEPT_UUID(")
-                            .append(EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID).append(") <> ")
-                            .append(obs.getConcept().getUuid()).append(" and TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID(")
-                            .append("TRAIGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID").append(") <>")
-                            .append(obs.getValueText())
-                            .append(" getValueAsString=").append(obs.getValueAsString(null))
-                            .append(" getValueCoded=").append(obs.getValueCoded())
-                            .append(" getUuid=").append(obs.getUuid())
-                            .append(" getValueCodedName=").append(obs.getValueCodedName())
-                            .append(" getValueComplex=").append(obs.getValueComplex())
-                            .toString();
-                    log.info(msg);
-                }
-            }
-
-        }
-
-        return ret;
-    }
-
-    /*
     * gets all  encounters at a current location for a patient
     * */
-    public List<Encounter> getAllEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
+    public List<Encounter> getAllEDTriageEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
 
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class, "enc");
-        //criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         Calendar now = Calendar.getInstance();
         now.add(Calendar.HOUR, hoursBack * -1);
@@ -106,7 +64,7 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
         criteria.add(Restrictions.eq("enc.voided", Boolean.FALSE));
 
         criteria.createAlias("enc.encounterType", "encType");
-        criteria.add(Restrictions.eq("encType.uuid", EdTriageAppDAO.ENCOUNTER_TYPE_UUID));
+        criteria.add(Restrictions.eq("encType.uuid", EDTriageConstants.ED_TRIAGE_ENCOUNTER_TYPE_UUID));
 
         if (locationUuid != null && locationUuid.length() > 0) {
             criteria.createAlias("enc.location", "loc");
@@ -120,8 +78,6 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
 
         criteria.addOrder(Order.desc("enc.encounterDatetime"));
 
-
-        //noinspection unchecked
         return criteria.list();
     }
 
@@ -146,7 +102,7 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
         criteria.add(Restrictions.eq("enc.voided", Boolean.FALSE));
 
         criteria.createAlias("enc.encounterType", "encType");
-        criteria.add(Restrictions.eq("encType.uuid", EdTriageAppDAO.ENCOUNTER_TYPE_UUID));
+        criteria.add(Restrictions.eq("encType.uuid", EDTriageConstants.ED_TRIAGE_ENCOUNTER_TYPE_UUID));
 
         if (locationUuid != null && locationUuid.length() > 0) {
             criteria.createAlias("enc.location", "loc");

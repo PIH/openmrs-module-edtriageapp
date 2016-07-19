@@ -55,25 +55,25 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     }
 
     @Test
-    @Verifies(value = "should get active encounters", method = "getActiveEncounters()")
+    @Verifies(value = "should get active encounters", method = "getActiveEDTriageEncounters()")
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocation() throws Exception {
-        List<Encounter> list = service.getActiveEncounters(getHoursBack(), TEST_LOCATION, null);
+        List<Encounter> list = service.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
         printResults(list);
         assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test
-    @Verifies(value = "should get active encounters for a patient", method = "getActiveEncounters()")
+    @Verifies(value = "should get active encounters for a patient", method = "getActiveEDTriageEncounters()")
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocationForPatient() throws Exception {
-        List<Encounter> list = service.getActiveEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
+        List<Encounter> list = service.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
         printResults(list);
         assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test
-    @Verifies(value = "should get all encounters", method = "getAllEncounters()")
+    @Verifies(value = "should get all encounters", method = "getAllEDTriageEncounters()")
     public void getAllEncountersAtLocation_shouldGetAllEncountersAtLocation() throws Exception {
-        List<Encounter> list = service.getAllEncounters(getHoursBack(), TEST_LOCATION, null);
+        List<Encounter> list = service.getAllEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
         printResults(list);
         assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
     }

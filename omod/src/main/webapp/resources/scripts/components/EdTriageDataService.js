@@ -3,12 +3,10 @@ angular.module("edTriageDataService", [])
         function ($q, $http, $filter, SessionInfo, EdTriageConcept, EdTriagePatient) {
             var CONSTANTS = {
                 URLS: {
-                    //FIND_PATIENT: "edtriageapp/findPatient.page?appId=mirebalais.liveCheckin", //  was "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage";
                     FIND_PATIENT: "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
-                    ACTIVE_ENCOUNTER_SEARCH: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
+                    ED_TRIAGE_FOR_ACTIVE_VISIT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getEDTriageEncounterForActiveVisit&v=custom:(uuid,encounterDatetime,patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
                     ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter/ENCOUNTER_UUID?v=custom:(uuid,encounterDatetime,patient,obs)",
-                    // VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=full&location=LOCATION_UUID",
                     VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&location=LOCATION_UUID",
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",
                     OBSERVATION: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/obs",
@@ -84,14 +82,10 @@ angular.module("edTriageDataService", [])
                 }
                 else {
                     // search for existing matching encounter workflow
-                    return $http.get(CONSTANTS.URLS.ACTIVE_ENCOUNTER_SEARCH.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid)).then(function (resp) {
+                    return $http.get(CONSTANTS.URLS.ED_TRIAGE_FOR_ACTIVE_VISIT.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid)).then(function (resp) {
                         if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
                             var rec = resp.data.results[0]; // search should only return one record, but web service returns array for consistency
-                            var patient =  EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
-                            // if we have found a matching encounter in "waiting for evaluation" state, return that
-                            if(patient.triageQueueStatus.value == EdTriageConcept.status.waitingForEvaluation){
-                                return patient;
-                            }
+                            return EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
                         }
                         // otherwise, create a new instance
                         return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);

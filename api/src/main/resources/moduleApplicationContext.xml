@@ -32,6 +32,9 @@
 					</property>
 					<property name="target">
 						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.EdTriageAppServiceImpl">
+							<property name="adtService" ref="adtService"/>
+							<property name="patientService" ref="patientService"/>
+							<property name="locationService" ref="locationService"/>
 							<property name="dao">
 								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateEdTriageAppDAO">
 									<property name="sessionFactory">

@@ -58,119 +58,159 @@
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
         <emrapiVersion>1.16-SNAPSHOT</emrapiVersion>
+        <reportingVersion>0.10.1</reportingVersion>
+        <calculationVersion>1.1</calculationVersion>
+        <serializationxstreamVersion>0.2.11</serializationxstreamVersion>
+        <providermanagementVersion>2.4</providermanagementVersion>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Begin OpenMRS core -->
-            <dependency>
-                <groupId>org.openmrs.api</groupId>
-                <artifactId>openmrs-api</artifactId>
-                <version>${openMRSVersion}</version>
-                <type>jar</type>
-                <scope>provided</scope>
-            </dependency>
+    <dependencies>
+        <!-- Begin OpenMRS core -->
+        <dependency>
+            <groupId>org.openmrs.api</groupId>
+            <artifactId>openmrs-api</artifactId>
+            <version>${openMRSVersion}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.web</groupId>
-                <artifactId>openmrs-web</artifactId>
-                <version>${openMRSVersion}</version>
-                <type>jar</type>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.web</groupId>
+            <artifactId>openmrs-web</artifactId>
+            <version>${openMRSVersion}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.api</groupId>
-                <artifactId>openmrs-api</artifactId>
-                <version>${openMRSVersion}</version>
-                <type>test-jar</type>
-                <scope>test</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.api</groupId>
+            <artifactId>openmrs-api</artifactId>
+            <version>${openMRSVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.web</groupId>
-                <artifactId>openmrs-web</artifactId>
-                <version>${openMRSVersion}</version>
-                <type>test-jar</type>
-                <scope>test</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.web</groupId>
+            <artifactId>openmrs-web</artifactId>
+            <version>${openMRSVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.test</groupId>
-                <artifactId>openmrs-test</artifactId>
-                <version>${openMRSVersion}</version>
-                <type>pom</type>
-                <scope>test</scope>
-            </dependency>
-            <!-- End OpenMRS core -->
+        <dependency>
+            <groupId>org.openmrs.test</groupId>
+            <artifactId>openmrs-test</artifactId>
+            <version>${openMRSVersion}</version>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+        <!-- End OpenMRS core -->
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>appframework-api</artifactId>
-                <version>${appframeworkVersion}</version>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>appframework-api</artifactId>
+            <version>${appframeworkVersion}</version>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>appframework-api</artifactId>
-                <version>${appframeworkVersion}</version>
-                <classifier>tests</classifier>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>appui-api</artifactId>
-                <version>${appuiVersion}</version>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>appframework-api</artifactId>
+            <version>${appframeworkVersion}</version>
+            <classifier>tests</classifier>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>uiframework-api</artifactId>
-                <version>${uiframeworkVersion}</version>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>appui-api</artifactId>
+            <version>${appuiVersion}</version>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>emrapi-api</artifactId>
-                <version>${emrapiVersion}</version>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>uiframework-api</artifactId>
+            <version>${uiframeworkVersion}</version>
+            <scope>provided</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-api</artifactId>
+            <version>${emrapiVersion}</version>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>webservices.rest-omod</artifactId>
-                <version>${webservicesRestVersion}</version>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-api-1.10</artifactId>
+            <version>${emrapiVersion}</version>
+            <scope>provided</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>org.openmrs.module</groupId>
-                <artifactId>webservices.rest-omod-common</artifactId>
-                <version>${webservicesRestVersion}</version>
-                <classifier>tests</classifier>
-                <scope>test</scope>
-            </dependency>
+        <!-- OpenMRS modules simply required to fire up the application context when running component tests -->
 
-            <dependency>
-                <groupId>com.sun.jersey</groupId>
-                <artifactId>jersey-client</artifactId>
-                <version>1.17.1</version>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>reporting-api</artifactId>
+            <version>${reportingVersion}</version>
+            <scope>test</scope>
+        </dependency>
 
-            <dependency>
-                <groupId>rubygems</groupId>
-                <artifactId>sass</artifactId>
-                <version>3.2.10</version>
-                <type>gem</type>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>serialization.xstream-api-1.9</artifactId>
+            <version>${serializationxstreamVersion}</version>
+            <scope>test</scope>
+        </dependency>
 
-        </dependencies>
-    </dependencyManagement>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>serialization.xstream-api-1.10</artifactId>
+            <version>${serializationxstreamVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>serialization.xstream-api-2.0</artifactId>
+            <version>${serializationxstreamVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>calculation-api</artifactId>
+            <version>${calculationVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>providermanagement-api</artifactId>
+            <version>${providermanagementVersion}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Other dependenceis -->
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>sass</artifactId>
+            <version>3.2.10</version>
+            <type>gem</type>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <pluginManagement>

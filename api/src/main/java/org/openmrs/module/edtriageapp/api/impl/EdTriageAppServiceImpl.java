@@ -158,7 +158,7 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
                                 && obs.getValueCoded() != null
                                 && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
 
-                            obs.setValueCoded(Context.getConceptService().getConcept(EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID));
+                            obs.setValueCoded(Context.getConceptService().getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_EXPIRED_CONCEPT_UUID));
                             Context.getEncounterService().saveEncounter(encounter);
                             break;
                         }

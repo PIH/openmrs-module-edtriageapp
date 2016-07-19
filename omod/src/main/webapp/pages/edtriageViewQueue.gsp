@@ -212,6 +212,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 
 <script type="text/javascript">
     angular.module('edTriageApp')
+            .value('patientDashboard', '${ dashboardUrl }')
             .value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
             .value('locationUuid', '${ location.uuid }')
             .value('translations', translations);

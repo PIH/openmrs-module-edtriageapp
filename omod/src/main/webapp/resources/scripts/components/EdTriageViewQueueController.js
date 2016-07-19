@@ -1,9 +1,10 @@
 angular.module("edTriageViewQueueController", [])
-    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid', 'serverDateTimeInMillis',
-        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis) {
+    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid', 'serverDateTimeInMillis','patientDashboard',
+        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis, patientDashboard) {
             // used to determine if we should disable things
             $scope.isSaving = false;
             $scope.lastUpdatedAtInMillis = new Date().getTime();
+            $scope.patientDashboard = patientDashboard;
             $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
             $scope.lastUpdatedAtStr = "2:00 ";
             $scope.triageStatusCodes =  EdTriageConcept.status;
@@ -55,7 +56,7 @@ angular.module("edTriageViewQueueController", [])
                     else{
                         //just reload the data, there might be new ones in the queue
                         //return $scope.loadPatientData();
-                        var url = EdTriageDataService.CONSTANTS.URLS.PATIENT_DASHBOARD.replace("PATIENT_UUID", edTriagePatient.patient.uuid);
+                        var url = $scope.patientDashboard.replace("{{patientId}}", edTriagePatient.patient.uuid);
                         emr.navigateTo({ applicationUrl: url});
 
                     }

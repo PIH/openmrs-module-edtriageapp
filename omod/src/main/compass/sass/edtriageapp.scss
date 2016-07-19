@@ -36,10 +36,11 @@ $fontPath: "../fonts";
 
 #sticky {
 	padding: 0.5ex;
+	height: 50px;
+	width: 940px;
 }
 
 #sticky.stick {
-	width: 50%;
 	margin-top: 0 !important;
 	position: fixed;
 	top: 0;

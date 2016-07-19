@@ -73,7 +73,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 <div class="container" ng-app="edTriageApp" ng-controller="patientEditController" ng-show="loading_complete">
 	<div id="sticky-anchor"></div>
 	<div class="panel progress-bar edtriage-label-{{currentScore.colorClass}}" role="progressbar" aria-valuenow="100"
-		 aria-valuemin="0" aria-valuemax="100" id="sticky" style="height:50px;width:100%">
+		 aria-valuemin="0" aria-valuemax="100" id="sticky">
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">

@@ -18,6 +18,7 @@ angular.module("edTriageViewQueueController", [])
             $scope.loadPatientData = function(){
                 $scope.lastUpdatedAtInMillis = new Date().getTime();
                 return EdTriageDataService.loadQueue($scope.edTriagePatientConcept, locationUuid).then(function(edTriagePatientQueue){
+                    // TODO can this go?
                     //iterate through the list and save the scores, so that we can use them without having to
                     //recalculate them later
                     for(var i=0;i<edTriagePatientQueue.data.length;++i){

@@ -97,7 +97,7 @@
                         </span>
                     </a>
                 </td>
-                <td>{{model.waitTime(serverTimeDelta)}}</td>
+                <td>{{model.waitTimeFormatted(serverTimeDelta)}}</td>
                 <td>{{model.chiefComplaint.value}}</td>
                 <td>
                     <ul class="list-unstyled">

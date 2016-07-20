@@ -4,6 +4,7 @@
 angular.module('edTriageApp', [
     'filters',
     'session',
+    'ngDialog',
     'edTriagePatientFactory',
     'edTriageConceptFactory',
     'edTriageViewQueueController',

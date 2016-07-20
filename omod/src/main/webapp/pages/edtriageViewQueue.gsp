@@ -10,7 +10,6 @@
     ui.includeJavascript("uicommons", "angular-app.js")
     ui.includeJavascript("uicommons", "angular-translate.min.js")
     ui.includeJavascript("uicommons", "angular-translate-loader-url.min.js")
-    ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
     ui.includeJavascript("uicommons", "services/conceptService.js")
     ui.includeJavascript("uicommons", "directives/coded-or-free-text-answer.js")
     ui.includeJavascript("uicommons", "services/session.js")

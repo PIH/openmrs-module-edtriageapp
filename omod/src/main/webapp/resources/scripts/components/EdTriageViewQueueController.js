@@ -1,6 +1,7 @@
 angular.module("edTriageViewQueueController", [])
-    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid', 'serverDateTimeInMillis','patientDashboard',
-        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis, patientDashboard) {
+    .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid',
+        'serverDateTimeInMillis','patientDashboard',"ngDialog",
+        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis, patientDashboard, ngDialog) {
             // used to determine if we should disable things
             $scope.isSaving = false;
             $scope.lastUpdatedAtInMillis = new Date().getTime();
@@ -46,41 +47,57 @@ angular.module("edTriageViewQueueController", [])
              * the changes the status of the observation to consult
              * */
             $scope.beginConsult = function (edTriagePatient) {
-                $scope.isSaving = true;
 
-                return EdTriageDataService.beginConsult($scope.edTriagePatientConcept , edTriagePatient).then(function(res){
-                    $scope.isSaving = false;
-                    if(res.status != 200){
-                        alert("The system was not able to update the record");
-                        $scope.message = {type: 'danger', text: $filter('json')(res.data)};
-                    }
-                    else{
-                        //just reload the data, there might be new ones in the queue
-                        //return $scope.loadPatientData();
-                        var url = $scope.patientDashboard.replace("{{patientId}}", edTriagePatient.patient.uuid);
-                        emr.navigateTo({ applicationUrl: url});
+                ngDialog.openConfirm({
+                    showClose: true,
+                    closeByEscape: true,
+                    template: "edtriageConfirmBeginConsult.page"
+                }).then(function() {
 
-                    }
-                });
-                
+                    $scope.isSaving = true;
+
+                    return EdTriageDataService.beginConsult($scope.edTriagePatientConcept , edTriagePatient).then(function(res){
+                        $scope.isSaving = false;
+                        if(res.status != 200){
+                            alert("The system was not able to update the record");
+                            $scope.message = {type: 'danger', text: $filter('json')(res.data)};
+                        }
+                        else{
+                            //just reload the data, there might be new ones in the queue
+                            //return $scope.loadPatientData();
+                            var url = $scope.patientDashboard.replace("{{patientId}}", edTriagePatient.patient.uuid);
+                            emr.navigateTo({ applicationUrl: url});
+
+                        }
+                    });
+                })
             };
 
             /*
              * the changes the status of the observation to consult
              * */
             $scope.removeEdTriage = function (edTriagePatient) {
-                $scope.isSaving = true;
-                return EdTriageDataService.removeConsult($scope.edTriagePatientConcept,  edTriagePatient).then(function(res){
-                    $scope.isSaving = false;
-                    if(res.status != 200){
-                        alert("The system was not able to remove the record");
-                        $scope.message = {type: 'danger', text: $filter('json')(res.data)};
-                    }
-                    else{
-                        //just reload the data, there might be new ones in the queue
-                        return $scope.loadPatientData();
-                    }
 
+                ngDialog.openConfirm({
+                    showClose: true,
+                    closeByEscape: true,
+                    template: "edtriageConfirmRemoveFromQueue.page"
+                }).then(function() {
+
+                    $scope.isSaving = true;
+
+                    return EdTriageDataService.removeConsult($scope.edTriagePatientConcept, edTriagePatient).then(function (res) {
+                        $scope.isSaving = false;
+                        if (res.status != 200) {
+                            alert("The system was not able to remove the record");
+                            $scope.message = {type: 'danger', text: $filter('json')(res.data)};
+                        }
+                        else {
+                            //just reload the data, there might be new ones in the queue
+                            return $scope.loadPatientData();
+                        }
+
+                    });
                 });
             };
 

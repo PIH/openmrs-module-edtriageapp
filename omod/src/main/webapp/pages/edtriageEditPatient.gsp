@@ -266,7 +266,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.digestive.value)"></tr>
 
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'"
-								ng-if="edTriagePatient.patient.gender == 'F'"
+								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
 								editable="editable"
 								concept="edTriagePatientConcept.symptoms.pregnancy"
 								sorter="sortAnswer"

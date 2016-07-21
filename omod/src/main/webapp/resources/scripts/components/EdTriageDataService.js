@@ -166,7 +166,7 @@ angular.module("edTriageDataService", [])
                             return {status: 200};
                         }
                         , function (error) {
-                            return {status: 500};
+                            return {status: 500, error: error};
                         });
             };
 

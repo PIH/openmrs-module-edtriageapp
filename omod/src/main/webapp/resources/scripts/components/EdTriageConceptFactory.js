@@ -23,7 +23,7 @@ angular.module("edTriageConceptFactory", [])
             this.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             this.labs = {
                 glucose: toAnswer("3cd4e194-26fe-102b-80cb-0017a47871b2", "Glucose"),
-                pregnancy: toAnswer('pregnancy',
+                pregnancy: toAnswers('pregnancy',
                     [toAnswer("3cd3a7a2-26fe-102b-80cb-0017a47871b2","positive", {numericScore: 0}, 'A'),
                      toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
                     "3ce44134-26fe-102b-80cb-0017a47871b2")

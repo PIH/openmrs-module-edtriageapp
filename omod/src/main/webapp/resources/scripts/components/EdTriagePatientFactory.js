@@ -39,6 +39,11 @@ angular.module("edTriagePatientFactory", [])
                 other: null
             };
             this.clinicalImpression = null;
+            this.labs = {
+                glucose: null,
+                pregnancy: null
+            };
+            this.treatment = null;
         }
         /*
         * gets the html color for the code
@@ -225,6 +230,15 @@ angular.module("edTriagePatientFactory", [])
                 }
                 else if (uuid == concepts.clinicalImpression.uuid) {
                     ret.clinicalImpression = _v(v, obsUuid);
+                }
+                else if (uuid == concepts.labs.glucose.uuid) {
+                    ret.labs.glucose = _v(v, obsUuid);
+                }
+                else if (uuid == concepts.labs.pregnancy.uuid) {
+                    ret.labs.pregnancy = _v(v, obsUuid);
+                }
+                else if (uuid == concepts.treatment.uuid) {
+                    ret.treatment = _v(v, obsUuid);
                 }
                 else {
                     //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share

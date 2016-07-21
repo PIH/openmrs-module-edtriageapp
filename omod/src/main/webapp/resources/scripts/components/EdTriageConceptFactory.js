@@ -21,6 +21,17 @@ angular.module("edTriageConceptFactory", [])
             this.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
             this.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
+            this.labs = {
+                glucose: toAnswer("3cd4e194-26fe-102b-80cb-0017a47871b2", "Glucose"),
+                pregnancy: toAnswers('pregnancy',
+                    [toAnswer("3cd3a7a2-26fe-102b-80cb-0017a47871b2","positive", {numericScore: 0}, 'A'),
+                     toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
+                    "3ce44134-26fe-102b-80cb-0017a47871b2")
+            };
+            this.treatment = toAnswer("treatment",
+                    [   toAnswer("90660681-4b00-469c-b65b-c91afd241c86","oxygen"),
+                        toAnswer("3cccd4d6-26fe-102b-80cb-0017a47871b2","paracetamol", {numericScore: 0}, 'A')],
+                    "5f9721f5-83d9-40f4-bb30-5299c0840667");
             this.vitals = {
                 mobility: toAnswers('mobility',
                     [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", { numericScore: 2, colorCode: EdTriageConcept.score.green }),

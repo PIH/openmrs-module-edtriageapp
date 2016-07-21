@@ -154,6 +154,13 @@ angular.module("edTriageDataService", [])
                 // clinical impressions
                 addObs(encounter.obs, obsToDelete, edTriageConcept.clinicalImpression.uuid, edTriagePatient.clinicalImpression);
 
+                // labs
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy.uuid, edTriagePatient.labs.pregnancy);
+
+                // treatment
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.uuid, edTriagePatient.treatment);
+
                 return ensureActiveVisit(edTriagePatient)
                     .then(function () {
                         return saveEncounter(encounter, edTriagePatient.encounterUuid)

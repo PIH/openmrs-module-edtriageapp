@@ -80,6 +80,7 @@
                 <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
                 <th>${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
                 <th>${ ui.message("edtriageapp.clinicalImpression") }</th>
+                <th>${ ui.message("edtriageapp.addTest") } & ${ ui.message("edtriageapp.immedTreatment") }</th>
                 <th></th>
             </tr>
             </thead>
@@ -180,6 +181,20 @@
                 </td>
                 <td>{{model.clinicalImpression.value}}</td>
                 <td>
+                    <ul class="list-unstyled">
+                        <show-if-has-value item-value="model.labs.glucose.value"
+                                           item-label="'${ui.message("edtriageapp.labs.glucose")}'">
+                        </show-if-has-value>
+                        <show-if-has-value item-value="model.labs.pregnancy.value"
+                                           item-label="'${ui.message("edtriageapp.labs.pregnancy")}'">
+                        </show-if-has-value>
+                        <show-if-has-value item-value="model.treatment.value"
+                                           item-label="'${ui.message("edtriageapp.immediateTreatment")}'">
+                        </show-if-has-value>
+                    </ul>
+                </td>
+
+                <td>
                     <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-primary" ng-disabled="isSaving"
                             ng-click="beginConsult(model)">${ ui.message("edtriageapp.beginConsult") }</button>
                     <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
@@ -200,7 +215,7 @@
             <div class="panel-body">
                 <div class="col-sm-11">
                     <div>
-                        <h2>Queue/h2>
+                        <h2>Queue</h2>
                             <pre>{{edTriagePatientQueue | json}}</pre>
                     </div>
                 </div>

@@ -340,7 +340,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								</td>
 							</tr>
 							<tr concept-selector-row ed-triage-patient="edTriagePatient"
-								ng-if="edTriagePatient.patient.gender == 'F'"
+								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.age > 11"
 								editable="editable"
 								concept="edTriagePatientConcept.labs.pregnancy"
 								concept-label="'${ui.message("edtriageapp.pregnancyTest")}'"
@@ -371,7 +371,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
+							<tr ng-if="edTriagePatient.patient.age > 3">
 								<td><label>${ui.message("edtriageapp.feverInstructions")}</label></td>
 								<td colspan="3">
 									<label>Paracetamol</label>
@@ -380,6 +380,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<input ng-disabled="!editable" class="form-control" id="paracetamol" type="checkbox"
 										   ng-model="edTriagePatient.treatment.paracetamol.value" />
 								</td>
+							</tr>
+							<tr ng-if="edTriagePatient.patient.ageType == 'C'">
+								<td></td>
+								<td colspan="3">
+									<label>15mg/kg</label>
+								</td>
+								<td>
+									<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number"
+										   ng-model="edTriagePatient.treatment.paracetamolDose.value" />
+								</td>
+								<td><small>mg</small></td>
 							</tr>
 							<tr>
 								<td><label>${ui.message("edtriageapp.oxygenInstructions")}</label></td>

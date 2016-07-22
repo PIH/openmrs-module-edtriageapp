@@ -44,6 +44,7 @@ angular.module("edTriagePatientFactory", [])
                 pregnancy: null
             };
             this.treatment = null;
+            this.paracetamolDose = null;
         }
         /*
         * gets the html color for the code
@@ -239,6 +240,9 @@ angular.module("edTriagePatientFactory", [])
                 }
                 else if (uuid == concepts.treatment.uuid) {
                     ret.treatment = _v(v, obsUuid);
+                }
+                else if (uuid == concepts.paracetamolDose.uuid) {
+                    ret.paracetamolDose = _v(v, obsUuid);
                 }
                 else {
                     //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share

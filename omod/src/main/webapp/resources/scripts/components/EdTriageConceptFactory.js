@@ -32,6 +32,7 @@ angular.module("edTriageConceptFactory", [])
                     [   toAnswer("90660681-4b00-469c-b65b-c91afd241c86","oxygen"),
                         toAnswer("3cccd4d6-26fe-102b-80cb-0017a47871b2","paracetamol", {numericScore: 0}, 'A')],
                     "5f9721f5-83d9-40f4-bb30-5299c0840667");
+            this.paracetamolDose = toAnswer("5e7907c6-6a1e-4dcd-a3df-572b3a07e027","paracetamol dose");
             this.vitals = {
                 mobility: toAnswers('mobility',
                     [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", { numericScore: 2, colorCode: EdTriageConcept.score.green }),

@@ -347,6 +347,7 @@ angular.module("edTriageDataService", [])
                                     ++colorScores[individualScores[p.value].colorCode];
 
                                     //add any stuff for special property handling
+                                    /*
                                     if(prop == 'trauma' && p.value != null){
                                         //when you select a trauma, you need to set the vitals trauma to true
                                         var traumaObj = concept.vitals.trauma;
@@ -356,6 +357,7 @@ angular.module("edTriageDataService", [])
                                         numericScore = numericScore + individualScores[traumaObj.uuid].numericScore;
 
                                     }
+                                    */
                                     break;
                                 }
                             }

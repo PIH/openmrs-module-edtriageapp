@@ -6,7 +6,7 @@ angular.module("edTriagePatientController", [])
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
-            $scope.traumaString = "";
+            // $scope.traumaString = "";
             $scope.weightInKg = null;
             $scope.weightInLb = null;
             $scope.tempInC = null;
@@ -203,7 +203,7 @@ angular.module("edTriagePatientController", [])
                     $scope.currentScore.numericScore = $scope.edTriagePatient.score.numericScore;
                     $scope.currentScore.colorCode = $scope.edTriagePatient.score.colorCode;
                     $scope.currentScore.colorClass = $scope.getColorClass($scope.currentScore.colorCode);
-                    $scope.traumaString=$scope.edTriagePatient.symptoms.trauma==null?"":$scope.edTriagePatient.symptoms.trauma.value;
+                    // $scope.traumaString=$scope.edTriagePatient.symptoms.trauma==null?"":$scope.edTriagePatient.symptoms.trauma.value;
 
                 }
 

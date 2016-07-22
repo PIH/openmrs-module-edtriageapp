@@ -208,8 +208,15 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>${ui.message("edtriageapp.trauma")}</label></td>
-							<td colspan="4">  {{findAnswerLabel(edTriagePatientConcept.symptoms.trauma, traumaString)}}</td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.uuid]"></score-display></td>
+							<td>
+								<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">${ ui.message("uicommons.yes")}</label>
+								</td>
+							<td>
+								<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value" ng-value="">${ ui.message("uicommons.no")} </label>
+							</td>
+							<td></td>
+							<td></td>
+							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.answers[0].uuid]"></score-display></td>
 						</tr>
 						<tr ng-if="edTriagePatient.patient.lessThan4WeeksOld">
 							<td>${ui.message("Person.age")}</td>

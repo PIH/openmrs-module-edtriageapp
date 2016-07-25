@@ -185,8 +185,8 @@
                         <show-if-has-value item-value="model.labs.glucose.value"
                                            item-label="'${ui.message("edtriageapp.labs.glucose")}'">
                         </show-if-has-value>
-                        <show-if-has-value item-value="model.labs.pregnancy.value"
-                                           item-label="'${ui.message("edtriageapp.labs.pregnancy")}'">
+                        <show-if-has-value item-value="model.labs.pregnancy_test.value"
+                                           item-label="'${ui.message("edtriageapp.labs.pregnancy_test")}'">
                         </show-if-has-value>
                         <show-if-has-value item-value="model.treatment.value"
                                            item-label="'${ui.message("edtriageapp.immediateTreatment")}'">

@@ -156,7 +156,7 @@ angular.module("edTriageDataService", [])
 
                 // labs
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy.uuid, edTriagePatient.labs.pregnancy);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy_test.uuid, edTriagePatient.labs.pregnancy_test);
 
                 // treatment
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.uuid, edTriagePatient.treatment);

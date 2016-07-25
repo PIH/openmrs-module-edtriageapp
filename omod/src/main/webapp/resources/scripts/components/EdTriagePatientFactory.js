@@ -235,8 +235,8 @@ angular.module("edTriagePatientFactory", [])
                 else if (uuid == concepts.labs.glucose.uuid) {
                     ret.labs.glucose = _v(v, obsUuid);
                 }
-                else if (uuid == concepts.labs.pregnancy.uuid) {
-                    ret.labs.pregnancy = _v(v, obsUuid);
+                else if (uuid == concepts.labs.pregnancy_test.uuid) {
+                    ret.labs.pregnancy_test = _v(v.uuid, obsUuid);
                 }
                 else if (uuid == concepts.treatment.uuid) {
                     ret.treatment = _v(v, obsUuid);

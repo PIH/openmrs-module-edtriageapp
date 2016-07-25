@@ -346,13 +346,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<small>mg/dl</small>
 								</td>
 							</tr>
-							<tr concept-selector-row ed-triage-patient="edTriagePatient"
+							<tr concept-selector-row ed-triage-patient="edTriagePatient"  input-id="'pregnancy_test'"
 								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.age > 11"
 								editable="editable"
-								concept="edTriagePatientConcept.labs.pregnancy"
+								concept="edTriagePatientConcept.labs.pregnancy_test"
 								concept-label="'${ui.message("edtriageapp.pregnancyTest")}'"
 								sorter="sortAnswer"
-								selected-concept="edTriagePatient.labs.pregnancy.value"></tr>
+								selected-concept="edTriagePatient.labs.pregnancy_test.value"></tr>
 							</tbody>
 						</table>
 					</div>

@@ -82,10 +82,10 @@ angular.module("edTriagePatientController", [])
                 }
 
                 EdTriageDataService.save($scope.edTriagePatientConcept, $scope.edTriagePatient).then(function (res) {
-                    $scope.isSaving = false;
                     if (res.status != 200) {
                         // TODO better error handling here?
                         $scope.message = {type: 'danger', text: $filter('json')(res)};
+                        $scope.isSaving = false;
                     }
                     else {
                         if (returnUrl) {
@@ -116,9 +116,9 @@ angular.module("edTriagePatientController", [])
                 $scope.isSaving = true;
 
                 return EdTriageDataService.beginConsult($scope.edTriagePatientConcept , $scope.edTriagePatient).then(function(res){
-                    $scope.isSaving = false;
                     if(res.status != 200){
                         $scope.message = {type: 'danger', text: "The system was not able to update the record"};
+                        $scope.isSaving = false;
                     }
                     else{
                         var url = EdTriageDataService.CONSTANTS.URLS.PATIENT_DASHBOARD.replace("PATIENT_UUID", $scope.edTriagePatient.patient.uuid);

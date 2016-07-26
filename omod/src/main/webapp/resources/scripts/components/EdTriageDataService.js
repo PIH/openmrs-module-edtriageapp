@@ -365,6 +365,25 @@ angular.module("edTriageDataService", [])
                     }
                 }
 
+                for (var prop in edTriagePatient.labs) {
+                    if (edTriagePatient.labs.hasOwnProperty(prop)) {
+                        var p = edTriagePatient.labs[prop];
+                        if (_ans(p)) {
+                            if (concept.labs.hasOwnProperty(prop)){
+                                var c = concept.labs[prop];
+                                if (c.uuid == concept.labs.glucose.uuid ) {
+                                    if(typeof c.score === "function"){
+                                        var sc = c.score(edTriagePatient.patient.ageType, p.value);
+                                        individualScores[c.uuid] = c.score(edTriagePatient.patient.ageType, p.value);
+                                        ++colorScores[individualScores[c.uuid].colorCode];
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // the scoring works like this:
                 //  if you have at least one red, then your
                 // color is red, then on down for the others

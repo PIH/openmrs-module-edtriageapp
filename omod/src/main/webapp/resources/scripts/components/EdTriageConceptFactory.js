@@ -22,7 +22,23 @@ angular.module("edTriageConceptFactory", [])
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
             this.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             this.labs = {
-                glucose: toAnswer("3cd4e194-26fe-102b-80cb-0017a47871b2", "Glucose"),
+                glucose: toAnswer("3cd4e194-26fe-102b-80cb-0017a47871b2", "glucose", function(ageType, value){
+                    if (!isNumber(value)) {
+                        return { numericScore: 0, colorCode: EdTriageConcept.score.green };
+                    }
+
+                    if(ageType == EdTriageConcept.ageType.INFANT){
+                        if ( value < 54 ) return { numericScore: 0, colorCode: EdTriageConcept.score.red };
+                        return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                    } else {
+                        if ( value < 60 ) { return {numericScore: 0, colorCode: EdTriageConcept.score.red} };
+                        if ( (value > 300) && ( value < 450) ) {
+                             return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
+                        }
+                        if ( value > 450 ) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                        return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                    }
+                }),
                 pregnancy_test: toAnswers('pregnancy_test',
                     [toAnswer("3cd3a7a2-26fe-102b-80cb-0017a47871b2","positive", {numericScore: 0}, 'A'),
                      toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
@@ -56,7 +72,7 @@ angular.module("edTriageConceptFactory", [])
                         if(value < 17) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
                         if(value < 22) return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                         if(value < 27) return { numericScore: 1, colorCode: EdTriageConcept.score.green };
-                        return { numericScore: 2, colorCode: EdTriageConcept.score.green };;
+                        return { numericScore: 2, colorCode: EdTriageConcept.score.green };
                     }
                     if(ageType == EdTriageConcept.ageType.INFANT){
                         if(value < 20) return { numericScore: 3, colorCode: EdTriageConcept.score.green };

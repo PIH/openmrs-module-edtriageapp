@@ -338,12 +338,16 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<tbody>
 							<tr>
 								<td><label>${ui.message("edtriageapp.glucose")}</label></td>
-								<td colspan="4">
-									<input ng-disabled="!editable" class="form-control" id="glucoseLab" type="number" min="1" max="2700"
+
+								<td colspan="3">
+									<input ng-disabled="!editable" class="form-control" id="glucose" type="number" min="1" max="2700"
 							   ng-model="edTriagePatient.labs.glucose.value" />
 									</td>
 								<td>
 									<small>mg/dl</small>
+								</td>
+								<td>
+									<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
 								</td>
 							</tr>
 							<tr concept-selector-row ed-triage-patient="edTriagePatient"  input-id="'pregnancy_test'"

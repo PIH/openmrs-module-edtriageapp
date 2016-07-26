@@ -385,7 +385,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<tr ng-if="edTriagePatient.patient.ageType != 'I'">
 								<td><label>${ui.message("edtriageapp.feverInstructions")}</label></td>
 								<td colspan="3">
-									<label>Paracetamol</label>
+									<label>${ui.message("edtriageapp.paracetamol")}</label>
 								</td>
 								<td>
 									<input ng-disabled="!editable" id="paracetamol" type="checkbox"
@@ -396,7 +396,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<tr ng-if="edTriagePatient.patient.ageType == 'C'">
 								<td></td>
 								<td colspan="3">
-									<label>15mg/kg</label>
+									<label>15 mg/kg</label>
 								</td>
 								<td>
 									<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number"

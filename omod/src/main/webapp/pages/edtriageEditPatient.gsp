@@ -388,7 +388,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<label>Paracetamol</label>
 								</td>
 								<td>
-									<input ng-disabled="!editable" class="form-control" id="paracetamol" type="checkbox"
+									<input ng-disabled="!editable" id="paracetamol" type="checkbox"
 										   	ng-model="edTriagePatient.treatment.paracetamol.value"
 											ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
 								</td>
@@ -410,7 +410,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<label>${ui.message("edtriageapp.oxygen")}</label>
 								</td>
 								<td>
-									<input ng-disabled="!editable" class="form-control" id="oxygen" type="checkbox"
+									<input ng-disabled="!editable" id="oxygen" type="checkbox"
 										   	ng-model="edTriagePatient.treatment.oxygen.value"
 											ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
 								</td>

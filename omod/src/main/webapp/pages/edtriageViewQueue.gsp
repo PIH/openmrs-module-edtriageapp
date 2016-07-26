@@ -136,7 +136,7 @@
                                                      score="getScoreForProp(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).labelTranslated(model.patient.ageType)"
                                                      color="getColorClassFromScore(model.patient.uuid, model.vitals.consciousness.value)"></show-list-item-if-has-value>
-                        <show-list-item-if-has-value item-value="model.symptoms.trauma.value"
+                        <show-list-item-if-has-value item-value="model.vitals.trauma.value"
                                                      score="1"
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"
                                                      color="'score'"></show-list-item-if-has-value>

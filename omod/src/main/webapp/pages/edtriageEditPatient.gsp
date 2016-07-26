@@ -169,7 +169,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="1" max="999"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
+							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
 						</tr>
 
 						<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">

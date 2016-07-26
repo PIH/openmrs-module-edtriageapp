@@ -382,14 +382,15 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							</tr>
 							</thead>
 							<tbody>
-							<tr ng-if="edTriagePatient.patient.age > 3">
+							<tr ng-if="edTriagePatient.patient.ageType != 'I'">
 								<td><label>${ui.message("edtriageapp.feverInstructions")}</label></td>
 								<td colspan="3">
 									<label>Paracetamol</label>
 								</td>
 								<td>
 									<input ng-disabled="!editable" class="form-control" id="paracetamol" type="checkbox"
-										   ng-model="edTriagePatient.treatment.paracetamol.value" />
+										   	ng-model="edTriagePatient.treatment.paracetamol.value"
+											ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
 								</td>
 							</tr>
 							<tr ng-if="edTriagePatient.patient.ageType == 'C'">
@@ -410,7 +411,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								</td>
 								<td>
 									<input ng-disabled="!editable" class="form-control" id="oxygen" type="checkbox"
-										   ng-model="edTriagePatient.treatment.oxygen.value" />
+										   	ng-model="edTriagePatient.treatment.oxygen.value"
+											ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
 								</td>
 							</tr>
 							</tbody>

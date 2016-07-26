@@ -43,8 +43,11 @@ angular.module("edTriagePatientFactory", [])
                 glucose: null,
                 pregnancy: null
             };
-            this.treatment = null;
-            this.paracetamolDose = null;
+            this.treatment = {
+                oxygen: null,
+                paracetamol: null,
+                paracetamolDose: null
+            }
         }
         /*
         * gets the html color for the code
@@ -220,9 +223,6 @@ angular.module("edTriagePatientFactory", [])
                 else if (uuid == concepts.vitals.temperature.uuid) {
                     ret.vitals.temperature = _v(v, obsUuid);
                 }
-                // else if (uuid == concepts.vitals.trauma.uuid) {
-                //     ret.vitals.trauma = _v(v, obsUuid);
-                // }
                 else if (uuid == concepts.vitals.weight.uuid) {
                     ret.vitals.weight = _v(v, obsUuid);
                 }
@@ -238,11 +238,15 @@ angular.module("edTriagePatientFactory", [])
                 else if (uuid == concepts.labs.pregnancy_test.uuid) {
                     ret.labs.pregnancy_test = _v(v.uuid, obsUuid);
                 }
-                else if (uuid == concepts.treatment.uuid) {
-                    ret.treatment = _v(v, obsUuid);
+                // since treatments "oxygen" and "paracetamol"
+                else if (uuid == concepts.treatment.oxygen.uuid && v.uuid == concepts.treatment.oxygen.answers[0].uuid) {
+                    ret.treatment.oxygen = _v(v.uuid, obsUuid);
                 }
-                else if (uuid == concepts.paracetamolDose.uuid) {
-                    ret.paracetamolDose = _v(v, obsUuid);
+                else if (uuid == concepts.treatment.paracetamol.uuid && v.uuid == concepts.treatment.paracetamol.answers[0].uuid) {
+                    ret.treatment.paracetamol = _v(v.uuid, obsUuid);
+                }
+                else if (uuid == concepts.treatment.paracetamolDose.uuid) {
+                    ret.treatment.paracetamolDose = _v(v, obsUuid);
                 }
                 else {
                     //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share

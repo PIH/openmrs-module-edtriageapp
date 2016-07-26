@@ -44,11 +44,17 @@ angular.module("edTriageConceptFactory", [])
                      toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
                     "3ce44134-26fe-102b-80cb-0017a47871b2")
             };
-            this.treatment = toAnswer("treatment",
-                    [   toAnswer("90660681-4b00-469c-b65b-c91afd241c86","oxygen"),
-                        toAnswer("3cccd4d6-26fe-102b-80cb-0017a47871b2","paracetamol", {numericScore: 0}, 'A')],
-                    "5f9721f5-83d9-40f4-bb30-5299c0840667");
-            this.paracetamolDose = toAnswer("5e7907c6-6a1e-4dcd-a3df-572b3a07e027","paracetamol dose");
+
+            this.treatment = {
+                oxygen: toAnswers('oxygen',
+                    [ toAnswer("90660681-4b00-469c-b65b-c91afd241c86","oxygen") ],
+                    "5f9721f5-83d9-40f4-bb30-5299c0840667"),
+                paracetamol: toAnswers('paracetamol',
+                    [ toAnswer("3cccd4d6-26fe-102b-80cb-0017a47871b2","paracetamol") ],
+                    "5f9721f5-83d9-40f4-bb30-5299c0840667"),
+                paracetamolDose: toAnswer("5e7907c6-6a1e-4dcd-a3df-572b3a07e027", "paracetamolDose")
+            }
+
             this.vitals = {
                 mobility: toAnswers('mobility',
                     [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", { numericScore: 2, colorCode: EdTriageConcept.score.green }),
@@ -221,7 +227,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }),
                     toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }),
                     toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT),
-                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange })
+                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2toAnswers", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange })
                     ]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 other: toAnswers('other',[

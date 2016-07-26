@@ -159,7 +159,9 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy_test.uuid, edTriagePatient.labs.pregnancy_test);
 
                 // treatment
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.uuid, edTriagePatient.treatment);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.oxygen.uuid, edTriagePatient.treatment.oxygen);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamol.uuid, edTriagePatient.treatment.paracetamol);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamolDose.uuid, edTriagePatient.treatment.paracetamolDose);
 
                 return ensureActiveVisit(edTriagePatient)
                     .then(function () {
@@ -247,7 +249,7 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                if (value == null || (typeof value == 'string' && value.length==0)) {
+                if ((value == null || value == false || (typeof value == 'string' && value.length==0)) && uuid != null) {
                     obsToDeleteList.push(uuid);
                 }
                 else{

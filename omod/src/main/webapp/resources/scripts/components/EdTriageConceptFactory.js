@@ -35,7 +35,7 @@ angular.module("edTriageConceptFactory", [])
                         if ( (value > 300) && ( value < 450) ) {
                              return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
                         }
-                        if ( value > 450 ) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                        if ( value >= 450 ) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
                         return {numericScore: 0, colorCode: EdTriageConcept.score.green};
                     }
                 }),
@@ -184,7 +184,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("3ccd21e8-26fe-102b-80cb-0017a47871b2", "burn-other",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow })]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 diabetic: toAnswers('diabetic',[
-                    toAnswer("07ece75a-2a53-44ff-be48-15a4f7abc28a", "Ketotic hyperglycemia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'AC')]
+                    toAnswer("07ece75a-2a53-44ff-be48-15a4f7abc28a", "Ketotic hyperglycemia",  { numericScore: 0, colorCode: EdTriageConcept.score.green }, 'AC')]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 trauma: toAnswers('trauma',[
                     toAnswer("3b7f125b-6254-4442-be14-f8f6543c8d63", "serious trauma",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }),

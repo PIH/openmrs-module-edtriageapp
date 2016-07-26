@@ -372,9 +372,20 @@ angular.module("edTriageDataService", [])
                             if (concept.labs.hasOwnProperty(prop)){
                                 var c = concept.labs[prop];
                                 if (c.uuid == concept.labs.glucose.uuid ) {
+                                    var hyperglycemiaUuid = concept.symptoms.diabetic.answers[0].uuid;
                                     if(typeof c.score === "function"){
                                         var sc = c.score(edTriagePatient.patient.ageType, p.value);
-                                        individualScores[c.uuid] = c.score(edTriagePatient.patient.ageType, p.value);
+                                        individualScores[c.uuid] = sc;
+                                        // UHM-2531
+                                        if ( edTriagePatient.patient.ageType !== EdTriageConcept.ageType.INFANT) {
+                                            if (individualScores[hyperglycemiaUuid] !== undefined ) {
+                                                if ( (p.value > 200) && (p.value < 450)) {
+                                                    sc = { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                                                }
+                                            }
+                                        }
+                                        individualScores[c.uuid] = sc;
+                                        individualScores[hyperglycemiaUuid] = sc;
                                         ++colorScores[individualScores[c.uuid].colorCode];
                                         break;
                                     }

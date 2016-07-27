@@ -305,17 +305,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
         </div>
     </div>
 
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title">${ ui.message("edtriageapp.clinicalImpression") }</h3>
-		</div>
-		<div class="panel-body">
-			<textarea ng-show="editable" class="form-control" id="impression" rows="3"
-					  ng-model="edTriagePatient.clinicalImpression.value"></textarea>
-			<span ng-hide="editable">{{ edTriagePatient.clinicalImpression.value }}</span>
-		</div>
-	</div>
-
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="panel panel-info">
@@ -421,6 +410,16 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 			</div>
 
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">${ ui.message("edtriageapp.clinicalImpression") }</h3>
+			</div>
+			<div class="panel-body">
+				<textarea ng-show="editable" class="form-control" id="impression" rows="3"
+						  ng-model="edTriagePatient.clinicalImpression.value"></textarea>
+				<span ng-hide="editable">{{ edTriagePatient.clinicalImpression.value }}</span>
+			</div>
+		</div>
 
     </form>
 	<div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">

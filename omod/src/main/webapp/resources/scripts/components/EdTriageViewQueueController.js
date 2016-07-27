@@ -225,7 +225,7 @@ angular.module("edTriageViewQueueController", [])
                 score: "="
             },
             template:
-                "<li class='edtriage-queue-list-item' ng-if='itemValue'>" +
+                "<li class='edtriage-queue-list-item' ng-if='itemValue && (score.numericScore > 0 || color !== \"score\")'>" +
                 "<span class='label edtriage-label-{{color}}'><span>{{score.numericScore}}</span></span>" +
                 "&nbsp;{{itemLabel}}: {{itemValue}}" +
                 "</li>"

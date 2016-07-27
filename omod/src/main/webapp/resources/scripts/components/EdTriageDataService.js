@@ -249,8 +249,10 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                if ((value == null || value == false || (typeof value == 'string' && value.length==0)) && uuid != null) {
-                    obsToDeleteList.push(uuid);
+                if (value == null || value == false || (typeof value == 'string' && value.length==0)) {
+                    if (uuid != null) {
+                        obsToDeleteList.push(uuid);
+                    }
                 }
                 else{
                     obsList.push(buildObs(concept, value, uuid));

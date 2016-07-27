@@ -78,7 +78,7 @@
                 <th>${ ui.message("uicommons.patient") }</th>
                 <th>${ ui.message("edtriageapp.waitTime") }</th>
                 <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
-                <th>${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
+                <th class="vitals-and-symptoms-column">${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
                 <th>${ ui.message("edtriageapp.clinicalImpression") }</th>
                 <th>${ ui.message("edtriageapp.addTest") } & ${ ui.message("edtriageapp.immedTreatment") }</th>
                 <th></th>
@@ -109,7 +109,7 @@
                         <show-if-has-value item-value="model.vitals.respiratoryRate.value"
                                                      score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.respiratoryRate.uuid)"
                                                      item-label="edTriagePatientConcept.vitals.respiratoryRate.labelTranslated(model.patient.ageType)"
-                                                     color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.respiratoryRate.uuid)"></show-if-has-value>
+                                                     color="'score'"></show-if-has-value>
 
                         <show-if-has-value item-value="model.vitals.oxygenSaturation.value"
                                            score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.oxygenSaturation.uuid)"
@@ -121,7 +121,7 @@
                                            item-label="edTriagePatientConcept.vitals.heartRate.labelTranslated(model.patient.ageType)"
                                            color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.heartRate.uuid)"></show-if-has-value>
 
-                        <show-if-has-value item-value="model.vitals.systolicBloodPressure.value + '/' + model.vitals.diastolicBloodPressure.value"
+                        <show-if-has-value item-value="(model.vitals.systolicBloodPressure.value) ? (model.vitals.systolicBloodPressure.value + '/' + model.vitals.diastolicBloodPressure.value) : ''"
                                            score="getScore(model.patient.uuid, edTriagePatientConcept.vitals.systolicBloodPressure.uuid)"
                                            item-label="'${ui.message("edtriageapp.bloodPressure")}'"
                                            color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.vitals.systolicBloodPressure.uuid)"></show-if-has-value>
@@ -135,7 +135,7 @@
                         <show-list-item-if-has-value item-value="model.vitals.consciousness.value"
                                                      score="getScoreForProp(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).labelTranslated(model.patient.ageType)"
-                                                     color="getColorClassFromScore(model.patient.uuid, model.vitals.consciousness.value)"></show-list-item-if-has-value>
+                                                     color="'score'"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.vitals.trauma.value"
                                                      score="1"
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"

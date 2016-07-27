@@ -24,6 +24,9 @@ angular.module("edTriagePatientController", [])
                     color = EdTriageDataService.getColorClass(score.colorCode);
 
                 }
+                if (color == "green") {
+                    color = "score";
+                }
                 if (color == null) {
                     color = "white";
                 }

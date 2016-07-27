@@ -161,7 +161,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
 										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
 							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
+							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
 						</tr>
 
 						<tr>

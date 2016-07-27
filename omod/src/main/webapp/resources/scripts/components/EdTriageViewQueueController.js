@@ -133,7 +133,7 @@ angular.module("edTriageViewQueueController", [])
                 if (score) {
                     color = EdTriageDataService.getColorClass(score.colorCode);
                 }
-                if(color == null){
+                if(color == null || color == "green"){
                     //this means we didn't have a color, it's some kind of numeric score,
                     //so just use the default val
                     color = 'score';
@@ -225,9 +225,10 @@ angular.module("edTriageViewQueueController", [])
                 score: "="
             },
             template:
-                "<li class='edtriage-queue-list-item' ng-if='itemValue && (score > 0 || score.length > 0)'>" +
-                "<span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>" +
-                "&nbsp;{{itemLabel}}: {{itemValue}}</li>"
+                "<li class='edtriage-queue-list-item' ng-if='itemValue'>" +
+                "<span class='label edtriage-label-{{color}}'><span>{{score.numericScore}}</span></span>" +
+                "&nbsp;{{itemLabel}}: {{itemValue}}" +
+                "</li>"
         };
     }).directive('showListItemIfHasValue', function () {
     return {
@@ -239,6 +240,6 @@ angular.module("edTriageViewQueueController", [])
             score:"="
         },
         template:
-            "<li  class='edtriage-queue-list-item' ng-if='itemValue && score != 0'><span class='label edtriage-label-{{color}}'><span ng-if='score*1==score'>{{score}}</span><span ng-if='score*1!=score'>&nbsp;&nbsp;</span></span>&nbsp;{{itemLabel}}</li>"
+            "<li  class='edtriage-queue-list-item' ng-if='itemValue && score != 0'><span class='label edtriage-label-{{color}}'><span>{{score.numericScore}}</span></span>&nbsp;{{itemLabel}}</li>"
     };
 });

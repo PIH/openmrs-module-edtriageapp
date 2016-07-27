@@ -226,7 +226,7 @@ angular.module("edTriagePatientController", [])
             }          ;
 
             $scope.sortAnswer = function(answer){
-                return answer.labelTranslated($scope.edTriagePatient);
+                return answer.displayOrder;
             };
 
 

@@ -340,9 +340,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								<td><label>${ui.message("edtriageapp.glucose")}</label></td>
 
 								<td colspan="3">
-									<input ng-disabled="!editable" class="form-control" id="glucose" type="number" min="1" max="2700"
-							   ng-model="edTriagePatient.labs.glucose.value" />
-									</td>
+									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
+								</td>
 								<td>
 									<small>mg/dl</small>
 								</td>

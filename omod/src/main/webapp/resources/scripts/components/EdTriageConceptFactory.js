@@ -35,7 +35,9 @@ angular.module("edTriageConceptFactory", [])
                         if ( (value > 300) && ( value < 450) ) {
                              return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
                         }
-                        if ( value >= 450 ) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                        if ( value >= 450 ) {
+                            return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                        }
                         return {numericScore: 0, colorCode: EdTriageConcept.score.green};
                     }
                 }),

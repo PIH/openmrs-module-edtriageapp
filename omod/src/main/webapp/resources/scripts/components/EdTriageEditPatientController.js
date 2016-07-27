@@ -318,4 +318,28 @@ angular.module("edTriagePatientController", [])
         },
         template: '<span class="label {{scoreLabelClass}}">{{ score.numericScore ? score.numericScore : "&nbsp;&nbsp;" }}</span>'
     };
+}).directive('numberOnlyInput', function () {
+
+    return {
+        restrict: 'E',
+        replace:true,
+        scope: {
+            inputValue: '=',
+            inputName: '=',
+            minValue: '=',
+            editableValue: '=',
+            maxValue:'='
+        },
+        template: '<input name="{{inputName}}" ng-model="inputValue" ng-disabled="editableValue" class="form-control" type="number" min="{{minValue}}" max="{{maxValue}}" />',
+
+        link: function(scope) {
+            scope.$watch('inputValue', function(newValue, oldValue) {
+               var arr = String(newValue).split("");
+                if (arr.length === 0) return;
+                if (isNaN(newValue)) {
+                    scope.inputValue = oldValue;
+                }
+            });
+        }
+    };
 });

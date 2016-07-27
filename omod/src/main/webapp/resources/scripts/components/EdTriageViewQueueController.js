@@ -226,7 +226,10 @@ angular.module("edTriageViewQueueController", [])
             },
             template:
                 "<li class='edtriage-queue-list-item' ng-if='itemValue && (score.numericScore > 0 || color !== \"score\")'>" +
-                "<span class='label edtriage-label-{{color}}'><span>{{score.numericScore}}</span></span>" +
+                "<span class='label edtriage-label-{{color}}'>" +
+                "   <span ng-if='(score.numericScore > 0)'>{{score.numericScore}}</span>" +
+                "   <span ng-if='(score.numericScore == 0)'>&nbsp;&nbsp;</span>" +
+                "</span>" +
                 "&nbsp;{{itemLabel}}: {{itemValue}}" +
                 "</li>"
         };
@@ -240,6 +243,10 @@ angular.module("edTriageViewQueueController", [])
             score:"="
         },
         template:
-            "<li  class='edtriage-queue-list-item' ng-if='itemValue && score != 0'><span class='label edtriage-label-{{color}}'><span>{{score.numericScore}}</span></span>&nbsp;{{itemLabel}}</li>"
+            "<li  class='edtriage-queue-list-item' ng-if='itemValue && score != 0'>" +
+            "<span class='label edtriage-label-{{color}}'>" +
+                "<span ng-if='(score.numericScore > 0)'>{{score.numericScore}}</span>" +
+                "<span ng-if='(score.numericScore == 0)'>&nbsp;&nbsp;</span>" +
+            "</span>&nbsp;{{itemLabel}}</li>"
     };
 });

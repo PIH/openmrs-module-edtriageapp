@@ -229,7 +229,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 1),
                     toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 2),
                     toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 3),
-                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2toAnswers", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 4)
+                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 4)
                     ]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 other: toAnswers('other',[

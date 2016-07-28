@@ -86,7 +86,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{edTriagePatientConcept.chiefComplaint.label}}</h3>
+			<h3 class="panel-title">${ ui.message("edtriageapp.chiefComplaint") }</h3>
 		</div>
 		<div class="panel-body">
 			<textarea ng-show="editable" class="form-control" id="complaint" rows="3"

@@ -1,7 +1,7 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable',
-        function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientBirthDate,
+        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable',
+        function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientDashboard, ngDialog, patientBirthDate,
                   patientGender, locationUuid, encounterUuid, returnUrl, editable) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
@@ -12,6 +12,7 @@ angular.module("edTriagePatientController", [])
             $scope.tempInC = null;
             $scope.tempInF = null;
             $scope.editable = editable ? editable : false;
+            $scope.patientDashboard = patientDashboard;
 
             /* helper function to get the color class for the score
              * @param {String} colorCode - the uuid for the color
@@ -116,19 +117,26 @@ angular.module("edTriagePatientController", [])
              * the changes the status of the observation to consult
              * */
             $scope.beginConsult = function () {
-                $scope.isSaving = true;
 
-                return EdTriageDataService.beginConsult($scope.edTriagePatientConcept , $scope.edTriagePatient).then(function(res){
-                    if(res.status != 200){
-                        $scope.message = {type: 'danger', text: "The system was not able to update the record"};
-                        $scope.isSaving = false;
-                    }
-                    else{
-                        var url = EdTriageDataService.CONSTANTS.URLS.PATIENT_DASHBOARD.replace("PATIENT_UUID", $scope.edTriagePatient.patient.uuid);
-                        emr.navigateTo({ applicationUrl: url});
-                    }
-                });
+                ngDialog.openConfirm({
+                    showClose: true,
+                    closeByEscape: true,
+                    template: "edtriageConfirmBeginConsult.page"
+                }).then(function() {
 
+                    $scope.isSaving = true;
+
+                    return EdTriageDataService.beginConsult($scope.edTriagePatientConcept, $scope.edTriagePatient).then(function (res) {
+                        if (res.status != 200) {
+                            $scope.message = {type: 'danger', text: "The system was not able to update the record"};
+                            $scope.isSaving = false;
+                        }
+                        else {
+                            var url = $scope.patientDashboard.replace("{{patientId}}", $scope.edTriagePatient.patient.uuid);
+                            emr.navigateTo({applicationUrl: url});
+                        }
+                    });
+                })
             };
 
             /* handles converting the weight from kg to lb and back

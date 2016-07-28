@@ -14,13 +14,15 @@
 package org.openmrs.module.edtriageapp.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.LocationService;
+import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
-import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
@@ -30,6 +32,7 @@ import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +46,10 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
     private PatientService patientService;
 
     private LocationService locationService;
+
+    private ObsService obsService;
+
+    private ConceptService conceptService;
 
     private EdTriageAppDAO dao;
 	
@@ -84,6 +91,22 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
         this.locationService = locationService;
     }
 
+    public ObsService getObsService() {
+        return obsService;
+    }
+
+    public void setObsService(ObsService obsService) {
+        this.obsService = obsService;
+    }
+
+    public ConceptService getConceptService() {
+        return conceptService;
+    }
+
+    public void setConceptService(ConceptService conceptService) {
+        this.conceptService = conceptService;
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<Encounter> getActiveEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid) {
@@ -92,17 +115,20 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
         List<Encounter> temp = getAllEDTriageEncounters(hoursBack, locationUuid, patientUuid);
 
         for (Encounter enc : temp) {
-            Set<Obs> observations = enc.getObs();
-            for (Obs obs : observations) {
-                if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
-                        && obs.getValueCoded() != null
-                        && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
-                    //this is an active record, so add it to the queue
-                    ret.add(enc);
-                    break;
+
+            // to be active, encounter must belong to an active visit, or no visit
+            if (enc.getVisit() == null || enc.getVisit().getStopDatetime() == null) {
+                Set<Obs> observations = enc.getObs();
+                for (Obs obs : observations) {
+                    if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
+                            && obs.getValueCoded() != null
+                            && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
+                        //this is an active record, so add it to the queue
+                        ret.add(enc);
+                        break;
+                    }
                 }
             }
-
         }
 
         return ret;
@@ -147,27 +173,24 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
     @Override
     @Transactional
-    public List<Encounter> expireEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid) {
+    public void expireEDTriageEncounters() {
 
-        List<Encounter> expiredEncounters = dao.getExpiredEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
-        if (expiredEncounters != null && expiredEncounters.size() > 0) {
-            for (Encounter encounter : expiredEncounters){
-                Set<Obs> observations = encounter.getObs(); {
-                    for (Obs obs : observations) {
-                        if (EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID.equals(obs.getConcept().getUuid())
-                                && obs.getValueCoded() != null
-                                && EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID.equals(obs.getValueCoded().getUuid())) {
+        Concept triageQueueStatus = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID);
+        Concept waitingForEvaluation = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID);
+        Concept expired = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_EXPIRED_CONCEPT_UUID);
 
-                            obs.setValueCoded(Context.getConceptService().getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_EXPIRED_CONCEPT_UUID));
-                            Context.getEncounterService().saveEncounter(encounter);
-                            break;
-                        }
-                    }
+        List<Obs> waitingForEvaluationObs = obsService.getObservations(null, null, Collections.singletonList(triageQueueStatus),
+                Collections.singletonList(waitingForEvaluation), null, null, null, null, null, null, null, false);
+
+        for (Obs obs : waitingForEvaluationObs) {
+            // TODO these obs should *always* be associated with a visit, but just in case we check--should probably do something else here as well
+            if (obs.getEncounter() != null && obs.getEncounter().getVisit() != null) {
+                if (obs.getEncounter().getVisit().getStopDatetime() != null) {
+                    obs.setValueCoded(expired);
+                    obsService.saveObs(obs, "expiring triage queue");
                 }
             }
         }
-
-        return expiredEncounters;
     }
 
 }

@@ -32,12 +32,4 @@ public interface EdTriageAppDAO {
      */
     List<Encounter> getAllEDTriageEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
 
-    /**
-     * gets all ED Triage encounters that are older than a given number of hours
-     * @param hoursBack - how many hours old
-     * @param locationUuid - (optional) the location UUID for the encounters
-     * @param patientUuid - (optional) the patient UUID for the encounters
-     * @return
-     */
-    List<Encounter> getExpiredEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid);
-}
+   }

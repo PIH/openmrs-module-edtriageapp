@@ -55,10 +55,10 @@ public interface EdTriageAppService extends OpenmrsService {
      * @param patient
      * @param location
      */
-    public Encounter getEDTriageEncounterForActiveVisit(String locationUuid, String patientUuid);
+    Encounter getEDTriageEncounterForActiveVisit(String locationUuid, String patientUuid);
 
     /*
-    * expires ED Triage encounters with a status of "waiting for evaluation" for more than ED_TRIAGE_EXPIRE_HOURS (48 hours)
+    * expires ED Triage encounters with a status of "waiting for evaluation" that are part of non-active visits
      */
-    List<Encounter> expireEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid);
+    void expireEDTriageEncounters();
 }

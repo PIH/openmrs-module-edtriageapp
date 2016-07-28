@@ -1,7 +1,6 @@
 package org.openmrs.module.edtriageapp.task;
 
 import org.openmrs.api.context.Context;
-import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
 
 /**
@@ -20,7 +19,7 @@ public class ExpireEDTriageEncountersTask extends TriageTask{
         @Override
         public void run() {
             log.warn("ExpireEDTriageEncountersTask runs");
-            Context.getService(EdTriageAppService.class).expireEDTriageEncounters(EDTriageConstants.ED_TRIAGE_EXPIRE_HOURS, null, null);
+            Context.getService(EdTriageAppService.class).expireEDTriageEncounters();
         }
     }
 }

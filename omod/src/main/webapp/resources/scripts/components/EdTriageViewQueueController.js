@@ -63,11 +63,8 @@ angular.module("edTriageViewQueueController", [])
                             $scope.message = {type: 'danger', text: $filter('json')(res.data)};
                         }
                         else{
-                            //just reload the data, there might be new ones in the queue
-                            //return $scope.loadPatientData();
                             var url = $scope.patientDashboard.replace("{{patientId}}", edTriagePatient.patient.uuid);
                             emr.navigateTo({ applicationUrl: url});
-
                         }
                     });
                 })

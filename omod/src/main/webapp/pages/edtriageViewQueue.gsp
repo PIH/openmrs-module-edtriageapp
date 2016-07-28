@@ -185,9 +185,10 @@
                         <show-if-has-value item-value="model.labs.glucose.value"
                                            item-label="'${ui.message("edtriageapp.labs.glucose")}'">
                         </show-if-has-value>
-                        <show-if-has-value item-value="model.labs.pregnancy_test.value"
-                                           item-label="'${ui.message("edtriageapp.labs.pregnancy_test")}'">
-                        </show-if-has-value>
+                        <show-list-item-if-has-value item-value="model.labs.pregnancy_test.value"
+                                                     score="getScoreForProp(model.labs.pregnancy_test, model, model.labs.pregnancy_test.value)"
+                                                     item-label="'${ui.message("edtriageapp.labs.pregnancyTest")}' + ': ' + findAnswer(edTriagePatientConcept.labs.pregnancy_test, model.labs.pregnancy_test.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid,model.labs.pregnancy_test.value)"></show-list-item-if-has-value>
                         <show-if-has-value item-value="model.treatment.value"
                                            item-label="'${ui.message("edtriageapp.immediateTreatment")}'">
                         </show-if-has-value>

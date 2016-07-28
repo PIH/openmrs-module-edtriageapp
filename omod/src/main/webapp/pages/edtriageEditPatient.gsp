@@ -9,7 +9,6 @@
 	ui.includeJavascript("uicommons", "angular-app.js")
 	ui.includeJavascript("uicommons", "angular-translate.min.js")
 	ui.includeJavascript("uicommons", "angular-translate-loader-url.min.js")
-	ui.includeJavascript("uicommons", "ngDialog/ngDialog.js")
 	ui.includeJavascript("uicommons", "services/conceptService.js")
     ui.includeJavascript("uicommons", "directives/coded-or-free-text-answer.js")
     ui.includeJavascript("uicommons", "filters/serverDate.js")
@@ -326,7 +325,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							</thead>
 							<tbody>
 							<tr>
-								<td><label>${ui.message("edtriageapp.glucose")}</label></td>
+								<td><label>${ui.message("edtriageapp.labs.glucose")}</label></td>
 
 								<td colspan="3">
 									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
@@ -342,7 +341,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.age > 11"
 								editable="editable"
 								concept="edTriagePatientConcept.labs.pregnancy_test"
-								concept-label="'${ui.message("edtriageapp.pregnancyTest")}'"
+								concept-label="'${ui.message("edtriageapp.labs.pregnancyTest")}'"
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.labs.pregnancy_test.value"></tr>
 							</tbody>
@@ -440,34 +439,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ editable ? ui.message("edtriageapp.exitButton") : ui.message("edtriageapp.backButton") }</button>
         </div>
     </div>
-
-
-	<!--<div ng-if="debug">
-		<br/><br/><br/>
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">Debug Info</h3>
-			</div>
-			<div class="panel-body">
-				<div class="col-sm-11">
-					<div>
-						<h2>Current Scores</h2>
-						<pre>{{currentScore.individualScores | json}}</pre>
-					</div>
-					<div>
-						<h2>Patient</h2>
-						<pre>{{edTriagePatient | json}}</pre>
-					</div>
-					<div>
-						<h2>Concept</h2>
-						<pre>{{edTriagePatientConcept | json}}</pre>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
-
 </div>
 
 
@@ -476,6 +447,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 <script type="text/javascript">
 	angular.module('edTriageApp')
 			.value('patientUuid', '${ patient.uuid }')
+			.value('patientDashboard', '${ dashboardUrl }')
 			.value('patientBirthDate', '${ patient.birthdate }')
 			.value('patientGender', '${ patient.gender }')
 			.value('locationUuid', '${ location.uuid }')

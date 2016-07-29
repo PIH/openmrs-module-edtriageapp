@@ -183,7 +183,9 @@
                 <td>
                     <ul class="list-unstyled">
                         <show-if-has-value item-value="model.labs.glucose.value"
-                                           item-label="'${ui.message("edtriageapp.labs.glucose")}'">
+                                           score="getScore(model.patient.uuid, edTriagePatientConcept.labs.glucose.uuid)"
+                                           item-label="'${ui.message("edtriageapp.labs.glucose")}'"
+                                           color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.labs.glucose.uuid)">
                         </show-if-has-value>
                         <show-list-item-if-has-value item-value="model.labs.pregnancy_test.value"
                                                      score="getScoreForProp(model.labs.pregnancy_test, model, model.labs.pregnancy_test.value)"

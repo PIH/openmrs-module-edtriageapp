@@ -137,7 +137,7 @@
                                                      item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).labelTranslated(model.patient.ageType)"
                                                      color="'score'"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.vitals.trauma.value"
-                                                     score="1"
+                                                     score="getScoreForProp(edTriagePatientConcept.vitals.trauma, model, model.vitals.trauma.value)"
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"
                                                      color="'score'"></show-list-item-if-has-value>
 

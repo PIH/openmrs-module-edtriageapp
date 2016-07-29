@@ -227,7 +227,7 @@ angular.module("edTriageViewQueueController", [])
                 "   <span ng-if='(score.numericScore > 0)'>{{score.numericScore}}</span>" +
                 "   <span ng-if='(score.numericScore == 0)'>&nbsp;&nbsp;</span>" +
                 "</span>" +
-                "&nbsp;{{itemLabel}}: {{itemValue}}" +
+                "&nbsp;{{itemLabel}}: <label>{{itemValue}}</label>" +
                 "</li>"
         };
     }).directive('showListItemIfHasValue', function () {
@@ -240,10 +240,10 @@ angular.module("edTriageViewQueueController", [])
             score:"="
         },
         template:
-            "<li  class='edtriage-queue-list-item' ng-if='itemValue && (score.numericScore > 0)'>" +
+            "<li  class='edtriage-queue-list-item' ng-if='itemValue && (score.numericScore > 0 || color !== \"score\")'>" +
             "<span class='label edtriage-label-{{color}}'>" +
                 "<span ng-if='(score.numericScore > 0)'>{{score.numericScore}}</span>" +
                 "<span ng-if='(score.numericScore == 0)'>&nbsp;&nbsp;</span>" +
-            "</span>&nbsp;{{itemLabel}}</li>"
+            "</span>&nbsp;<label>{{itemLabel}}</label></li>"
     };
 });

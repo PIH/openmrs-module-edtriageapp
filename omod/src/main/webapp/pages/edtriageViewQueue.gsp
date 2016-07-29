@@ -190,9 +190,23 @@
                         <li class="edtriage-queue-list-item" ng-if="model.labs.pregnancy_test.value">
                             {{ '${ui.message("edtriageapp.labs.pregnancyTest")}' + ': ' + findAnswer(edTriagePatientConcept.labs.pregnancy_test, model.labs.pregnancy_test.value).labelTranslated(model.patient.ageType)}}
                         </li>
-                        <show-if-has-value item-value="model.treatment.value"
-                                           item-label="'${ui.message("edtriageapp.immediateTreatment")}'">
-                        </show-if-has-value>
+                        <li class="edtriage-queue-list-item" ng-if="model.treatment.paracetamol.value">
+                            ${ui.message("edtriageapp.paracetamol")}
+                            <label>
+                            <input ng-disabled="!editable" id="paracetamol" type="checkbox"
+                                   ng-model="model.treatment.paracetamol.value"
+                                   ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
+                            </label>&nbsp;&nbsp;
+                            <span ng-if="model.treatment.paracetamolDose.value">{{model.treatment.paracetamolDose.value}}<small>mg</small></span>
+                        </li>
+                        <li class="edtriage-queue-list-item" ng-if="model.treatment.oxygen.value">
+                            ${ui.message("edtriageapp.oxygen")}
+                            <label>
+                                <input ng-disabled="!editable" id="oxygen" type="checkbox"
+                                       ng-model="model.treatment.oxygen.value"
+                                       ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
+                            </label>
+                        </li>
                     </ul>
                 </td>
 

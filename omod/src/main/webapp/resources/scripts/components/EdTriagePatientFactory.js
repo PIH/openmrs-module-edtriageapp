@@ -306,7 +306,7 @@ angular.module("edTriagePatientFactory", [])
 
             }
 
-            ret.confirmNoSymptoms = !ret.atLeastOneSymptomPresent();
+            //ret.confirmNoSymptoms = !ret.atLeastOneSymptomPresent();
 
             return ret;
 

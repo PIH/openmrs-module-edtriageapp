@@ -36,8 +36,10 @@ angular.module("edTriagePatientFactory", [])
                 pregnancy: null,
                 respiratory: null,
                 pain: null,
-                other: null
+                other: null,
+                none: null
             };
+            this.confirmNoSymptoms = false;
             this.clinicalImpression = null;
             this.labs = {
                 glucose: null,
@@ -116,6 +118,32 @@ angular.module("edTriagePatientFactory", [])
             var sec = Math.floor(w % 60);
             return hr + ":" + (mn < 10 ? "0"+mn:mn) + ":" + (sec < 10 ? "0" + sec:sec);
         }  ;
+
+        EdTriagePatient.prototype.areVitalsComplete = function () {
+            return this.vitals.mobility && this.vitals.mobility.value &&
+                this.vitals.respiratoryRate && this.vitals.respiratoryRate.value &&
+                this.vitals.oxygenSaturation && this.vitals.oxygenSaturation.value &&
+                this.vitals.heartRate&& this.vitals.heartRate.value &&
+                ((this.vitals.diastolicBloodPressure && this.vitals.diastolicBloodPressure.value) || this.patient.ageType != 'A') &&
+                ((this.vitals.systolicBloodPressure && this.vitals.systolicBloodPressure.value) || this.patient.ageType != 'A') &&
+                this.vitals.temperature && this.vitals.temperature.value &&
+                this.vitals.consciousness && this.vitals.consciousness.value &&
+                this.vitals.weight && this.vitals.weight.value
+        };
+
+        EdTriagePatient.prototype.atLeastOneSymptomPresent = function () {
+            return (this.symptoms.neurological && this.symptoms.neurological.value) ||
+                (this.symptoms.burn && this.symptoms.burn.value) ||
+                (this.symptoms.diabetic && this.symptoms.diabetic.value) ||
+                (this.symptoms.trauma && this.symptoms.trauma.value) ||
+                (this.symptoms.digestive && this.symptoms.digestive.value) ||
+                (this.symptoms.pregnancy && this.symptoms.pregnancy.value) ||
+                (this.symptoms.respiratory && this.symptoms.respiratory.value) ||
+                (this.symptoms.pain && this.symptoms.pain.value) ||
+                (this.symptoms.other && this.symptoms.other.value) ||
+                this.confirmNoSymptoms
+        };
+
 
         /* creates a new EdTriagePatient
          *  returns an empty one with the patient and location info filled in
@@ -277,6 +305,8 @@ angular.module("edTriagePatientFactory", [])
                 }
 
             }
+
+            ret.confirmNoSymptoms = !ret.atLeastOneSymptomPresent();
 
             return ret;
 

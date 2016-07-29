@@ -296,6 +296,15 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.other.value)"></tr>
+							<tr>
+								<td>
+									<label>${ui.message("edtriageapp.noSymptomsPresent")}</label>
+								</td>
+								<td colspan="5">
+									<input ng-disabled="!editable" id="confirmNoSymptoms" type="checkbox"
+										   ng-model="edTriagePatient.confirmNoSymptoms"/>
+								</td>
+							</tr>
 
 						</tbody>
 					</table>
@@ -430,7 +439,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-3">
-            <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="isSaving || !editable" ng-click="save()">${ ui.message("edtriageapp.submitButton") }</button>
+            <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="isSaving || !editable" ng-click="confirmSave()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
         <div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>

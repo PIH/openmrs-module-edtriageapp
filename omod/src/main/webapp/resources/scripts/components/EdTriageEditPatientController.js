@@ -72,17 +72,38 @@ angular.module("edTriagePatientController", [])
                     emr.navigateTo({ applicationUrl:  EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
                 }
             };
+
+            $scope.confirmSave = function () {
+
+                if ($scope.edTriagePatient.areVitalsComplete() && $scope.edTriagePatient.atLeastOneSymptomPresent()) {
+                    $scope.save();
+                }
+                else {
+                    ngDialog.openConfirm({
+                        showClose: true,
+                        closeByEscape: true,
+                        template: "edtriageConfirmSubmit.page",
+                        controller: ["$scope", function($dialogScope) {
+                            $dialogScope.vitalsNotComplete = !$scope.edTriagePatient.areVitalsComplete();
+                            $dialogScope.noSymptons = !$scope.edTriagePatient.atLeastOneSymptomPresent();
+                        }]
+                    }).then($scope.save)
+                }
+
+            };
+
             /*
              * the main save function, will return a message in the UI
              * */
             $scope.save = function () {
+
                 $scope.isSaving = true;
 
                 // we set the status back to "waiting for evaluation" on save if the status is expired or removed
                 if (!$scope.edTriagePatient.triageQueueStatus.value ||
                     $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.expired ||
                     $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.removed) {
-                        $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
+                    $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
                 }
 
                 EdTriageDataService.save($scope.edTriagePatientConcept, $scope.edTriagePatient).then(function (res) {
@@ -93,10 +114,10 @@ angular.module("edTriagePatientController", [])
                     }
                     else {
                         if (returnUrl) {
-                            emr.navigateTo({ url: returnUrl });
+                            emr.navigateTo({url: returnUrl});
                         }
                         else {
-                            emr.navigateTo({ applicationUrl:  EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT });
+                            emr.navigateTo({applicationUrl: EdTriageDataService.CONSTANTS.URLS.FIND_PATIENT});
                         }
                     }
                 });

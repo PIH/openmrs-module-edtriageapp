@@ -80,7 +80,7 @@
                 <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
                 <th class="vitals-and-symptoms-column">${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
                 <th>${ ui.message("edtriageapp.clinicalImpression") }</th>
-                <th>${ ui.message("edtriageapp.addTest") } & ${ ui.message("edtriageapp.immedTreatment") }</th>
+                <th>${ ui.message("edtriageapp.testAndTreatments") } </th>
                 <th></th>
             </tr>
             </thead>
@@ -195,8 +195,8 @@
                     </ul>
                 </td>
 
-                <td>
-                    <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-primary" ng-disabled="isSaving"
+                <td class="edtriage-queue-button-column">
+                    <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-primary edtriage-queue-button" ng-disabled="isSaving"
                             ng-click="beginConsult(model)">${ ui.message("edtriageapp.beginConsult") }</button>
                     <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
                             ng-click="removeEdTriage(model)">${ ui.message("edtriageapp.remove") }</button>

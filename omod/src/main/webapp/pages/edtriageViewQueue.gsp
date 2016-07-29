@@ -135,9 +135,9 @@
                         <show-list-item-if-has-value item-value="model.vitals.consciousness.value"
                                                      score="getScoreForProp(edTriagePatientConcept.vitals.consciousness, model, model.vitals.consciousness.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.vitals.consciousness, model.vitals.consciousness.value).labelTranslated(model.patient.ageType)"
-                                                     color="'score'"></show-list-item-if-has-value>
+                                                     color="getColorClassFromScore(model.patient.uuid, model.vitals.consciousness.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.vitals.trauma.value"
-                                                     score="1"
+                                                     score="getScoreForProp(edTriagePatientConcept.vitals.trauma, model, model.vitals.trauma.value)"
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"
                                                      color="'score'"></show-list-item-if-has-value>
 

@@ -383,7 +383,7 @@ angular.module("edTriageDataService", [])
                                         // UHM-2531
                                         if ( edTriagePatient.patient.ageType !== EdTriageConcept.ageType.INFANT) {
                                             if (individualScores[hyperglycemiaUuid] !== undefined ) {
-                                                if ( (p.value > 200) && (p.value < 450)) {
+                                                if ( (p.value > 200) && (p.value <= 450)) {
                                                     sc = { numericScore: 0, colorCode: EdTriageConcept.score.orange };
                                                 }
                                             }

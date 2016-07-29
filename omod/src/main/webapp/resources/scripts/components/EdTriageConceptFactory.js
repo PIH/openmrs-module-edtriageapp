@@ -59,10 +59,10 @@ angular.module("edTriageConceptFactory", [])
 
             this.vitals = {
                 mobility: toAnswers('mobility',
-                    [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", { numericScore: 2, colorCode: EdTriageConcept.score.green}, null, 1),
+                    [toAnswer("38b69221-d8c5-41ca-81fb-258469bdf519", "immobile", { numericScore: 2, colorCode: EdTriageConcept.score.green}, null, 4),
                         toAnswer("d335ec09-c724-4327-9726-f3c984bb1ca1", "with help", { numericScore: 1, colorCode: EdTriageConcept.score.green }, 'AC', 2),
-                        toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", { numericScore: 0, colorCode: EdTriageConcept.score.green } , 'AC', 3),
-                        toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", { numericScore: 0, colorCode: EdTriageConcept.score.green } , EdTriageConcept.ageType.INFANT, 4)]
+                        toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", { numericScore: 0, colorCode: EdTriageConcept.score.green } , 'AC', 1),
+                        toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", { numericScore: 0, colorCode: EdTriageConcept.score.green } , EdTriageConcept.ageType.INFANT, 3)]
                     , "611e7b0a-5b34-47ac-b352-02c2dc653255"),
                 respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", function(ageType, value){
                     if (!isNumber(value)) {
@@ -160,11 +160,11 @@ angular.module("edTriageConceptFactory", [])
                     return { numericScore: 2, colorCode: EdTriageConcept.score.green };
                 }),
                 consciousness: toAnswers(        'consciousness',
-                    [toAnswer("3cf27e66-26fe-102b-80cb-0017a47871b2", "confusion", { numericScore: 2, colorCode: EdTriageConcept.score.green }, 'AC', 2),
-                        toAnswer("160282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "alert",  { numericScore: 0, colorCode: EdTriageConcept.score.green }, null, 5),
-                        toAnswer("162645AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "reacts to voice", { numericScore: 1, colorCode: EdTriageConcept.score.green }, null, 4),
-                        toAnswer("162644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "responds to pain", { numericScore: 2, colorCode: EdTriageConcept.score.green }, null, 3),
-                        toAnswer("f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100", "unresponsive",  { numericScore: 3, colorCode: EdTriageConcept.score.green }, null, 1)],
+                    [toAnswer("3cf27e66-26fe-102b-80cb-0017a47871b2", "confusion", { numericScore: 2, colorCode: EdTriageConcept.score.green }, 'AC', 1),
+                        toAnswer("160282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "alert",  { numericScore: 0, colorCode: EdTriageConcept.score.green }, null, 2),
+                        toAnswer("162645AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "reacts to voice", { numericScore: 1, colorCode: EdTriageConcept.score.green }, null, 3),
+                        toAnswer("162644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "responds to pain", { numericScore: 2, colorCode: EdTriageConcept.score.green }, null, 4),
+                        toAnswer("f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100", "unresponsive",  { numericScore: 3, colorCode: EdTriageConcept.score.green }, null, 5)],
                     GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 trauma: toAnswers('trauma', [toAnswer("124193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "trauma", function(ageType, value){
                     return value.length > 0 ?  { numericScore: 1, colorCode: EdTriageConcept.score.green } :  { numericScore: 0, colorCode: EdTriageConcept.score.green };})],
@@ -178,12 +178,12 @@ angular.module("edTriageConceptFactory", [])
             this.symptoms = {
                 neurological: toAnswers('neurological',[
                     toAnswer("3cce938e-26fe-102b-80cb-0017a47871b2", "seizure - convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
-                    toAnswer("ad52aee5-c789-4442-8dfc-2242375f22e8", "seizure - post convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 2),
+                    toAnswer("ad52aee5-c789-4442-8dfc-2242375f22e8", "seizure - post convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'AC', 2),
                     toAnswer("f4433b74-6396-47ff-aa63-3900493ebf23", "acute focal neurologic deficit",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 3),
                     toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 4),
                     toAnswer("3ccea7fc-26fe-102b-80cb-0017a47871b2", "psychosis",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'AC', 5),
                     toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.INFANT, 6),
-                    toAnswer("143582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT), 7]
+                    toAnswer("143582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT, 7)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
                     toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
@@ -209,9 +209,9 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - fresh blood",  { numericScore: 0, colorCode: EdTriageConcept.score.orange}, EdTriageConcept.ageType.ADULT, 1),
                     toAnswer("130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - persistent",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.ADULT, 2),
                     toAnswer("139582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Gastrointestinal hemorrhage",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 3),
-                    toAnswer("2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1", "refuses to feed/drink",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT, 4),
-                    toAnswer("3cf1c930-26fe-102b-80cb-0017a47871b2", "Vomiting", { numericScore: 0, colorCode: EdTriageConcept.score.yellow },'CI', 5),
-                    toAnswer("4522ea3d-6045-43d8-a97c-33117191da87", "Persistent diarrhea", { numericScore: 0, colorCode: EdTriageConcept.score.yellow },'CI', 6)]
+                    toAnswer("2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1", "refuses to feed/drink",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT, 6),
+                    toAnswer("3cf1c930-26fe-102b-80cb-0017a47871b2", "Vomiting", { numericScore: 0, colorCode: EdTriageConcept.score.yellow },'CI', 4),
+                    toAnswer("4522ea3d-6045-43d8-a97c-33117191da87", "Persistent diarrhea", { numericScore: 0, colorCode: EdTriageConcept.score.yellow },'CI', 5)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pregnancy: toAnswers('pregnancy',[
                     toAnswer("153551AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "pregnancy & abdominal trauma or pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 1),
@@ -219,16 +219,16 @@ angular.module("edTriageConceptFactory", [])
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 respiratory: toAnswers('respiratory',[
                     toAnswer("f7ef0b85-6af3-43b9-87a5-5abf89e3a3f5", "hypersalivation",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 1),
-                    toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 2),
-                    toAnswer("12d9f052-6980-4542-91ef-190247811228", "shortness of breath - acute",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 3),
-                    toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 4),
-                    toAnswer("4c1c143e-c1b3-4225-8053-93ab22f7bbb3", "coughing blood ",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 5),
-                    toAnswer("3ceade68-26fe-102b-80cb-0017a47871b2", "sibilance",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 6)]
+                    toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 3),
+                    toAnswer("12d9f052-6980-4542-91ef-190247811228", "shortness of breath - acute",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 5),
+                    toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 2),
+                    toAnswer("4c1c143e-c1b3-4225-8053-93ab22f7bbb3", "coughing blood ",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 6),
+                    toAnswer("3ceade68-26fe-102b-80cb-0017a47871b2", "sibilance",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 4)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 pain: toAnswers('pain',[
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 1),
-                    toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 2),
-                    toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 3),
+                    toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 3),
+                    toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 2),
                     toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 4)
                     ]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),

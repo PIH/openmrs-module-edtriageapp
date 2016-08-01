@@ -244,6 +244,7 @@ angular.module("edTriageViewQueueController", [])
             "<span class='label edtriage-label-{{color}}'>" +
                 "<span ng-if='(score.numericScore > 0)'>{{score.numericScore}}</span>" +
                 "<span ng-if='(score.numericScore == 0)'>&nbsp;&nbsp;</span>" +
-            "</span>&nbsp;<label>{{itemLabel}}</label></li>"
+            "</span>" +
+            "&nbsp;{{itemLabel}}</li>"
     };
 });

@@ -98,7 +98,7 @@
                     </a>
                 </td>
                 <td>{{model.waitTimeFormatted(serverTimeDelta)}}</td>
-                <td>{{model.chiefComplaint.value}}</td>
+                <td>{{model.chiefComplaint.value | limitTo:140 }}{{model.chiefComplaint.value.length > 140 ? '...' : ''}}</td>
                 <td>
                     <ul class="list-unstyled">
                         <show-list-item-if-has-value item-value="model.vitals.mobility.value"
@@ -179,7 +179,7 @@
                                                      color="getColorClassFromScore(model.patient.uuid,model.symptoms.other.value)"></show-list-item-if-has-value>
                     </ul>
                 </td>
-                <td>{{model.clinicalImpression.value}}</td>
+                <td>{{model.clinicalImpression.value | limitTo:140 }}{{model.clinicalImpression.value.length > 140 ? '...' : ''}}</td>
                 <td>
                     <ul class="list-unstyled">
                         <show-if-has-value item-value="model.labs.glucose.value"

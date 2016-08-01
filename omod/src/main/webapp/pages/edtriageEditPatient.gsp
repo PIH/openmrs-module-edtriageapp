@@ -32,6 +32,9 @@
 
 	def middleLabel = returnLabel ?:  ui.message("edtriageapp.label")
 	def middleUrl   = returnUrl ?:  ui.pageLink("coreapps", "findpatient/findPatient?app=" + appId)
+	def endLabel = ui.format(patient)
+	endLabel = (middleLabel == endLabel) ? ui.message("edtriageapp.label") : endLabel
+
 
 %>
 
@@ -39,7 +42,7 @@
 	var breadcrumbs = [
 		{ icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
 		{ label: "${ middleLabel }", link: "${ middleUrl }" },
-		{ label: "${ ui.escapeJs(ui.format(patient)) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
+		{ label: "${ ui.escapeJs(endLabel) }" , link: '${ui.pageLink("coreapps", "patientdashboard/patientDashboard", [patientId: patient.id])}'},
 	];
 
 	function sticky_relocate() {

@@ -34,7 +34,7 @@
         </li>
         <li>
             <div class="details-action">
-                <a href="/${ui.contextPath()}/edtriageapp/edtriageEditPatient.page?patientId={{- patient.id }}&encounterId={{- encounter.encounterId }}&appId=edtriageapp.app.triageQueue&editable=false&returnUrl=${ui.urlEncode('/' + ui.contextPath() + '/coreapps/patientdashboard/patientDashboard.page?patientId=' + patient.id + '&visitId=')}{{- encounter.visitId }}">
+                <a href="/${ui.contextPath()}/edtriageapp/edtriageEditPatient.page?patientId={{- patient.id }}&encounterId={{- encounter.encounterId }}&appId=edtriageapp.app.triageQueue&editable=false&returnLabel=${ui.urlEncode('' + patient.formattedName + '')}&returnUrl=${ui.urlEncode('/' + ui.contextPath() + '/coreapps/patientdashboard/patientDashboard.page?patientId=' + patient.id + '&visitId=')}{{- encounter.visitId }}">
                     <span>${ ui.message("coreapps.patientDashBoard.showDetails")}</span>
                     <i class="icon-caret-right"></i>
                 </a>
@@ -44,7 +44,7 @@
 
     <span>
         {{ if ( config.editable && encounter.canEdit) { }}
-        <a href="/${ui.contextPath()}/edtriageapp/edtriageEditPatient.page?patientId={{- patient.id }}&encounterId={{- encounter.encounterId }}&appId=edtriageapp.app.triageQueue&editable=true&returnUrl=${ui.urlEncode('/' + ui.contextPath() + '/coreapps/patientdashboard/patientDashboard.page?patientId=' + patient.id + '&visitId=')}{{- encounter.visitId }}">
+        <a href="/${ui.contextPath()}/edtriageapp/edtriageEditPatient.page?patientId={{- patient.id }}&encounterId={{- encounter.encounterId }}&appId=edtriageapp.app.triageQueue&editable=true&returnLabel=${ui.urlEncode('' + patient.formattedName + '')}&returnUrl=${ui.urlEncode('/' + ui.contextPath() + '/coreapps/patientdashboard/patientDashboard.page?patientId=' + patient.id + '&visitId=')}{{- encounter.visitId }}">
             <i class="editEncounter delete-item icon-pencil"></i>
         </a>
         {{ } }}

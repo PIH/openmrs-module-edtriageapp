@@ -32,7 +32,12 @@
 		'137646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.137646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
 		'2b436367-c44b-4835-90ad-e93e77d45a97':"${ui.message("edtriageapp.2b436367-c44b-4835-90ad-e93e77d45a97")}",
 		'f7ef0b85-6af3-43b9-87a5-5abf89e3a3f5':"${ui.message("edtriageapp.f7ef0b85-6af3-43b9-87a5-5abf89e3a3f5")}",
-		'24fa118d-f81d-439d-82a5-d7c6ac6ef72b':"${ui.message("edtriageapp.24fa118d-f81d-439d-82a5-d7c6ac6ef72b")}"
+		'24fa118d-f81d-439d-82a5-d7c6ac6ef72b':"${ui.message("edtriageapp.24fa118d-f81d-439d-82a5-d7c6ac6ef72b")}",
+		'143582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageApp.143582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+		'c05b25f1-07d1-47de-a61e-fc9d3bfe95eb':"${ui.message("edtriageApp.c05b25f1-07d1-47de-a61e-fc9d3bfe95eb")}",
+		'aca0abff-a38a-4191-a5c4-041fa1809306':"${ui.message("edtriageApp.aca0abff-a38a-4191-a5c4-041fa1809306")}",
+		'a218b3d9-2ead-4fa2-afbd-64849012e125':"${ui.message("edtriageApp.a218b3d9-2ead-4fa2-afbd-64849012e125")}",
+		'3ccea7fc-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageApp.'3ccea7fc-26fe-102b-80cb-0017a47871b2")}"
 	} ;
 </script>
 

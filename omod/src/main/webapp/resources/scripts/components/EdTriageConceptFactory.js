@@ -219,7 +219,13 @@ angular.module("edTriageConceptFactory", [])
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 respiratory: toAnswers('respiratory',[
                     toAnswer("f7ef0b85-6af3-43b9-87a5-5abf89e3a3f5", "hypersalivation",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 1),
-                    toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'I', 2),
+                    toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor",  function(ageType, value) {
+                        if (ageType == EdTriageConcept.ageType.INFANT) {
+                            return { numericScore: 0, colorCode: EdTriageConcept.score.red };
+                        } else if (ageType == EdTriageConcept.ageType.CHILD) {
+                            return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                        }
+                    }, 'I', 2),
                     toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'I', 3),
                     toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'C', 4),
                     toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'C', 5),

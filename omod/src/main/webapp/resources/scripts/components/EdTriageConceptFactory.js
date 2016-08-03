@@ -188,7 +188,7 @@ angular.module("edTriageConceptFactory", [])
                 burn: toAnswers('burn',[
                     toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
                     toAnswer("163476AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "significant burn of skin was (burn over 20% or circumferential)",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 2),
-                    toAnswer("c05b25f1-07d1-47de-a61e-fc9d3bfe95eb", "Burn - electrical or chemical",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 3),
+                    toAnswer("c05b25f1-07d1-47de-a61e-fc9d3bfe95eb", "Burn - electrical or chemical", { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 3),
                     toAnswer("3ccd21e8-26fe-102b-80cb-0017a47871b2", "burn-other",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 4)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 diabetic: toAnswers('diabetic',[

@@ -37,7 +37,7 @@
 		'c05b25f1-07d1-47de-a61e-fc9d3bfe95eb':"${ui.message("edtriageapp.c05b25f1-07d1-47de-a61e-fc9d3bfe95eb")}",
 		'aca0abff-a38a-4191-a5c4-041fa1809306':"${ui.message("edtriageapp.aca0abff-a38a-4191-a5c4-041fa1809306")}",
 		'a218b3d9-2ead-4fa2-afbd-64849012e125':"${ui.message("edtriageapp.a218b3d9-2ead-4fa2-afbd-64849012e125")}",
-		'3ccea7fc-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.'3ccea7fc-26fe-102b-80cb-0017a47871b2")}"
+		'3ccea7fc-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ccea7fc-26fe-102b-80cb-0017a47871b2")}"
 	} ;
 </script>
 

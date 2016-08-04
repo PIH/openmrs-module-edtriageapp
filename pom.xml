@@ -51,13 +51,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openMRSVersion>1.10.4</openMRSVersion>
         <openMRSwebVersion>1.10.4</openMRSwebVersion>
-        <appframeworkVersion>2.8</appframeworkVersion>
+        <appframeworkVersion>2.9</appframeworkVersion>
         <appuiVersion>1.6-SNAPSHOT</appuiVersion>
         <uicommonsVersion>1.8</uicommonsVersion>
-        <uiframeworkVersion>3.6</uiframeworkVersion>
+        <uiframeworkVersion>3.7</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
-        <emrapiVersion>1.16-SNAPSHOT</emrapiVersion>
+        <emrapiVersion>1.16</emrapiVersion>
         <reportingVersion>0.10.1</reportingVersion>
         <calculationVersion>1.1</calculationVersion>
         <serializationxstreamVersion>0.2.11</serializationxstreamVersion>
@@ -303,6 +303,64 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                    <allowSnapshots>true</allowSnapshots>
+                    <properties>
+                        <property>
+                            <name>openMRSVersion</name>
+                            <version>[1.9.0,1.10.0-!)</version>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>openMRSwebVersion</name>
+                            <version>[1.9.0,1.10.0-!)</version>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>calculationVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>providermanagementVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>serializationxstreamVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>appframeworkVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>uiframeworkVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>appuiVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>webservicesRestVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                        <property>
+                            <name>reportingVersion</name>
+                            <banSnapshots>true</banSnapshots>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
     </build>
 
     <repositories>

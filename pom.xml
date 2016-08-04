@@ -25,7 +25,6 @@
         <connection>scm:git:git@github.com:pih/openmrs-module-edtriageapp.git</connection>
         <developerConnection>scm:git:git@github.com:pih/openmrs-module-edtriageapp.git</developerConnection>
         <url>https://github.com/pih/openmrs-module-edtriageapp</url>
-        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>

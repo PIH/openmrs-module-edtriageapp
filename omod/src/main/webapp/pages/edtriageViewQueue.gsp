@@ -192,18 +192,10 @@
                         </li>
                         <li class="edtriage-queue-list-item" ng-if="model.treatment.paracetamol.value">
                             ${ui.message("edtriageapp.paracetamol")}
-                            <input ng-disabled="!editable" id="paracetamol" type="checkbox"
-                                   ng-model="model.treatment.paracetamol.value"
-                                   ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
                             <span ng-if="model.treatment.paracetamolDose.value">{{model.treatment.paracetamolDose.value}}<small>mg</small></span>
                         </li>
                         <li class="edtriage-queue-list-item" ng-if="model.treatment.oxygen.value">
                             ${ui.message("edtriageapp.oxygen")}
-                            <label>
-                                <input ng-disabled="!editable" id="oxygen" type="checkbox"
-                                       ng-model="model.treatment.oxygen.value"
-                                       ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
-                            </label>
                         </li>
                     </ul>
                 </td>

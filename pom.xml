@@ -51,14 +51,14 @@
         <openMRSVersion>1.10.4</openMRSVersion>
         <openMRSwebVersion>1.10.4</openMRSwebVersion>
         <appframeworkVersion>2.9</appframeworkVersion>
-        <appuiVersion>1.6-SNAPSHOT</appuiVersion>
+        <appuiVersion>1.6</appuiVersion>
         <uicommonsVersion>1.8</uicommonsVersion>
         <uiframeworkVersion>3.7</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
         <emrapiVersion>1.17-SNAPSHOT</emrapiVersion>
         <reportingVersion>0.10.1</reportingVersion>
-        <calculationVersion>1.1</calculationVersion>
+        <calculationVersion>1.2</calculationVersion>
         <serializationxstreamVersion>0.2.11</serializationxstreamVersion>
         <providermanagementVersion>2.4</providermanagementVersion>
     </properties>

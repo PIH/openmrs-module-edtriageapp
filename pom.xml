@@ -57,7 +57,7 @@
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
         <emrapiVersion>1.18-SNAPSHOT</emrapiVersion>
-        <reportingVersion>0.10.3</reportingVersion>
+        <reportingVersion>0.10.4</reportingVersion>
         <calculationVersion>1.2</calculationVersion>
         <serializationxstreamVersion>0.2.12</serializationxstreamVersion>
         <providermanagementVersion>2.5.0</providermanagementVersion>

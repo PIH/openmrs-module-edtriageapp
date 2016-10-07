@@ -53,10 +53,10 @@
         <appframeworkVersion>2.9</appframeworkVersion>
         <appuiVersion>1.7</appuiVersion>
         <uicommonsVersion>1.8</uicommonsVersion>
-        <uiframeworkVersion>3.8</uiframeworkVersion>
+        <uiframeworkVersion>3.9</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
-        <emrapiVersion>1.18-SNAPSHOT</emrapiVersion>
+        <emrapiVersion>1.18</emrapiVersion>
         <reportingVersion>0.10.4</reportingVersion>
         <calculationVersion>1.2</calculationVersion>
         <serializationxstreamVersion>0.2.12</serializationxstreamVersion>

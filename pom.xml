@@ -56,7 +56,7 @@
         <uiframeworkVersion>3.9</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
-        <emrapiVersion>1.18</emrapiVersion>
+        <emrapiVersion>1.19-SNAPSHOT</emrapiVersion>
         <reportingVersion>0.10.4</reportingVersion>
         <calculationVersion>1.2</calculationVersion>
         <serializationxstreamVersion>0.2.12</serializationxstreamVersion>

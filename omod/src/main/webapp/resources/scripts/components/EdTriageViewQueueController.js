@@ -14,6 +14,11 @@ angular.module("edTriageViewQueueController", [])
             $scope.timerRefreshIntervalInSeconds = 10;
             $scope.scores = [];
             $scope.patientFilter = null; //used to filter the list
+
+            $scope.colorScores = {};
+            $scope.colorIndex=EdTriageConcept.score;
+            initializeColorScores();
+
             /*  loads the patient list
              * */
             $scope.loadPatientData = function(){
@@ -22,15 +27,23 @@ angular.module("edTriageViewQueueController", [])
                     // TODO can this go?
                     //iterate through the list and save the scores, so that we can use them without having to
                     //recalculate them later
+                    initializeColorScores();
                     for(var i=0;i<edTriagePatientQueue.data.length;++i){
                         var p = edTriagePatientQueue.data[i];
                         var score = EdTriageDataService.calculate($scope.edTriagePatientConcept, p);
                         $scope.scores[p.patient.uuid] = score;
-
+                        ++$scope.colorScores[score.colorCode];
                     }
                     $scope.edTriagePatientQueue = edTriagePatientQueue.data;
                 });
             };
+
+            function initializeColorScores() {
+                $scope.colorScores[EdTriageConcept.score.red]=0;
+                $scope.colorScores[EdTriageConcept.score.orange]=0;
+                $scope.colorScores[EdTriageConcept.score.yellow]=0;
+                $scope.colorScores[EdTriageConcept.score.green]=0;
+            }
             /*
             loads all the data
              */

@@ -141,6 +141,7 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.consciousness.uuid, edTriagePatient.vitals.consciousness);
 
                 // // symptoms  ----
+                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.emergencySigns.uuid, edTriagePatient.symptoms.emergencySigns);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.diabetic.uuid, edTriagePatient.symptoms.diabetic);

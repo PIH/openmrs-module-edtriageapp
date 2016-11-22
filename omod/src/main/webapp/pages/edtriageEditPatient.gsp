@@ -121,8 +121,36 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 		</div>
 	</div>
+	<form class="form-horizontal">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">${ ui.message("edtriageapp.emergencySigns") }</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-xs-4">
+					<input ng-disabled="!editable" id="impairedAirway" type="checkbox"
+						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
+						   ng-true-value="'6abe8161-0af8-40e4-9dac-a10694b1a477'"/>
+					<label>${ui.message("edtriageapp.emergencySigns.impairedAirway")}</label>
+				</div>
+				<div class="col-xs-4">
+					<input ng-disabled="!editable" id="impairedBreathing" type="checkbox"
+						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
+						   ng-true-value="'8d5affff-114a-4e7d-bfcb-8e22787a6981'"/>
+					<label>${ui.message("edtriageapp.emergencySigns.impairedBreathing")}</label>
+				</div>
+				<div class="col-xs-4">
+					<input ng-disabled="!editable" id="shock" type="checkbox"
+						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
+						   ng-true-value="'16cedeb7-3882-4f20-9ec6-15b8b391d997'"/>
+					<label>${ui.message("edtriageapp.emergencySigns.shock")}</label>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <form class="form-horizontal">
+
     <div class="row">
         <div class="col-sm-6">
             <div class="panel panel-info">

@@ -50,7 +50,15 @@
 
 <div class="container" ng-app="edTriageApp" ng-controller="viewQueueController">
     <div class="jumbotron">
-        <p>${ ui.message("edtriageapp.queueStatusMessagePrefix") } {{lastUpdatedAtStr}} ${ ui.message("edtriageapp.queueStatusMessageSuffix") }
+        <p>
+            <span>${ ui.message("edtriageapp.queueStatusMessagePrefix") } {{lastUpdatedAtStr}} ${ ui.message("edtriageapp.queueStatusMessageSuffix") }</span>
+            <br>
+            <span> ${ ui.message("edtriageapp.patients") }:</span>
+            <span class="label edtriage-label-red" >{{ colorScores[colorIndex.red] }} ${ ui.message("edtriageapp.red") }&nbsp;&nbsp;</span>
+            <span class="label edtriage-label-orange" >{{ colorScores[colorIndex.orange] }} ${ ui.message("edtriageapp.orange") }&nbsp;&nbsp;</span>
+            <span class="label edtriage-label-yellow" >{{ colorScores[colorIndex.yellow] }} ${ ui.message("edtriageapp.yellow") }&nbsp;&nbsp;</span>
+            <span class="label edtriage-label-green" >{{ colorScores[colorIndex.green] }} ${ ui.message("edtriageapp.green") }&nbsp;&nbsp;</span>
+
         <a ng-if="debug" href="${ui.pageLink("edtriageapp", "findPatient?appId=" + appId)}"
            role="button" class="btn btn-default">${ ui.message("edtriageapp.queueAddNewButton") }</a>
         </p>
@@ -141,6 +149,10 @@
                                                      item-label="'${ui.message('edtriageapp.trauma')}'"
                                                      color="'score'"></show-list-item-if-has-value>
 
+                        <show-list-item-if-has-value item-value="model.symptoms.emergencySigns.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.emergencySigns, model, model.symptoms.emergencySigns.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.emergencySigns, model.symptoms.emergencySigns.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.emergencySigns.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.neurological.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.neurological, model, model.symptoms.neurological.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).labelTranslated(model.patient.ageType)"

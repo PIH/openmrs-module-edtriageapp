@@ -176,6 +176,11 @@ angular.module("edTriageConceptFactory", [])
 
 
             this.symptoms = {
+                emergencySigns: toAnswers('emergencySigns',[
+                        toAnswer("6abe8161-0af8-40e4-9dac-a10694b1a477", "impaired airway",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
+                        toAnswer("8d5affff-114a-4e7d-bfcb-8e22787a6981", "impaired airway",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 2),
+                        toAnswer("16cedeb7-3882-4f20-9ec6-15b8b391d997", "shock",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 3),]
+                    ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 neurological: toAnswers('neurological',[
                     toAnswer("3cce938e-26fe-102b-80cb-0017a47871b2", "seizure - convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
                     toAnswer("ad52aee5-c789-4442-8dfc-2242375f22e8", "seizure - post convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 2),

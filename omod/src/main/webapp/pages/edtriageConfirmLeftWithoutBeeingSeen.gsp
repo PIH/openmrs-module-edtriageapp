@@ -3,11 +3,11 @@
 </div>
 <div class="dialog-content">
     <p>
-        ${ ui.message("edtriageapp.confirmRemoveFromQueue") }
+        ${ ui.message("edtriageapp.confirmLeftWithoutBeingSeen") }
     </p>
     <br/>
     <div>
-        <button class="confirm" ng-click="confirm()">${ ui.message("edtriageapp.remove") }</button>
+        <button class="confirm" ng-click="confirm()">${ ui.message("edtriageapp.leftWithoutBeingSeen") }</button>
         <button class="cancel" ng-click="closeThisDialog()">${ ui.message("uicommons.cancel") }</button>
     </div>
 </div>

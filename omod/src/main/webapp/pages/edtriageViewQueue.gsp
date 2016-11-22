@@ -216,6 +216,8 @@
                     <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-primary edtriage-queue-button" ng-disabled="isSaving"
                             ng-click="beginConsult(model)">${ ui.message("edtriageapp.beginConsult") }</button>
                     <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
+                            ng-click="leftEdTriage(model)">${ ui.message("edtriageapp.leftWithoutBeingSeen") }</button>
+                    <button ng-disabled="isSaving" type="button" class="btn btn-xs btn-default" ng-disabled="isSaving"
                             ng-click="removeEdTriage(model)">${ ui.message("edtriageapp.remove") }</button>
 
                 </td>

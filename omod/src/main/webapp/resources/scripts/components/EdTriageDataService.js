@@ -188,6 +188,11 @@ angular.module("edTriageDataService", [])
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
+            this.leftWithoutBeingSeen = function (edTriageConcept, edTriagePatient) {
+                edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.leftWithoutBeingSeen;
+                return this.save(edTriageConcept,edTriagePatient);
+            };
+
             /*
              * the changes the status of the observation to consult
              * */

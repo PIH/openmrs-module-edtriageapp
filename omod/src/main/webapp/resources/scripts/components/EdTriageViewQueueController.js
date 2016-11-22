@@ -112,6 +112,31 @@ angular.module("edTriageViewQueueController", [])
             };
 
 
+            $scope.leftEdTriage = function (edTriagePatient) {
+
+                ngDialog.openConfirm({
+                    showClose: true,
+                    closeByEscape: true,
+                    template: "edtriageConfirmLeftWithoutBeeingSeen.page"
+                }).then(function() {
+
+                    $scope.isSaving = true;
+
+                    return EdTriageDataService.leftWithoutBeingSeen($scope.edTriagePatientConcept, edTriagePatient).then(function (res) {
+                        $scope.isSaving = false;
+                        if (res.status != 200) {
+                            alert("The system was not able to remove the record");
+                            $scope.message = {type: 'danger', text: $filter('json')(res.data)};
+                        }
+                        else {
+                            //just reload the data, there might be new ones in the queue
+                            return $scope.loadPatientData();
+                        }
+
+                    });
+                });
+            };
+
             /* builds a link to the patient edit page*/
             $scope.getPatientLink = function(uuid, appId, returnLabel){
                 return "edtriageEditPatient.page?patientId=" + uuid

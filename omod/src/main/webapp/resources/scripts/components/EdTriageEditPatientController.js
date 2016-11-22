@@ -102,7 +102,8 @@ angular.module("edTriagePatientController", [])
                 // we set the status back to "waiting for evaluation" on save if the status is expired or removed
                 if (!$scope.edTriagePatient.triageQueueStatus.value ||
                     $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.expired ||
-                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.removed) {
+                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.removed ||
+                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.leftWithoutBeingSeen) {
                     $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
                 }
 

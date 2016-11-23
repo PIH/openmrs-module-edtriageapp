@@ -131,19 +131,19 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-xs-4">
 					<input ng-disabled="!editable" id="impairedAirway" type="checkbox"
 						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'6abe8161-0af8-40e4-9dac-a10694b1a477'"/>
+						   ng-true-value="'164348AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
 					<label>${ui.message("edtriageapp.emergencySigns.impairedAirway")}</label>
 				</div>
 				<div class="col-xs-4">
 					<input ng-disabled="!editable" id="impairedBreathing" type="checkbox"
 						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'8d5affff-114a-4e7d-bfcb-8e22787a6981'"/>
+						   ng-true-value="'3cedf31e-26fe-102b-80cb-0017a47871b2'"/>
 					<label>${ui.message("edtriageapp.emergencySigns.impairedBreathing")}</label>
 				</div>
 				<div class="col-xs-4">
 					<input ng-disabled="!editable" id="shock" type="checkbox"
 						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'16cedeb7-3882-4f20-9ec6-15b8b391d997'"/>
+						   ng-true-value="'911c064e-5247-4017-a9fd-b30105c36052'"/>
 					<label>${ui.message("edtriageapp.emergencySigns.shock")}</label>
 				</div>
 			</div>

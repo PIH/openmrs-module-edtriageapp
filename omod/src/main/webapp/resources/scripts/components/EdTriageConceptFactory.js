@@ -308,6 +308,14 @@ angular.module("edTriageConceptFactory", [])
             INFANT: 'I',
             ALL: 'ACI'
         };
+        
+        // UHM-2669, define the wait times(in minutes) that would trigger blinking in the waiting queue
+        EdTriageConcept.waitTimesConfig = {
+            red: 0,
+            orange: 10,
+            yellow: 60,
+            green: 240
+        };
 
         /**
          * Static method, assigned to class

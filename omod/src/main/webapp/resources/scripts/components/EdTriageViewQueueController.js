@@ -18,7 +18,7 @@ angular.module("edTriageViewQueueController", [])
             $scope.colorScores = {};
             $scope.colorIndex=EdTriageConcept.score;
             initializeColorScores();
-
+            
             /*  loads the patient list
              * */
             $scope.loadPatientData = function(){
@@ -55,6 +55,14 @@ angular.module("edTriageViewQueueController", [])
                 });
             };
 
+            $scope.isBlinkable = function(waitTime, colorCode) {
+                var mn = Math.ceil(waitTime /60 );
+                var triggerTime = EdTriageConcept.waitTimesConfig[colorCode];
+                if (mn > triggerTime) {
+                    return true;
+                }
+                return false;
+            };
 
             /*
              * the changes the status of the observation to consult
@@ -176,6 +184,8 @@ angular.module("edTriageViewQueueController", [])
                 return color;
             };
 
+            
+            
             $scope.getScore = function(patientUuid, answerUuid){
                 if($scope.scores !== undefined && patientUuid &&  answerUuid){
                      return $scope.scores[patientUuid].individualScores[answerUuid];

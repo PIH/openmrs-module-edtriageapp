@@ -44,7 +44,40 @@
 </script>
 
 <style>
+.blink_me {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
 
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@-moz-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
 </style>
 
 
@@ -105,7 +138,7 @@
                         </span>
                     </a>
                 </td>
-                <td>{{model.waitTimeFormatted(serverTimeDelta)}}</td>
+                <td><span ng-class="isBlinkable(model.waitTime(serverTimeDelta), model.getColorHtmlCode()) ? 'blink_me label edtriage-label-red' : '' " >{{model.waitTimeFormatted(serverTimeDelta)}}</span></td>
                 <td>{{model.chiefComplaint.value | limitTo:140 }}{{model.chiefComplaint.value.length > 140 ? '...' : ''}}</td>
                 <td>
                     <ul class="list-unstyled">

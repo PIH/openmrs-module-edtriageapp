@@ -53,7 +53,7 @@
         <appframeworkVersion>2.10.0</appframeworkVersion>
         <appuiVersion>1.7</appuiVersion>
         <uicommonsVersion>1.8</uicommonsVersion>
-        <uiframeworkVersion>3.10.0</uiframeworkVersion>
+        <uiframeworkVersion>3.11.0</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>
         <webservicesRestVersion>2.13</webservicesRestVersion>
         <emrapiVersion>1.21.0</emrapiVersion>

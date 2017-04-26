@@ -61,7 +61,7 @@
         <calculationVersion>1.2</calculationVersion>
         <serializationxstreamVersion>0.2.12</serializationxstreamVersion>
         <providermanagementVersion>2.6.0</providermanagementVersion>
-        <metadatamappingVersion>1.3.2-SNAPSHOT</metadatamappingVersion>
+        <metadatamappingVersion>1.3.3-SNAPSHOT</metadatamappingVersion>
     </properties>
 
     <dependencies>

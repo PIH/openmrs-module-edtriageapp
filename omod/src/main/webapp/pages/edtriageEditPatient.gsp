@@ -80,6 +80,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<h3 class="panel-title">
 				<div class="row">
 					<div class="col-sm-1">${ ui.message("edtriageapp.status") }</div>
+					<span>{{ findAnswer(edTriagePatientConcept.triageQueueStatus
+					, edTriagePatient.triageQueueStatus.value).labelTranslated(edTriagePatient.patient.ageType) }}</span>
 				</div>
 			</h3>
 		</div>

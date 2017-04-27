@@ -14,6 +14,15 @@ angular.module("edTriagePatientController", [])
             $scope.editable = editable ? editable : false;
             $scope.patientDashboard = patientDashboard;
 
+            /* helper function for finding an answer for a question in the concept def
+             * @param {EdTriageConcept} concept - the concepts
+             * @param {String} uuid - the answer UUID
+             * @return the answer object
+             * */
+            $scope.findAnswer = function(concept, uuid){
+                return $filter('findAnswer')(concept, uuid);
+            };
+
             /* helper function to get the color class for the score
              * @param {String} colorCode - the uuid for the color
              * @return the class suffix

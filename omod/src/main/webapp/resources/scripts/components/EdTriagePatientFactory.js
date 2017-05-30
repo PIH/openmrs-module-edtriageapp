@@ -128,8 +128,7 @@ angular.module("edTriagePatientFactory", [])
                 ((this.vitals.diastolicBloodPressure && this.vitals.diastolicBloodPressure.value) || this.patient.ageType != 'A') &&
                 ((this.vitals.systolicBloodPressure && this.vitals.systolicBloodPressure.value) || this.patient.ageType != 'A') &&
                 this.vitals.temperature && this.vitals.temperature.value &&
-                this.vitals.consciousness && this.vitals.consciousness.value &&
-                this.vitals.weight && this.vitals.weight.value
+                this.vitals.consciousness && this.vitals.consciousness.value
         };
 
         EdTriagePatient.prototype.atLeastOneSymptomPresent = function () {

@@ -85,7 +85,9 @@ angular.module("edTriageDataService", [])
                     return $http.get(CONSTANTS.URLS.ED_TRIAGE_FOR_ACTIVE_VISIT.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid)).then(function (resp) {
                         if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
                             var rec = resp.data.results[0]; // search should only return one record, but web service returns array for consistency
-                            return EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
+                            if ( getTriageStatus(rec, concept) == EdTriageConcept.status.waitingForEvaluation) {
+                                return EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
+                            }
                         }
                         // otherwise, create a new instance
                         return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
@@ -203,6 +205,20 @@ angular.module("edTriageDataService", [])
 
             function ensureActiveVisit(edTriagePatient) {
                 return $http.post(CONSTANTS.URLS.ACTIVE_VISIT + "?patient=" + edTriagePatient.patient.uuid + "&location=" + edTriagePatient.location);
+            }
+            
+            function getTriageStatus(encounter, concept) {
+                var status = null;
+                if (encounter && encounter.obs) {
+                    for (var i = 0; i < encounter.obs.length; ++i) {
+                        var uuid = encounter.obs[i].concept.uuid;
+                        var v = encounter.obs[i].value;
+                        if (uuid == concept.triageQueueStatus.uuid) {
+                            status = v.uuid;
+                        }
+                    }
+                }
+                return status;
             }
 
             function saveEncounter(encounter, existingUuid) {

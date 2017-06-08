@@ -79,13 +79,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">
-					<div class="col-sm-1">${ ui.message("edtriageapp.status") }</div>
-					<span>{{ findAnswer(edTriagePatientConcept.triageQueueStatus
-					, edTriagePatient.triageQueueStatus.value).labelTranslated(edTriagePatient.patient.ageType) }}</span>
+					<div class="col-sm-2">${ ui.message("edtriageapp.status") }</div>
+					<div class="col-sm-7 center-content">
+						<span>{{ findAnswer(edTriagePatientConcept.triageQueueStatus
+						, edTriagePatient.triageQueueStatus.value).labelTranslated(edTriagePatient.patient.ageType) }}</span>
+					</div>
+					<div class="col-sm-3 right">${ ui.message("edtriageapp.waitTime") }:
+						<span> {{ edTriagePatient.waitTimeFormatted(serverTimeDelta) }}</span>
+					</div>
 				</div>
 			</h3>
 		</div>
-
 	</div>
 
 
@@ -497,6 +501,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			.value('returnUrl', '${ returnUrl ? returnUrl : "" }')
 			.value('translations', translations)
 			.value('editable', ${ editable })
+			.value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
 
 	jq(function() {
 		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header

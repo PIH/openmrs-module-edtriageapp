@@ -20,6 +20,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer(EdTriageConcept.score.orange, "orange")]
                 , "f81631c8-f658-4472-a7eb-c618b05e6149");
             this.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
+            this.triageWaitingTime = toAnswer("d9a8fc6f-8695-46b8-854f-2c9e818b4568", "triageWaitingTime");
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
             this.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             this.labs = {

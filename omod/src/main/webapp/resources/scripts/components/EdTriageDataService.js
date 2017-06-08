@@ -1,6 +1,7 @@
 angular.module("edTriageDataService", [])
-    .service('EdTriageDataService', ['$q', '$http', '$filter', 'SessionInfo', 'EdTriageConcept', 'EdTriagePatient',
-        function ($q, $http, $filter, SessionInfo, EdTriageConcept, EdTriagePatient) {
+    .service('EdTriageDataService', ['$q', '$http', '$filter', 'SessionInfo', 'EdTriageConcept', 'EdTriagePatient', 'serverDateTimeInMillis',
+        function ($q, $http, $filter, SessionInfo, EdTriageConcept, EdTriagePatient, serverDateTimeInMillis) {
+            var serverTimeDelta = (new Date().getTime()) - serverDateTimeInMillis;
             var CONSTANTS = {
                 URLS: {
                     FIND_PATIENT: "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
@@ -122,6 +123,7 @@ angular.module("edTriageDataService", [])
                 //status related fields
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore, uuid: edTriagePatient.existingNumericScoreObsUuid });
+                addObs(encounter.obs, obsToDelete, edTriageConcept.triageWaitingTime.uuid, {value:edTriagePatient.waitTime(serverTimeDelta), uuid: edTriagePatient.existingTriageWaitingTimeObsUuid });
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode, uuid: edTriagePatient.existingColorCodeObsUuid});
 
                 //chief complaint
@@ -468,5 +470,6 @@ angular.module("edTriageDataService", [])
 
 
             this.CONSTANTS = CONSTANTS;
+            this.serverTimeDelta = serverTimeDelta;
             this.session =  SessionInfo.get();
         }]);

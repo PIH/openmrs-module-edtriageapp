@@ -1,5 +1,5 @@
 angular.module("edTriagePatientFactory", [])
-    .factory('EdTriagePatient', ['$filter', 'EdTriageConcept', function ($filter, EdTriageConcept) {
+    .factory('EdTriagePatient', ['$filter', 'EdTriageConcept', function ($filter, EdTriageConcept, serverDateTimeInMillis) {
 
         /**
          * Constructor, with class name
@@ -9,9 +9,11 @@ angular.module("edTriagePatientFactory", [])
             this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
+            this.triageWaitingTime = 0;
             // these two are a bit of a hack, to keep try of the obs uuids of color code and score
             this.existingColorCodeObsUuid;
             this.existingNumericScoreObsUuid;
+            this.existingTriageWaitingTimeObsUuid;
             this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, lessThan4WeeksOld:false, display:null};
             this.location = null;
             this.chiefComplaint = null;
@@ -98,6 +100,9 @@ angular.module("edTriagePatientFactory", [])
          * @param {num} serverDateTimeDeltaInMillis - the difference between the server time and the client time
          * @return {String} the wait time */
         EdTriagePatient.prototype.waitTime = function(serverDateTimeDeltaInMillis) {
+            if ( this.encounterDateTime == null ) {
+                return 0;
+            }
             var date = new Date(this.encounterDateTime);
             var now = new Date();
             var delta = serverDateTimeDeltaInMillis == null ? 0 : serverDateTimeDeltaInMillis;
@@ -113,7 +118,13 @@ angular.module("edTriagePatientFactory", [])
         * @param {num} serverDateTimeDeltaInMillis - the difference between the server time and the client time
         * @return {String} the formatted wait time */
         EdTriagePatient.prototype.waitTimeFormatted = function(serverDateTimeDeltaInMillis){
-            var w = this.waitTime(serverDateTimeDeltaInMillis)
+            var w = 0;
+            if ( angular.isNumber(this.triageWaitingTime) &&  (Math.round(this.triageWaitingTime) > 0) ) {
+               w =  this.triageWaitingTime;
+            } else {
+                w = this.waitTime(serverDateTimeDeltaInMillis);
+            }
+
             var hr = Math.floor(w /60 /60);
             var mn = Math.floor((w /60) % 60);
             var sec = Math.floor(w % 60);
@@ -230,6 +241,10 @@ angular.module("edTriagePatientFactory", [])
                 else if (uuid == concepts.triageScore.uuid) {
                     ret.score.numericScore = v;
                     ret.existingNumericScoreObsUuid = obsUuid;
+                }
+                else if (uuid == concepts.triageWaitingTime.uuid) {
+                    ret.triageWaitingTime = v;
+                    ret.existingTriageWaitingTimeObsUuid = obsUuid;
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
                     ret.chiefComplaint = _v(v, obsUuid);

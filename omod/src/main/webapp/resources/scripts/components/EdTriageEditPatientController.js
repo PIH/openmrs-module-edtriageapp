@@ -1,8 +1,8 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable',
+        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable','serverDateTimeInMillis',
         function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientDashboard, ngDialog, patientBirthDate,
-                  patientGender, locationUuid, encounterUuid, returnUrl, editable) {
+                  patientGender, locationUuid, encounterUuid, returnUrl, editable, serverDateTimeInMillis) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
@@ -13,6 +13,8 @@ angular.module("edTriagePatientController", [])
             $scope.tempInF = null;
             $scope.editable = editable ? editable : false;
             $scope.patientDashboard = patientDashboard;
+            $scope.lastUpdatedAtInMillis = new Date().getTime();
+            $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
 
             /* helper function for finding an answer for a question in the concept def
              * @param {EdTriageConcept} concept - the concepts

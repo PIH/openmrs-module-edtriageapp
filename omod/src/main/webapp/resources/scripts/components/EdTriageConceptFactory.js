@@ -55,10 +55,11 @@ angular.module("edTriageConceptFactory", [])
                 highGlucoseLevel: toAnswers('highGlucoseLevel',
                     [ toAnswer("3cd6f600-26fe-102b-80cb-0017a47871b2","highGlucoseLevel", function(ageType, value) {
                         if (value.length > 0) {
-                            return {numericScore: 0, colorCode: EdTriageConcept.score.red};
-                        } else {
-                            return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                            if(ageType == EdTriageConcept.ageType.CHILD || ageType == EdTriageConcept.ageType.ADULT){
+                                return {numericScore: 0, colorCode: EdTriageConcept.score.orange};
+                            }
                         }
+                        return {numericScore: 0, colorCode: EdTriageConcept.score.green};
                     }) ],
                     "05819e23-100e-41da-ae7b-cfc401ca7146"),
                 pregnancy_test: toAnswers('pregnancy_test',

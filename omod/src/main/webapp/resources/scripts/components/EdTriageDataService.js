@@ -161,6 +161,8 @@ angular.module("edTriageDataService", [])
 
                 // labs
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.lowGlucoseLevel.uuid, edTriagePatient.labs.lowGlucoseLevel);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.highGlucoseLevel.uuid, edTriagePatient.labs.highGlucoseLevel);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy_test.uuid, edTriagePatient.labs.pregnancy_test);
 
                 // treatment
@@ -415,7 +417,17 @@ angular.module("edTriageDataService", [])
                                         individualScores[c.uuid] = sc;
                                         individualScores[hyperglycemiaUuid] = sc;
                                         ++colorScores[individualScores[c.uuid].colorCode];
-                                        break;
+                                    }
+                                } else if (c.uuid == concept.labs.lowGlucoseLevel.uuid || c.uuid == concept.labs.highGlucoseLevel.uuid) {
+                                    var answers = concept.labs[prop].answers;
+                                    for(var i=0;i<answers.length;++i){
+                                        if(answers[i].uuid == p.value){
+                                            //this is the answer that they chose
+                                            individualScores[concept.labs.glucose.uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                            numericScore = numericScore + individualScores[concept.labs.glucose.uuid].numericScore;
+                                            ++colorScores[individualScores[concept.labs.glucose.uuid].colorCode];
+                                            break;
+                                        }
                                     }
                                 }
                             }

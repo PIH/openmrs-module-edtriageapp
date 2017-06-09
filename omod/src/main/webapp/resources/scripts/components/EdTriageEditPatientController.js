@@ -172,6 +172,24 @@ angular.module("edTriagePatientController", [])
                 })
             };
 
+            /**
+             * Handles High/Low Glucose level. Do not allow both checkboxes to be checked on the same time.
+             * Checking one checkbox un-checks the other.
+             * @param level indicates which checkbox was changed
+             */
+            $scope.handleGlucoseLevel = function(level) {
+                if (level == 'highGlucoseLevel' && $scope.edTriagePatient.labs.highGlucoseLevel && $scope.edTriagePatient.labs.highGlucoseLevel.value) {
+                    if ($scope.edTriagePatient.labs.lowGlucoseLevel && $scope.edTriagePatient.labs.lowGlucoseLevel.value) {
+                        $scope.edTriagePatient.labs.lowGlucoseLevel.value = false;
+                    }
+                } else if (level == 'lowGlucoseLevel' && $scope.edTriagePatient.labs.lowGlucoseLevel && $scope.edTriagePatient.labs.lowGlucoseLevel.value) {
+                    if ($scope.edTriagePatient.labs.highGlucoseLevel && $scope.edTriagePatient.labs.highGlucoseLevel.value) {
+                        $scope.edTriagePatient.labs.highGlucoseLevel.value = false;
+                    }
+                }
+
+            };
+
             /* handles converting the weight from kg to lb and back
             * @param {String} convType = the type of converstion (kg, lb)
             * */

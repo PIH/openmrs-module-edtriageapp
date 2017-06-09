@@ -373,13 +373,36 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<tr>
 								<td><label>${ui.message("edtriageapp.labs.glucose")}</label></td>
 
-								<td colspan="3">
+								<td>
 									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
 								</td>
 								<td>
 									<small>mg/dl</small>
 								</td>
-								<td>
+								<td class="col-xs-3" colspan="2">
+									<table>
+										<tr>
+											<td>
+												<input ng-disabled="!editable" id="highGlucoseLevel" type="checkbox"
+													   ng-model="edTriagePatient.labs.highGlucoseLevel.value"
+													   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
+													   ng-change="handleGlucoseLevel('highGlucoseLevel')"/>
+												<label>${ui.message("edtriageapp.high")}</label>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<input ng-disabled="!editable" id="lowGlucoseLevel" type="checkbox"
+													   ng-model="edTriagePatient.labs.lowGlucoseLevel.value"
+													   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
+													   ng-change="handleGlucoseLevel('lowGlucoseLevel')"/>
+												<label>${ui.message("edtriageapp.low")}</label>
+											</td>
+										</tr>
+									</table>
+								</td>
+
+								<td class="right">
 									<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
 								</td>
 							</tr>

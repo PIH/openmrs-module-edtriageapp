@@ -43,6 +43,24 @@ angular.module("edTriageConceptFactory", [])
                         return {numericScore: 0, colorCode: EdTriageConcept.score.green};
                     }
                 }),
+                lowGlucoseLevel: toAnswers('lowGlucoseLevel',
+                    [toAnswer("3cd6f600-26fe-102b-80cb-0017a47871b2", "lowGlucoseLevel", function(ageType, value) {
+                        if (value.length > 0) {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.red};
+                        } else {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                        }
+                    })],
+                    "ff55a386-e25d-461d-994f-f43e219b94f1"),
+                highGlucoseLevel: toAnswers('highGlucoseLevel',
+                    [ toAnswer("3cd6f600-26fe-102b-80cb-0017a47871b2","highGlucoseLevel", function(ageType, value) {
+                        if (value.length > 0) {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.red};
+                        } else {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                        }
+                    }) ],
+                    "05819e23-100e-41da-ae7b-cfc401ca7146"),
                 pregnancy_test: toAnswers('pregnancy_test',
                     [toAnswer("3cd3a7a2-26fe-102b-80cb-0017a47871b2","positive", {numericScore: 0}, 'A'),
                      toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
@@ -301,6 +319,14 @@ angular.module("edTriageConceptFactory", [])
             leftWithoutBeingSeen: "dd050085-ef34-4318-9423-c4ed666ac372",
             removed: "45d0c3d2-2188-4186-8a19-0063b92914ee",
             expired: "1fa8d25e-7471-4201-815f-79fac44d9a5f"
+        };
+
+        EdTriageConcept.lowGlucoseLevel = {
+            yes: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+        };
+
+        EdTriageConcept.highGlucoseLevel = {
+            yes: "3cd6f600-26fe-102b-80cb-0017a47871b2"
         };
 
         EdTriageConcept.ageType = {

@@ -46,6 +46,8 @@ angular.module("edTriagePatientFactory", [])
             this.clinicalImpression = null;
             this.labs = {
                 glucose: null,
+                lowGlucoseLevel: null,
+                highGlucoseLevel: null,
                 pregnancy: null
             };
             this.treatment = {
@@ -278,6 +280,12 @@ angular.module("edTriagePatientFactory", [])
                 }
                 else if (uuid == concepts.labs.glucose.uuid) {
                     ret.labs.glucose = _v(v, obsUuid);
+                }
+                else if (uuid == concepts.labs.lowGlucoseLevel.uuid) {
+                    ret.labs.lowGlucoseLevel = _v(v.uuid, obsUuid);
+                }
+                else if (uuid == concepts.labs.highGlucoseLevel.uuid) {
+                    ret.labs.highGlucoseLevel = _v(v.uuid, obsUuid);
                 }
                 else if (uuid == concepts.labs.pregnancy_test.uuid) {
                     ret.labs.pregnancy_test = _v(v.uuid, obsUuid);

@@ -67,6 +67,7 @@
             <span>${ ui.message("edtriageapp.queueStatusMessagePrefix") } {{lastUpdatedAtStr}} ${ ui.message("edtriageapp.queueStatusMessageSuffix") }</span>
             <br>
             <span> ${ ui.message("edtriageapp.patients") }:</span>
+            <span class="label edtriage-label-blue" >{{ colorScores[colorIndex.blue] }} ${ ui.message("edtriageapp.blue") }&nbsp;&nbsp;</span>
             <span class="label edtriage-label-red" >{{ colorScores[colorIndex.red] }} ${ ui.message("edtriageapp.red") }&nbsp;&nbsp;</span>
             <span class="label edtriage-label-orange" >{{ colorScores[colorIndex.orange] }} ${ ui.message("edtriageapp.orange") }&nbsp;&nbsp;</span>
             <span class="label edtriage-label-yellow" >{{ colorScores[colorIndex.yellow] }} ${ ui.message("edtriageapp.yellow") }&nbsp;&nbsp;</span>

@@ -128,6 +128,9 @@ angular.module("edTriageConceptFactory", [])
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
+                    if ( value == 0 ) {
+                        return { numericScore: 0, colorCode: EdTriageConcept.score.blue };
+                    }
                     if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 41) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
                         if(value < 51) return { numericScore: 1, colorCode: EdTriageConcept.score.green };
@@ -308,6 +311,7 @@ angular.module("edTriageConceptFactory", [])
         
         //some static vars for the scores for symptoms
         EdTriageConcept.score = {
+            blue: "ea658b2b-9c97-438b-a2c9-5dfcc9a24b73",
             red: "762ecf40-3065-47aa-93c3-15372d98d393",
             orange: "95d75a4a-cb14-4f1f-b7d5-f53e694b403f",
             yellow: "70763694-61c5-447f-abc3-91f144bfcc0b",
@@ -321,6 +325,8 @@ angular.module("edTriageConceptFactory", [])
             removed: "45d0c3d2-2188-4186-8a19-0063b92914ee",
             expired: "1fa8d25e-7471-4201-815f-79fac44d9a5f"
         };
+
+        EdTriageConcept.heartRate = "3ce93824-26fe-102b-80cb-0017a47871b2";
 
         EdTriageConcept.lowGlucoseLevel = {
             yes: "3cd6f600-26fe-102b-80cb-0017a47871b2"
@@ -339,6 +345,7 @@ angular.module("edTriageConceptFactory", [])
         
         // UHM-2669, define the wait times(in minutes) that would trigger blinking in the waiting queue
         EdTriageConcept.waitTimesConfig = {
+            blue:0,
             red: 0,
             orange: 10,
             yellow: 60,

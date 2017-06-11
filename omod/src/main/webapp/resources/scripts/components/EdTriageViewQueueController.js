@@ -39,6 +39,7 @@ angular.module("edTriageViewQueueController", [])
             };
 
             function initializeColorScores() {
+                $scope.colorScores[EdTriageConcept.score.blue]=0;
                 $scope.colorScores[EdTriageConcept.score.red]=0;
                 $scope.colorScores[EdTriageConcept.score.orange]=0;
                 $scope.colorScores[EdTriageConcept.score.yellow]=0;

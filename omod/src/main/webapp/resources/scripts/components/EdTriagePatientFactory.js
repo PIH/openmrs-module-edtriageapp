@@ -62,7 +62,10 @@ angular.module("edTriagePatientFactory", [])
         EdTriagePatient.prototype.getColorHtmlCode = function(){
             var ret = 'green';
             var colorCode = this.score.colorCode;
-            if(colorCode == EdTriageConcept.score.red){
+            if(colorCode == EdTriageConcept.score.blue){
+                ret = "blue";
+            }
+            else if(colorCode == EdTriageConcept.score.red){
                 ret = "red";
             }
             else if(colorCode == EdTriageConcept.score.orange){
@@ -83,17 +86,20 @@ angular.module("edTriagePatientFactory", [])
         EdTriagePatient.prototype.getColorWeight = function(){
             var ret = 4;
             var colorCode = this.score.colorCode;
-            if(colorCode == EdTriageConcept.score.red){
+            if(colorCode == EdTriageConcept.score.blue){
                 ret = 1;
             }
-            else if(colorCode == EdTriageConcept.score.orange){
+            else if(colorCode == EdTriageConcept.score.red){
                 ret = 2;
             }
-            else if(colorCode == EdTriageConcept.score.yellow){
+            else if(colorCode == EdTriageConcept.score.orange){
                 ret = 3;
             }
-            else{
+            else if(colorCode == EdTriageConcept.score.yellow){
                 ret = 4;
+            }
+            else{
+                ret = 5;
             }
             return ret;
         };

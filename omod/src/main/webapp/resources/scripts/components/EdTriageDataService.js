@@ -275,7 +275,10 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                if (value == null || value == false || (typeof value == 'string' && value.length==0)) {
+                if (typeof value == 'number' && value == 0 && concept == EdTriageConcept.heartRate) {
+                    obsList.push(buildObs(concept, value, uuid));
+                }
+                else if (value == null || value == false || (typeof value == 'string' && value.length==0)) {
                     if (uuid != null) {
                         obsToDeleteList.push(uuid);
                     }
@@ -308,6 +311,7 @@ angular.module("edTriageDataService", [])
 
                 var numericScore = 0;
                 var colorScores = {};
+                colorScores[EdTriageConcept.score.blue]=0;
                 colorScores[EdTriageConcept.score.red]=edTriagePatient.patient.lessThan4WeeksOld?1:0;
                 colorScores[EdTriageConcept.score.orange]=0;
                 colorScores[EdTriageConcept.score.yellow]=0;
@@ -439,7 +443,10 @@ angular.module("edTriageDataService", [])
                 //  if you have at least one red, then your
                 // color is red, then on down for the others
                 var colorCode = EdTriageConcept.score.green;
-                if (colorScores[EdTriageConcept.score.red] > 0) {
+                if (colorScores[EdTriageConcept.score.blue] > 0) {
+                    colorCode = EdTriageConcept.score.blue;
+                }
+                else if (colorScores[EdTriageConcept.score.red] > 0) {
                     colorCode = EdTriageConcept.score.red;
                 }
                 else if (colorScores[EdTriageConcept.score.orange] > 0) {
@@ -465,7 +472,10 @@ angular.module("edTriageDataService", [])
              * */
             this.getColorClass = function(colorCode){
                 var ret = null;
-                if(colorCode == EdTriageConcept.score.red){
+                if(colorCode == EdTriageConcept.score.blue){
+                    ret = "blue";
+                }
+                else if(colorCode == EdTriageConcept.score.red){
                     ret = "red";
                 }
                 else if(colorCode == EdTriageConcept.score.orange){

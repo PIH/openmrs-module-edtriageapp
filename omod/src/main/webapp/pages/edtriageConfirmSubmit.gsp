@@ -3,11 +3,14 @@
     <h3>${ ui.message("uicommons.confirm") }</h3>
 </div>
 <div class="dialog-content">
-    <p ng-show="vitalsNotComplete">
+    <p ng-show="vitalsNotComplete && !deadPatient">
         ${ ui.message("edtriageapp.warning.vitalsNotComplete") }
     </p>
-    <p ng-show="noSymptons">
+    <p ng-show="noSymptons && !deadPatient">
         ${ ui.message("edtriageapp.warning.noSymptoms") }
+    </p>
+    <p ng-show="deadPatient">
+        ${ ui.message("edtriageapp.warning.deadPatient") }
     </p>
     <p>
         ${ ui.message("edtriageapp.confirmSubmit") }

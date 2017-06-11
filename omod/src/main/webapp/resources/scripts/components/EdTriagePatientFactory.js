@@ -139,6 +139,10 @@ angular.module("edTriagePatientFactory", [])
             return hr + ":" + (mn < 10 ? "0"+mn:mn) + ":" + (sec < 10 ? "0" + sec:sec);
         }  ;
 
+        EdTriagePatient.prototype.isPatientDead = function () {
+            return this.vitals.heartRate && this.vitals.heartRate.value == 0;
+        };
+        
         EdTriagePatient.prototype.areVitalsComplete = function () {
             return this.vitals.mobility && this.vitals.mobility.value &&
                 this.vitals.respiratoryRate && this.vitals.respiratoryRate.value &&

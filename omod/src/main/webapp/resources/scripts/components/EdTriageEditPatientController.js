@@ -85,8 +85,7 @@ angular.module("edTriagePatientController", [])
             };
 
             $scope.confirmSave = function () {
-
-                if ($scope.edTriagePatient.areVitalsComplete() && $scope.edTriagePatient.atLeastOneSymptomPresent()) {
+                if (!$scope.edTriagePatient.isPatientDead() && $scope.edTriagePatient.areVitalsComplete() && $scope.edTriagePatient.atLeastOneSymptomPresent()) {
                     $scope.save();
                 }
                 else {
@@ -95,6 +94,7 @@ angular.module("edTriagePatientController", [])
                         closeByEscape: true,
                         template: "edtriageConfirmSubmit.page",
                         controller: ["$scope", function($dialogScope) {
+                            $dialogScope.deadPatient = $scope.edTriagePatient.isPatientDead();
                             $dialogScope.vitalsNotComplete = !$scope.edTriagePatient.areVitalsComplete();
                             $dialogScope.noSymptons = !$scope.edTriagePatient.atLeastOneSymptomPresent();
                         }]

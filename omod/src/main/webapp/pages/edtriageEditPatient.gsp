@@ -186,7 +186,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" min="1" max="200"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" min="0" max="200"
 									   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
@@ -194,7 +194,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="0" max="100"
 										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
 							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>

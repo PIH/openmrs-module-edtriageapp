@@ -275,7 +275,8 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                if (typeof value == 'number' && value == 0 && concept == EdTriageConcept.heartRate) {
+                if (typeof value == 'number' && value == 0 &&
+                    ( concept == EdTriageConcept.heartRate || concept == EdTriageConcept.respiratoryRate || concept == EdTriageConcept.oxygenSaturation)) {
                     obsList.push(buildObs(concept, value, uuid));
                 }
                 else if (value == null || value == false || (typeof value == 'string' && value.length==0)) {

@@ -222,7 +222,7 @@ angular.module("edTriagePatientController", [])
                 if(convType == 'c'){
                     if($scope.tempInC  == null){
                         $scope.tempInF = null;
-                        $scope.edTriagePatient.vitals.temperature = null;
+                        $scope.edTriagePatient.vitals.temperature.value = null;
                         return;
                     }
                     $scope.tempInF = Math.round((($scope.tempInC * (9/5)) + 32)*10)/10;
@@ -230,12 +230,12 @@ angular.module("edTriagePatientController", [])
                 else{
                     if($scope.tempInF  == null){
                         $scope.tempInC = null;
-                        $scope.edTriagePatient.vitals.temperature = null;
+                        $scope.edTriagePatient.vitals.temperature.value = null;
                         return;
                     }
                     $scope.tempInC =   Math.round((($scope.tempInF - 32) * 5 / 9)*10)/10;
                 }
-                $scope.edTriagePatient.vitals.temperature = {concept:$scope.edTriagePatientConcept.vitals.temperature.uuid, value:$scope.tempInC};
+                $scope.edTriagePatient.vitals.temperature.value =$scope.tempInC;
 
             };
 
@@ -304,7 +304,7 @@ angular.module("edTriagePatientController", [])
                         $scope.handleWeightChange('kg');
                     }
 
-                    if($scope.edTriagePatient.vitals.temperature){
+                    if($scope.edTriagePatient.vitals.temperature && $scope.edTriagePatient.vitals.temperature.value){
                         $scope.tempInC = Math.round($scope.edTriagePatient.vitals.temperature.value);
                         $scope.handleTempChange('c');
                     }

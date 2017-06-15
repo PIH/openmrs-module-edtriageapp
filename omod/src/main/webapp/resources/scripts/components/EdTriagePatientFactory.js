@@ -24,7 +24,7 @@ angular.module("edTriagePatientFactory", [])
                 heartRate: null,
                 diastolicBloodPressure: null,
                 systolicBloodPressure: null,
-                temperature: null,
+                temperature: {value:null, uuid:null},
                 consciousness: null,
                 trauma: null,
                 weight: null

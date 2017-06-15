@@ -9,7 +9,7 @@ angular.module("edTriagePatientFactory", [])
             this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
-            this.triageWaitingTime = 0;
+            this.triageWaitingTime = {value:0};
             // these two are a bit of a hack, to keep try of the obs uuids of color code and score
             this.existingColorCodeObsUuid;
             this.existingNumericScoreObsUuid;
@@ -127,8 +127,8 @@ angular.module("edTriagePatientFactory", [])
         * @return {String} the formatted wait time */
         EdTriagePatient.prototype.waitTimeFormatted = function(serverDateTimeDeltaInMillis){
             var w = 0;
-            if ( angular.isNumber(this.triageWaitingTime) &&  (Math.round(this.triageWaitingTime) > 0) ) {
-               w =  this.triageWaitingTime;
+            if ( angular.isNumber(this.triageWaitingTime.value) &&  (Math.round(this.triageWaitingTime.value) > 0) ) {
+               w =  this.triageWaitingTime.value;
             } else {
                 w = this.waitTime(serverDateTimeDeltaInMillis);
             }
@@ -255,8 +255,7 @@ angular.module("edTriagePatientFactory", [])
                     ret.existingNumericScoreObsUuid = obsUuid;
                 }
                 else if (uuid == concepts.triageWaitingTime.uuid) {
-                    ret.triageWaitingTime = v;
-                    ret.existingTriageWaitingTimeObsUuid = obsUuid;
+                    ret.triageWaitingTime = _v(v, obsUuid);
                 }
                 else if (uuid == concepts.chiefComplaint.uuid) {
                     ret.chiefComplaint = _v(v, obsUuid);

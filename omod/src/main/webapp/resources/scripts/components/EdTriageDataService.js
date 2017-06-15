@@ -123,7 +123,7 @@ angular.module("edTriageDataService", [])
                 //status related fields
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore, uuid: edTriagePatient.existingNumericScoreObsUuid });
-                addObs(encounter.obs, obsToDelete, edTriageConcept.triageWaitingTime.uuid, {value:edTriagePatient.waitTime(serverTimeDelta), uuid: edTriagePatient.existingTriageWaitingTimeObsUuid });
+                addObs(encounter.obs, obsToDelete, edTriageConcept.triageWaitingTime.uuid, edTriagePatient.triageWaitingTime);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode, uuid: edTriagePatient.existingColorCodeObsUuid});
 
                 //chief complaint
@@ -191,11 +191,13 @@ angular.module("edTriageDataService", [])
              * */
             this.beginConsult = function (edTriageConcept, edTriagePatient) {
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.outpatientConsultation;
+                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
             this.leftWithoutBeingSeen = function (edTriageConcept, edTriagePatient) {
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.leftWithoutBeingSeen;
+                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
@@ -204,6 +206,7 @@ angular.module("edTriageDataService", [])
              * */
             this.removeConsult = function (edTriageConcept, edTriagePatient) {
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.removed;
+                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
                 return this.save(edTriageConcept,edTriagePatient);
             };
 

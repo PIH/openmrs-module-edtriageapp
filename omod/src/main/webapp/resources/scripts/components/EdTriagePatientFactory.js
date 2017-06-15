@@ -27,7 +27,7 @@ angular.module("edTriagePatientFactory", [])
                 temperature: {value:null, uuid:null},
                 consciousness: null,
                 trauma: null,
-                weight: null
+                weight: {value:null, uuid:null}
             };
             this.symptoms = {
                 emergencySigns: null,

@@ -198,7 +198,7 @@ angular.module("edTriagePatientController", [])
                 if(convType == 'kg'){
                     if($scope.weightInKg  == null){
                         $scope.weightInLb = null;
-                        $scope.edTriagePatient.vitals.weight = null;
+                        $scope.edTriagePatient.vitals.weight.value = null;
                         return;
                     }
                     $scope.weightInLb = Math.round($scope.weightInKg*CONVERSTION_FACTOR);
@@ -206,12 +206,12 @@ angular.module("edTriagePatientController", [])
                 else{
                     if($scope.weightInLb  == null){
                         $scope.weightInKg = null;
-                        $scope.edTriagePatient.vitals.weight = null;
+                        $scope.edTriagePatient.vitals.weight.value = null;
                         return;
                     }
                     $scope.weightInKg =   Math.round($scope.weightInLb/CONVERSTION_FACTOR);
                 }
-                $scope.edTriagePatient.vitals.weight = {concept:$scope.edTriagePatientConcept.vitals.weight.uuid, value:$scope.weightInKg};
+                $scope.edTriagePatient.vitals.weight.value = $scope.weightInKg;
 
             };
 

@@ -299,7 +299,7 @@ angular.module("edTriagePatientController", [])
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatientConcept = concept;
                     $scope.edTriagePatient = data;
-                    if($scope.edTriagePatient.vitals.weight){
+                    if($scope.edTriagePatient.vitals.weight && $scope.edTriagePatient.vitals.weight.value){
                         $scope.weightInKg = Math.round($scope.edTriagePatient.vitals.weight.value);
                         $scope.handleWeightChange('kg');
                     }

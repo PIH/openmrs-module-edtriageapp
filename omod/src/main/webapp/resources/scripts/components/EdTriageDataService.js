@@ -279,7 +279,8 @@ angular.module("edTriageDataService", [])
                 var uuid = obs.uuid;
 
                 if (typeof value == 'number' && value == 0 &&
-                    ( concept == EdTriageConcept.heartRate || concept == EdTriageConcept.respiratoryRate || concept == EdTriageConcept.oxygenSaturation)) {
+                    ( concept == EdTriageConcept.numericScore ||
+                    concept == EdTriageConcept.heartRate || concept == EdTriageConcept.respiratoryRate || concept == EdTriageConcept.oxygenSaturation)) {
                     obsList.push(buildObs(concept, value, uuid));
                 }
                 else if (value == null || value == false || (typeof value == 'string' && value.length==0)) {

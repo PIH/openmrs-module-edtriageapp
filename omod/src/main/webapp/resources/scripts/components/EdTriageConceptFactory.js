@@ -329,6 +329,7 @@ angular.module("edTriageConceptFactory", [])
         EdTriageConcept.heartRate = "3ce93824-26fe-102b-80cb-0017a47871b2";
         EdTriageConcept.respiratoryRate = "3ceb11f8-26fe-102b-80cb-0017a47871b2";
         EdTriageConcept.oxygenSaturation = "3ce9401c-26fe-102b-80cb-0017a47871b2";
+        EdTriageConcept.numericScore = "f6ee497c-1db0-4c58-a55c-d65175a91fb9";
 
         EdTriageConcept.lowGlucoseLevel = {
             yes: "3cd6f600-26fe-102b-80cb-0017a47871b2"

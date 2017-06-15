@@ -20,6 +20,7 @@ import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
@@ -33,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +50,8 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
     private LocationService locationService;
 
     private ObsService obsService;
+
+    private EncounterService encounterService;
 
     private ConceptService conceptService;
 
@@ -97,6 +101,14 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
     public void setObsService(ObsService obsService) {
         this.obsService = obsService;
+    }
+
+    public EncounterService getEncounterService() {
+        return encounterService;
+    }
+
+    public void setEncounterService(EncounterService encounterService) {
+        this.encounterService = encounterService;
     }
 
     public ConceptService getConceptService() {
@@ -178,16 +190,37 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
         Concept triageQueueStatus = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID);
         Concept waitingForEvaluation = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID);
         Concept expired = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_EXPIRED_CONCEPT_UUID);
+        Concept waitingTimeConcept = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_WAITING_TIME_UUID);
 
         List<Obs> waitingForEvaluationObs = obsService.getObservations(null, null, Collections.singletonList(triageQueueStatus),
                 Collections.singletonList(waitingForEvaluation), null, null, null, null, null, null, null, false);
 
         for (Obs obs : waitingForEvaluationObs) {
             // TODO these obs should *always* be associated with a visit, but just in case we check--should probably do something else here as well
-            if (obs.getEncounter() != null && obs.getEncounter().getVisit() != null) {
-                if (obs.getEncounter().getVisit().getStopDatetime() != null) {
+            Encounter encounter = obs.getEncounter();
+            if (encounter != null && encounter.getVisit() != null) {
+                Date stopDatetime = encounter.getVisit().getStopDatetime();
+                if (stopDatetime != null) {
+                    // the visit was closed therefore set status to EXPIRED for those orphan Triage Obs
                     obs.setValueCoded(expired);
-                    obsService.saveObs(obs, "expiring triage queue");
+                    obs.setComment("expiring triage queue");
+
+                    Obs waitingTimeObs = null;
+                    // does this encounter already have a Waiting Time obs?
+                    List<Obs> waitObs = obsService.getObservations(null, Collections.singletonList(encounter), Collections.singletonList(waitingTimeConcept),
+                            null, null, null, null, null, null, null, null, false);
+                    if ( waitObs != null && waitObs.size() > 0) {
+                        waitingTimeObs = waitObs.get(0);
+                    } else {
+                        waitingTimeObs = new Obs();
+                    }
+
+                    waitingTimeObs.setConcept(waitingTimeConcept);
+                    long waitTime = (stopDatetime.getTime() - encounter.getEncounterDatetime().getTime() ) / 1000 ;
+                    waitingTimeObs.setValueNumeric(Double.valueOf(waitTime));
+                    encounter.addObs(waitingTimeObs);
+
+                    encounterService.saveEncounter(encounter);
                 }
             }
         }

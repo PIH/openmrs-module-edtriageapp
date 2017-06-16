@@ -36,7 +36,6 @@
 							<property name="patientService" ref="patientService"/>
 							<property name="locationService" ref="locationService"/>
 							<property name="obsService" ref="obsService"/>
-							<property name="encounterService" ref="encounterService"/>
 							<property name="conceptService" ref="conceptService"/>
 							<property name="dao">
 								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateEdTriageAppDAO">

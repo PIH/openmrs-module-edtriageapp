@@ -51,8 +51,6 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
     private ObsService obsService;
 
-    private EncounterService encounterService;
-
     private ConceptService conceptService;
 
     private EdTriageAppDAO dao;
@@ -101,14 +99,6 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
     public void setObsService(ObsService obsService) {
         this.obsService = obsService;
-    }
-
-    public EncounterService getEncounterService() {
-        return encounterService;
-    }
-
-    public void setEncounterService(EncounterService encounterService) {
-        this.encounterService = encounterService;
     }
 
     public ConceptService getConceptService() {
@@ -190,7 +180,6 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
         Concept triageQueueStatus = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_STATUS_CONCEPT_UUID);
         Concept waitingForEvaluation = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_WAITING_FOR_EVALUATION_CONCEPT_UUID);
         Concept expired = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_QUEUE_EXPIRED_CONCEPT_UUID);
-        Concept waitingTimeConcept = conceptService.getConceptByUuid(EDTriageConstants.TRIAGE_WAITING_TIME_UUID);
 
         List<Obs> waitingForEvaluationObs = obsService.getObservations(null, null, Collections.singletonList(triageQueueStatus),
                 Collections.singletonList(waitingForEvaluation), null, null, null, null, null, null, null, false);
@@ -203,24 +192,7 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
                 if (stopDatetime != null) {
                     // the visit was closed therefore set status to EXPIRED for those orphan Triage Obs
                     obs.setValueCoded(expired);
-                    obs.setComment("expiring triage queue");
-
-                    Obs waitingTimeObs = null;
-                    // does this encounter already have a Waiting Time obs?
-                    List<Obs> waitObs = obsService.getObservations(null, Collections.singletonList(encounter), Collections.singletonList(waitingTimeConcept),
-                            null, null, null, null, null, null, null, null, false);
-                    if ( waitObs != null && waitObs.size() > 0) {
-                        waitingTimeObs = waitObs.get(0);
-                    } else {
-                        waitingTimeObs = new Obs();
-                    }
-
-                    waitingTimeObs.setConcept(waitingTimeConcept);
-                    long waitTime = (stopDatetime.getTime() - encounter.getEncounterDatetime().getTime() ) / 1000 ;
-                    waitingTimeObs.setValueNumeric(Double.valueOf(waitTime));
-                    encounter.addObs(waitingTimeObs);
-
-                    encounterService.saveEncounter(encounter);
+                    obsService.saveObs(obs, "expiring triage queue");
                 }
             }
         }

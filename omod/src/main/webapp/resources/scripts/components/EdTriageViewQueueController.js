@@ -150,6 +150,7 @@ angular.module("edTriageViewQueueController", [])
             $scope.getPatientLink = function(uuid, appId, returnLabel){
                 return "edtriageEditPatient.page?patientId=" + uuid
                     + "&appId=" + appId
+                    + "&dashboardUrl=" + window.encodeURIComponent($scope.patientDashboard)
                     + "&returnUrl=/" + OPENMRS_CONTEXT_PATH + window.encodeURIComponent("/edtriageapp/edtriageViewQueue.page?appId=edtriageapp.app.triageQueue")
                     + "&returnLabel=" + window.encodeURIComponent(returnLabel);
             };

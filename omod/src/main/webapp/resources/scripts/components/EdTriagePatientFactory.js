@@ -1,5 +1,5 @@
 angular.module("edTriagePatientFactory", [])
-    .factory('EdTriagePatient', ['$filter', 'EdTriageConcept', function ($filter, EdTriageConcept) {
+    .factory('EdTriagePatient', ['$filter', 'EdTriageConcept', function ($filter, EdTriageConcept, serverDateTimeInMillis) {
 
         /**
          * Constructor, with class name
@@ -9,9 +9,11 @@ angular.module("edTriagePatientFactory", [])
             this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
+            this.triageWaitingTime = {value:0};
             // these two are a bit of a hack, to keep try of the obs uuids of color code and score
             this.existingColorCodeObsUuid;
             this.existingNumericScoreObsUuid;
+            this.existingTriageWaitingTimeObsUuid;
             this.patient = {uuid:null, age:null, birthdate:null, gender:null, ageType:null, lessThan4WeeksOld:false, display:null};
             this.location = null;
             this.chiefComplaint = null;
@@ -22,10 +24,10 @@ angular.module("edTriagePatientFactory", [])
                 heartRate: null,
                 diastolicBloodPressure: null,
                 systolicBloodPressure: null,
-                temperature: null,
+                temperature: {value:null, uuid:null},
                 consciousness: null,
                 trauma: null,
-                weight: null
+                weight: {value:null, uuid:null}
             };
             this.symptoms = {
                 emergencySigns: null,
@@ -44,6 +46,8 @@ angular.module("edTriagePatientFactory", [])
             this.clinicalImpression = null;
             this.labs = {
                 glucose: null,
+                lowGlucoseLevel: null,
+                highGlucoseLevel: null,
                 pregnancy: null
             };
             this.treatment = {
@@ -58,7 +62,10 @@ angular.module("edTriagePatientFactory", [])
         EdTriagePatient.prototype.getColorHtmlCode = function(){
             var ret = 'green';
             var colorCode = this.score.colorCode;
-            if(colorCode == EdTriageConcept.score.red){
+            if(colorCode == EdTriageConcept.score.blue){
+                ret = "blue";
+            }
+            else if(colorCode == EdTriageConcept.score.red){
                 ret = "red";
             }
             else if(colorCode == EdTriageConcept.score.orange){
@@ -79,17 +86,20 @@ angular.module("edTriagePatientFactory", [])
         EdTriagePatient.prototype.getColorWeight = function(){
             var ret = 4;
             var colorCode = this.score.colorCode;
-            if(colorCode == EdTriageConcept.score.red){
+            if(colorCode == EdTriageConcept.score.blue){
                 ret = 1;
             }
-            else if(colorCode == EdTriageConcept.score.orange){
+            else if(colorCode == EdTriageConcept.score.red){
                 ret = 2;
             }
-            else if(colorCode == EdTriageConcept.score.yellow){
+            else if(colorCode == EdTriageConcept.score.orange){
                 ret = 3;
             }
-            else{
+            else if(colorCode == EdTriageConcept.score.yellow){
                 ret = 4;
+            }
+            else{
+                ret = 5;
             }
             return ret;
         };
@@ -98,6 +108,9 @@ angular.module("edTriagePatientFactory", [])
          * @param {num} serverDateTimeDeltaInMillis - the difference between the server time and the client time
          * @return {String} the wait time */
         EdTriagePatient.prototype.waitTime = function(serverDateTimeDeltaInMillis) {
+            if ( this.encounterDateTime == null ) {
+                return 0;
+            }
             var date = new Date(this.encounterDateTime);
             var now = new Date();
             var delta = serverDateTimeDeltaInMillis == null ? 0 : serverDateTimeDeltaInMillis;
@@ -113,13 +126,23 @@ angular.module("edTriagePatientFactory", [])
         * @param {num} serverDateTimeDeltaInMillis - the difference between the server time and the client time
         * @return {String} the formatted wait time */
         EdTriagePatient.prototype.waitTimeFormatted = function(serverDateTimeDeltaInMillis){
-            var w = this.waitTime(serverDateTimeDeltaInMillis)
+            var w = 0;
+            if ( angular.isNumber(this.triageWaitingTime.value) &&  (Math.round(this.triageWaitingTime.value) > 0) ) {
+               w =  this.triageWaitingTime.value;
+            } else {
+                w = this.waitTime(serverDateTimeDeltaInMillis);
+            }
+
             var hr = Math.floor(w /60 /60);
             var mn = Math.floor((w /60) % 60);
             var sec = Math.floor(w % 60);
             return hr + ":" + (mn < 10 ? "0"+mn:mn) + ":" + (sec < 10 ? "0" + sec:sec);
         }  ;
 
+        EdTriagePatient.prototype.isPatientDead = function () {
+            return this.vitals.heartRate && this.vitals.heartRate.value == 0;
+        };
+        
         EdTriagePatient.prototype.areVitalsComplete = function () {
             return this.vitals.mobility && this.vitals.mobility.value &&
                 this.vitals.respiratoryRate && this.vitals.respiratoryRate.value &&
@@ -128,8 +151,7 @@ angular.module("edTriagePatientFactory", [])
                 ((this.vitals.diastolicBloodPressure && this.vitals.diastolicBloodPressure.value) || this.patient.ageType != 'A') &&
                 ((this.vitals.systolicBloodPressure && this.vitals.systolicBloodPressure.value) || this.patient.ageType != 'A') &&
                 this.vitals.temperature && this.vitals.temperature.value &&
-                this.vitals.consciousness && this.vitals.consciousness.value &&
-                this.vitals.weight && this.vitals.weight.value
+                this.vitals.consciousness && this.vitals.consciousness.value
         };
 
         EdTriagePatient.prototype.atLeastOneSymptomPresent = function () {
@@ -232,6 +254,9 @@ angular.module("edTriagePatientFactory", [])
                     ret.score.numericScore = v;
                     ret.existingNumericScoreObsUuid = obsUuid;
                 }
+                else if (uuid == concepts.triageWaitingTime.uuid) {
+                    ret.triageWaitingTime = _v(v, obsUuid);
+                }
                 else if (uuid == concepts.chiefComplaint.uuid) {
                     ret.chiefComplaint = _v(v, obsUuid);
                 }
@@ -264,6 +289,12 @@ angular.module("edTriagePatientFactory", [])
                 }
                 else if (uuid == concepts.labs.glucose.uuid) {
                     ret.labs.glucose = _v(v, obsUuid);
+                }
+                else if (uuid == concepts.labs.lowGlucoseLevel.uuid) {
+                    ret.labs.lowGlucoseLevel = _v(v.uuid, obsUuid);
+                }
+                else if (uuid == concepts.labs.highGlucoseLevel.uuid) {
+                    ret.labs.highGlucoseLevel = _v(v.uuid, obsUuid);
                 }
                 else if (uuid == concepts.labs.pregnancy_test.uuid) {
                     ret.labs.pregnancy_test = _v(v.uuid, obsUuid);

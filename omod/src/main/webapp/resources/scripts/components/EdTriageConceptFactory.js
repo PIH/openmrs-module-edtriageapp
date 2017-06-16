@@ -20,6 +20,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer(EdTriageConcept.score.orange, "orange")]
                 , "f81631c8-f658-4472-a7eb-c618b05e6149");
             this.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
+            this.triageWaitingTime = toAnswer("d9a8fc6f-8695-46b8-854f-2c9e818b4568", "triageWaitingTime");
             this.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
             this.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             this.labs = {
@@ -42,6 +43,25 @@ angular.module("edTriageConceptFactory", [])
                         return {numericScore: 0, colorCode: EdTriageConcept.score.green};
                     }
                 }),
+                lowGlucoseLevel: toAnswers('lowGlucoseLevel',
+                    [toAnswer("3cd6f600-26fe-102b-80cb-0017a47871b2", "lowGlucoseLevel", function(ageType, value) {
+                        if (value.length > 0) {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.red};
+                        } else {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                        }
+                    })],
+                    "ff55a386-e25d-461d-994f-f43e219b94f1"),
+                highGlucoseLevel: toAnswers('highGlucoseLevel',
+                    [ toAnswer("3cd6f600-26fe-102b-80cb-0017a47871b2","highGlucoseLevel", function(ageType, value) {
+                        if (value.length > 0) {
+                            if(ageType == EdTriageConcept.ageType.CHILD || ageType == EdTriageConcept.ageType.ADULT){
+                                return {numericScore: 0, colorCode: EdTriageConcept.score.orange};
+                            }
+                        }
+                        return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                    }) ],
+                    "05819e23-100e-41da-ae7b-cfc401ca7146"),
                 pregnancy_test: toAnswers('pregnancy_test',
                     [toAnswer("3cd3a7a2-26fe-102b-80cb-0017a47871b2","positive", {numericScore: 0}, 'A'),
                      toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
@@ -107,6 +127,9 @@ angular.module("edTriageConceptFactory", [])
                 heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
+                    }
+                    if ( value == 0 ) {
+                        return { numericScore: 0, colorCode: EdTriageConcept.score.blue };
                     }
                     if(ageType == EdTriageConcept.ageType.ADULT){
                         if(value < 41) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
@@ -288,6 +311,7 @@ angular.module("edTriageConceptFactory", [])
         
         //some static vars for the scores for symptoms
         EdTriageConcept.score = {
+            blue: "ea658b2b-9c97-438b-a2c9-5dfcc9a24b73",
             red: "762ecf40-3065-47aa-93c3-15372d98d393",
             orange: "95d75a4a-cb14-4f1f-b7d5-f53e694b403f",
             yellow: "70763694-61c5-447f-abc3-91f144bfcc0b",
@@ -302,6 +326,19 @@ angular.module("edTriageConceptFactory", [])
             expired: "1fa8d25e-7471-4201-815f-79fac44d9a5f"
         };
 
+        EdTriageConcept.heartRate = "3ce93824-26fe-102b-80cb-0017a47871b2";
+        EdTriageConcept.respiratoryRate = "3ceb11f8-26fe-102b-80cb-0017a47871b2";
+        EdTriageConcept.oxygenSaturation = "3ce9401c-26fe-102b-80cb-0017a47871b2";
+        EdTriageConcept.numericScore = "f6ee497c-1db0-4c58-a55c-d65175a91fb9";
+
+        EdTriageConcept.lowGlucoseLevel = {
+            yes: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+        };
+
+        EdTriageConcept.highGlucoseLevel = {
+            yes: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+        };
+
         EdTriageConcept.ageType = {
             ADULT: 'A',
             CHILD: 'C',
@@ -311,6 +348,7 @@ angular.module("edTriageConceptFactory", [])
         
         // UHM-2669, define the wait times(in minutes) that would trigger blinking in the waiting queue
         EdTriageConcept.waitTimesConfig = {
+            blue:0,
             red: 0,
             orange: 10,
             yellow: 60,

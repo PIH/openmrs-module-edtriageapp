@@ -42,6 +42,7 @@ public class EdtriageEditPatientPageController {
         model.addAttribute("locale", uiSessionContext.getLocale());
         model.addAttribute("location", uiSessionContext.getSessionLocation());
         model.addAttribute("patient", patient);
+        model.addAttribute("currentDateTimeInMillis", System.currentTimeMillis());
 
         model.addAttribute("encounter", encounter);
         model.addAttribute("editable", editable != null ? editable : true);

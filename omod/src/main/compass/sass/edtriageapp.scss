@@ -13,6 +13,9 @@ $fontPath: "../fonts";
 }
 
 /* Starting styles for edtriageapp */
+.edtriage-label-blue {
+	background-color: #7786ff;
+}
 .edtriage-label-red {
 	background-color: #d9534f;
 }
@@ -33,6 +36,15 @@ $fontPath: "../fonts";
 .edtriage-label-white {
 	background-color: #ffffff;
 }
+
+.center-content {
+	align-content: center;
+}
+
+.right {
+	float: right;
+}
+
 
 #sticky {
 	padding: 0.5ex;

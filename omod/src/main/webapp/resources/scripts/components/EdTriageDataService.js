@@ -1,6 +1,7 @@
 angular.module("edTriageDataService", [])
-    .service('EdTriageDataService', ['$q', '$http', '$filter', 'SessionInfo', 'EdTriageConcept', 'EdTriagePatient',
-        function ($q, $http, $filter, SessionInfo, EdTriageConcept, EdTriagePatient) {
+    .service('EdTriageDataService', ['$q', '$http', '$filter', 'SessionInfo', 'EdTriageConcept', 'EdTriagePatient', 'serverDateTimeInMillis',
+        function ($q, $http, $filter, SessionInfo, EdTriageConcept, EdTriagePatient, serverDateTimeInMillis) {
+            var serverTimeDelta = (new Date().getTime()) - serverDateTimeInMillis;
             var CONSTANTS = {
                 URLS: {
                     FIND_PATIENT: "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
@@ -85,7 +86,9 @@ angular.module("edTriageDataService", [])
                     return $http.get(CONSTANTS.URLS.ED_TRIAGE_FOR_ACTIVE_VISIT.replace("PATIENT_UUID",patientUuid).replace("LOCATION_UUID", locationUuid)).then(function (resp) {
                         if (resp.status == 200 && resp.data.results != null && resp.data.results.length > 0) {
                             var rec = resp.data.results[0]; // search should only return one record, but web service returns array for consistency
-                            return EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
+                            if ( getTriageStatus(rec, concept) == EdTriageConcept.status.waitingForEvaluation) {
+                                return EdTriagePatient.build(concept, rec, dateOfBirth, gender, locationUuid);
+                            }
                         }
                         // otherwise, create a new instance
                         return EdTriagePatient.newInstance(patientUuid,dateOfBirth, gender, locationUuid);
@@ -120,6 +123,7 @@ angular.module("edTriageDataService", [])
                 //status related fields
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageQueueStatus.uuid, edTriagePatient.triageQueueStatus);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageScore.uuid, {value:edTriagePatient.score.numericScore, uuid: edTriagePatient.existingNumericScoreObsUuid });
+                addObs(encounter.obs, obsToDelete, edTriageConcept.triageWaitingTime.uuid, edTriagePatient.triageWaitingTime);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.triageColorCode.uuid, {value:edTriagePatient.score.colorCode, uuid: edTriagePatient.existingColorCodeObsUuid});
 
                 //chief complaint
@@ -157,6 +161,8 @@ angular.module("edTriageDataService", [])
 
                 // labs
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.lowGlucoseLevel.uuid, edTriagePatient.labs.lowGlucoseLevel);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.highGlucoseLevel.uuid, edTriagePatient.labs.highGlucoseLevel);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy_test.uuid, edTriagePatient.labs.pregnancy_test);
 
                 // treatment
@@ -185,11 +191,13 @@ angular.module("edTriageDataService", [])
              * */
             this.beginConsult = function (edTriageConcept, edTriagePatient) {
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.outpatientConsultation;
+                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
             this.leftWithoutBeingSeen = function (edTriageConcept, edTriagePatient) {
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.leftWithoutBeingSeen;
+                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
@@ -198,11 +206,26 @@ angular.module("edTriageDataService", [])
              * */
             this.removeConsult = function (edTriageConcept, edTriagePatient) {
                 edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.removed;
+                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
                 return this.save(edTriageConcept,edTriagePatient);
             };
 
             function ensureActiveVisit(edTriagePatient) {
                 return $http.post(CONSTANTS.URLS.ACTIVE_VISIT + "?patient=" + edTriagePatient.patient.uuid + "&location=" + edTriagePatient.location);
+            }
+            
+            function getTriageStatus(encounter, concept) {
+                var status = null;
+                if (encounter && encounter.obs) {
+                    for (var i = 0; i < encounter.obs.length; ++i) {
+                        var uuid = encounter.obs[i].concept.uuid;
+                        var v = encounter.obs[i].value;
+                        if (uuid == concept.triageQueueStatus.uuid) {
+                            status = v.uuid;
+                        }
+                    }
+                }
+                return status;
             }
 
             function saveEncounter(encounter, existingUuid) {
@@ -255,7 +278,12 @@ angular.module("edTriageDataService", [])
                 var value = obs.value;
                 var uuid = obs.uuid;
 
-                if (value == null || value == false || (typeof value == 'string' && value.length==0)) {
+                if (typeof value == 'number' && value == 0 &&
+                    ( concept == EdTriageConcept.numericScore ||
+                    concept == EdTriageConcept.heartRate || concept == EdTriageConcept.respiratoryRate || concept == EdTriageConcept.oxygenSaturation)) {
+                    obsList.push(buildObs(concept, value, uuid));
+                }
+                else if (value == null || value == false || (typeof value == 'string' && value.length==0)) {
                     if (uuid != null) {
                         obsToDeleteList.push(uuid);
                     }
@@ -288,6 +316,7 @@ angular.module("edTriageDataService", [])
 
                 var numericScore = 0;
                 var colorScores = {};
+                colorScores[EdTriageConcept.score.blue]=0;
                 colorScores[EdTriageConcept.score.red]=edTriagePatient.patient.lessThan4WeeksOld?1:0;
                 colorScores[EdTriageConcept.score.orange]=0;
                 colorScores[EdTriageConcept.score.yellow]=0;
@@ -397,7 +426,17 @@ angular.module("edTriageDataService", [])
                                         individualScores[c.uuid] = sc;
                                         individualScores[hyperglycemiaUuid] = sc;
                                         ++colorScores[individualScores[c.uuid].colorCode];
-                                        break;
+                                    }
+                                } else if (c.uuid == concept.labs.lowGlucoseLevel.uuid || c.uuid == concept.labs.highGlucoseLevel.uuid) {
+                                    var answers = concept.labs[prop].answers;
+                                    for(var i=0;i<answers.length;++i){
+                                        if(answers[i].uuid == p.value){
+                                            //this is the answer that they chose
+                                            individualScores[concept.labs.glucose.uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                            numericScore = numericScore + individualScores[concept.labs.glucose.uuid].numericScore;
+                                            ++colorScores[individualScores[concept.labs.glucose.uuid].colorCode];
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -409,7 +448,10 @@ angular.module("edTriageDataService", [])
                 //  if you have at least one red, then your
                 // color is red, then on down for the others
                 var colorCode = EdTriageConcept.score.green;
-                if (colorScores[EdTriageConcept.score.red] > 0) {
+                if (colorScores[EdTriageConcept.score.blue] > 0) {
+                    colorCode = EdTriageConcept.score.blue;
+                }
+                else if (colorScores[EdTriageConcept.score.red] > 0) {
                     colorCode = EdTriageConcept.score.red;
                 }
                 else if (colorScores[EdTriageConcept.score.orange] > 0) {
@@ -435,7 +477,10 @@ angular.module("edTriageDataService", [])
              * */
             this.getColorClass = function(colorCode){
                 var ret = null;
-                if(colorCode == EdTriageConcept.score.red){
+                if(colorCode == EdTriageConcept.score.blue){
+                    ret = "blue";
+                }
+                else if(colorCode == EdTriageConcept.score.red){
                     ret = "red";
                 }
                 else if(colorCode == EdTriageConcept.score.orange){
@@ -452,5 +497,6 @@ angular.module("edTriageDataService", [])
 
 
             this.CONSTANTS = CONSTANTS;
+            this.serverTimeDelta = serverTimeDelta;
             this.session =  SessionInfo.get();
         }]);

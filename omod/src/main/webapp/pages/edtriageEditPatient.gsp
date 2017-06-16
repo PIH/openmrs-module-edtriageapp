@@ -79,11 +79,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<div class="row">
-					<div class="col-sm-1">${ ui.message("edtriageapp.status") }</div>
+					<div class="col-sm-2">${ ui.message("edtriageapp.status") }</div>
+					<div class="col-sm-7 center-content">
+						<span>{{ findAnswer(edTriagePatientConcept.triageQueueStatus
+						, edTriagePatient.triageQueueStatus.value).labelTranslated(edTriagePatient.patient.ageType) }}</span>
+					</div>
+					<div class="col-sm-3 right">${ ui.message("edtriageapp.waitTime") }:
+						<span> {{ edTriagePatient.waitTimeFormatted(serverTimeDelta) }}</span>
+					</div>
 				</div>
 			</h3>
 		</div>
-
 	</div>
 
 
@@ -180,7 +186,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" min="1" max="200"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" min="0" max="200"
 									   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
@@ -188,7 +194,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="1" max="100"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="0" max="100"
 										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
 							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
@@ -196,7 +202,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="1" max="999"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="0" max="999"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
@@ -220,10 +226,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>${ui.message("edtriageapp.temperature")}</label></td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" min="1" max="100"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" min="26" max="45"
 									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
 							<td class="pull-left">C</td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" min="32" max="212"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" min="80" max="113"
 									   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
 							<td>F</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>
@@ -367,13 +373,36 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							<tr>
 								<td><label>${ui.message("edtriageapp.labs.glucose")}</label></td>
 
-								<td colspan="3">
+								<td>
 									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
 								</td>
 								<td>
 									<small>mg/dl</small>
 								</td>
-								<td>
+								<td class="col-xs-3" colspan="2">
+									<table>
+										<tr>
+											<td>
+												<input ng-disabled="!editable" id="highGlucoseLevel" type="checkbox"
+													   ng-model="edTriagePatient.labs.highGlucoseLevel.value"
+													   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
+													   ng-change="handleGlucoseLevel('highGlucoseLevel')"/>
+												<label>${ui.message("edtriageapp.high")}</label>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<input ng-disabled="!editable" id="lowGlucoseLevel" type="checkbox"
+													   ng-model="edTriagePatient.labs.lowGlucoseLevel.value"
+													   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
+													   ng-change="handleGlucoseLevel('lowGlucoseLevel')"/>
+												<label>${ui.message("edtriageapp.low")}</label>
+											</td>
+										</tr>
+									</table>
+								</td>
+
+								<td class="right">
 									<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
 								</td>
 							</tr>
@@ -495,6 +524,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			.value('returnUrl', '${ returnUrl ? returnUrl : "" }')
 			.value('translations', translations)
 			.value('editable', ${ editable })
+			.value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
 
 	jq(function() {
 		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header

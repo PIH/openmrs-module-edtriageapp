@@ -1,8 +1,8 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable',
+        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable','serverDateTimeInMillis',
         function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientDashboard, ngDialog, patientBirthDate,
-                  patientGender, locationUuid, encounterUuid, returnUrl, editable) {
+                  patientGender, locationUuid, encounterUuid, returnUrl, editable, serverDateTimeInMillis) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
@@ -13,6 +13,17 @@ angular.module("edTriagePatientController", [])
             $scope.tempInF = null;
             $scope.editable = editable ? editable : false;
             $scope.patientDashboard = patientDashboard;
+            $scope.lastUpdatedAtInMillis = new Date().getTime();
+            $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
+
+            /* helper function for finding an answer for a question in the concept def
+             * @param {EdTriageConcept} concept - the concepts
+             * @param {String} uuid - the answer UUID
+             * @return the answer object
+             * */
+            $scope.findAnswer = function(concept, uuid){
+                return $filter('findAnswer')(concept, uuid);
+            };
 
             /* helper function to get the color class for the score
              * @param {String} colorCode - the uuid for the color
@@ -74,8 +85,7 @@ angular.module("edTriagePatientController", [])
             };
 
             $scope.confirmSave = function () {
-
-                if ($scope.edTriagePatient.areVitalsComplete() && $scope.edTriagePatient.atLeastOneSymptomPresent()) {
+                if (!$scope.edTriagePatient.isPatientDead() && $scope.edTriagePatient.areVitalsComplete() && $scope.edTriagePatient.atLeastOneSymptomPresent()) {
                     $scope.save();
                 }
                 else {
@@ -84,6 +94,7 @@ angular.module("edTriagePatientController", [])
                         closeByEscape: true,
                         template: "edtriageConfirmSubmit.page",
                         controller: ["$scope", function($dialogScope) {
+                            $dialogScope.deadPatient = $scope.edTriagePatient.isPatientDead();
                             $dialogScope.vitalsNotComplete = !$scope.edTriagePatient.areVitalsComplete();
                             $dialogScope.noSymptons = !$scope.edTriagePatient.atLeastOneSymptomPresent();
                         }]
@@ -161,6 +172,24 @@ angular.module("edTriagePatientController", [])
                 })
             };
 
+            /**
+             * Handles High/Low Glucose level. Do not allow both checkboxes to be checked on the same time.
+             * Checking one checkbox un-checks the other.
+             * @param level indicates which checkbox was changed
+             */
+            $scope.handleGlucoseLevel = function(level) {
+                if (level == 'highGlucoseLevel' && $scope.edTriagePatient.labs.highGlucoseLevel && $scope.edTriagePatient.labs.highGlucoseLevel.value) {
+                    if ($scope.edTriagePatient.labs.lowGlucoseLevel && $scope.edTriagePatient.labs.lowGlucoseLevel.value) {
+                        $scope.edTriagePatient.labs.lowGlucoseLevel.value = false;
+                    }
+                } else if (level == 'lowGlucoseLevel' && $scope.edTriagePatient.labs.lowGlucoseLevel && $scope.edTriagePatient.labs.lowGlucoseLevel.value) {
+                    if ($scope.edTriagePatient.labs.highGlucoseLevel && $scope.edTriagePatient.labs.highGlucoseLevel.value) {
+                        $scope.edTriagePatient.labs.highGlucoseLevel.value = false;
+                    }
+                }
+
+            };
+
             /* handles converting the weight from kg to lb and back
             * @param {String} convType = the type of converstion (kg, lb)
             * */
@@ -169,7 +198,7 @@ angular.module("edTriagePatientController", [])
                 if(convType == 'kg'){
                     if($scope.weightInKg  == null){
                         $scope.weightInLb = null;
-                        $scope.edTriagePatient.vitals.weight = null;
+                        $scope.edTriagePatient.vitals.weight.value = null;
                         return;
                     }
                     $scope.weightInLb = Math.round($scope.weightInKg*CONVERSTION_FACTOR);
@@ -177,12 +206,12 @@ angular.module("edTriagePatientController", [])
                 else{
                     if($scope.weightInLb  == null){
                         $scope.weightInKg = null;
-                        $scope.edTriagePatient.vitals.weight = null;
+                        $scope.edTriagePatient.vitals.weight.value = null;
                         return;
                     }
                     $scope.weightInKg =   Math.round($scope.weightInLb/CONVERSTION_FACTOR);
                 }
-                $scope.edTriagePatient.vitals.weight = {concept:$scope.edTriagePatientConcept.vitals.weight.uuid, value:$scope.weightInKg};
+                $scope.edTriagePatient.vitals.weight.value = $scope.weightInKg;
 
             };
 
@@ -193,7 +222,7 @@ angular.module("edTriagePatientController", [])
                 if(convType == 'c'){
                     if($scope.tempInC  == null){
                         $scope.tempInF = null;
-                        $scope.edTriagePatient.vitals.temperature = null;
+                        $scope.edTriagePatient.vitals.temperature.value = null;
                         return;
                     }
                     $scope.tempInF = Math.round((($scope.tempInC * (9/5)) + 32)*10)/10;
@@ -201,12 +230,12 @@ angular.module("edTriagePatientController", [])
                 else{
                     if($scope.tempInF  == null){
                         $scope.tempInC = null;
-                        $scope.edTriagePatient.vitals.temperature = null;
+                        $scope.edTriagePatient.vitals.temperature.value = null;
                         return;
                     }
                     $scope.tempInC =   Math.round((($scope.tempInF - 32) * 5 / 9)*10)/10;
                 }
-                $scope.edTriagePatient.vitals.temperature = {concept:$scope.edTriagePatientConcept.vitals.temperature.uuid, value:$scope.tempInC};
+                $scope.edTriagePatient.vitals.temperature.value =$scope.tempInC;
 
             };
 
@@ -270,12 +299,12 @@ angular.module("edTriagePatientController", [])
                     EdTriageDataService.calculate(concept, data);
                     $scope.edTriagePatientConcept = concept;
                     $scope.edTriagePatient = data;
-                    if($scope.edTriagePatient.vitals.weight){
+                    if($scope.edTriagePatient.vitals.weight && $scope.edTriagePatient.vitals.weight.value){
                         $scope.weightInKg = Math.round($scope.edTriagePatient.vitals.weight.value);
                         $scope.handleWeightChange('kg');
                     }
 
-                    if($scope.edTriagePatient.vitals.temperature){
+                    if($scope.edTriagePatient.vitals.temperature && $scope.edTriagePatient.vitals.temperature.value){
                         $scope.tempInC = Math.round($scope.edTriagePatient.vitals.temperature.value);
                         $scope.handleTempChange('c');
                     }

@@ -30,4 +30,24 @@ angular.module("filters", ['uicommons.filters'])
             else{
                 return text;
             }
-        }}]);
+        }}])
+    .filter('getProviderNameFromDisplayString', function() {
+        return function(input) {
+            if (input && input.display){
+                //we made the assumption the display string is like "Wideline Louis Charles: Dispenser"
+                // /ws/rest/v1/visit/2a767422-98b2-445d-9294-d008e17b42c5?v=custom:)
+                var name = input.display.split(": ");
+                if (name != null && name[0].length < input.display.length) {
+                    return name[0];
+                } else {
+                    //we made the assumption the display string is like "MAH6P - Wideline Louis Charles"
+                    // /ws/rest/v1/encounter/uuid?v=full
+                    name = input.display.split(" - ");
+                    if (name != null) {
+                        return name[name.length -1];
+                    }
+                }
+            }
+            return "";
+        }
+    })

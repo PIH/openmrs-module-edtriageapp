@@ -8,6 +8,7 @@ angular.module("edTriagePatientFactory", [])
             this.encounterUuid = null;
             this.triageQueueStatus = {value:EdTriageConcept.status.waitingForEvaluation};
             this.encounterDateTime = null;
+            this.encounterProviders = null;
             this.score = {colorCode: EdTriageConcept.score.green, numericScore:0};
             this.triageWaitingTime = {value:0};
             // these two are a bit of a hack, to keep try of the obs uuids of color code and score
@@ -234,6 +235,7 @@ angular.module("edTriagePatientFactory", [])
             ret.patient.display = data.patient.display;
             ret.encounterDateTime = data.encounterDatetime;
             ret.encounterUuid = data.uuid;
+            ret.encounterProviders = data.encounterProviders;
 
             //iterate through the observations and update the appropriate properties
             for (var i = 0; i < data.obs.length; ++i) {

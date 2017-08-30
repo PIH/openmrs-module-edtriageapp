@@ -490,6 +490,21 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 		</div>
 
+		<div class="panel panel-info" ng-show="edTriagePatient.encounterProviders">
+			<div class="panel-heading">
+				<h3 class="panel-title">${ ui.message("edtriageapp.formHistory") }</h3>
+			</div>
+			<div class="panel-body">
+				<table>
+					<tr ng-repeat="provider in edTriagePatient.encounterProviders | orderBy: 'dateCreated'">
+						<td>{{ provider.provider | getProviderNameFromDisplayString }}</td>
+						<td>{{ provider.dateCreated | serverDate }}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+
     </form>
 	<div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">

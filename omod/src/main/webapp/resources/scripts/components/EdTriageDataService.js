@@ -105,18 +105,22 @@ angular.module("edTriageDataService", [])
 
             this.save = function (edTriageConcept, edTriagePatient) {
 
-                var encounterProvider = {
-                    provider: this.session.currentProvider ? this.session.currentProvider.uuid : "",
-                    encounterRole: CONSTANTS.CONSULTING_CLINICIAN_ENCOUNTER_ROLE
-                }
+                var encounterProvider = this.session.currentProvider ?
+                    { provider: this.session.currentProvider.uuid ,
+                        encounterRole: CONSTANTS.CONSULTING_CLINICIAN_ENCOUNTER_ROLE } : null;
 
                 var encounter = {
                     patient: edTriagePatient.patient.uuid,
                     encounterType: CONSTANTS.ED_TRIAGE_ENCOUNTER_TYPE,
                     location: edTriagePatient.location,
-                    encounterProviders: this.session.currentProvider ? [ encounterProvider ] : [],
                     obs: []
                 };
+
+                // if this is a new encounter, we include the encounter provider, if not we don't because
+                // we will need (see below) to make a separate call to add an encounter provider without overwriting the existing one
+                if (edTriagePatient.encounterUuid == null) {
+                    encounter.encounterProviders = this.session.currentProvider ? [ encounterProvider ] : [];
+                }
 
                 var obsToDelete = [];
 
@@ -173,6 +177,12 @@ angular.module("edTriageDataService", [])
                 return ensureActiveVisit(edTriagePatient)
                     .then(function () {
                         return saveEncounter(encounter, edTriagePatient.encounterUuid)
+                    })
+                    .then(function() {
+                        if (edTriagePatient.encounterUuid != null) {
+                            // add new provider to existing encounter
+                            return saveEncounterProvider(encounterProvider, edTriagePatient.encounterUuid);
+                        }
                     })
                     .then(function () {
                         return deleteObs(obsToDelete)
@@ -238,6 +248,11 @@ angular.module("edTriageDataService", [])
                 }
 
                 return $http.post(url, encounter);
+            }
+
+            function saveEncounterProvider(encounterProvider, existingEncounterUuid) {
+                var url = CONSTANTS.URLS.ENCOUNTER_SAVE + '/' + existingEncounterUuid + '/encounterprovider';
+                return $http.post(url, encounterProvider);
             }
 
             function deleteObs(list) {

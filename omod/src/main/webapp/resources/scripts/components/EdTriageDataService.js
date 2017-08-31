@@ -6,7 +6,7 @@ angular.module("edTriageDataService", [])
                 URLS: {
                     FIND_PATIENT: "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
                     CONCEPTS: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/concept",
-                    ED_TRIAGE_FOR_ACTIVE_VISIT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getEDTriageEncounterForActiveVisit&v=custom:(uuid,encounterDatetime,patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
+                    ED_TRIAGE_FOR_ACTIVE_VISIT: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getEDTriageEncounterForActiveVisit&v=custom:(uuid,encounterDatetime,encounterProviders:(dateCreated,provider),patient,obs)&patient=PATIENT_UUID&location=LOCATION_UUID",
                     ENCOUNTER: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter/ENCOUNTER_UUID?v=custom:(uuid,encounterDatetime,encounterProviders:(dateCreated,provider),patient,obs)",
                     VIEW_QUEUE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter?s=getActiveEdTriageEncounters&v=custom:(uuid,encounterDatetime,patient,obs)&location=LOCATION_UUID",
                     ENCOUNTER_SAVE: "/" + OPENMRS_CONTEXT_PATH + "/ws/rest/v1/encounter",

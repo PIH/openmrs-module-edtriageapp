@@ -120,7 +120,7 @@ angular.module("edTriagePatientFactory", [])
             if(waitTime < 0){
                 waitTime =0;
             }
-            return waitTime;
+            return Math.floor(waitTime);
         }
 
         /* calculates the formatted wait time for a patient

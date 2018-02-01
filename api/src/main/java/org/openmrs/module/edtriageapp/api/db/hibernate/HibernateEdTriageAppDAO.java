@@ -16,10 +16,10 @@ package org.openmrs.module.edtriageapp.api.db.hibernate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Encounter;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
 
@@ -32,19 +32,19 @@ import java.util.List;
 public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
 
     private final Log log = LogFactory.getLog(this.getClass());
-    private SessionFactory sessionFactory;
+    private DbSessionFactory sessionFactory;
 
     /**
      * @param sessionFactory the sessionFactory to set
      */
-    public void setSessionFactory(SessionFactory sessionFactory) {
+    public void setSessionFactory(DbSessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     /**
      * @return the sessionFactory
      */
-    public SessionFactory getSessionFactory() {
+    public DbSessionFactory getSessionFactory() {
         return sessionFactory;
     }
 

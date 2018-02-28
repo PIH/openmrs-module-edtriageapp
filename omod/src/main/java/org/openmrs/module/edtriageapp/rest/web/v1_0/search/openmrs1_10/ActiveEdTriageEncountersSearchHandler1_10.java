@@ -65,7 +65,8 @@ public class ActiveEdTriageEncountersSearchHandler1_10 implements SearchHandler 
 
 		boolean useFullRepresentation = toInt(context.getParameter(REQUEST_PARAM_OVERRIDE_REPRESENTATION),0)>0;
 		String patient = context.getParameter(REQUEST_PARAM_PATIENT);
-		String location = context.getParameter(REQUEST_PARAM_LOCATION);
+		// UHM-3163, show all EDTriage encounters from all locations
+		String location = null; //  context.getParameter(REQUEST_PARAM_LOCATION);
 		int hoursBack = toInt(context.getParameter(REQUEST_PARAM_HOURS_BACK), DEFAULT_HOURS_BACK);
 
 		List<Encounter> encounters = Context.getService(EdTriageAppService.class).getActiveEDTriageEncounters(hoursBack, location, patient);

@@ -408,7 +408,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								</td>
 							</tr>
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy_test'"
-								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.age > 11"
+								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
 								editable="editable"
 								concept="edTriagePatientConcept.labs.pregnancy_test"
 								concept-label="'${ui.message("edtriageapp.labs.pregnancyTest")}'"

@@ -28,7 +28,7 @@ public class EdTriageEncounterForActiveVisitSearchHandler1_10  implements Search
 
 
     private final SearchConfig searchConfig = new SearchConfig("getEDTriageEncounterForActiveVisit", RestConstants.VERSION_1 + "/encounter",
-            Arrays.asList("1.10.*", "1.11.*", "1.12.*", "2.0.*"), searchQuery);
+            Arrays.asList("1.10.*", "1.11.*", "1.12.*", "2.0.*", "2.1.*"), searchQuery);
 
     /**
      * @see SearchHandler#getSearchConfig()

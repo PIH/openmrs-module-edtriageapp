@@ -203,7 +203,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="0" max="999"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="20" max="300"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
@@ -227,10 +227,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>${ui.message("edtriageapp.temperature")}</label></td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" min="26" max="45"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" min="25" max="43"
 									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
 							<td class="pull-left">C</td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" min="80" max="113"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" min="77" max="109"
 									   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
 							<td>F</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>

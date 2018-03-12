@@ -128,7 +128,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 		</div>
 	</div>
-	<form class="form-horizontal">
+	<form name="triageForm" class="form-horizontal" novalidate>
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">${ ui.message("edtriageapp.emergencySigns") }</h3>
@@ -187,7 +187,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" min="0" max="200"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="120"
 									   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
@@ -195,7 +195,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" min="0" max="100"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="30" max="100"
 										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
 							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
@@ -203,7 +203,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" min="20" max="300"
+							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="300"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
 							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
@@ -456,7 +456,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<label>15 mg/kg</label>
 								</td>
 								<td>
-									<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number"
+									<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number" ng-pattern="/^[0-9]{1,7}\$/"
 										   ng-model="edTriagePatient.treatment.paracetamolDose.value" />
 								</td>
 								<td><small>mg</small></td>
@@ -504,8 +504,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 		</div>
 
+	</form>
 
-    </form>
 	<div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
@@ -515,7 +515,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-3">
-            <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="isSaving || !editable" ng-click="confirmSave()">${ ui.message("edtriageapp.submitButton") }</button>
+            <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="triageForm.\$invalid || isSaving || !editable" ng-click="confirmSave()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
         <div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
@@ -524,6 +524,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ editable ? ui.message("edtriageapp.exitButton") : ui.message("edtriageapp.backButton") }</button>
         </div>
     </div>
+
 </div>
 
 

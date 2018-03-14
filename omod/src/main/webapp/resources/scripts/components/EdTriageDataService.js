@@ -135,9 +135,21 @@ angular.module("edTriageDataService", [])
 
                 //vitals ----
                 addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.mobility.uuid, edTriagePatient.vitals.mobility);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.respiratoryRate.uuid, {uuid: edTriagePatient.vitals.respiratoryRate.uuid , value: Math.round(edTriagePatient.vitals.respiratoryRate.value)});
-                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.oxygenSaturation.uuid, {uuid: edTriagePatient.vitals.oxygenSaturation.uuid, value:  Math.round(edTriagePatient.vitals.oxygenSaturation.value)});
-                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.heartRate.uuid, {uuid: edTriagePatient.vitals.heartRate.uuid, value: Math.round(edTriagePatient.vitals.heartRate.value)});
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.respiratoryRate.uuid,
+                    {
+                        uuid: edTriagePatient.vitals.respiratoryRate ? edTriagePatient.vitals.respiratoryRate.uuid : null,
+                        value: edTriagePatient.vitals.respiratoryRate ? Math.round(edTriagePatient.vitals.respiratoryRate.value) : null
+                    });
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.oxygenSaturation.uuid,
+                    {
+                        uuid: edTriagePatient.vitals.oxygenSaturation ? edTriagePatient.vitals.oxygenSaturation.uuid : null,
+                        value: edTriagePatient.vitals.oxygenSaturation ?  Math.round(edTriagePatient.vitals.oxygenSaturation.value) : null
+                    });
+                addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.heartRate.uuid,
+                    {
+                        uuid: edTriagePatient.vitals.heartRate ? edTriagePatient.vitals.heartRate.uuid : null,
+                        value: edTriagePatient.vitals.heartRate ? Math.round(edTriagePatient.vitals.heartRate.value) : null
+                    });
                 addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.systolicBloodPressure.uuid, edTriagePatient.vitals.systolicBloodPressure);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.diastolicBloodPressure.uuid, edTriagePatient.vitals.diastolicBloodPressure);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.vitals.temperature.uuid, edTriagePatient.vitals.temperature);
@@ -172,7 +184,11 @@ angular.module("edTriageDataService", [])
                 // treatment
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.oxygen.uuid, edTriagePatient.treatment.oxygen);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamol.uuid, edTriagePatient.treatment.paracetamol);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamolDose.uuid, {uuid: edTriagePatient.treatment.paracetamolDose.uuid, value: Math.floor(edTriagePatient.treatment.paracetamolDose.value)});
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamolDose.uuid,
+                    {
+                        uuid: edTriagePatient.treatment.paracetamolDose ? edTriagePatient.treatment.paracetamolDose.uuid : null,
+                        value: edTriagePatient.treatment.paracetamolDose ? Math.floor(edTriagePatient.treatment.paracetamolDose.value) : null
+                    });
 
                 return ensureActiveVisit(edTriagePatient)
                     .then(function () {

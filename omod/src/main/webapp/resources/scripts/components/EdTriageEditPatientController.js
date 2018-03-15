@@ -305,7 +305,7 @@ angular.module("edTriagePatientController", [])
                     }
 
                     if($scope.edTriagePatient.vitals.temperature && $scope.edTriagePatient.vitals.temperature.value){
-                        $scope.tempInC = Math.round($scope.edTriagePatient.vitals.temperature.value);
+                        $scope.tempInC = $scope.edTriagePatient.vitals.temperature.value;
                         $scope.handleTempChange('c');
                     }
 

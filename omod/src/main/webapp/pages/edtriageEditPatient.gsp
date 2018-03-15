@@ -212,12 +212,12 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">
 							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
 							<td>
-								<input ng-disabled="!editable" class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" min="1" max="999"
+								<input ng-disabled="!editable" class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="30" max="300"
 									   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
 							</td>
 							<td class="text-center">/</td>
 							<td>
-								<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" min="1" max="999"
+								<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="20" max="150"
 									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 
 							</td>
@@ -518,7 +518,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
             <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="triageForm.\$invalid || isSaving || !editable" ng-click="confirmSave()">${ ui.message("edtriageapp.submitButton") }</button>
         </div>
         <div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
-			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
+			<button type="button" class="btn btn-default" ng-disabled="triageForm.\$invalid || isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
         </div>
         <div class="col-sm-3">
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ editable ? ui.message("edtriageapp.exitButton") : ui.message("edtriageapp.backButton") }</button>

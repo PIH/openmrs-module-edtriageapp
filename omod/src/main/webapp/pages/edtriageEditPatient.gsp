@@ -227,10 +227,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 						<tr>
 							<td><label>${ui.message("edtriageapp.temperature")}</label></td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" min="25" max="43"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" ng-pattern="/^[0-9]+(\\.[0-9]{1})?\$/" min="25" max="43"
 									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
 							<td class="pull-left">C</td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" min="77" max="109"
+							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" ng-pattern="/^[0-9]+(\\.[0-9]{1})?\$/" min="77" max="109"
 									   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
 							<td>F</td>
 							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>

@@ -48,7 +48,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openMRSVersion>1.10.4</openMRSVersion>
+        <openMRSVersion>2.1.3</openMRSVersion>
         <openMRSwebVersion>1.10.4</openMRSwebVersion>
         <appframeworkVersion>2.11.0</appframeworkVersion>
         <appuiVersion>1.8.0</appuiVersion>

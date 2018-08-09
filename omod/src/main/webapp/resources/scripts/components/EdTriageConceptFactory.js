@@ -166,7 +166,7 @@ angular.module("edTriageConceptFactory", [])
                         if(value < 200) return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                         return { numericScore: 2, colorCode: EdTriageConcept.score.green };
                     }
-                    return 0;
+                    return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                 }, EdTriageConcept.ageType.ADULT),
                 diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){
                     return  { numericScore: 0, colorCode: EdTriageConcept.score.green };

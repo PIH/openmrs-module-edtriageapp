@@ -150,6 +150,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>emrapi-api-pre2.2</artifactId>
+            <version>${emrapiVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- OpenMRS modules simply required to fire up the application context when running component tests -->
 
         <dependency>

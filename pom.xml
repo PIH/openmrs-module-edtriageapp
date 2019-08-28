@@ -52,7 +52,7 @@
         <openMRSVersion>1.10.4</openMRSVersion>
         <openMRSwebVersion>1.10.4</openMRSwebVersion>
         <appframeworkVersion>2.13.0</appframeworkVersion>
-        <appuiVersion>1.9.0</appuiVersion>
+        <appuiVersion>1.10.0</appuiVersion>
         <uicommonsVersion>1.8</uicommonsVersion>
         <uiframeworkVersion>3.15.0</uiframeworkVersion>
         <uilibraryVersion>1.5</uilibraryVersion>

@@ -19,11 +19,13 @@ import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.Visit;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
@@ -41,6 +43,7 @@ import java.util.Set;
 /**
  * It is a default implementation of {@link EdTriageAppService}.
  */
+@SuppressWarnings("unused")
 public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTriageAppService {
 
     private AdtService adtService;
@@ -170,6 +173,30 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
             }
 
         }
+        return null;
+    }
+
+    @Override
+    public Encounter getEDTriageEncounterForActiveVisit(String patientUuid) {
+
+        if (StringUtils.isBlank(patientUuid)) {
+            return null;
+        }
+
+        Patient patient = patientService.getPatientByUuid(patientUuid);
+
+        if (patient == null) {
+            return null;
+        }
+
+        for (Visit visit : Context.getVisitService().getActiveVisitsByPatient(patient)) {
+            for (Encounter encounter : visit.getEncounters()) {
+                if (EDTriageConstants.ED_TRIAGE_ENCOUNTER_TYPE_UUID.equals(encounter.getEncounterType().getUuid())) {
+                    return encounter;
+                }
+            }
+        }
+
         return null;
     }
 

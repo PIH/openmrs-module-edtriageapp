@@ -16,7 +16,8 @@ angular.module("edTriagePatientController", [])
             $scope.lastUpdatedAtInMillis = new Date().getTime();
             $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
 
-            /* helper function for finding an answer for a question in the concept def
+            /**
+             *  helper function for finding an answer for a question in the concept def
              * @param {EdTriageConcept} concept - the concepts
              * @param {String} uuid - the answer UUID
              * @return the answer object
@@ -25,16 +26,16 @@ angular.module("edTriagePatientController", [])
                 return $filter('findAnswer')(concept, uuid);
             };
 
-            /* helper function to get the color class for the score
-             * @param {String} colorCode - the uuid for the color
+            /**
+             *  helper function to get the color class for the score
+             * @param {String} answerUuid - the uuid for the answer
              * @return the class suffix
              * */
             $scope.getColorClassFromScore = function(answerUuid){
                 var color = null;
                 var score = $scope.getScore(answerUuid);
                 if (score) {
-                    color = EdTriageDataService.getColorClass(score.colorCode);
-
+                    color = $scope.getColorClass(score.colorCode);
                 }
                 if (color == "green") {
                     color = "score";
@@ -46,7 +47,8 @@ angular.module("edTriagePatientController", [])
                 return color;
             };
 
-            /* helper function to get the color class for the score
+            /**
+             * helper function to get the color class for the score
              * @param {String} colorCode - the uuid for the color
              * @return the class suffix
              * */
@@ -54,8 +56,9 @@ angular.module("edTriagePatientController", [])
                 return EdTriageDataService.getColorClass(colorCode);
             };
 
-            /* determines if a score is numeric or a color
-            * @param {String} the concept UUID
+            /**
+             * determines if a score is numeric or a color
+            * @param {String} uuid - the concept UUID
             * @return true if it is a number
             * */
             $scope.isNumericScore = function(uuid){
@@ -63,8 +66,9 @@ angular.module("edTriagePatientController", [])
                 return v*1==v;
             };
 
-            /* gets the score
-             * @param {String} the concept UUID
+            /**
+             *  gets the score
+             * @param {String} uuid - the concept UUID
              * @return the score
              * */
             $scope.getScore = function(uuid){
@@ -112,10 +116,10 @@ angular.module("edTriagePatientController", [])
 
                 // we set the status back to "waiting for evaluation" on save if the status is expired or removed
                 if (!$scope.edTriagePatient.triageQueueStatus.value ||
-                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.expired ||
-                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.removed ||
-                    $scope.edTriagePatient.triageQueueStatus.value == EdTriageConcept.status.leftWithoutBeingSeen) {
-                    $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
+                    $scope.edTriagePatient.triageQueueStatus.value === EdTriageConcept.status.expired ||
+                    $scope.edTriagePatient.triageQueueStatus.value === EdTriageConcept.status.removed ||
+                    $scope.edTriagePatient.triageQueueStatus.value === EdTriageConcept.status.leftWithoutBeingSeen) {
+                        $scope.edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.waitingForEvaluation;
                 }
 
                 EdTriageDataService.save($scope.edTriagePatientConcept, $scope.edTriagePatient).then(function (res) {
@@ -190,8 +194,9 @@ angular.module("edTriagePatientController", [])
 
             };
 
-            /* handles converting the weight from kg to lb and back
-            * @param {String} convType = the type of converstion (kg, lb)
+            /**
+             * handles converting the weight from kg to lb and back
+            * @param {String} convType = the type of conversion (kg, lb)
             * */
             $scope.handleWeightChange = function(convType){
                 var CONVERSTION_FACTOR = 2.2;
@@ -215,7 +220,8 @@ angular.module("edTriagePatientController", [])
 
             };
 
-            /* handles converting the temp from C to F
+            /**
+             * handles converting the temp from C to F
              * @param {String} convType = the type of converstion (c, f)
              * */
             $scope.handleTempChange = function(convType){
@@ -239,8 +245,9 @@ angular.module("edTriagePatientController", [])
 
             };
 
-            /* helper function for finding an answer for a question in the concept def
-             * @param {EdTriageConcept} concept - the concepts
+            /**
+             * helper function for finding an answer for a question in the concept def
+             * @param {EdTriageConcept} concept - the concept
              * @param {String} uuid - the answer UUID
              * @return the answer label
              * */
@@ -271,8 +278,9 @@ angular.module("edTriagePatientController", [])
 
             }, true);
 
-            /* sets the focus on an element
-            * @param {String} id - the HMTL dom id
+            /**
+             *  sets the focus on an element
+            * @param {String} id - the HTML dom id
             * @return none
             * */
             $scope.setFocus = function(id){
@@ -282,7 +290,7 @@ angular.module("edTriagePatientController", [])
                         input.focus();
                     });
                 }
-            }          ;
+            };
 
             $scope.sortAnswer = function(answer){
                 return answer.displayOrder;
@@ -313,24 +321,21 @@ angular.module("edTriagePatientController", [])
                     $scope.loading_complete = true;
 
                     $scope.setFocus('#complaint');
-
-
                 });
             });
 
-}]).directive('conceptSelectorRow', function () {
+}]).directive('conceptSelectorRow', function() {
     return {
-        //restrict: 'E',
-        replace:true,
+        replace: true,
         scope: {
-            conceptLabel:"=",
+            conceptLabel: "=",
             edTriagePatient: "=",
             concept: "=",
             selectedConcept: "=",
-            score:"=",
-            scoreLabelClass:"=" ,
-            sorter:"=",
-            editable:"="
+            score: "=",
+            scoreLabelClass: "=" ,
+            sorter: "=",
+            editable: "="
         },
         template: '<tr>' +
             '<td><label>{{conceptLabel}}</label></td>'  +
@@ -341,24 +346,22 @@ angular.module("edTriagePatientController", [])
             '</td>' +
             '<td><score-display score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
         };
-}).directive('conceptSelectBox', function () {
-
+}).directive('conceptSelectBox', function() {
     return {
         restrict: 'E',
         scope: {
             edTriagePatient: "=",
             concept: "=",
             selectedConcept: "=",
-            inputId:"=",
-            sorter:"="
+            inputId: "=",
+            sorter: "="
         },
         template: '<select class="form-control" id="{{inputId}}" ng-model="selectedConcept">' +
             '<option value=""></option>' +
-        '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers | orderBy:sorter" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.labelTranslated(edTriagePatient.patient.ageType)}}</option>' +
+            '<option ng-if="a.scope.indexOf(edTriagePatient.patient.ageType) > -1" ng-repeat="a in concept.answers | orderBy:sorter" ng-selected="selectedConcept==a.uuid"  value="{{a.uuid}}">{{a.labelTranslated(edTriagePatient.patient.ageType)}}</option>' +
         '</select>'
     };
-}).directive('conceptDisplayBox', function () {
-
+}).directive('conceptDisplayBox', function() {
     return {
         restrict: 'E',
         scope: {
@@ -367,7 +370,7 @@ angular.module("edTriagePatientController", [])
         },
         template: "{{ concept | findAnswer: selectedConcept | property: 'label' }}"
     };
-}).directive('scoreDisplay', function () {
+}).directive('scoreDisplay', function() {
     return {
         restrict: 'E',
         replace:true,
@@ -377,8 +380,7 @@ angular.module("edTriagePatientController", [])
         },
         template: '<span class="label {{scoreLabelClass}}">{{ score.numericScore ? score.numericScore : "&nbsp;&nbsp;" }}</span>'
     };
-}).directive('numberOnlyInput', function () {
-
+}).directive('numberOnlyInput', function() {
     return {
         restrict: 'E',
         replace:true,

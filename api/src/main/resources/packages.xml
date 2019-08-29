@@ -1,0 +1,10 @@
+<org.openmrs.module.emrapi.metadata.MetadataPackagesConfig>
+    <packages>
+        <org.openmrs.module.emrapi.metadata.MetadataPackageConfig>
+            <filenameBase>HUM_Emergency_Triage</filenameBase>
+            <groupUuid>05fa9aa6-017d-410b-90f9-decf407fdf65</groupUuid>
+            <version>45</version>
+            <importMode>PEER_TO_PEER</importMode>
+        </org.openmrs.module.emrapi.metadata.MetadataPackageConfig>
+    </packages>
+</org.openmrs.module.emrapi.metadata.MetadataPackagesConfig>

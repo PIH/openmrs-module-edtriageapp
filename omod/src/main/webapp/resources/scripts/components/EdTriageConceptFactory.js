@@ -85,7 +85,7 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("3cd65f7e-26fe-102b-80cb-0017a47871b2", "walking", { numericScore: 0, colorCode: EdTriageConcept.score.green } , 'AC', 1),
                         toAnswer("3cd750a0-26fe-102b-80cb-0017a47871b2", "normal for age", { numericScore: 0, colorCode: EdTriageConcept.score.green } , EdTriageConcept.ageType.INFANT, 3)]
                     , "611e7b0a-5b34-47ac-b352-02c2dc653255"),
-                respiratoryRate: toAnswer("3ceb11f8-26fe-102b-80cb-0017a47871b2", "respiratoryRate", function(ageType, value){
+                respiratoryRate: toAnswer("5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "respiratoryRate", function(ageType, value) {
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
@@ -111,7 +111,7 @@ angular.module("edTriageConceptFactory", [])
                         return { numericScore: 3, colorCode: EdTriageConcept.score.green };
                     }
                 }),
-                oxygenSaturation: toAnswer("3ce9401c-26fe-102b-80cb-0017a47871b2", "oxygenSaturation", function(ageType, value){
+                oxygenSaturation: toAnswer("5092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "oxygenSaturation", function(ageType, value) {
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
@@ -124,7 +124,7 @@ angular.module("edTriageConceptFactory", [])
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
                 }),
-                heartRate: toAnswer("3ce93824-26fe-102b-80cb-0017a47871b2", "heartRate", function(ageType, value){
+                heartRate: toAnswer("5087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "heartRate", function(ageType, value) {
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
@@ -155,11 +155,11 @@ angular.module("edTriageConceptFactory", [])
                         return { numericScore: 3, colorCode: EdTriageConcept.score.green };
                     }
                 }),
-                systolicBloodPressure: toAnswer("3ce934fa-26fe-102b-80cb-0017a47871b2", "systolicBloodPressure", function(ageType, value){
+                systolicBloodPressure: toAnswer("5085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "systolicBloodPressure", function(ageType, value){
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
-                    if(ageType == EdTriageConcept.ageType.ADULT){
+                    if (ageType === EdTriageConcept.ageType.ADULT){
                         if(value < 71) return { numericScore: 3, colorCode: EdTriageConcept.score.green };
                         if(value < 81) return { numericScore: 2, colorCode: EdTriageConcept.score.green };
                         if(value < 101) return { numericScore: 1, colorCode: EdTriageConcept.score.green };
@@ -168,10 +168,10 @@ angular.module("edTriageConceptFactory", [])
                     }
                     return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                 }, EdTriageConcept.ageType.ADULT),
-                diastolicBloodPressure: toAnswer("3ce93694-26fe-102b-80cb-0017a47871b2", "diastolicBloodPressure", function(ageType, value){
+                diastolicBloodPressure: toAnswer("5086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "diastolicBloodPressure", function(ageType, value){
                     return  { numericScore: 0, colorCode: EdTriageConcept.score.green };
                 }, EdTriageConcept.ageType.ADULT),
-                temperature: toAnswer("3ce939d2-26fe-102b-80cb-0017a47871b2", "temperature", function(ageType, value){
+                temperature: toAnswer("5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "temperature", function(ageType, value){
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
@@ -193,20 +193,19 @@ angular.module("edTriageConceptFactory", [])
                 trauma: toAnswers('trauma', [toAnswer("124193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "trauma", function(ageType, value){
                     return value.length > 0 ?  { numericScore: 1, colorCode: EdTriageConcept.score.green } :  { numericScore: 0, colorCode: EdTriageConcept.score.green };})],
                     GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
-                weight: toAnswer("3ce93b62-26fe-102b-80cb-0017a47871b2", "weight", function(ageType, value){
+                weight: toAnswer("5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "weight", function(ageType, value){
                     return  { numericScore: 0, colorCode: EdTriageConcept.score.green };
                 })
             } ;
 
-
             this.symptoms = {
                 emergencySigns: toAnswers('emergencySigns',[
                         toAnswer("164348AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "impaired airway",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
-                        toAnswer("3cedf31e-26fe-102b-80cb-0017a47871b2", "impaired breathing",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 2),
-                        toAnswer("911c064e-5247-4017-a9fd-b30105c36052", "shock",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 3),]
+                        toAnswer("142373AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "impaired breathing",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 2),
+                        toAnswer("112989AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "shock",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 3),]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 neurological: toAnswers('neurological',[
-                    toAnswer("3cce938e-26fe-102b-80cb-0017a47871b2", "seizure - convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
+                    toAnswer("206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "seizure - convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
                     toAnswer("ad52aee5-c789-4442-8dfc-2242375f22e8", "seizure - post convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 2),
                     toAnswer("f4433b74-6396-47ff-aa63-3900493ebf23", "acute focal neurologic deficit",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 3),
                     toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 4),
@@ -255,8 +254,8 @@ angular.module("edTriageConceptFactory", [])
                             return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
                         }
                     }, 'I', 2),
-                    toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'I', 3),
-                    toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'C', 4),
+                    toAnswer("141600AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'I', 3),
+                    toAnswer("141600AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'C', 4),
                     toAnswer("24fa118d-f81d-439d-82a5-d7c6ac6ef72b", "stridor",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'C', 5),
                     toAnswer("3ceade68-26fe-102b-80cb-0017a47871b2", "sibilance",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 6),
                     toAnswer("12d9f052-6980-4542-91ef-190247811228", "shortness of breath - acute",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 7),
@@ -326,9 +325,9 @@ angular.module("edTriageConceptFactory", [])
             expired: "1fa8d25e-7471-4201-815f-79fac44d9a5f"
         };
 
-        EdTriageConcept.heartRate = "3ce93824-26fe-102b-80cb-0017a47871b2";
-        EdTriageConcept.respiratoryRate = "3ceb11f8-26fe-102b-80cb-0017a47871b2";
-        EdTriageConcept.oxygenSaturation = "3ce9401c-26fe-102b-80cb-0017a47871b2";
+        EdTriageConcept.heartRate = "5087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        EdTriageConcept.respiratoryRate = "5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+        EdTriageConcept.oxygenSaturation = "5092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
         EdTriageConcept.numericScore = "f6ee497c-1db0-4c58-a55c-d65175a91fb9";
 
         EdTriageConcept.lowGlucoseLevel = {
@@ -375,6 +374,10 @@ angular.module("edTriageConceptFactory", [])
             * */
             function updateConceptLabels(obj, data, level) {
                 for (var propertyName in obj) {
+                    if (!obj.hasOwnProperty(propertyName)) {
+                        continue;
+                    }
+
                     var p = obj[propertyName];
                     if (p != null && typeof p == "object") {
                         if (p.hasOwnProperty('uuid')) {
@@ -415,29 +418,31 @@ angular.module("edTriageConceptFactory", [])
                         obj.label = concept.display;
                         return;
                     }
+
                     //then check if the object has answers we can check
-                    if(concept.answers != null && concept.answers.length>0){
-                        for(var j=0;j<concept.answers.length;++j){
-                            var a = concept.answers[j];
-                            if(a.uuid == obj.uuid){
-                                obj.label = a.display;
-                                return;
-
-                            }
-                        }
+                    var answer = findMatchingConcept(concept.answers, obj.uuid);
+                    if (typeof answer !== 'undefined' && answer !== null) {
+                        obj.label = answer.display;
+                        return;
                     }
 
-                    if(concept.setMembers != null && concept.setMembers.length>0){
-                        for(var j=0;j<concept.setMembers.length;++j){
-                            var a = concept.setMembers[j];
-                            if(a.uuid == obj.uuid){
-                                obj.label = a.display;
-                                return;
-
-                            }
-                        }
+                    var setMember = findMatchingConcept(concept.setMembers, obj.uuid);
+                    if (typeof setMember !== 'undefined' &&setMember !== null) {
+                        obj.label = setMember.display;
+                        return;
                     }
+                }
+            }
 
+            function findMatchingConcept(list, uuid) {
+                if (list === null || list.length === 0) {
+                    return;
+                }
+
+                for (var j = 0; j < list.length; j++) {
+                    if (list[j].uuid === uuid) {
+                        return list[j];
+                    }
                 }
             }
         };

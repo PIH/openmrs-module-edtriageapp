@@ -57,6 +57,13 @@ public interface EdTriageAppService extends OpenmrsService {
      */
     Encounter getEDTriageEncounterForActiveVisit(String locationUuid, String patientUuid);
 
+    /**
+     * Get the ED Triage encounter (if any) for the patient's active visit
+     * (Note that getEDTriageEncounterForActiveVisit should be preferred if a location is available)
+     * @param patientUuid - the uuid for the patient in question
+     */
+    Encounter getEDTriageEncounterForActiveVisit(String patientUuid);
+
     /*
     * expires ED Triage encounters with a status of "waiting for evaluation" that are part of non-active visits
      */

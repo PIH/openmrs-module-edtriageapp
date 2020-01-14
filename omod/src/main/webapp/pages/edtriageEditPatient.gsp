@@ -1,5 +1,5 @@
 <%
-	ui.decorateWith("appui", "standardEmrPage")
+	ui.decorateWith("appui", "standardEmrPage", [ includeBootstrap: false ])
 	ui.includeJavascript("uicommons", "angular.min.js")
 	ui.includeJavascript("uicommons", "angular-ui/ui-bootstrap-tpls-0.13.0.js")
 	ui.includeJavascript("uicommons", "angular-ui/angular-ui-router.min.js")

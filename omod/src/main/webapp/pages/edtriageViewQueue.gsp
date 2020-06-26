@@ -264,7 +264,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
     angular.module('edTriageApp')
             .value('patientDashboard', '${ dashboardUrl }')
             .value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
-            .value('locationUuid', '${ location.uuid }')
+            .value('locationUuid', '${ location?.uuid }')
             .value('translations', translations);
 
     jq(function () {

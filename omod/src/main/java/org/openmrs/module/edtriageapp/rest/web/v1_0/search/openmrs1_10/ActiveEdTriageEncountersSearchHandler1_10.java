@@ -63,7 +63,7 @@ public class ActiveEdTriageEncountersSearchHandler1_10 implements SearchHandler 
 	@Override
 	public PageableResult search(RequestContext context) throws ResponseException {
 
-		boolean useFullRepresentation = toInt(context.getParameter(REQUEST_PARAM_OVERRIDE_REPRESENTATION),0)>0;
+		boolean useFullRepresentation = toInt(context.getParameter(REQUEST_PARAM_OVERRIDE_REPRESENTATION), 0) > 0;
 		String patient = context.getParameter(REQUEST_PARAM_PATIENT);
 		// UHM-3163, show all EDTriage encounters from all locations
 		String location = null; //  context.getParameter(REQUEST_PARAM_LOCATION);

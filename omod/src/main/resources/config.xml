@@ -13,14 +13,17 @@
 	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
 	<require_version>${openMRSVersion}</require_version>
 
-    <require_modules>
-        <require_module version="${appframeworkVersion}">org.openmrs.module.appframework</require_module>
-        <require_module version="${appuiVersion}">org.openmrs.module.appui</require_module>
-        <require_module version="${uicommonsVersion}">org.openmrs.module.uicommons</require_module>
-        <require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
+	<require_modules>
+		<require_module version="${appframeworkVersion}">org.openmrs.module.appframework</require_module>
+		<require_module version="${appuiVersion}">org.openmrs.module.appui</require_module>
+		<require_module version="${uicommonsVersion}">org.openmrs.module.uicommons</require_module>
+		<require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
+		<require_module version="${coreappsVersion}">org.openmrs.module.coreapps</require_module>
 		<require_module version="${emrapiVersion}">org.openmrs.module.emrapi</require_module>
-        <require_module version="${webservicesRestVersion}">org.openmrs.module.webservices.rest</require_module>
-    </require_modules>
+		<require_module version="${webservicesRestVersion}">org.openmrs.module.webservices.rest</require_module>
+		<require_module version="${metadatasharingVersion}">org.openmrs.module.metadatasharing</require_module>
+		<require_module version="${metadatadeployVersion}">org.openmrs.module.metadatadeploy</require_module>
+	</require_modules>
 
 	<activator>${project.parent.groupId}.${project.parent.artifactId}.EDTriageAppActivator</activator>
 
@@ -33,10 +36,15 @@
 		<file>messages_fr.properties</file>
 	</messages>
 
-    <privilege>
-        <name>App: edtriage.app.triage</name>
-        <description>Able to triage a patient</description>
-    </privilege>
+	<privilege>
+		<uuid>1b699660-245a-11e6-bdf4-0800200c9a66</uuid>
+		<name>App: edtriageapp.edtriage</name>
+		<description>Able to triage a patient</description>
+	</privilege>
+	<privilege>
+		<uuid>f7bae2f7-78aB-4d7a-8470-8068e4969f56</uuid>
+		<name>App: edtriageapp.edtriage.queue</name>
+		<description>Use ED Triage Queue provided by the ED Triage module</description>
+	</privilege>
 
 </module>
-

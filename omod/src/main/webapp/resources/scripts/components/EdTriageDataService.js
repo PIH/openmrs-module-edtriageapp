@@ -216,24 +216,24 @@ angular.module("edTriageDataService", [])
              * the changes the status of the observation to consult
              * */
             this.beginConsult = function (edTriageConcept, edTriagePatient) {
-                edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.outpatientConsultation;
-                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
-                return this.save(edTriageConcept,edTriagePatient);
+                return this.updateConsultStatus(edTriageConcept, edTriagePatient,
+                    EdTriageConcept.status.outpatientConsultation);
             };
 
             this.leftWithoutBeingSeen = function (edTriageConcept, edTriagePatient) {
-                edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.leftWithoutBeingSeen;
-                edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
-                return this.save(edTriageConcept,edTriagePatient);
+                return this.updateConsultStatus(edTriageConcept, edTriagePatient,
+                    EdTriageConcept.status.leftWithoutBeingSeen);
             };
 
-            /*
-             * the changes the status of the observation to consult
-             * */
             this.removeConsult = function (edTriageConcept, edTriagePatient) {
-                edTriagePatient.triageQueueStatus.value = EdTriageConcept.status.removed;
+                return this.updateConsultStatus(edTriageConcept, edTriagePatient,
+                    EdTriageConcept.status.removed);
+            };
+
+            this.updateConsultStatus = function (edTriageConcept, edTriagePatient, edTriagePatientQueueStatus) {
+                edTriagePatient.triageQueueStatus.value = edTriagePatientQueueStatus;
                 edTriagePatient.triageWaitingTime.value = edTriagePatient.waitTime(serverTimeDelta);
-                return this.save(edTriageConcept,edTriagePatient);
+                return this.save(edTriageConcept, edTriagePatient);
             };
 
             function ensureActiveVisit(edTriagePatient) {
@@ -258,7 +258,7 @@ angular.module("edTriageDataService", [])
                 var url = CONSTANTS.URLS.ENCOUNTER_SAVE;
 
                 if(existingUuid != null){
-                    //if the encounte already exists, then append the UUID and it will update it
+                    //if the encounter already exists, then append the UUID and it will update it
                     url +=   "/" + existingUuid;
                     encounter['uuid'] = existingUuid;
                 }
@@ -336,7 +336,7 @@ angular.module("edTriageDataService", [])
 
             /*
              * calculates a patient's score
-             * @param {EDTriageConcpt} the concept that make up this app
+             * @param {EDTriageConcept} the concept that make up this app
              * @param {EdTriagePatient} edTriagePatient - the patient info
              * @return {int} the score
              * */
@@ -345,6 +345,7 @@ angular.module("edTriageDataService", [])
                     return;
                 }
 
+                var prop, p, c, answers, i, sc;
                 var numericScore = 0;
                 var colorScores = {};
                 colorScores[EdTriageConcept.score.blue]=0;
@@ -358,18 +359,19 @@ angular.module("edTriageDataService", [])
                 // 2) update the score based on the vital
                 var ageType = edTriagePatient.patient.ageType;
                 var individualScores = {};
-                for (var prop in edTriagePatient.vitals) {
+                for (prop in edTriagePatient.vitals) {
                     if (edTriagePatient.vitals.hasOwnProperty(prop)) {
-                        var p =  edTriagePatient.vitals[prop];
-                        if(_ans(p)){
+                        p =  edTriagePatient.vitals[prop];
+                        if (_ans(p)){
                             if(concept.vitals.hasOwnProperty(prop)){
-                                var c = concept.vitals[prop];
+                                c = concept.vitals[prop];
                                 if(c.hasOwnProperty("answers")){
-                                    var answers = concept.vitals[prop].answers;
-                                    for(var i=0;i<answers.length;++i){
-                                        if(answers[i].uuid == p.value){
+                                    answers = concept.vitals[prop].answers;
+                                    for (i = 0; i < answers.length; ++i){
+                                        if (answers[i].uuid === p.value){
                                             //this is the answer that they chose
-                                            individualScores[answers[i].uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                                            individualScores[answers[i].uuid] = answers[i].score(
+                                                edTriagePatient.patient.ageType, p.value);
                                             numericScore = numericScore + individualScores[answers[i].uuid].numericScore;
                                             break;
                                         }
@@ -402,32 +404,18 @@ angular.module("edTriageDataService", [])
                     ++colorScores[EdTriageConcept.score.yellow];
                 }
 
-
                 // 1) check that they are entered
                 // 2) update the score based on the symptom
-                for (var prop in edTriagePatient.symptoms) {
+                for (prop in edTriagePatient.symptoms) {
                     if (edTriagePatient.symptoms.hasOwnProperty(prop)) {
-                        var p =  edTriagePatient.symptoms[prop];
-                        if(_ans(p)){
-                            var answers = concept.symptoms[prop].answers;
-                            for(var i=0;i<answers.length;++i){
-                                if(answers[i].uuid == p.value){
-                                    var sc = answers[i].score(edTriagePatient.patient.ageType, p.value);
+                        p =  edTriagePatient.symptoms[prop];
+                        if (_ans(p)){
+                            answers = concept.symptoms[prop].answers;
+                            for (i = 0; i < answers.length; ++i){
+                                if (answers[i].uuid === p.value){
+                                    sc = answers[i].score(edTriagePatient.patient.ageType, p.value);
                                     individualScores[p.value] = sc;
                                     ++colorScores[individualScores[p.value].colorCode];
-
-                                    //add any stuff for special property handling
-                                    /*
-                                    if(prop == 'trauma' && p.value != null){
-                                        //when you select a trauma, you need to set the vitals trauma to true
-                                        var traumaObj = concept.vitals.trauma;
-                                        var traumaAnwser = traumaObj.answers[0];
-                                        var traumaVal =  traumaAnwser.score(edTriagePatient.patient.ageType, true);
-                                        individualScores[traumaObj.uuid] = traumaVal;
-                                        numericScore = numericScore + individualScores[traumaObj.uuid].numericScore;
-
-                                    }
-                                    */
                                     break;
                                 }
                             }
@@ -435,16 +423,16 @@ angular.module("edTriageDataService", [])
                     }
                 }
 
-                for (var prop in edTriagePatient.labs) {
+                for (prop in edTriagePatient.labs) {
                     if (edTriagePatient.labs.hasOwnProperty(prop)) {
-                        var p = edTriagePatient.labs[prop];
+                        p = edTriagePatient.labs[prop];
                         if (_ans(p)) {
                             if (concept.labs.hasOwnProperty(prop)){
-                                var c = concept.labs[prop];
-                                if (c.uuid == concept.labs.glucose.uuid ) {
+                                c = concept.labs[prop];
+                                if (c.uuid === concept.labs.glucose.uuid ) {
                                     var hyperglycemiaUuid = concept.symptoms.diabetic.answers[0].uuid;
-                                    if(typeof c.score === "function"){
-                                        var sc = c.score(edTriagePatient.patient.ageType, p.value);
+                                    if (typeof c.score === "function"){
+                                        sc = c.score(edTriagePatient.patient.ageType, p.value);
                                         individualScores[c.uuid] = sc;
                                         // UHM-2531
                                         if ( edTriagePatient.patient.ageType !== EdTriageConcept.ageType.INFANT) {
@@ -458,10 +446,11 @@ angular.module("edTriageDataService", [])
                                         individualScores[hyperglycemiaUuid] = sc;
                                         ++colorScores[individualScores[c.uuid].colorCode];
                                     }
-                                } else if (c.uuid == concept.labs.lowGlucoseLevel.uuid || c.uuid == concept.labs.highGlucoseLevel.uuid) {
-                                    var answers = concept.labs[prop].answers;
-                                    for(var i=0;i<answers.length;++i){
-                                        if(answers[i].uuid == p.value){
+                                } else if ( c.uuid === concept.labs.lowGlucoseLevel.uuid ||
+                                            c.uuid === concept.labs.highGlucoseLevel.uuid) {
+                                    answers = concept.labs[prop].answers;
+                                    for (i = 0; i < answers.length; ++i){
+                                        if (answers[i].uuid === p.value){
                                             //this is the answer that they chose
                                             individualScores[concept.labs.glucose.uuid] = answers[i].score(edTriagePatient.patient.ageType, p.value);
                                             numericScore = numericScore + individualScores[concept.labs.glucose.uuid].numericScore;

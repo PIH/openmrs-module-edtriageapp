@@ -1,0 +1,71 @@
+[
+    {
+        "id": "edtriageapp.app.edTriage",
+        "order": 201,
+        "config": {
+            "label": "edtriageapp.label",
+            "afterSelectedUrl": "/edtriageapp/edtriageEditPatient.page?patientId={{patientId}}&breadcrumbOverride={{breadcrumbOverride}}",
+            "showLastViewedPatients": true,
+            "heading": ""
+        },
+        "extensions": [
+            {
+                "id": "edtriageapp.homepageLink",
+                "extensionPointId":  "org.openmrs.referenceapplication.homepageLink",
+                "icon": "icon-ambulance",
+                "label": "edtriageapp.label",
+                "url": "coreapps/findpatient/findPatient.page?app=edtriageapp.app.edTriage",
+                "type": "link",
+                "require": "typeof user !== 'undefined' && user !== null && ((hasMemberWithProperty(user.privileges, 'display', 'App: coreapps.findPatient') && hasMemberWithProperty(user.privileges, 'display', 'App: edtriage.app.triage')) || user.systemId == 'admin')"
+            },
+            {
+                "id": "edtriageapp.patientVisitLink",
+                "extensionPointId": "patientDashboard.visitActions",
+                "icon": "icon-ambulance",
+                "label": "edtriageapp.label",
+                "url": "edtriageapp/edtriageEditPatient.page?patientId={{patient.uuid}}&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}",
+                "type": "link",
+                "require": "typeof visit !== 'undefined' && visit !== null && visit.active && !visit.admitted",
+                "requiredPrivilege": "App: edtriageapp.edtriage"
+            },
+            {
+                "id": "edtriageapp.patientEncounterLink",
+                "extensionPointId": "org.openmrs.referenceapplication.encounterTemplate",
+                "label": "edtriageapp.label",
+                "extensionParams": {
+                    "templateId": "defaultEncounterTemplate",
+                    "templateFragmentProviderName": "coreapps",
+                    "templateFragmentId": "patientdashboard/encountertemplate/defaultEncounterTemplate",
+                    "supportedEncounterTypes": {
+                        "74cef0a6-2801-11e6-b67b-9e71128cae77": {
+                            "icon": "icon-ambulance",
+                            "editUrl": "edtriageapp/edtriageEditPatient.page?patientId={{patient.uuid}}&encounterId={{encounter.id}}&editable=true",
+                            "viewUrl": "edtriageapp/edtriageEditPatient.page?patientId={{patient.uuid}}&encounterId={{encounter.id}}&editable=false",
+                            "editable": true
+                        }
+                    }
+                },
+                "type": "fragment",
+                "requiredPrivilege": "App: edtriageapp.edtriage"
+            }
+        ]
+    },
+    {
+        "id": "edtriageapp.app.triageQueue",
+        "order": 202,
+        "config": {
+            "dashboardUrl": "/coreapps/clinicianfacing/patient.page?patientId={{patientId}}"
+        },
+        "extensions": [
+            {
+                "id": "edtriageapp.queue.homepageLink",
+                "extensionPointId":  "org.openmrs.referenceapplication.homepageLink",
+                "icon": "icon-list-ol",
+                "label": "edtriageapp.queue.label",
+                "url": "edtriageapp/edtriageViewQueue.page?appId=edtriageapp.app.triageQueue",
+                "type": "link",
+                "requiredPrivilege": "App: edtriageapp.edtriage.queue"
+            }
+        ]
+    }
+]

@@ -107,12 +107,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{edTriagePatientConcept.vitals.weight.label}}</h3>
+			<h3 class="panel-title">{{ edTriagePatientConcept.vitals.weight.label | titleCase }}</h3>
 		</div>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-2">
-					<input ng-disabled="!editable" class="form-control" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
+					<!-- 907 kg ~= 2000 lbs -->
+					<input ng-disabled="!editable" class="form-control" id="weight_in_kg" type="number" min="1" max="907"  ng-change="handleWeightChange('kg')"
 					   ng-model="weightInKg" />
 				</div>
 				<div class="col-xs-1">
@@ -129,227 +130,226 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		</div>
 	</div>
 	<form name="triageForm" class="form-horizontal" novalidate>
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title">${ ui.message("edtriageapp.emergencySigns") }</h3>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-xs-4">
-					<input ng-disabled="!editable" id="impairedAirway" type="checkbox"
-						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'164348AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
-					<label>${ui.message("edtriageapp.emergencySigns.impairedAirway")}</label>
-				</div>
-				<div class="col-xs-4">
-					<input ng-disabled="!editable" id="impairedBreathing" type="checkbox"
-						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'3cedf31e-26fe-102b-80cb-0017a47871b2'"/>
-					<label>${ui.message("edtriageapp.emergencySigns.impairedBreathing")}</label>
-				</div>
-				<div class="col-xs-4">
-					<input ng-disabled="!editable" id="shock" type="checkbox"
-						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'911c064e-5247-4017-a9fd-b30105c36052'"/>
-					<label>${ui.message("edtriageapp.emergencySigns.shock")}</label>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">${ ui.message("edtriageapp.emergencySigns") }</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-4">
+						<input ng-disabled="!editable" id="impairedAirway" type="checkbox"
+							   ng-model="edTriagePatient.symptoms.emergencySigns.value"
+							   ng-true-value="'164348AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+						<label>${ui.message("edtriageapp.emergencySigns.impairedAirway")}</label>
+					</div>
+					<div class="col-xs-4">
+						<input ng-disabled="!editable" id="impairedBreathing" type="checkbox"
+							   ng-model="edTriagePatient.symptoms.emergencySigns.value"
+							   ng-true-value="'142373AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+						<label>${ui.message("edtriageapp.emergencySigns.impairedBreathing")}</label>
+					</div>
+					<div class="col-xs-4">
+						<input ng-disabled="!editable" id="shock" type="checkbox"
+							   ng-model="edTriagePatient.symptoms.emergencySigns.value"
+							   ng-true-value="'112989AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+						<label>${ui.message("edtriageapp.emergencySigns.shock")}</label>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">${ ui.message("edtriageapp.vitals") }</h3>
-                </div>
-                <div class="panel-body ">
-					<table class="table table-condensed borderless">
-						<thead>
-						<tr ng-if="debug">
-							<th class="col-xs-4">Large</th>
-							<th class="col-xs-4">Small</th>
-							<th class="col-xs-1">Small</th>
-							<th class="col-xs-4">Small</th>
-							<th class="col-xs-2">Small</th>
-							<th class="col-xs-1">Small</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr concept-selector-row ed-triage-patient="edTriagePatient"
-							editable="editable"
-							concept="edTriagePatientConcept.vitals.mobility"
-							concept-label="'${ui.message("edtriageapp.mobility")}'"
-							sorter="sortAnswer"
-							selected-concept="edTriagePatient.vitals.mobility.value"
-							score-label-class="'edtriage-label-score'"
-							score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
-						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="120"
-									   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
-							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
-						</tr>
-
-						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="30" max="100"
-										ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
-							<td><small>${ ui.message("edtriageapp.percent") }</small></td>
-							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
-						</tr>
-
-						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
-							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="300"
-									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
-							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
-							<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
-						</tr>
-
-						<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">
-							<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
-							<td>
-								<input ng-disabled="!editable" class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="30" max="300"
-									   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
-							</td>
-							<td class="text-center">/</td>
-							<td>
-								<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="20" max="150"
-									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
-
-							</td>
-							<td></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.systolicBloodPressure.uuid]"></score-display></td>
-						</tr>
-
-						<tr>
-							<td><label>${ui.message("edtriageapp.temperature")}</label></td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" ng-pattern="/^[0-9]+(\\.[0-9]{1})?\$/" min="25" max="43"
-									   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
-							<td class="pull-left">C</td>
-							<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" ng-pattern="/^[0-9]+(\\.[0-9]{1})?\$/" min="77" max="109"
-									   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
-							<td>F</td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>
-						</tr>
-
-						<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness"
-							editable="editable"
-							sorter="sortAnswer"
-							concept-label="'${ui.message("edtriageapp.consciousness")}'"
-							selected-concept="edTriagePatient.vitals.consciousness.value" score-label-class="'edtriage-label-score'"
-							score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
-
-						<tr>
-							<td><label>${ui.message("edtriageapp.trauma")}</label></td>
-							<td>
-								<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">${ ui.message("uicommons.yes")}</label>
-								</td>
-							<td>
-								<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value" ng-value="">${ ui.message("uicommons.no")} </label>
-							</td>
-							<td></td>
-							<td></td>
-							<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.answers[0].uuid]"></score-display></td>
-						</tr>
-						<tr ng-if="edTriagePatient.patient.lessThan4WeeksOld">
-							<td>${ui.message("Person.age")}</td>
-							<td colspan="4">${ ui.message("edtriageapp.lessThan4WeeksOld") }</td>
-							<td><score-display score-label-class="'edtriage-label-red'" score="'&nbsp;&nbsp;'"></score-display></td>
-						</tr>
-						<tr>
-							<td><label>${ui.message("edtriageapp.total")}</label></td>
-							<td colspan="4"></td>
-							<td><h2><span class="label edtriage-label-score">{{currentScore.numericScore}}</span></h2></td>
-						</tr>
-						</tbody>
-						</table>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">${ ui.message("edtriageapp.symptoms") }</h3>
-                </div>
-                <div class="panel-body">
-					<table class="borderless">
-						<tbody>
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">${ ui.message("edtriageapp.vitals") }</h3>
+					</div>
+					<div class="panel-body ">
+						<table class="table table-condensed borderless">
+							<thead>
+							<tr ng-if="debug">
+								<th class="col-xs-4">Large</th>
+								<th class="col-xs-4">Small</th>
+								<th class="col-xs-1">Small</th>
+								<th class="col-xs-4">Small</th>
+								<th class="col-xs-2">Small</th>
+								<th class="col-xs-1">Small</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr concept-selector-row ed-triage-patient="edTriagePatient"
 								editable="editable"
+								concept="edTriagePatientConcept.vitals.mobility"
+								concept-label="'${ui.message("edtriageapp.mobility")}'"
 								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.neurological.value"  concept-label="'${ui.message("edtriageapp.neurological")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.neurological.value)"></tr>
-						                     <!-- getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])-->
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.burn.value"  concept-label="'${ui.message("edtriageapp.burn")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.burn.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'diabetic'" concept="edTriagePatientConcept.symptoms.diabetic"
-								ng-if="edTriagePatient.patient.age > 3"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.diabetic.value"  concept-label="'${ui.message("edtriageapp.diabetic")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.diabetic.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.trauma.value" concept-label="'${ui.message("edtriageapp.trauma")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.trauma.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.digestive.value" concept-label="'${ui.message("edtriageapp.digestive")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.digestive.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'"
-								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
-								editable="editable"
-								concept="edTriagePatientConcept.symptoms.pregnancy"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.pregnancy.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.respiratory.value" concept-label="'${ui.message("edtriageapp.respiratory")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.respiratory.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.pain.value" concept-label="'${ui.message("edtriageapp.pain")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.pain.value)"></tr>
-
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other"
-								editable="editable"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
-								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.other.value)"></tr>
+								selected-concept="edTriagePatient.vitals.mobility.value"
+								score-label-class="'edtriage-label-score'"
+								score="currentScore.individualScores[edTriagePatient.vitals.mobility.value]"></tr>
 							<tr>
-								<td>
-									<label>${ui.message("edtriageapp.noSymptomsPresent")}</label>
-								</td>
-								<td colspan="5">
-									<input ng-disabled="!editable" id="confirmNoSymptoms" type="checkbox"
-										   ng-model="edTriagePatient.confirmNoSymptoms"/>
-								</td>
+								<td><label>{{edTriagePatientConcept.vitals.respiratoryRate.label | translate: edTriagePatientConcept.vitals.respiratoryRate.uuid:EdTriageConcept.ageType.ALL}}</label></td>
+								<td colspan="3"><input ng-disabled="!editable" class="form-control" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="120"
+										   ng-model="edTriagePatient.vitals.respiratoryRate.value" /></td>
+								<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
+								<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.respiratoryRate.uuid]"></score-display></td>
 							</tr>
 
-						</tbody>
-					</table>
-                </div>
-            </div>
-        </div>
-    </div>
+							<tr>
+								<td><label>{{edTriagePatientConcept.vitals.oxygenSaturation.label | translate: edTriagePatientConcept.vitals.oxygenSaturation.uuid:EdTriageConcept.ageType.ALL}}</label></td>
+								<td colspan="3"><input ng-disabled="!editable" class="form-control" id="oxygenSaturation" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="30" max="100"
+											ng-model="edTriagePatient.vitals.oxygenSaturation.value" /></td>
+								<td><small>${ ui.message("edtriageapp.percent") }</small></td>
+								<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.oxygenSaturation.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.oxygenSaturation.uuid]"></score-display></td>
+							</tr>
+
+							<tr>
+								<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
+								<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="300"
+										   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
+								<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
+								<td><score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.vitals.heartRate.uuid)" score="currentScore.individualScores[edTriagePatientConcept.vitals.heartRate.uuid]"></score-display></td>
+							</tr>
+
+							<tr ng-if="edTriagePatientConcept.vitals.systolicBloodPressure.scope.indexOf(edTriagePatient.patient.ageType) > -1">
+								<td><label>${ ui.message("edtriageapp.bloodPressure") }</label></td>
+								<td>
+									<input ng-disabled="!editable" class="form-control edtriage-weight-box" id="bloodPressureSystolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="30" max="300"
+										   ng-model="edTriagePatient.vitals.systolicBloodPressure.value" />
+								</td>
+								<td class="text-center">/</td>
+								<td>
+									<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="20" max="150"
+										   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
+
+								</td>
+								<td></td>
+								<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.systolicBloodPressure.uuid]"></score-display></td>
+							</tr>
+
+							<tr>
+								<td><label>${ui.message("edtriageapp.temperature")}</label></td>
+								<td><input ng-disabled="!editable" class="form-control" id="temperatureC" type="number" ng-pattern="/^[0-9]+(\\.[0-9]{1})?\$/" min="25" max="43"
+										   ng-model="tempInC" ng-change="handleTempChange('c')" /></td>
+								<td class="pull-left">C</td>
+								<td><input ng-disabled="!editable" class="form-control" id="temperatureF" type="number" ng-pattern="/^[0-9]+(\\.[0-9]{1})?\$/" min="77" max="109"
+										   ng-model="tempInF" ng-change="handleTempChange('f')" /></td>
+								<td>F</td>
+								<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.temperature.uuid]"></score-display></td>
+							</tr>
+
+							<tr concept-selector-row ed-triage-patient="edTriagePatient" concept="edTriagePatientConcept.vitals.consciousness"
+								editable="editable"
+								sorter="sortAnswer"
+								concept-label="'${ui.message("edtriageapp.consciousness")}'"
+								selected-concept="edTriagePatient.vitals.consciousness.value" score-label-class="'edtriage-label-score'"
+								score="currentScore.individualScores[edTriagePatient.vitals.consciousness.value]"></tr>
+
+							<tr>
+								<td><label>${ui.message("edtriageapp.trauma")}</label></td>
+								<td>
+									<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value" ng-value="edTriagePatientConcept.vitals.trauma.answers[0].uuid">${ ui.message("uicommons.yes")}</label>
+									</td>
+								<td>
+									<label class="radio-inline"><input type="radio" name="trauma" ng-model="edTriagePatient.vitals.trauma.value" ng-value="">${ ui.message("uicommons.no")} </label>
+								</td>
+								<td></td>
+								<td></td>
+								<td><score-display score-label-class="'edtriage-label-score'" score="currentScore.individualScores[edTriagePatientConcept.vitals.trauma.answers[0].uuid]"></score-display></td>
+							</tr>
+							<tr ng-if="edTriagePatient.patient.lessThan4WeeksOld">
+								<td>${ui.message("Person.age")}</td>
+								<td colspan="4">${ ui.message("edtriageapp.lessThan4WeeksOld") }</td>
+								<td><score-display score-label-class="'edtriage-label-red'" score="'&nbsp;&nbsp;'"></score-display></td>
+							</tr>
+							<tr>
+								<td><label>${ui.message("edtriageapp.total")}</label></td>
+								<td colspan="4"></td>
+								<td><h2><span class="label edtriage-label-score">{{currentScore.numericScore}}</span></h2></td>
+							</tr>
+							</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">${ ui.message("edtriageapp.symptoms") }</h3>
+					</div>
+					<div class="panel-body">
+						<table class="borderless">
+							<tbody>
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.neurological.value"  concept-label="'${ui.message("edtriageapp.neurological")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.neurological.value)"></tr>
+												 <!-- getColorClass(currentScore.individualScores[edTriagePatient.symptoms.neurological.value])-->
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'burn'" concept="edTriagePatientConcept.symptoms.burn"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.burn.value"  concept-label="'${ui.message("edtriageapp.burn")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.burn.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'diabetic'" concept="edTriagePatientConcept.symptoms.diabetic"
+									ng-if="edTriagePatient.patient.age > 3"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.diabetic.value"  concept-label="'${ui.message("edtriageapp.diabetic")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.diabetic.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'trauma'" concept="edTriagePatientConcept.symptoms.trauma"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.trauma.value" concept-label="'${ui.message("edtriageapp.trauma")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.trauma.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'digestive'" concept="edTriagePatientConcept.symptoms.digestive"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.digestive.value" concept-label="'${ui.message("edtriageapp.digestive")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.digestive.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy'"
+									ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
+									editable="editable"
+									concept="edTriagePatientConcept.symptoms.pregnancy"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.pregnancy.value" concept-label="'${ui.message("edtriageapp.pregnancy")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.pregnancy.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'respiratory'" concept="edTriagePatientConcept.symptoms.respiratory"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.respiratory.value" concept-label="'${ui.message("edtriageapp.respiratory")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.respiratory.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pain'" concept="edTriagePatientConcept.symptoms.pain"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.pain.value" concept-label="'${ui.message("edtriageapp.pain")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.pain.value)"></tr>
+
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'other'" concept="edTriagePatientConcept.symptoms.other"
+									editable="editable"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
+									score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.other.value)"></tr>
+								<tr>
+									<td>
+										<label>${ui.message("edtriageapp.noSymptomsPresent")}</label>
+									</td>
+									<td colspan="5">
+										<input ng-disabled="!editable" id="confirmNoSymptoms" type="checkbox"
+											   ng-model="edTriagePatient.confirmNoSymptoms"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-sm-6">
@@ -361,59 +361,57 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<div class="panel-body ">
 						<table class="table table-condensed borderless">
 							<thead>
-							<tr ng-if="debug">
-								<th class="col-xs-4">Large</th>
-								<th class="col-xs-4">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-							</tr>
+								<tr ng-if="debug">
+									<th class="col-xs-4">Large</th>
+									<th class="col-xs-4">Small</th>
+									<th class="col-xs-1">Small</th>
+									<th class="col-xs-1">Small</th>
+									<th class="col-xs-1">Small</th>
+									<th class="col-xs-1">Small</th>
+								</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td><label>${ui.message("edtriageapp.labs.glucose")}</label></td>
-
-								<td>
-									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
-								</td>
-								<td>
-									<small>mg/dl</small>
-								</td>
-								<td class="col-xs-3" colspan="2">
-									<table>
-										<tr>
-											<td>
-												<input ng-disabled="!editable" id="highGlucoseLevel" type="checkbox"
-													   ng-model="edTriagePatient.labs.highGlucoseLevel.value"
-													   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
-													   ng-change="handleGlucoseLevel('highGlucoseLevel')"/>
-												<label>${ui.message("edtriageapp.high")}</label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<input ng-disabled="!editable" id="lowGlucoseLevel" type="checkbox"
-													   ng-model="edTriagePatient.labs.lowGlucoseLevel.value"
-													   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
-													   ng-change="handleGlucoseLevel('lowGlucoseLevel')"/>
-												<label>${ui.message("edtriageapp.low")}</label>
-											</td>
-										</tr>
-									</table>
-								</td>
-
-								<td class="right">
-									<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
-								</td>
-							</tr>
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy_test'"
-								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
-								editable="editable"
-								concept="edTriagePatientConcept.labs.pregnancy_test"
-								concept-label="'${ui.message("edtriageapp.labs.pregnancyTest")}'"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.labs.pregnancy_test.value"></tr>
+								<tr>
+									<td><label>${ui.message("edtriageapp.labs.glucose")}</label></td>
+									<td>
+										<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
+									</td>
+									<td>
+										<small>mg/dl</small>
+									</td>
+									<td class="col-xs-3" colspan="2">
+										<table>
+											<tr>
+												<td>
+													<input ng-disabled="!editable" id="highGlucoseLevel" type="checkbox"
+														   ng-model="edTriagePatient.labs.highGlucoseLevel.value"
+														   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
+														   ng-change="handleGlucoseLevel('highGlucoseLevel')"/>
+													<label>${ui.message("edtriageapp.high")}</label>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<input ng-disabled="!editable" id="lowGlucoseLevel" type="checkbox"
+														   ng-model="edTriagePatient.labs.lowGlucoseLevel.value"
+														   ng-true-value="'3cd6f600-26fe-102b-80cb-0017a47871b2'"
+														   ng-change="handleGlucoseLevel('lowGlucoseLevel')"/>
+													<label>${ui.message("edtriageapp.low")}</label>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td class="right">
+										<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
+									</td>
+								</tr>
+								<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy_test'"
+									ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
+									editable="editable"
+									concept="edTriagePatientConcept.labs.pregnancy_test"
+									concept-label="'${ui.message("edtriageapp.labs.pregnancyTest")}'"
+									sorter="sortAnswer"
+									selected-concept="edTriagePatient.labs.pregnancy_test.value"></tr>
 							</tbody>
 						</table>
 					</div>
@@ -429,55 +427,53 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					<div class="panel-body ">
 						<table class="table table-condensed borderless">
 							<thead>
-							<tr ng-if="debug">
-								<th class="col-xs-4">Large</th>
-								<th class="col-xs-4">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-							</tr>
+								<tr ng-if="debug">
+									<th class="col-xs-4">Large</th>
+									<th class="col-xs-4">Small</th>
+									<th class="col-xs-1">Small</th>
+									<th class="col-xs-1">Small</th>
+									<th class="col-xs-1">Small</th>
+									<th class="col-xs-1">Small</th>
+								</tr>
 							</thead>
 							<tbody>
-							<tr ng-if="edTriagePatient.patient.ageType != 'I'">
-								<td><label>${ui.message("edtriageapp.feverInstructions")}</label></td>
-								<td colspan="3">
-									<label>${ui.message("edtriageapp.paracetamol")}</label>
-								</td>
-								<td>
-									<input ng-disabled="!editable" id="paracetamol" type="checkbox"
-										   	ng-model="edTriagePatient.treatment.paracetamol.value"
-											ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
-								</td>
-							</tr>
-							<tr ng-if="edTriagePatient.patient.ageType == 'C'">
-								<td></td>
-								<td colspan="3">
-									<label>15 mg/kg</label>
-								</td>
-								<td>
-									<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number" ng-pattern="/^[0-9]{1,7}\$/"
-										   ng-model="edTriagePatient.treatment.paracetamolDose.value" />
-								</td>
-								<td><small>mg</small></td>
-							</tr>
-							<tr>
-								<td><label>${ui.message("edtriageapp.oxygenInstructions")}</label></td>
-								<td colspan="3">
-									<label>${ui.message("edtriageapp.oxygen")}</label>
-								</td>
-								<td>
-									<input ng-disabled="!editable" id="oxygen" type="checkbox"
-										   	ng-model="edTriagePatient.treatment.oxygen.value"
-											ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
-								</td>
-							</tr>
+								<tr ng-if="edTriagePatient.patient.ageType != 'I'">
+									<td><label>${ui.message("edtriageapp.feverInstructions")}</label></td>
+									<td colspan="3"><label>${ui.message("edtriageapp.paracetamol")}</label></td>
+									<td>
+										<input ng-disabled="!editable" id="paracetamol" type="checkbox"
+												ng-model="edTriagePatient.treatment.paracetamol.value"
+												ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
+									</td>
+								</tr>
+								<tr ng-if="edTriagePatient.patient.ageType == 'C'">
+									<td></td>
+									<td colspan="3">
+										<label>15 mg/kg</label>
+									</td>
+									<td>
+										<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number" ng-pattern="/^[0-9]{1,7}\$/"
+											   ng-model="edTriagePatient.treatment.paracetamolDose.value" />
+									</td>
+									<td><small>mg</small></td>
+								</tr>
+								<tr>
+									<td><label>${ui.message("edtriageapp.oxygenInstructions")}</label></td>
+									<td colspan="3">
+										<label>${ui.message("edtriageapp.oxygen")}</label>
+									</td>
+									<td>
+										<input ng-disabled="!editable" id="oxygen" type="checkbox"
+												ng-model="edTriagePatient.treatment.oxygen.value"
+												ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			</div>
+		</div>
 
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -503,7 +499,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</table>
 			</div>
 		</div>
-
 	</form>
 
 	<div class="alert alert-{{message.type}} alert-dismissible fade in" role="alert" ng-show="message.text.length > 0">
@@ -513,17 +508,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		{{message.text}}
 	</div>
 
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            <button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="triageForm.\$invalid || isSaving || !editable" ng-click="confirmSave()">${ ui.message("edtriageapp.submitButton") }</button>
-        </div>
-        <div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-3">
+			<button type="button" class="btn btn-primary" ng-show="editable" ng-disabled="triageForm.\$invalid || isSaving || !editable" ng-click="confirmSave()">${ ui.message("edtriageapp.submitButton") }</button>
+		</div>
+		<div class="col-sm-3" ng-show="isWaitingForConsult() && hasExistingEncounter()">
 			<button type="button" class="btn btn-default" ng-disabled="triageForm.\$invalid || isSaving" ng-click="beginConsult()">${ ui.message("edtriageapp.beginConsult") }</button>
-        </div>
-        <div class="col-sm-3">
+		</div>
+		<div class="col-sm-3">
 			<button type="button" class="btn btn-default" ng-disabled="isSaving" ng-click="cancel()">${ editable ? ui.message("edtriageapp.exitButton") : ui.message("edtriageapp.backButton") }</button>
-        </div>
-    </div>
+		</div>
+	</div>
 
 </div>
 
@@ -549,5 +544,4 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			window.location.reload();
 		});
 	});
-
 </script>

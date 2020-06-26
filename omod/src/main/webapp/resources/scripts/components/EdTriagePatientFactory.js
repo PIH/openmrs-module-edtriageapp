@@ -166,11 +166,11 @@ angular.module("edTriagePatientFactory", [])
                 (this.symptoms.respiratory && this.symptoms.respiratory.value) ||
                 (this.symptoms.pain && this.symptoms.pain.value) ||
                 (this.symptoms.other && this.symptoms.other.value) ||
-                this.confirmNoSymptoms
+                this.confirmNoSymptoms;
         };
 
-
-        /* creates a new EdTriagePatient
+        /**
+         *  creates a new EdTriagePatient
          *  returns an empty one with the patient and location info filled in
          *  @param {String} uuid - the patient uuid
          *  @param {Object} dateOfBirth - the patient date of birth
@@ -315,7 +315,7 @@ angular.module("edTriagePatientFactory", [])
                     //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share
                     //  we need to find out which question the observation answers
 
-                    //theck the vital that uses this
+                    // check the vital that uses this
                     var found = _handleAnswerList(concepts.vitals.consciousness, v.uuid, obsUuid);
                     if(found != null){
                         ret.vitals.consciousness =  found;
@@ -329,12 +329,14 @@ angular.module("edTriagePatientFactory", [])
                     }
 
 
-                    for(var prop in concepts.symptoms){
-                        var symptom = concepts.symptoms[prop];
-                        var found = _handleAnswerList(symptom, v.uuid, obsUuid);
-                        if(found){
-                            ret.symptoms[prop] = found;
-                            break;
+                    for (var prop in concepts.symptoms){
+                        if (concepts.symptoms.hasOwnProperty(prop)) {
+                            var symptom = concepts.symptoms[prop];
+                            found = _handleAnswerList(symptom, v.uuid, obsUuid);
+                            if (found) {
+                                ret.symptoms[prop] = found;
+                                break;
+                            }
                         }
                     }
                 }
@@ -363,7 +365,6 @@ angular.module("edTriagePatientFactory", [])
                 return {value:value, uuid:uuid};
             }
         };
-
 
         /**
          * Return the constructor function

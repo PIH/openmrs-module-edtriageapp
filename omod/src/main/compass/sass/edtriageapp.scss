@@ -45,7 +45,6 @@ $fontPath: "../fonts";
 	float: right;
 }
 
-
 #sticky {
 	padding: 0.5ex;
 	height: 50px;
@@ -88,3 +87,33 @@ $fontPath: "../fonts";
 #temperatureC, #temperatureF {
 	width: 80px;
 }
+
+/*
+  This module/app was build using Bootstrap 3 and independently bundles it in, while excluding the
+  version of Bootstrap bundled with the Ref App (currently Bootstrap 4)
+  The follow changes are css hacks to make the Patient Header from the Ref App (designed with Bootstrap 4)
+  look "reasonable".
+ */
+
+.identifiers {
+  margin-top: 16px;
+}
+
+.float-sm-right {
+  margin-bottom: -16px;
+}
+
+.demographics {
+  .show {
+    display: inline !important;
+  }
+  .row {
+    margin-bottom: 12px;
+  }
+  .gender-age {
+    margin-top: -12px;
+    margin-bottom: 4px;
+  }
+}
+
+/* End of patient header hacks for Bootstrap 3 */

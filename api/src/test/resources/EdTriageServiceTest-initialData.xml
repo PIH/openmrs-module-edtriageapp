@@ -55,15 +55,15 @@
                voided="false" uuid="f13d6fae-baa9-4553-955d-920098bec08f"/>
 
     <!-- heart rate-->
-    <obs obs_id="741977" person_id="3" concept_id="741980" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
+    <obs obs_id="741977" person_id="2" status="FINAL" concept_id="741980" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_numeric="66" creator="1" date_created="2006-02-10 15:57:35.0" voided="false"
          uuid="3ce93824-26fe-102b-80cb-0017a47871b2"/>
     <!-- weight-->
-    <obs obs_id="741978" person_id="3" concept_id="741979" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
+    <obs obs_id="741978" person_id="2" status="FINAL" concept_id="741979" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_numeric="150" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
          uuid="4ce93b62-26fe-102b-80cb-0017a47871b2"/>
     <!-- triage queue status-->
-    <obs obs_id="741979" person_id="3" concept_id="741978" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
+    <obs obs_id="741979" person_id="2" status="FINAL" concept_id="741978" encounter_id="741977" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_coded="741981" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
          uuid="5ce93b62-26fe-102b-80cb-0017a47871b2"/>
 
@@ -73,11 +73,8 @@
                encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
                voided="false" uuid="g13d6fae-baa9-4553-955d-920098bec08f"/>
 
-    <obs obs_id="741981" person_id="2" concept_id="741978" encounter_id="741978" obs_datetime="2016-06-09 12:00:00.0"
+    <obs obs_id="741981" person_id="2" status="FINAL" concept_id="741978" encounter_id="741978" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_text="45d0c3d2-2188-4186-8a19-0063b92914ee" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
          uuid="7ce93b62-26fe-102b-80cb-0017a47871b2"/>
-
-
-
 
 </dataset>

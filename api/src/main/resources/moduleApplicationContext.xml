@@ -19,40 +19,41 @@
 
 	<!-- Add here beans related to the API context -->
 
+	<bean id="edTriageAppService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="target">
+			<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.EdTriageAppServiceImpl">
+				<property name="adtService" ref="adtService"/>
+				<property name="patientService" ref="patientService"/>
+				<property name="locationService" ref="locationService"/>
+				<property name="obsService" ref="obsService"/>
+				<property name="conceptService" ref="conceptService"/>
+				<property name="dao">
+					<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateEdTriageAppDAO">
+						<property name="sessionFactory">
+							<ref bean="dbSessionFactory"/>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors" />
+		</property>
+		<property name="transactionAttributeSource">
+			<ref bean="transactionAttributeSource" />
+		</property>
+	</bean>
 	
 	<!-- Services accessible via Context.getService() -->
+
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
 				<value>${project.parent.groupId}.${project.parent.artifactId}.api.EdTriageAppService</value>
-				<bean
-					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-					<property name="transactionManager">
-						<ref bean="transactionManager" />
-					</property>
-					<property name="target">
-						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.EdTriageAppServiceImpl">
-							<property name="adtService" ref="adtService"/>
-							<property name="patientService" ref="patientService"/>
-							<property name="locationService" ref="locationService"/>
-							<property name="obsService" ref="obsService"/>
-							<property name="conceptService" ref="conceptService"/>
-							<property name="dao">
-								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateEdTriageAppDAO">
-									<property name="sessionFactory">
-										<ref bean="dbSessionFactory"/>
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</property>
-					<property name="preInterceptors">
-						<ref bean="serviceInterceptors" />
-					</property>
-					<property name="transactionAttributeSource">
-						<ref bean="transactionAttributeSource" />
-					</property>
-				</bean>
+				<ref bean="edTriageAppService"/>
 			</list>
 		</property>
 	</bean>

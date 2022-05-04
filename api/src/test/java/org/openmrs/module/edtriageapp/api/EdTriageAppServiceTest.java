@@ -13,34 +13,33 @@
  */
 package org.openmrs.module.edtriageapp.api;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openmrs.Encounter;
 import org.openmrs.api.context.Context;
-import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.test.Verifies;
+import org.openmrs.test.jupiter.BaseModuleContextSensitiveTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 /**
- * Tests {@link ${EdTriageAppService}}.
+ * Tests {@link EdTriageAppService}.
  */
 public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
-    private static final Log log = LogFactory.getLog(EdTriageAppServiceTest.class);
-    @Test
-    public void shouldSetupContext() {
-        assertNotNull(Context.getService(EdTriageAppService.class));
-    }
 
-    private EdTriageAppService service;
+    private static final Log log = LogFactory.getLog(EdTriageAppServiceTest.class);
+
+    @Autowired
+    EdTriageAppService edTriageAppService;
 
     private static final int TOTAL_ALL_ENCOUNTERS = 2;
     private static final int TOTAL_ACTIVE_ENCOUNTERS = 1;
@@ -48,32 +47,34 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     private static final String TEST_PATIENT = "da7f524f-27ce-4bb2-86d6-6d1d05312bd5";
     private static final String TEST_ENCOUNTER_DATE = "2016-06-09 12:00:00.0";
     private static final SimpleDateFormat FMT =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-    @Before
+
+    @BeforeEach
     public void before() throws Exception {
-        service = Context.getService(EdTriageAppService.class);
         executeDataSet("EdTriageServiceTest-initialData.xml");
     }
 
     @Test
-    @Verifies(value = "should get active encounters", method = "getActiveEDTriageEncounters()")
+    public void shouldSetupContext() {
+        assertNotNull(edTriageAppService);
+    }
+
+    @Test
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocation() throws Exception {
-        List<Encounter> list = service.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
+        List<Encounter> list = edTriageAppService.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
         printResults(list);
         assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test
-    @Verifies(value = "should get active encounters for a patient", method = "getActiveEDTriageEncounters()")
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocationForPatient() throws Exception {
-        List<Encounter> list = service.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
+        List<Encounter> list = edTriageAppService.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
         printResults(list);
         assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test
-    @Verifies(value = "should get all encounters", method = "getAllEDTriageEncounters()")
-    public void getAllEncountersAtLocation_shouldGetAllEncountersAtLocation() throws Exception {
-        List<Encounter> list = service.getAllEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
+     public void getAllEncountersAtLocation_shouldGetAllEncountersAtLocation() throws Exception {
+        List<Encounter> list = edTriageAppService.getAllEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
         printResults(list);
         assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
     }

@@ -4,7 +4,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>edtriageapp</artifactId>
-	<version>1.5.0-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>ED Triage App Module</name>
 	<description>Emergency Department Triage Application</description>
@@ -49,14 +49,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openMRSVersion>1.10.4</openMRSVersion>
-        <openMRSwebVersion>1.10.4</openMRSwebVersion>
+        <openMRSVersion>2.5.4</openMRSVersion>
         <appframeworkVersion>2.16.0</appframeworkVersion>
         <appuiVersion>1.15.0</appuiVersion>
-        <uicommonsVersion>1.8</uicommonsVersion>
+        <uicommonsVersion>2.21.0</uicommonsVersion>
         <uiframeworkVersion>3.22.1</uiframeworkVersion>
-        <uilibraryVersion>1.5</uilibraryVersion>
-        <webservicesRestVersion>2.13</webservicesRestVersion>
+        <uilibraryVersion>2.0.7</uilibraryVersion>
+        <webservicesRestVersion>2.36.0</webservicesRestVersion>
         <emrapiVersion>1.32.0</emrapiVersion>
         <reportingVersion>1.24.0</reportingVersion>
         <calculationVersion>1.3.0</calculationVersion>
@@ -76,24 +75,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.openmrs.web</groupId>
-            <artifactId>openmrs-web</artifactId>
-            <version>${openMRSVersion}</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.openmrs.api</groupId>
             <artifactId>openmrs-api</artifactId>
-            <version>${openMRSVersion}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openmrs.web</groupId>
-            <artifactId>openmrs-web</artifactId>
             <version>${openMRSVersion}</version>
             <type>test-jar</type>
             <scope>test</scope>
@@ -112,14 +95,6 @@
             <groupId>org.openmrs.module</groupId>
             <artifactId>appframework-api</artifactId>
             <version>${appframeworkVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>appframework-api</artifactId>
-            <version>${appframeworkVersion}</version>
-            <classifier>tests</classifier>
             <scope>provided</scope>
         </dependency>
 
@@ -146,14 +121,14 @@
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>emrapi-api-1.10</artifactId>
+            <artifactId>emrapi-api-1.12</artifactId>
             <version>${emrapiVersion}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>emrapi-api-pre2.2</artifactId>
+            <artifactId>emrapi-api-2.2</artifactId>
             <version>${emrapiVersion}</version>
             <scope>provided</scope>
         </dependency>
@@ -169,18 +144,17 @@
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>serialization.xstream-api-1.9</artifactId>
-            <version>${serializationxstreamVersion}</version>
+            <artifactId>reporting-api-2.4</artifactId>
+            <version>${reportingVersion}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>serialization.xstream-api-1.10</artifactId>
+            <artifactId>serialization.xstream-api</artifactId>
             <version>${serializationxstreamVersion}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>serialization.xstream-api-2.0</artifactId>
@@ -209,14 +183,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Other dependenceis -->
-
+        <!-- This is needed for appframework testing -->
         <dependency>
-            <groupId>rubygems</groupId>
-            <artifactId>sass</artifactId>
-            <version>3.2.10</version>
-            <type>gem</type>
-            <scope>provided</scope>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -270,31 +248,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <generateBackupPoms>false</generateBackupPoms>
-                    <allowSnapshots>false</allowSnapshots>
-                    <properties>
-                        <property>
-                            <name>openMRSVersion</name>
-                            <version>[1.9.0,1.10.0-!)</version>
-                            <banSnapshots>true</banSnapshots>
-                        </property>
-                        <property>
-                            <name>openMRSwebVersion</name>
-                            <version>[1.9.0,1.10.0-!)</version>
-                            <banSnapshots>true</banSnapshots>
-                        </property>
-                    </properties>
-                </configuration>
-            </plugin>
-        </plugins>
-
     </build>
 
     <repositories>

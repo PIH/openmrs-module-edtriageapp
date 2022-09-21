@@ -49,7 +49,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openMRSVersion>2.5.6</openMRSVersion>
+        <openMRSVersion>2.5.7</openMRSVersion>
         <appframeworkVersion>2.16.0</appframeworkVersion>
         <appuiVersion>1.16.0</appuiVersion>
         <uicommonsVersion>2.21.0</uicommonsVersion>

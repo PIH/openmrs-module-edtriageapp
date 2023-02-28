@@ -202,7 +202,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						</tr>
 
 						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
+							<td><label>${ ui.message("edtriageapp.heartRate") }</label></td>
 							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="300"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>

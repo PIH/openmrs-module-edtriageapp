@@ -211,8 +211,7 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("f4433b74-6396-47ff-aa63-3900493ebf23", "acute focal neurologic deficit",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 3),
                     toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 4),
                     toAnswer("3ccea7fc-26fe-102b-80cb-0017a47871b2", "psychosis",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'AC', 5),
-                    toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.INFANT, 6),
-                    toAnswer("143582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT, 7)]
+                    toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.INFANT, 6)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
                     toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
@@ -252,7 +251,7 @@ angular.module("edTriageConceptFactory", [])
                         if (ageType == EdTriageConcept.ageType.INFANT) {
                             return { numericScore: 0, colorCode: EdTriageConcept.score.red };
                         } else if (ageType == EdTriageConcept.ageType.CHILD) {
-                            return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+                            return { numericScore: 0, colorCode: EdTriageConcept.score.red };
                         }
                     }, 'I', 2),
                     toAnswer("3cf1a95a-26fe-102b-80cb-0017a47871b2", "dyspnea-shortness of breath",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'I', 3),
@@ -267,12 +266,13 @@ angular.module("edTriageConceptFactory", [])
                     toAnswer("d092c376-5f89-4abd-a6ec-8632587b797b", "severe pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 1),
                     toAnswer("10008d98-6653-47fb-b171-02e0f257e875", "moderate pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 3),
                     toAnswer("3ccd2364-26fe-102b-80cb-0017a47871b2", "chest pain",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 2),
-                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 4)
+                    toAnswer("3ccdf8d4-26fe-102b-80cb-0017a47871b2", "abdominal pain",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, null, 4),
+                    toAnswer("143582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "prolonged crying",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 5)
                     ]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 other: toAnswers('other',[
                     toAnswer("3ccccc20-26fe-102b-80cb-0017a47871b2", "toxicity-Poisoning/overdose",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 1),
-                    toAnswer("15bd52f1-a35b-489d-a283-ece958c4ef1e", "purpura",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 2),
+                    toAnswer("15bd52f1-a35b-489d-a283-ece958c4ef1e", "purpura",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 2),
                     toAnswer("8084b7b2-adc4-4b83-aafc-647d1308c988", "drowsiness",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.CHILD, 3),
                     toAnswer("137646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "incoherent story (or history)",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, 'CI', 4),
                     toAnswer("148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "anuria",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.INFANT, 5)]

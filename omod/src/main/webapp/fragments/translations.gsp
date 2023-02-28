@@ -36,7 +36,15 @@
 		'c05b25f1-07d1-47de-a61e-fc9d3bfe95eb':"${ui.message("edtriageapp.c05b25f1-07d1-47de-a61e-fc9d3bfe95eb")}",
 		'aca0abff-a38a-4191-a5c4-041fa1809306':"${ui.message("edtriageapp.aca0abff-a38a-4191-a5c4-041fa1809306")}",
 		'a218b3d9-2ead-4fa2-afbd-64849012e125':"${ui.message("edtriageapp.a218b3d9-2ead-4fa2-afbd-64849012e125")}",
-		'3ccea7fc-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ccea7fc-26fe-102b-80cb-0017a47871b2")}"
+		'3ccea7fc-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ccea7fc-26fe-102b-80cb-0017a47871b2")}",
+
+		'3ce93824-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ce93824-26fe-102b-80cb-0017a47871b2")}",
+		'2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1':"${ui.message("edtriageapp.2d70f8ca-f3dd-4988-8107-9f6b2beb5ff1")}",
+		'628ccc25-d0b3-4e73-b01e-1fdd840256bd':"${ui.message("edtriageapp.628ccc25-d0b3-4e73-b01e-1fdd840256bd")}",
+        'A.3ccccc20-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.A.3ccccc20-26fe-102b-80cb-0017a47871b2")}",
+        'C.3ccccc20-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.C.3ccccc20-26fe-102b-80cb-0017a47871b2")}",
+        'I.3ccccc20-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.I.3ccccc20-26fe-102b-80cb-0017a47871b2")}",
+
 	} ;
 </script>
 

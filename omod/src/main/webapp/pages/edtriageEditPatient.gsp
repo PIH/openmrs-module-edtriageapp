@@ -407,13 +407,6 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
 								</td>
 							</tr>
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy_test'"
-								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
-								editable="editable"
-								concept="edTriagePatientConcept.labs.pregnancy_test"
-								concept-label="'${ui.message("edtriageapp.labs.pregnancyTest")}'"
-								sorter="sortAnswer"
-								selected-concept="edTriagePatient.labs.pregnancy_test.value"></tr>
 							</tbody>
 						</table>
 					</div>
@@ -423,57 +416,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<div class="col-sm-6">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title">${ui.message("edtriageapp.immedTreatment")}</h3>
-					</div>
-
-					<div class="panel-body ">
-						<table class="table table-condensed borderless">
-							<thead>
-							<tr ng-if="debug">
-								<th class="col-xs-4">Large</th>
-								<th class="col-xs-4">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-								<th class="col-xs-1">Small</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr ng-if="edTriagePatient.patient.ageType != 'I'">
-								<td><label>${ui.message("edtriageapp.feverInstructions")}</label></td>
-								<td colspan="3">
-									<label>${ui.message("edtriageapp.paracetamol")}</label>
-								</td>
-								<td>
-									<input ng-disabled="!editable" id="paracetamol" type="checkbox"
-										   	ng-model="edTriagePatient.treatment.paracetamol.value"
-											ng-true-value="'3cccd4d6-26fe-102b-80cb-0017a47871b2'"/>
-								</td>
-							</tr>
-							<tr ng-if="edTriagePatient.patient.ageType == 'C'">
-								<td></td>
-								<td colspan="3">
-									<label>15 mg/kg</label>
-								</td>
-								<td>
-									<input ng-disabled="!editable" class="form-control" id="paracetamolDose" type="number" ng-pattern="/^[0-9]{1,7}\$/"
-										   ng-model="edTriagePatient.treatment.paracetamolDose.value" />
-								</td>
-								<td><small>mg</small></td>
-							</tr>
-							<tr>
-								<td><label>${ui.message("edtriageapp.oxygenInstructions")}</label></td>
-								<td colspan="3">
-									<label>${ui.message("edtriageapp.oxygen")}</label>
-								</td>
-								<td>
-									<input ng-disabled="!editable" id="oxygen" type="checkbox"
-										   	ng-model="edTriagePatient.treatment.oxygen.value"
-											ng-true-value="'90660681-4b00-469c-b65b-c91afd241c86'"/>
-								</td>
-							</tr>
-							</tbody>
-						</table>
+						<h3 class="panel-title"></h3>
 					</div>
 				</div>
 			</div>

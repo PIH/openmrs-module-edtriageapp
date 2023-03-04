@@ -102,7 +102,7 @@
                 <th>${ ui.message("edtriageapp.chiefComplaint") }</th>
                 <th class="vitals-and-symptoms-column">${ ui.message("edtriageapp.vitals") } & ${ ui.message("edtriageapp.symptoms") }</th>
                 <th>${ ui.message("edtriageapp.clinicalImpression") }</th>
-                <th>${ ui.message("edtriageapp.testAndTreatments") } </th>
+                <th>${ ui.message("edtriageapp.tests") } </th>
                 <th></th>
             </tr>
             </thead>
@@ -213,16 +213,6 @@
                                            item-label="'${ui.message("edtriageapp.labs.glucose")}'"
                                            color="getColorClassFromScore(model.patient.uuid, edTriagePatientConcept.labs.glucose.uuid)">
                         </show-if-has-value>
-                        <li class="edtriage-queue-list-item" ng-if="model.labs.pregnancy_test.value">
-                            {{ '${ui.message("edtriageapp.labs.pregnancyTest")}' + ': ' + findAnswer(edTriagePatientConcept.labs.pregnancy_test, model.labs.pregnancy_test.value).labelTranslated(model.patient.ageType)}}
-                        </li>
-                        <li class="edtriage-queue-list-item" ng-if="model.treatment.paracetamol.value">
-                            ${ui.message("edtriageapp.paracetamol")}
-                            <span ng-if="model.treatment.paracetamolDose.value">{{model.treatment.paracetamolDose.value}}<small>mg</small></span>
-                        </li>
-                        <li class="edtriage-queue-list-item" ng-if="model.treatment.oxygen.value">
-                            ${ui.message("edtriageapp.oxygen")}
-                        </li>
                     </ul>
                 </td>
 

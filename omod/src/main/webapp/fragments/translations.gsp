@@ -44,6 +44,12 @@
         'A.3ccccc20-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.A.3ccccc20-26fe-102b-80cb-0017a47871b2")}",
         'C.3ccccc20-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.C.3ccccc20-26fe-102b-80cb-0017a47871b2")}",
         'I.3ccccc20-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.I.3ccccc20-26fe-102b-80cb-0017a47871b2")}",
+        'cef19dbc-e015-4123-9479-986f26a7ca8c':"${ui.message("edtriageapp.cef19dbc-e015-4123-9479-986f26a7ca8c")}",
+        '132338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.132338AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '139899AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.139899AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '121748AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.121748AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '6807f3b3-4176-49d7-80ff-41603d5c612b':"${ui.message("edtriageapp.6807f3b3-4176-49d7-80ff-41603d5c612b")}",
+        '3ccd2364-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ccd2364-26fe-102b-80cb-0017a47871b2")}",
 
 	} ;
 </script>

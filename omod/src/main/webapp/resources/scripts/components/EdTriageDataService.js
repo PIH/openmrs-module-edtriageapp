@@ -179,16 +179,15 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.lowGlucoseLevel.uuid, edTriagePatient.labs.lowGlucoseLevel);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.highGlucoseLevel.uuid, edTriagePatient.labs.highGlucoseLevel);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy_test.uuid, edTriagePatient.labs.pregnancy_test);
 
                 // treatment
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.oxygen.uuid, edTriagePatient.treatment.oxygen);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamol.uuid, edTriagePatient.treatment.paracetamol);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamolDose.uuid,
-                    {
-                        uuid: edTriagePatient.treatment.paracetamolDose ? edTriagePatient.treatment.paracetamolDose.uuid : null,
-                        value: edTriagePatient.treatment.paracetamolDose ? Math.floor(edTriagePatient.treatment.paracetamolDose.value) : null
-                    });
+                // addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.oxygen.uuid, edTriagePatient.treatment.oxygen);
+                // addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamol.uuid, edTriagePatient.treatment.paracetamol);
+                // addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamolDose.uuid,
+                //    {
+                //        uuid: edTriagePatient.treatment.paracetamolDose ? edTriagePatient.treatment.paracetamolDose.uuid : null,
+                //        value: edTriagePatient.treatment.paracetamolDose ? Math.floor(edTriagePatient.treatment.paracetamolDose.value) : null
+                //    });
 
                 return ensureActiveVisit(edTriagePatient)
                     .then(function () {

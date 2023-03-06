@@ -32,7 +32,6 @@
 
 	def middleLabel = returnLabel ?:  ui.message("edtriageapp.label")
 	def middleUrl   = returnUrl ?:  ui.pageLink("coreapps", "findpatient/findPatient?app=" + appId)
-	middleUrl = middleUrl + "&dashboardUrl=" + dashboardUrl
 	def endLabel = ui.format(patient.familyName + ", " + patient.givenName)
 	endLabel = (middleLabel == endLabel) ? ui.message("edtriageapp.label") : endLabel
 

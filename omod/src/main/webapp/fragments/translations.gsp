@@ -50,7 +50,21 @@
         '121748AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.121748AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
         '6807f3b3-4176-49d7-80ff-41603d5c612b':"${ui.message("edtriageapp.6807f3b3-4176-49d7-80ff-41603d5c612b")}",
         '3ccd2364-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ccd2364-26fe-102b-80cb-0017a47871b2")}",
-
+        '8084b7b2-adc4-4b83-aafc-647d1308c988':"${ui.message("edtriageapp.8084b7b2-adc4-4b83-aafc-647d1308c988")}",
+        '124ed60a-4f5b-4587-8154-df3aeea652de':"${ui.message("edtriageapp.124ed60a-4f5b-4587-8154-df3aeea652de")}",
+        '152330AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.152330AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '3cccd076-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3cccd076-26fe-102b-80cb-0017a47871b2")}",
+        'c1d68188-9dd8-4453-9fc4-1e321afb7264':"${ui.message("edtriageapp.c1d68188-9dd8-4453-9fc4-1e321afb7264")}",
+        '3cd14b24-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3cd14b24-26fe-102b-80cb-0017a47871b2")}",
+        'c9b21031-f76d-463e-823a-cefdb35ed259':"${ui.message("edtriageapp.c9b21031-f76d-463e-823a-cefdb35ed259")}",
+        '15bd52f1-a35b-489d-a283-ece958c4ef1e':"${ui.message("edtriageapp.15bd52f1-a35b-489d-a283-ece958c4ef1e")}",
+        '330d227b-fada-4b8b-a05c-ba56b8e96e19':"${ui.message("edtriageapp.330d227b-fada-4b8b-a05c-ba56b8e96e19")}",
+        '125061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.125061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '127579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.127579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.148566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '133467AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.133467AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '118729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.118729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '3cd20974-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3cd20974-26fe-102b-80cb-0017a47871b2")}",
 	} ;
 </script>
 

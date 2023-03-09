@@ -1,7 +1,7 @@
 angular.module("edTriageViewQueueController", [])
     .controller("viewQueueController", ['$scope', '$interval', '$filter', 'EdTriageDataService', 'EdTriageConcept', 'locationUuid',
-        'serverDateTimeInMillis','patientDashboard',"ngDialog",
-        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis, patientDashboard, ngDialog) {
+        'serverDateTimeInMillis','patientDashboard',"ngDialog", "config",
+        function ($scope, $interval, $filter, EdTriageDataService, EdTriageConcept, locationUuid, serverDateTimeInMillis, patientDashboard, ngDialog, config) {
             // used to determine if we should disable things
             $scope.isSaving = false;
             $scope.lastUpdatedAtInMillis = new Date().getTime();
@@ -50,7 +50,7 @@ angular.module("edTriageViewQueueController", [])
              */
             $scope.loadData = function(){
                 $scope.lastUpdatedAtInMillis = new Date().getTime();
-                return EdTriageDataService.loadConcept().then(function (concept) {
+                return EdTriageDataService.loadConcept(config).then(function (concept) {
                     $scope.edTriagePatientConcept = concept;
                     return $scope.loadPatientData(locationUuid).then(function(edTriagePatientQueue){});
                 });

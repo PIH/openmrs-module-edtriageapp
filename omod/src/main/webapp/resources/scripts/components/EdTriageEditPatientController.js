@@ -1,8 +1,8 @@
 angular.module("edTriagePatientController", [])
     .controller("patientEditController", ['$scope', '$filter', '$element', '$timeout','EdTriageDataService', 'EdTriageConcept',
-        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable','serverDateTimeInMillis',
+        'patientUuid', 'patientDashboard', 'ngDialog', 'patientBirthDate', 'patientGender', 'locationUuid', 'encounterUuid', 'returnUrl', 'editable','serverDateTimeInMillis', 'config',
         function ($scope, $filter, $element, $timeout, EdTriageDataService, EdTriageConcept, patientUuid, patientDashboard, ngDialog, patientBirthDate,
-                  patientGender, locationUuid, encounterUuid, returnUrl, editable, serverDateTimeInMillis) {
+                  patientGender, locationUuid, encounterUuid, returnUrl, editable, serverDateTimeInMillis, config) {
             $scope.loading_complete = false;//used to tell if we when all the data has been loaded
             $scope.isSaving = false; // used to determine if we should disable things
             $scope.debug = false; // if true, will show debug info on client
@@ -293,7 +293,7 @@ angular.module("edTriagePatientController", [])
             *  page initialization code starts here
             * -------------------------------------------------------- */
             //load the data for the page here
-            EdTriageDataService.loadConcept().then(function (concept) {
+            EdTriageDataService.loadConcept(config).then(function (concept) {
                 var birthDate = new Date($filter('serverDate')(patientBirthDate));
                 EdTriageDataService.load(concept, patientUuid, birthDate, patientGender, locationUuid, encounterUuid).then(function (data) {
                     EdTriageDataService.calculate(concept, data);

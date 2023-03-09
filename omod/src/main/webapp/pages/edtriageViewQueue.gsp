@@ -265,7 +265,8 @@ ${ ui.includeFragment("edtriageapp", "translations") }
             .value('patientDashboard', '${ dashboardUrl }')
             .value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
             .value('locationUuid', '${ location.uuid }')
-            .value('translations', translations);
+            .value('translations', translations)
+            .value('config', '${ edtriageConfig }');
 
     jq(function () {
         // make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header

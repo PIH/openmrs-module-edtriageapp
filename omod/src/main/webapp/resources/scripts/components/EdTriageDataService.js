@@ -175,13 +175,13 @@ angular.module("edTriageDataService", [])
                 // clinical impressions
                 addObs(encounter.obs, obsToDelete, edTriageConcept.clinicalImpression.uuid, edTriagePatient.clinicalImpression);
 
-                // labs  (note .? for concepts that might not be defined in some implementations, ie Sierra Leone)
+                // labs  (note ?. null checks for concepts that might not be defined in some implementations, ie Sierra Leone)
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.lowGlucoseLevel.uuid, edTriagePatient.labs.lowGlucoseLevel);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.highGlucoseLevel.uuid, edTriagePatient.labs.highGlucoseLevel);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs?.pregnancy_test?.uuid, edTriagePatient.labs.pregnancy_test);
 
-                // treatment (note .? for concepts that might not be defined in some implementations, ie Sierra Leone)
+                // treatment (note ?. null checks for concepts that might not be defined in some implementations, ie Sierra Leone)
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.oxygen?.uuid, edTriagePatient.treatment.oxygen);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.paracetamol?.uuid, edTriagePatient.treatment.paracetamol);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.paracetamolDose?.uuid,

@@ -282,10 +282,11 @@ angular.module("edTriagePatientFactory", [])
                         ret.labs.lowGlucoseLevel = _v(v.uuid, obsUuid);
                     } else if (uuid == concepts.labs.highGlucoseLevel.uuid) {
                         ret.labs.highGlucoseLevel = _v(v.uuid, obsUuid);
-                    } else if (uuid == concepts.labs?.pregnancy_test?.uuid) {
+                    }
+                    // added null checks here, since pregnancy test and treatments are turned off in Sierra Leone
+                    else if (uuid == concepts.labs?.pregnancy_test?.uuid) {
                         ret.labs.pregnancy_test = _v(v.uuid, obsUuid);
                     }
-                    // since treatments "oxygen" and "paracetamol"
                     else if (uuid == concepts.treatment?.oxygen?.uuid && v.uuid == concepts.treatment?.oxygen?.answers[0].uuid) {
                         ret.treatment.oxygen = _v(v.uuid, obsUuid);
                     } else if (uuid == concepts.treatment?.paracetamol?.uuid && v.uuid == concepts.treatment?.paracetamol?.answers[0].uuid) {

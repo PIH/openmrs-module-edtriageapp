@@ -41,9 +41,9 @@
 	<globalProperty>
 		<property>edtriageapp.config</property>
 		<defaultValue></defaultValue>
-		<decscription>
-			Allows overriding the default questions and weights with a custom config; currently only "sierraleone" is supported
-		</decscription>
+		<description>
+			Allows overriding the default questions and scoring rules with a custom config; currently only "sierraleone" is supported
+		</description>
 	</globalProperty>
 
 </module>

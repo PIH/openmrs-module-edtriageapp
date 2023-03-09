@@ -291,6 +291,11 @@ angular.module("edTriageConceptFactory", [])
             }
         }
 
+        /**
+         * The triage questions and answered, customized for Sierra Leone
+         * Note that Sierra Leone also have custom display strings for many fields, which are defined in edtriage_en.json the Sierra Leone config
+         * @param obj
+         */
         function buildSierraLeoneTriageConcept(obj) {
             // note that SL also overrides some messages properties, see edtriage_en.properties in config-pihsl
             var GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID = "060f63dd-9588-4dc2-bf19-c90da02bff15";

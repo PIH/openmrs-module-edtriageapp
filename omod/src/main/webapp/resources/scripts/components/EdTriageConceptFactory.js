@@ -297,7 +297,7 @@ angular.module("edTriageConceptFactory", [])
          * @param obj
          */
         function buildSierraLeoneTriageConcept(obj) {
-            // note that SL also overrides some messages properties, see edtriage_en.properties in config-pihsl
+            // **note that SL also overrides some messages properties, see edtriage_en.properties in config-pihsl**
             var GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID = "060f63dd-9588-4dc2-bf19-c90da02bff15";
             // Public properties, assigned to the instance ('obj')
             obj.triageQueueStatus =  toAnswers("triageQueueStatus", [

@@ -21,10 +21,11 @@ angular.module("filters", ['uicommons.filters'])
                 return text;
             }
             var key = ageType + "." + conceptUuid;
-            if(translations.hasOwnProperty(key)){
+
+            if(translations.hasOwnProperty(key) && !translations[key].startsWith("edtriageapp")){  // "startsWith" added to test for translations that are in gsp but not defined messages.properties; this for the special case where we only define custo display text in Sierra Leone
                 return translations[key];
             }
-            else if(translations.hasOwnProperty(conceptUuid)){
+            else if(translations.hasOwnProperty(conceptUuid) && !translations[conceptUuid].startsWith("edtriageapp")){  // see above for explanation of "startsWith"
                 return translations[conceptUuid];
             }
             else{

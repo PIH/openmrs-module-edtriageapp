@@ -243,102 +243,85 @@ angular.module("edTriagePatientFactory", [])
                 var obsUuid = data.obs[i].uuid;
                 var v = data.obs[i].value;
 
-                if (uuid == concepts.triageQueueStatus.uuid) {
-                    //this concept has answers that are uuid,
-                    // so you need to get the uuid instead
-                    ret.triageQueueStatus = _v(v.uuid, obsUuid);
-                }
-                else if (uuid == concepts.triageColorCode.uuid) {
-                    ret.score.colorCode = v.uuid;
-                    ret.existingColorCodeObsUuid = obsUuid;
-                }
-                else if (uuid == concepts.triageScore.uuid) {
-                    ret.score.numericScore = v;
-                    ret.existingNumericScoreObsUuid = obsUuid;
-                }
-                else if (uuid == concepts.triageWaitingTime.uuid) {
-                    ret.triageWaitingTime = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.chiefComplaint.uuid) {
-                    ret.chiefComplaint = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.respiratoryRate.uuid) {
-                    ret.vitals.respiratoryRate = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.oxygenSaturation.uuid) {
-                    ret.vitals.oxygenSaturation = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.heartRate.uuid) {
-                    ret.vitals.heartRate = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.diastolicBloodPressure.uuid) {
-                    ret.vitals.diastolicBloodPressure = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.systolicBloodPressure.uuid) {
-                    ret.vitals.systolicBloodPressure = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.temperature.uuid) {
-                    ret.vitals.temperature = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.weight.uuid) {
-                    ret.vitals.weight = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.vitals.mobility.uuid) {
-                    ret.vitals.mobility = _v(v.uuid, obsUuid);
-                }
-                else if (uuid == concepts.clinicalImpression.uuid) {
-                    ret.clinicalImpression = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.labs.glucose.uuid) {
-                    ret.labs.glucose = _v(v, obsUuid);
-                }
-                else if (uuid == concepts.labs.lowGlucoseLevel.uuid) {
-                    ret.labs.lowGlucoseLevel = _v(v.uuid, obsUuid);
-                }
-                else if (uuid == concepts.labs.highGlucoseLevel.uuid) {
-                    ret.labs.highGlucoseLevel = _v(v.uuid, obsUuid);
-                }
-                else if (uuid == concepts.labs.pregnancy_test.uuid) {
-                    ret.labs.pregnancy_test = _v(v.uuid, obsUuid);
-                }
-                // since treatments "oxygen" and "paracetamol"
-                else if (uuid == concepts.treatment.oxygen.uuid && v.uuid == concepts.treatment.oxygen.answers[0].uuid) {
-                    ret.treatment.oxygen = _v(v.uuid, obsUuid);
-                }
-                else if (uuid == concepts.treatment.paracetamol.uuid && v.uuid == concepts.treatment.paracetamol.answers[0].uuid) {
-                    ret.treatment.paracetamol = _v(v.uuid, obsUuid);
-                }
-                else if (uuid == concepts.treatment.paracetamolDose.uuid) {
-                    ret.treatment.paracetamolDose = _v(v, obsUuid);
-                }
-                else {
-                    //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share
-                    //  we need to find out which question the observation answers
-
-                    //theck the vital that uses this
-                    var found = _handleAnswerList(concepts.vitals.consciousness, v.uuid, obsUuid);
-                    if(found != null){
-                        ret.vitals.consciousness =  found;
-                        continue;
+                if (uuid !== null) {
+                    if (uuid == concepts.triageQueueStatus.uuid) {
+                        //this concept has answers that are uuid,
+                        // so you need to get the uuid instead
+                        ret.triageQueueStatus = _v(v.uuid, obsUuid);
+                    } else if (uuid == concepts.triageColorCode.uuid) {
+                        ret.score.colorCode = v.uuid;
+                        ret.existingColorCodeObsUuid = obsUuid;
+                    } else if (uuid == concepts.triageScore.uuid) {
+                        ret.score.numericScore = v;
+                        ret.existingNumericScoreObsUuid = obsUuid;
+                    } else if (uuid == concepts.triageWaitingTime.uuid) {
+                        ret.triageWaitingTime = _v(v, obsUuid);
+                    } else if (uuid == concepts.chiefComplaint.uuid) {
+                        ret.chiefComplaint = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.respiratoryRate.uuid) {
+                        ret.vitals.respiratoryRate = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.oxygenSaturation.uuid) {
+                        ret.vitals.oxygenSaturation = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.heartRate.uuid) {
+                        ret.vitals.heartRate = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.diastolicBloodPressure.uuid) {
+                        ret.vitals.diastolicBloodPressure = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.systolicBloodPressure.uuid) {
+                        ret.vitals.systolicBloodPressure = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.temperature.uuid) {
+                        ret.vitals.temperature = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.weight.uuid) {
+                        ret.vitals.weight = _v(v, obsUuid);
+                    } else if (uuid == concepts.vitals.mobility.uuid) {
+                        ret.vitals.mobility = _v(v.uuid, obsUuid);
+                    } else if (uuid == concepts.clinicalImpression.uuid) {
+                        ret.clinicalImpression = _v(v, obsUuid);
+                    } else if (uuid == concepts.labs.glucose.uuid) {
+                        ret.labs.glucose = _v(v, obsUuid);
+                    } else if (uuid == concepts.labs.lowGlucoseLevel.uuid) {
+                        ret.labs.lowGlucoseLevel = _v(v.uuid, obsUuid);
+                    } else if (uuid == concepts.labs.highGlucoseLevel.uuid) {
+                        ret.labs.highGlucoseLevel = _v(v.uuid, obsUuid);
                     }
-
-                    var found = _handleAnswerList(concepts.vitals.trauma, v.uuid, obsUuid);
-                    if(found != null){
-                        ret.vitals.trauma =  found;
-                        continue;
+                    // added null checks here, since pregnancy test and treatments are turned off in Sierra Leone
+                    else if (uuid == concepts.labs?.pregnancy_test?.uuid) {
+                        ret.labs.pregnancy_test = _v(v.uuid, obsUuid);
                     }
+                    else if (uuid == concepts.treatment?.oxygen?.uuid && v.uuid == concepts.treatment?.oxygen?.answers[0].uuid) {
+                        ret.treatment.oxygen = _v(v.uuid, obsUuid);
+                    } else if (uuid == concepts.treatment?.paracetamol?.uuid && v.uuid == concepts.treatment?.paracetamol?.answers[0].uuid) {
+                        ret.treatment.paracetamol = _v(v.uuid, obsUuid);
+                    } else if (uuid == concepts.treatment?.paracetamolDose?.uuid) {
+                        ret.treatment.paracetamolDose = _v(v, obsUuid);
+                    } else {
+                        //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share
+                        //  we need to find out which question the observation answers
+
+                        //theck the vital that uses this
+                        var found = _handleAnswerList(concepts.vitals.consciousness, v.uuid, obsUuid);
+                        if (found != null) {
+                            ret.vitals.consciousness = found;
+                            continue;
+                        }
+
+                        var found = _handleAnswerList(concepts.vitals.trauma, v.uuid, obsUuid);
+                        if (found != null) {
+                            ret.vitals.trauma = found;
+                            continue;
+                        }
 
 
-                    for(var prop in concepts.symptoms){
-                        var symptom = concepts.symptoms[prop];
-                        var found = _handleAnswerList(symptom, v.uuid, obsUuid);
-                        if(found){
-                            ret.symptoms[prop] = found;
-                            break;
+                        for (var prop in concepts.symptoms) {
+                            var symptom = concepts.symptoms[prop];
+                            var found = _handleAnswerList(symptom, v.uuid, obsUuid);
+                            if (found) {
+                                ret.symptoms[prop] = found;
+                                break;
+                            }
                         }
                     }
-                }
 
+                }
             }
 
             //ret.confirmNoSymptoms = !ret.atLeastOneSymptomPresent();

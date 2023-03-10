@@ -201,7 +201,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						</tr>
 
 						<tr>
-							<td><label>{{edTriagePatientConcept.vitals.heartRate.label}}</label></td>
+							<td><label>${ ui.message("edtriage.pulse") }</label></td>
 							<td colspan="3"><input ng-disabled="!editable" class="form-control" id="heartRate" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="0" max="300"
 									   ng-model="edTriagePatient.vitals.heartRate.value" /></td>
 							<td><small>${ ui.message("edtriageapp.perMinute") }</small></td>
@@ -406,7 +406,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 									<score-display score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatientConcept.labs.glucose.uuid)" score="currentScore.individualScores[edTriagePatientConcept.labs.glucose.uuid]"></score-display>
 								</td>
 							</tr>
-							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy_test'"
+							<tr ng-show="edTriagePatientConcept.labs.pregnancy_test" concept-selector-row ed-triage-patient="edTriagePatient" input-id="'pregnancy_test'"
 								ng-if="edTriagePatient.patient.gender == 'F' && edTriagePatient.patient.ageType == 'A'"
 								editable="editable"
 								concept="edTriagePatientConcept.labs.pregnancy_test"
@@ -419,7 +419,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</div>
 			</div>
 
-			<div class="col-sm-6">
+			<div class="col-sm-6" ng-show="edTriagePatientConcept.treatment">
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">${ui.message("edtriageapp.immedTreatment")}</h3>
@@ -541,6 +541,7 @@ ${ ui.includeFragment("edtriageapp", "translations") }
 			.value('translations', translations)
 			.value('editable', ${ editable })
 			.value('serverDateTimeInMillis', ${ currentDateTimeInMillis })
+			.value('config', '${ edtriageConfig }');
 
 	jq(function() {
 		// make sure we reload the page if the location is changes; this custom event is emitted by by the location selector in the header

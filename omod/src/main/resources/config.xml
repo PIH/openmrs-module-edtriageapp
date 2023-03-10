@@ -38,5 +38,13 @@
         <description>Able to triage a patient</description>
     </privilege>
 
+	<globalProperty>
+		<property>edtriageapp.config</property>
+		<defaultValue></defaultValue>
+		<description>
+			Allows overriding the default questions and scoring rules with a custom config; currently only "sierraleone" is supported
+		</description>
+	</globalProperty>
+
 </module>
 

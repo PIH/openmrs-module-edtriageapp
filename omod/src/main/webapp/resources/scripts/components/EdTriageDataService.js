@@ -22,10 +22,10 @@ angular.module("edTriageDataService", [])
             /* load a the concept definition for a ed triage patient
             * @returns {EDTriageConcpt} the concept that make up this app
             * */
-            this.loadConcept = function () {
+            this.loadConcept = function (config) {
                 return $http.get(CONSTANTS.URLS.CONCEPTS + '/' + CONSTANTS.ED_TRIAGE_CONCEPT_UUIDS[0] + "?v=full").then(function (resp) {
                     if (resp.status == 200) {
-                        return EdTriageConcept.build(resp.data.setMembers);
+                        return EdTriageConcept.build(config, resp.data.setMembers);
 
                     }
                     else {
@@ -175,16 +175,16 @@ angular.module("edTriageDataService", [])
                 // clinical impressions
                 addObs(encounter.obs, obsToDelete, edTriageConcept.clinicalImpression.uuid, edTriagePatient.clinicalImpression);
 
-                // labs
+                // labs  (note ?. null checks for concepts that might not be defined in some implementations, ie Sierra Leone)
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.glucose.uuid, edTriagePatient.labs.glucose);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.lowGlucoseLevel.uuid, edTriagePatient.labs.lowGlucoseLevel);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs.highGlucoseLevel.uuid, edTriagePatient.labs.highGlucoseLevel);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.labs.pregnancy_test.uuid, edTriagePatient.labs.pregnancy_test);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.labs?.pregnancy_test?.uuid, edTriagePatient.labs.pregnancy_test);
 
-                // treatment
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.oxygen.uuid, edTriagePatient.treatment.oxygen);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamol.uuid, edTriagePatient.treatment.paracetamol);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment.paracetamolDose.uuid,
+                // treatment (note ?. null checks for concepts that might not be defined in some implementations, ie Sierra Leone)
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.oxygen?.uuid, edTriagePatient.treatment.oxygen);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.paracetamol?.uuid, edTriagePatient.treatment.paracetamol);
+                addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.paracetamolDose?.uuid,
                     {
                         uuid: edTriagePatient.treatment.paracetamolDose ? edTriagePatient.treatment.paracetamolDose.uuid : null,
                         value: edTriagePatient.treatment.paracetamolDose ? Math.floor(edTriagePatient.treatment.paracetamolDose.value) : null
@@ -302,7 +302,7 @@ angular.module("edTriageDataService", [])
              * helper function to add an observation to the list
              * */
             function addObs(obsList, obsToDeleteList, concept, obs) {
-                if(obs == null){
+                if(obs == null || concept == null){
                     return;
                 }
 

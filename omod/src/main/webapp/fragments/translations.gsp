@@ -68,6 +68,10 @@
 		'118729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.118729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
 		'3cd20974-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3cd20974-26fe-102b-80cb-0017a47871b2")}",
 		'4c1c143e-c1b3-4225-8053-93ab22f7bbb3':"${ui.message("edtriageapp.4c1c143e-c1b3-4225-8053-93ab22f7bbb3")}",
+		'A.f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100':"${ui.message("edtriageapp.A.f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100")}",
+		'I.f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100':"${ui.message("edtriageapp.I.f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100")}",
+		'C.f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100':"${ui.message("edtriageapp.C.f7a1fd17-f12d-48c1-b3dd-8e9fc95c8100")}",
+
 	} ;
 </script>
 

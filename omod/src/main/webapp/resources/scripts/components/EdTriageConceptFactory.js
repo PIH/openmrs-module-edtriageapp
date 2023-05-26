@@ -492,6 +492,11 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("3cedf31e-26fe-102b-80cb-0017a47871b2", "impaired breathing",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 2),
                         toAnswer("911c064e-5247-4017-a9fd-b30105c36052", "shock",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 3),]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
+                signsOfShock: toAnswers('signsOfShock', [
+                      toAnswer("162509AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'cold hands and feet', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 1),
+                      toAnswer("162512AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'CRT>3s', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 2),
+                      toAnswer("124823AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'pulse weak/fast', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 3)]
+                    ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 dehydration: toAnswers('dehydration', [
                         toAnswer("116334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'lethargy', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 1),
                         toAnswer("164457AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'sunken eyes', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 2),

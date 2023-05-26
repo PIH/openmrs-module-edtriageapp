@@ -167,6 +167,14 @@
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.emergencySigns, model, model.symptoms.emergencySigns.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.symptoms.emergencySigns, model.symptoms.emergencySigns.value).labelTranslated(model.patient.ageType)"
                                                      color="getColorClassFromScore(model.patient.uuid, model.symptoms.emergencySigns.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.signsOfShock.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.signsOfShock, model, model.symptoms.signsOfShock.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.signsOfShock, model.symptoms.signsOfShock.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.signsOfShock.value)"></show-list-item-if-has-value>
+                        <show-list-item-if-has-value item-value="model.symptoms.dehydration.value"
+                                                     score="getScoreForProp(edTriagePatientConcept.symptoms.dehydration, model, model.symptoms.dehydration.value)"
+                                                     item-label="findAnswer(edTriagePatientConcept.symptoms.dehydration, model.symptoms.dehydration.value).labelTranslated(model.patient.ageType)"
+                                                     color="getColorClassFromScore(model.patient.uuid, model.symptoms.dehydration.value)"></show-list-item-if-has-value>
                         <show-list-item-if-has-value item-value="model.symptoms.neurological.value"
                                                      score="getScoreForProp(edTriagePatientConcept.symptoms.neurological, model, model.symptoms.neurological.value)"
                                                      item-label="findAnswer(edTriagePatientConcept.symptoms.neurological, model.symptoms.neurological.value).labelTranslated(model.patient.ageType)"

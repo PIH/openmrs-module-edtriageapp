@@ -32,6 +32,7 @@ angular.module("edTriagePatientFactory", [])
             };
             this.symptoms = {
                 emergencySigns: null,
+                signsOfShock: null,
                 dehydration: null,
                 neurological: null,
                 burn: null,
@@ -158,6 +159,7 @@ angular.module("edTriagePatientFactory", [])
 
         EdTriagePatient.prototype.atLeastOneSymptomPresent = function () {
             return (this.symptoms.emergencySigns && this.symptoms.emergencySigns.value) ||
+                (this.symptoms.signsOfShock && this.symptoms.signsOfShock.value) ||
                 (this.symptoms.dehydration && this.symptoms.dehydration.value) ||
                 (this.symptoms.neurological && this.symptoms.neurological.value) ||
                 (this.symptoms.burn && this.symptoms.burn.value) ||

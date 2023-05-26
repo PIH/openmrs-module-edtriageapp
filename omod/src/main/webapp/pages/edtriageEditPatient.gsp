@@ -277,6 +277,15 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                 <div class="panel-body">
 					<table class="borderless">
 						<tbody>
+							<tr concept-selector-row
+								ed-triage-patient="edTriagePatient"
+								ng-if="edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C'"
+								input-id="'dehydration'"
+								concept="edTriagePatientConcept.symptoms.dehydration"
+								editable="editable"
+								sorter="sortAnswer"
+								selected-concept="edTriagePatient.symptoms.dehydration.value"  concept-label="'${ui.message("edtriageapp.dehydration")}'"
+								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.dehydration.value)"></tr>
 							<tr concept-selector-row ed-triage-patient="edTriagePatient" input-id="'neurological'" concept="edTriagePatientConcept.symptoms.neurological"
 								editable="editable"
 								sorter="sortAnswer"

@@ -279,16 +279,17 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						<tbody>
 							<tr concept-selector-row
 								ed-triage-patient="edTriagePatient"
-								ng-if="edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C'"
+								ng-if="(config != null) && (config.toLowerCase() == 'sierraleone') && (edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C')"
 								input-id="'signsOfShock'"
 								concept="edTriagePatientConcept.symptoms.signsOfShock"
 								editable="editable"
 								sorter="sortAnswer"
-								selected-concept="edTriagePatient.symptoms.signsOfShock.value"  concept-label="'${ui.message("edtriageapp.signsOfShock")}'"
+								selected-concept="edTriagePatient.symptoms.signsOfShock.value"
+								concept-label="'${ui.message("edtriageapp.signsOfShock")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.signsOfShock.value)"></tr>
 							<tr concept-selector-row
 								ed-triage-patient="edTriagePatient"
-								ng-if="edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C'"
+								ng-if="(config != null) && (config.toLowerCase() == 'sierraleone') && (edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C')"
 								input-id="'dehydration'"
 								concept="edTriagePatientConcept.symptoms.dehydration"
 								editable="editable"

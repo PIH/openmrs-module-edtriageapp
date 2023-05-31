@@ -15,6 +15,7 @@ angular.module("edTriagePatientController", [])
             $scope.patientDashboard = patientDashboard;
             $scope.lastUpdatedAtInMillis = new Date().getTime();
             $scope.serverTimeDelta = $scope.lastUpdatedAtInMillis - serverDateTimeInMillis;
+            $scope.config = config;
 
             /* helper function for finding an answer for a question in the concept def
              * @param {EdTriageConcept} concept - the concepts

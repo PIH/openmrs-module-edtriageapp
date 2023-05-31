@@ -162,8 +162,13 @@ angular.module("edTriageDataService", [])
 
                 // // symptoms  ----
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.emergencySigns.uuid, edTriagePatient.symptoms.emergencySigns);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.signsOfShock.uuid, edTriagePatient.symptoms.signsOfShock);
-                addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.dehydration.uuid, edTriagePatient.symptoms.dehydration);
+                if (edTriageConcept.symptoms.signsOfShock != null) {
+                    addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.signsOfShock.uuid, edTriagePatient.symptoms.signsOfShock);
+                }
+                if (edTriageConcept.symptoms.dehydration != null ) {
+                    addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.dehydration.uuid, edTriagePatient.symptoms.dehydration);
+                }
+
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.neurological.uuid, edTriagePatient.symptoms.neurological);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.burn.uuid, edTriagePatient.symptoms.burn);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.symptoms.diabetic.uuid, edTriagePatient.symptoms.diabetic);

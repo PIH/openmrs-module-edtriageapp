@@ -338,7 +338,7 @@ angular.module("edTriagePatientController", [])
             '<td colspan="4">' +
             '<concept-select-box ng-show="editable" ed-triage-patient="edTriagePatient" sorter="sorter" concept="concept" ' +
             ' selected-concept="selectedConcept"></concept-select-box>' +
-            '<concept-display-box ng-show="!editable" concept="concept" selected-concept="selectedConcept"></concept-display-box>' +
+            '<concept-display-box ng-show="!editable" concept="concept" selected-concept="selectedConcept" ed-triage-patient="edTriagePatient"></concept-display-box>' +
             '</td>' +
             '<td><score-display score="score" score-label-class="scoreLabelClass"></score-display></td></tr>'
         };
@@ -364,9 +364,10 @@ angular.module("edTriagePatientController", [])
         restrict: 'E',
         scope: {
             concept: "=",
+            edTriagePatient: "=",
             selectedConcept: "="
         },
-        template: "{{ concept | findAnswer: selectedConcept | property: 'label' }}"
+        template: "{{ concept | findAnswer: selectedConcept | labelTranslated : edTriagePatient.patient.ageType }}"
     };
 }).directive('scoreDisplay', function () {
     return {

@@ -15,6 +15,10 @@ angular.module("filters", ['uicommons.filters'])
         return function(object, property) {
             return object ? object[property] : null;
         }}])
+    .filter('labelTranslated', [ function() {
+        return function(concept, ageType) {
+            return concept ? concept.labelTranslated(ageType) : null;
+    }}])
     .filter('translate', [  function() {
         return function(text, conceptUuid, ageType) {
             if(text === undefined || conceptUuid === undefined || ageType ===undefined){

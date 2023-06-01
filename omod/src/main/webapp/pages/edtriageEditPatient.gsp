@@ -279,7 +279,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 						<tbody>
 							<tr concept-selector-row
 								ed-triage-patient="edTriagePatient"
-								ng-if="(config != null) && (config.toLowerCase() == 'sierraleone') && (edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C')"
+								ng-if="(edTriagePatientConcept.symptoms.signsOfShock) && (edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C')"
 								input-id="'signsOfShock'"
 								concept="edTriagePatientConcept.symptoms.signsOfShock"
 								editable="editable"
@@ -289,7 +289,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.signsOfShock.value)"></tr>
 							<tr concept-selector-row
 								ed-triage-patient="edTriagePatient"
-								ng-if="(config != null) && (config.toLowerCase() == 'sierraleone') && (edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C')"
+								ng-if="(edTriagePatientConcept.symptoms.signsOfShock) && (edTriagePatient.patient.ageType == 'I' || edTriagePatient.patient.ageType == 'C')"
 								input-id="'dehydration'"
 								concept="edTriagePatientConcept.symptoms.dehydration"
 								editable="editable"

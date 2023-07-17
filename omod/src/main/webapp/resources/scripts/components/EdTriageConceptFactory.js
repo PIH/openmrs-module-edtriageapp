@@ -500,17 +500,18 @@ angular.module("edTriageConceptFactory", [])
                 dehydration: toAnswers('dehydration', [
                         toAnswer("116334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'lethargy', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 1),
                         toAnswer("164457AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'sunken eyes', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 2),
-                        toAnswer("2225348c-2617-49fc-826c-50067511ba6c", 'V slow skin pinch', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 3)]
+                        toAnswer("2225348c-2617-49fc-826c-50067511ba6c", 'Slow skin pinch', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 3)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 neurological: toAnswers('neurological',[
                         toAnswer("3cce938e-26fe-102b-80cb-0017a47871b2", "seizure - convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
                         toAnswer("ad52aee5-c789-4442-8dfc-2242375f22e8", "seizure - post convulsive",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 2),
                         toAnswer("f4433b74-6396-47ff-aa63-3900493ebf23", "acute focal neurologic deficit",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, null, 3),
                         toAnswer("eacf7a54-b2fb-4dc1-b2f8-ee0b5926c16c", "level of consciousness reduced",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 4),
-                        toAnswer("8084b7b2-adc4-4b83-aafc-647d1308c988", "drowsiness",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 5),
-                        toAnswer("121748AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "aggression",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.CHILD, 6),
-                        toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.INFANT, 7),
-                        toAnswer("152330AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "restless and irritable",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, 'CI', 8)]
+                        toAnswer("144576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 'Coma', { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 5),
+                        toAnswer("8084b7b2-adc4-4b83-aafc-647d1308c988", "drowsiness",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 6),
+                        toAnswer("121748AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "aggression",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.CHILD, 7),
+                        toAnswer("2b436367-c44b-4835-90ad-e93e77d45a97", "infantile hypotonia",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.INFANT, 8),
+                        toAnswer("152330AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "restless and irritable",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, 'CI', 9)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 burn: toAnswers('burn',[
                         toAnswer("120977AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "burn - face/head/neck",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, null, 1),
@@ -545,7 +546,6 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("c9b21031-f76d-463e-823a-cefdb35ed259", "eye injury",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 14)]
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID),
                 digestive: toAnswers('digestive',[
-                        toAnswer("330d227b-fada-4b8b-a05c-ba56b8e96e19", "severe dehydration",  { numericScore: 0, colorCode: EdTriageConcept.score.red }, 'CI', 1),
                         toAnswer("139006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - fresh blood",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, EdTriageConcept.ageType.ADULT, 2),
                         toAnswer("130334AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "vomiting - persistent",  { numericScore: 0, colorCode: EdTriageConcept.score.yellow }, EdTriageConcept.ageType.ADULT, 3),
                         toAnswer("139582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Gastrointestinal hemorrhage",  { numericScore: 0, colorCode: EdTriageConcept.score.orange }, 'CI', 4),

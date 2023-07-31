@@ -437,6 +437,36 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					</div>
 				</div>
 			</div>
+			<div class="col-sm-6" ng-if="config == 'sierraleone' && edTriagePatient.patient.ageType == 'A'">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">${ui.message("edtriageapp.definitions")}</h3>
+					</div>
+
+					<div class="panel-body ">
+						<table class="table table-condensed borderless">
+							<thead>
+							</thead>
+							<tbody>
+								<tr>
+									<td><label>${ui.message("edtriageapp.trauma.definition")}:</label>
+									<ul style="list-style: disc; margin-left: 20px; font-size: smaller">
+										<li>High speed any RTA (> 60 km/hour or with ejection)  </li>
+										<li>Motorcycle RTA with ejection</li>
+										<li>Pedestrian/cyclist vs vehicle with speed</li>
+										<li>Death in the accident</li>
+										<li>Fall from height (> 2 m)</li>
+										<li>Crush injuries</li>
+										<li>Weapon/knife assault thorax, abdomen or pelvis</li>
+										<li>Blast injuries</li>
+									</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 
 			<div class="col-sm-6" ng-show="edTriagePatientConcept.treatment">
 				<div class="panel panel-info">

@@ -189,6 +189,7 @@ angular.module("edTriageDataService", [])
                 addObs(encounter.obs, obsToDelete, edTriageConcept.labs?.pregnancy_test?.uuid, edTriagePatient.labs.pregnancy_test);
 
                 // treatment (note ?. null checks for concepts that might not be defined in some implementations, ie Sierra Leone)
+                addObs(encounter.obs, obsToDelete, edTriageConcept.transferToLocation?.uuid, edTriagePatient.transferToLocation);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.oxygen?.uuid, edTriagePatient.treatment.oxygen);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.paracetamol?.uuid, edTriagePatient.treatment.paracetamol);
                 addObs(encounter.obs, obsToDelete, edTriageConcept.treatment?.paracetamolDose?.uuid,

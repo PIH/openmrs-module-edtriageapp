@@ -537,6 +537,21 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<span ng-hide="editable">{{ edTriagePatient.clinicalImpression.value }}</span>
 			</div>
 		</div>
+		<!-- The Transfer to location should only be present in the Sierra Leone form -->
+		<div class="panel panel-info" ng-show="edTriagePatientConcept.transferToLocation">
+			<div class="panel-heading">
+				<h3 class="panel-title">${ ui.message("edtriageapp.transfer.destination") }</h3>
+			</div>
+			<div class="panel-body">
+				<span concept-selector-row ed-triage-patient="edTriagePatient"
+					editable="editable"
+					concept="edTriagePatientConcept.transferToLocation"
+					concept-label=""
+					sorter="sortAnswer"
+					selected-concept="edTriagePatient.transferToLocation.value">
+				</span>
+			</div>
+		</div>
 
 		<div class="panel panel-info" ng-show="edTriagePatient.encounterProviders">
 			<div class="panel-heading">

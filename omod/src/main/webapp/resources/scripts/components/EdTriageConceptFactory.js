@@ -316,6 +316,15 @@ angular.module("edTriageConceptFactory", [])
             obj.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
             obj.triageWaitingTime = toAnswer("d9a8fc6f-8695-46b8-854f-2c9e818b4568", "triageWaitingTime");
             obj.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
+            obj.transferToLocation = toAnswers("transferToLocation", [
+              toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "outpatientDepartment", null, EdTriageConcept.ageType.ALL, 1),
+              toAnswer("9b812de9-1a80-4bc8-9c8a-861516051811", "opdPediatric", null, EdTriageConcept.ageType.ALL, 2),
+              toAnswer("160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "adultED", null, EdTriageConcept.ageType.ADULT,3),
+              toAnswer("1e7c8432-4158-4e9b-9916-1ea1f94056e1", "pediatricED", null, EdTriageConcept.ageType.INFANT + EdTriageConcept.ageType.CHILD,4),
+              toAnswer("164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "minorTheater",null, EdTriageConcept.ageType.ALL, 5),
+              toAnswer("3ce1e6e6-26fe-102b-80cb-0017a47871b2", "maternityWard", null, EdTriageConcept.ageType.ALL, 6)
+            ],
+              "de1965b8-5cd9-403c-96b9-e89585aa900b");
             obj.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             obj.labs = {
                 glucose: toAnswer("3cd4e194-26fe-102b-80cb-0017a47871b2", "glucose", function(ageType, value){

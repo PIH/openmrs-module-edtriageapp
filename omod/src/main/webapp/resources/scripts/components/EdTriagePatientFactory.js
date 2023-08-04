@@ -57,7 +57,8 @@ angular.module("edTriagePatientFactory", [])
                 oxygen: null,
                 paracetamol: null,
                 paracetamolDose: null
-            }
+            };
+            this.transferToLocation = null;
         }
         /*
         * gets the html color for the code
@@ -297,6 +298,8 @@ angular.module("edTriagePatientFactory", [])
                         ret.treatment.paracetamol = _v(v.uuid, obsUuid);
                     } else if (uuid == concepts.treatment?.paracetamolDose?.uuid) {
                         ret.treatment.paracetamolDose = _v(v, obsUuid);
+                    } else if (uuid == concepts.transferToLocation?.uuid) {
+                        ret.transferToLocation = _v(v.uuid, obsUuid);
                     } else {
                         //there is a generic concept set uuis for symptoms (and one vital), that all the symptoms share
                         //  we need to find out which question the observation answers

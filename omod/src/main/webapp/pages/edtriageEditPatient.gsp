@@ -437,7 +437,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6" ng-if="config == 'sierraleone' && edTriagePatient.patient.ageType == 'A'">
+			<div class="col-sm-6" ng-if=" config == 'sierraleone' ">
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">${ui.message("edtriageapp.definitions")}</h3>

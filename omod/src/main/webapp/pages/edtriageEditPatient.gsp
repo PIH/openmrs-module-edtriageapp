@@ -543,13 +543,48 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<h3 class="panel-title">${ ui.message("edtriageapp.transfer.destination") }</h3>
 			</div>
 			<div class="panel-body">
-				<span concept-selector-row ed-triage-patient="edTriagePatient"
-					editable="editable"
-					concept="edTriagePatientConcept.transferToLocation"
-					concept-label=""
-					sorter="sortAnswer"
-					selected-concept="edTriagePatient.transferToLocation.value">
-				</span>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="opdAdult" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'3cdc871e-26fe-102b-80cb-0017a47871b2'"/>
+							<label>${ui.message("edtriageapp.3cdc871e-26fe-102b-80cb-0017a47871b2")}</label>
+						</div>
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="adultED" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+							<label>${ui.message("edtriageapp.160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
+						</div>
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="maternity" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'3ce1e6e6-26fe-102b-80cb-0017a47871b2'"/>
+							<label>${ui.message("edtriageapp.3ce1e6e6-26fe-102b-80cb-0017a47871b2")}</label>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 20px">
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="opdPediatric" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'9b812de9-1a80-4bc8-9c8a-861516051811'"/>
+							<label>${ui.message("edtriageapp.9b812de9-1a80-4bc8-9c8a-861516051811")}</label>
+						</div>
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="pediatricED" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'1e7c8432-4158-4e9b-9916-1ea1f94056e1'"/>
+							<label>${ui.message("edtriageapp.1e7c8432-4158-4e9b-9916-1ea1f94056e1")}</label>
+						</div>
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="minorTheater" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+							<label>${ui.message("edtriageapp.164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

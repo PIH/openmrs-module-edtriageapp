@@ -91,8 +91,16 @@
 		'9b812de9-1a80-4bc8-9c8a-861516051811':"${ui.message("edtriageapp.9b812de9-1a80-4bc8-9c8a-861516051811")}",
 		'164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
 		'3ce1e6e6-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ce1e6e6-26fe-102b-80cb-0017a47871b2")}",
+		'3ce1e268-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ce1e268-26fe-102b-80cb-0017a47871b2")}",
 		'160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
 		'1e7c8432-4158-4e9b-9916-1ea1f94056e1':"${ui.message("edtriageapp.1e7c8432-4158-4e9b-9916-1ea1f94056e1")}",
+		'988c3b9c-6a5a-11e2-b6f9-aa00f871a3e1':"${ui.message("edtriageapp.988c3b9c-6a5a-11e2-b6f9-aa00f871a3e1")}",
+        '3ce6ae60-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ce6ae60-26fe-102b-80cb-0017a47871b2")}",
+        '868d99fd-f9d6-4367-b238-69f26ee60e26':"${ui.message("edtriageapp.868d99fd-f9d6-4367-b238-69f26ee60e26")}",
+        '79b58985-301d-4222-8154-455a0be76015':"${ui.message("edtriageapp.79b58985-301d-4222-8154-455a0be76015")}",
+        '430751c7-e8e2-4555-be66-ae085de3f5ed':"${ui.message("edtriageapp.430751c7-e8e2-4555-be66-ae085de3f5ed")}",
+        '164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
+        '9885de8c-6a5a-11e2-b6f9-aa00f871a3e1':"${ui.message("edtriageapp.9885de8c-6a5a-11e2-b6f9-aa00f871a3e1")}",
 	} ;
 </script>
 

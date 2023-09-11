@@ -66,8 +66,12 @@
 </script>
 
 <style>
-
-
+    form label, .form label {
+        display: block;
+        text-align: left;
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
 </style>
 
 ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
@@ -551,38 +555,100 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								   ng-true-value="'3cdc871e-26fe-102b-80cb-0017a47871b2'"/>
 							<label>${ui.message("edtriageapp.3cdc871e-26fe-102b-80cb-0017a47871b2")}</label>
 						</div>
-						<div class="col-xs-4">
-							<input ng-disabled="!editable" id="adultED" type="checkbox"
-								   ng-model="edTriagePatient.transferToLocation.value"
-								   ng-true-value="'160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
-							<label>${ui.message("edtriageapp.160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
-						</div>
-						<div class="col-xs-4">
-							<input ng-disabled="!editable" id="maternity" type="checkbox"
-								   ng-model="edTriagePatient.transferToLocation.value"
-								   ng-true-value="'3ce1e6e6-26fe-102b-80cb-0017a47871b2'"/>
-							<label>${ui.message("edtriageapp.3ce1e6e6-26fe-102b-80cb-0017a47871b2")}</label>
-						</div>
-					</div>
-					<div class="row" style="margin-top: 20px">
-						<div class="col-xs-4">
-							<input ng-disabled="!editable" id="opdPediatric" type="checkbox"
-								   ng-model="edTriagePatient.transferToLocation.value"
-								   ng-true-value="'9b812de9-1a80-4bc8-9c8a-861516051811'"/>
-							<label>${ui.message("edtriageapp.9b812de9-1a80-4bc8-9c8a-861516051811")}</label>
-						</div>
-						<div class="col-xs-4">
-							<input ng-disabled="!editable" id="pediatricED" type="checkbox"
-								   ng-model="edTriagePatient.transferToLocation.value"
-								   ng-true-value="'1e7c8432-4158-4e9b-9916-1ea1f94056e1'"/>
-							<label>${ui.message("edtriageapp.1e7c8432-4158-4e9b-9916-1ea1f94056e1")}</label>
-						</div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="opdPediatric" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'9b812de9-1a80-4bc8-9c8a-861516051811'"/>
+                            <label>${ui.message("edtriageapp.9b812de9-1a80-4bc8-9c8a-861516051811")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="ncd" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'868d99fd-f9d6-4367-b238-69f26ee60e26'"/>
+                            <label>${ui.message("edtriageapp.868d99fd-f9d6-4367-b238-69f26ee60e26")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="adultED" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+                            <label>${ui.message("edtriageapp.160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
+                        </div>
+
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="pediatricED" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'1e7c8432-4158-4e9b-9916-1ea1f94056e1'"/>
+                            <label>${ui.message("edtriageapp.1e7c8432-4158-4e9b-9916-1ea1f94056e1")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="tb-hiv" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'79b58985-301d-4222-8154-455a0be76015'"/>
+                            <label>${ui.message("edtriageapp.79b58985-301d-4222-8154-455a0be76015")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="medWard" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'9885de8c-6a5a-11e2-b6f9-aa00f871a3e1'"/>
+                            <label>${ui.message("edtriageapp.9885de8c-6a5a-11e2-b6f9-aa00f871a3e1")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="pediatricWard" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3ce6ae60-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3ce6ae60-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
+
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="isolation" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'430751c7-e8e2-4555-be66-ae085de3f5ed'"/>
+                            <label>${ui.message("edtriageapp.430751c7-e8e2-4555-be66-ae085de3f5ed")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="anc" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3ce1e268-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3ce1e268-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
+
 						<div class="col-xs-4">
 							<input ng-disabled="!editable" id="minorTheater" type="checkbox"
 								   ng-model="edTriagePatient.transferToLocation.value"
 								   ng-true-value="'164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
 							<label>${ui.message("edtriageapp.164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
 						</div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="surgical-ward" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'988c3b9c-6a5a-11e2-b6f9-aa00f871a3e1'"/>
+                            <label>${ui.message("edtriageapp.988c3b9c-6a5a-11e2-b6f9-aa00f871a3e1")}</label>
+                        </div>
+
+
+						<div class="col-xs-4">
+							<input ng-disabled="!editable" id="maternity" type="checkbox"
+								   ng-model="edTriagePatient.transferToLocation.value"
+								   ng-true-value="'3ce1e6e6-26fe-102b-80cb-0017a47871b2'"/>
+							<label>${ui.message("edtriageapp.3ce1e6e6-26fe-102b-80cb-0017a47871b2")}</label>
+						</div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="surgical-opd" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
+                            <label>${ui.message("edtriageapp.164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
+                        </div>
 					</div>
 				</div>
 			</div>

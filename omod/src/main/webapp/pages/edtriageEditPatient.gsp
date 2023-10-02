@@ -649,6 +649,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                                    ng-true-value="'164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"/>
                             <label>${ui.message("edtriageapp.164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}</label>
                         </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="mental-health" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3ced9a68-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3ced9a68-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
 					</div>
 				</div>
 			</div>

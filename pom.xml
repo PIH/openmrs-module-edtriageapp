@@ -51,7 +51,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openMRSVersion>2.5.8</openMRSVersion>
         <appframeworkVersion>2.17.0</appframeworkVersion>
-        <appuiVersion>1.16.0</appuiVersion>
+        <appuiVersion>1.17.0</appuiVersion>
         <uicommonsVersion>2.21.0</uicommonsVersion>
         <uiframeworkVersion>3.24.0</uiframeworkVersion>
         <uilibraryVersion>2.0.7</uilibraryVersion>

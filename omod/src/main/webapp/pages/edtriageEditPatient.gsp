@@ -115,14 +115,14 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-2">
-					<input ng-disabled="!editable" class="form-control" id="weight_in_kg" type="number" min="1" max="2000"  ng-change="handleWeightChange('kg')"
+					<input ng-disabled="!editable" class="form-control" id="weight_in_kg" type="number" min="1" max="250"  ng-change="handleWeightChange('kg')"
 					   ng-model="weightInKg" />
 				</div>
 				<div class="col-xs-1">
 					${ui.message("uicommons.units.kilograms")}
 				</div>
 				<div class="col-xs-2">
-					<input ng-disabled="!editable" class="form-control" id="weight_in_lb" type="number" min="1" max="2000" ng-change="handleWeightChange('lb')"
+					<input ng-disabled="!editable" class="form-control" id="weight_in_lb" type="number" min="1" max="551" ng-change="handleWeightChange('lb')"
 					   ng-model="weightInLb" />
 				</div>
 				<div class="col-xs-1 text-left">

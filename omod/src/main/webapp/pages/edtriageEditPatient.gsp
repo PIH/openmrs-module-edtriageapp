@@ -107,7 +107,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			<span ng-hide="editable">{{ edTriagePatient.chiefComplaint.value }}</span>
 		</div>
 	</div>
-
+	<form name="triageForm" class="form-horizontal" novalidate>
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{edTriagePatientConcept.vitals.weight.label}}</h3>
@@ -131,7 +131,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 		</div>
 	</div>
-	<form name="triageForm" class="form-horizontal" novalidate>
+
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">${ ui.message("edtriageapp.emergencySigns") }</h3>

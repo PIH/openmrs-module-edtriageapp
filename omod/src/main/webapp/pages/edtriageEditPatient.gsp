@@ -147,7 +147,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				<div class="col-xs-4">
 					<input ng-disabled="!editable" id="impairedBreathing" type="checkbox"
 						   ng-model="edTriagePatient.symptoms.emergencySigns.value"
-						   ng-true-value="'3cedf31e-26fe-102b-80cb-0017a47871b2'"/>
+						   ng-true-value="'c568dc8a-dbc0-4478-a442-7e7ea688ea2e'"/>
 					<label>${ui.message("edtriageapp.emergencySigns.impairedBreathing")}</label>
 				</div>
 				<div class="col-xs-4">

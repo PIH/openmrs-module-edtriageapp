@@ -36,7 +36,7 @@ public abstract class TriageTask extends TimerTask {
         if (daemonToken != null && enabled) {
             createAndRunTask();
         } else {
-            log.warn("Not running scheduled task. DaemonToken = " + daemonToken + "; enabled = " + enabled);
+            log.info("Not running scheduled task. DaemonToken = " + daemonToken + "; enabled = " + enabled);
         }
     }
 
@@ -45,7 +45,7 @@ public abstract class TriageTask extends TimerTask {
      */
     public synchronized void createAndRunTask() {
         try {
-            log.warn("Running ED Triage task: " + getClass().getSimpleName());
+            log.info("Running ED Triage task: " + getClass().getSimpleName());
             Daemon.runInDaemonThread(getRunnableTask(), daemonToken);
         } catch (Exception e) {
             log.error("An error occured while running scheduled ED Triage task", e);

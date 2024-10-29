@@ -656,6 +656,20 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                                    ng-true-value="'3ced9a68-26fe-102b-80cb-0017a47871b2'"/>
                             <label>${ui.message("edtriageapp.3ced9a68-26fe-102b-80cb-0017a47871b2")}</label>
                         </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="eye-clinic" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'623ee5c5-e59c-41e9-b62e-bc13a2c142b6'"/>
+                            <label>${ui.message("edtriageapp.623ee5c5-e59c-41e9-b62e-bc13a2c142b6")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="other-location" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3cee7fb4-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.other")}</label>
+                        </div>
 					</div>
 				</div>
 			</div>

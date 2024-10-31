@@ -665,6 +665,13 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
                         </div>
 
                         <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="rainbox-clinic" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'f2948b7f-deac-4cdd-8968-4fc67ab95e05'"/>
+                            <label>${ui.message("edtriageapp.f2948b7f-deac-4cdd-8968-4fc67ab95e05")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
                             <input ng-disabled="!editable" id="other-location" type="checkbox"
                                    ng-model="edTriagePatient.transferToLocation.value"
                                    ng-true-value="'3cee7fb4-26fe-102b-80cb-0017a47871b2'"/>

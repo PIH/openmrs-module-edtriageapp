@@ -356,7 +356,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.other.value)"></tr>
-							<tr>
+							<tr ng-if=" config != 'sierraleone' ">
 								<td>
 									<label>${ui.message("edtriageapp.noSymptomsPresent")}</label>
 								</td>

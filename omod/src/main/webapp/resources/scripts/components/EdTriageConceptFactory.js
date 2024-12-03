@@ -327,27 +327,34 @@ angular.module("edTriageConceptFactory", [])
               "de1965b8-5cd9-403c-96b9-e89585aa900b");
             obj.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             obj.labs = {
-                glucose: toAnswer("3cd4e194-26fe-102b-80cb-0017a47871b2", "glucose", function(ageType, value){
+                glucose: toAnswer("0e9d36ab-ccfe-4716-9060-ad5f330a28af", "glucose", function(ageType, value){
                     if (!isNumber(value)) {
                         return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
 
                     if (ageType == EdTriageConcept.ageType.CHILD || ageType == EdTriageConcept.ageType.INFANT){
-                        if ( value < 55 ) return { numericScore: 0, colorCode: EdTriageConcept.score.red };
-                        if ( ( value > 54 ) && (value < 65)) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
-                        if ( value > 399 ) return { numericScore: 0, colorCode: EdTriageConcept.score.red };
-                        if ( ( value > 199 ) && (value < 300) ) return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
-                        if ( ( value > 299 ) && (value < 400)) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
-                        return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+                        if ( value <= 3 ) return { numericScore: 0, colorCode: EdTriageConcept.score.red };
+                        if ( value >= 22.2 ) return { numericScore: 0, colorCode: EdTriageConcept.score.red };
+
+                        if ( ( value >= 16.6 ) && (value < 22.2)) return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
+
+                        if ( ( value >= 11.1 ) && (value < 16.6) ) return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
+
+                        return {numericScore: 0, colorCode: EdTriageConcept.score.green };
                     } else {
-                        if ( value < 60 ) { return {numericScore: 0, colorCode: EdTriageConcept.score.red} };
-                        if ( (value > 300) && ( value <= 450) ) {
-                            return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
+                        if ( value <= 4 ) {
+                            return {numericScore: 0, colorCode: EdTriageConcept.score.red } ;
                         }
-                        if ( value > 450 ) {
+
+                        if ( value >= 14 ) {
                             return { numericScore: 0, colorCode: EdTriageConcept.score.orange };
                         }
-                        return {numericScore: 0, colorCode: EdTriageConcept.score.green};
+
+                        if ( (value >= 10) && ( value < 14) ) {
+                            return { numericScore: 0, colorCode: EdTriageConcept.score.yellow };
+                        }
+
+                        return { numericScore: 0, colorCode: EdTriageConcept.score.green };
                     }
                 }),
                 lowGlucoseLevel: toAnswers('lowGlucoseLevel',

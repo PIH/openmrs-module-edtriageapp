@@ -399,8 +399,11 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								<td>
 									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
 								</td>
-								<td>
-									<small>mg/dl</small>
+								<td ng-if=" config != 'sierraleone' ">
+									<small>mg/dL</small>
+								</td>
+								<td ng-if=" config == 'sierraleone' ">
+									<small>mmol/L</small>
 								</td>
 								<td class="col-xs-3" colspan="2">
 									<table>

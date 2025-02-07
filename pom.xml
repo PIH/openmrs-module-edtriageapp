@@ -4,7 +4,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>edtriageapp</artifactId>
-	<version>2.0.0</version>
+	<version>2.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>ED Triage App Module</name>
 	<description>Emergency Department Triage Application</description>
@@ -25,7 +25,7 @@
         <connection>scm:git:git@github.com:pih/openmrs-module-edtriageapp.git</connection>
         <developerConnection>scm:git:git@github.com:pih/openmrs-module-edtriageapp.git</developerConnection>
         <url>https://github.com/pih/openmrs-module-edtriageapp</url>
-      <tag>2.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>

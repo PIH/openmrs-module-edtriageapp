@@ -220,7 +220,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 							</td>
 							<td class="text-center">/</td>
 							<td>
-								<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="20" max="150"
+								<input ng-disabled="!editable" class="form-control edtriage-weight-box" style="" id="bloodPressureDiastolic" type="number" ng-pattern="/^[0-9]{1,7}\$/" min="20" max="200"
 									   ng-model="edTriagePatient.vitals.diastolicBloodPressure.value" />
 
 							</td>

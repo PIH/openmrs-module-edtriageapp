@@ -19,6 +19,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
+import org.openmrs.Patient;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.edtriageapp.EDTriageConstants;
 import org.openmrs.module.edtriageapp.api.db.EdTriageAppDAO;
@@ -51,7 +53,7 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
     /*
     * gets all  encounters at a current location for a patient
     * */
-    public List<Encounter> getAllEDTriageEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientUuid) {
+    public List<Encounter> getAllEDTriageEncounters(int hoursBack, Location visitLocation, Patient patient) {
 
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class, "enc");
 
@@ -63,14 +65,13 @@ public class HibernateEdTriageAppDAO implements EdTriageAppDAO {
         criteria.createAlias("enc.encounterType", "encType");
         criteria.add(Restrictions.eq("encType.uuid", EDTriageConstants.ED_TRIAGE_ENCOUNTER_TYPE_UUID));
 
-        if (locationUuid != null && locationUuid.length() > 0) {
-            criteria.createAlias("enc.location", "loc");
-            criteria.add(Restrictions.eq("loc.uuid", locationUuid));
+        if (visitLocation != null) {
+            criteria.createAlias("enc.visit", "visit");
+            criteria.add(Restrictions.eq("visit.location", visitLocation));
         }
 
-        if (patientUuid != null && patientUuid.length() > 0) {
-            criteria.createAlias("enc.patient", "pat");
-            criteria.add(Restrictions.eq("pat.uuid", patientUuid));
+        if (patient != null) {
+            criteria.add(Restrictions.eq("enc.patient", patient));
         }
 
         criteria.addOrder(Order.desc("enc.encounterDatetime"));

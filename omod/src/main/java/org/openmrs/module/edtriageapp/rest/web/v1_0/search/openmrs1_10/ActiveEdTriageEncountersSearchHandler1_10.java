@@ -13,9 +13,13 @@
  */
 package org.openmrs.module.edtriageapp.rest.web.v1_0.search.openmrs1_10;
 
+import org.apache.commons.lang.StringUtils;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
+import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
+import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
@@ -64,13 +68,16 @@ public class ActiveEdTriageEncountersSearchHandler1_10 implements SearchHandler 
 	public PageableResult search(RequestContext context) throws ResponseException {
 
 		boolean useFullRepresentation = toInt(context.getParameter(REQUEST_PARAM_OVERRIDE_REPRESENTATION),0)>0;
-		String patient = context.getParameter(REQUEST_PARAM_PATIENT);
-		// UHM-3163, show all EDTriage encounters from all locations
-		String location = null; //  context.getParameter(REQUEST_PARAM_LOCATION);
+		String patientUuid = context.getParameter(REQUEST_PARAM_PATIENT);
+		String locationUuid = context.getParameter(REQUEST_PARAM_LOCATION);
 		int hoursBack = toInt(context.getParameter(REQUEST_PARAM_HOURS_BACK), DEFAULT_HOURS_BACK);
 
-		List<Encounter> encounters = Context.getService(EdTriageAppService.class).getActiveEDTriageEncounters(hoursBack, location, patient);
+        Location location = !StringUtils.isBlank(locationUuid) ? Context.getLocationService().getLocationByUuid(locationUuid) : null;
+        // find the nearest location that supports visits
+        Location searchLocation = location != null ? Context.getService(AdtService.class).getLocationThatSupportsVisits(location) : null;
+        Patient patient = !StringUtils.isBlank(patientUuid) ? Context.getPatientService().getPatientByUuid(patientUuid) : null;
 
+		List<Encounter> encounters = Context.getService(EdTriageAppService.class).getActiveEDTriageEncounters(hoursBack, searchLocation, patient);
 
 		if (useFullRepresentation){
 			context.setRepresentation(Representation.FULL); //we want the full representation

@@ -14,6 +14,8 @@
 package org.openmrs.module.edtriageapp.api;
 
 import org.openmrs.Encounter;
+import org.openmrs.Location;
+import org.openmrs.Patient;
 import org.openmrs.api.OpenmrsService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,31 +34,30 @@ import java.util.List;
 @Transactional
 public interface EdTriageAppService extends OpenmrsService {
 
-    /*
-     * gets the active encounter(s) for a patient at a location
+    /**
+     * gets the active ED Triage encounters with the past x hours, optionally limited by patient and/or visits at a specific location
      * @param hoursBack - how many hours back to look
-     * @param locationUUid - (optional) the location UUID for the encounters
-     * @param patientUuid - (optional) the patient UUID for the encounters
+     * @param visitLocation- (optional) the visit location, if specified only encounters associated with visits at that location will be returned
+     * @param patient - (optional) the patient
      */
-    List<Encounter> getActiveEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid);
+    List<Encounter> getActiveEDTriageEncounters(int hoursBack, Location visitLocation, Patient patient);
 
-     /*
-     * gets the all encounters for a patient at a location
+    /**
+     * gets all the ED Triage encounters with the past x hours, optionally limited by patient and/or visits at a specific location
      * @param hoursBack - how many hours back to look
-     * @param locationUUid - (optional) the location UUID for the encounters
-     * @param patientUuid - (optional) the patient UUID for the encounters
+     * @param visitLocation - (optional) the visit location, if specified only encounters associated with visits at that location will be returned
+     * @param patient - (optional) the patient
      */
-    List<Encounter> getAllEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid);
+    List<Encounter> getAllEDTriageEncounters(int hoursBack, Location visitLocation, Patient patient);
 
 
-     /*
-     * Get the ED Triage encounter (if any) for the patient's active visit
-     * (Note that our current functionality only allows for one ED Triage encounter per visit
+     /**
+     * Get the ED Triage encounter (if any) for the patient's active visit at the specified location
+     * (Note that our current functionality only allows for one ED Triage encounter per visit)
      * @param patient
-     * @param location
+     * @param visitLocation
      */
-    Encounter getEDTriageEncounterForActiveVisit(String locationUuid, String patientUuid);
-
+    Encounter getEDTriageEncounterForActiveVisit(Location visitLocation, Patient patient);
     /*
     * expires ED Triage encounters with a status of "waiting for evaluation" that are part of non-active visits
      */

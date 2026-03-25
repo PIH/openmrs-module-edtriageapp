@@ -18,6 +18,8 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openmrs.Encounter;
+import org.openmrs.api.LocationService;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.test.jupiter.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,15 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
     @Autowired
     EdTriageAppService edTriageAppService;
 
-    private static final int TOTAL_ALL_ENCOUNTERS = 2;
-    private static final int TOTAL_ACTIVE_ENCOUNTERS = 1;
+    @Autowired
+    LocationService locationService;
+
+    @Autowired
+    PatientService patientService;
+
+    private static final int TOTAL_ALL_ENCOUNTERS = 3;
+    private static final int TOTAL_ACTIVE_ENCOUNTERS = 2;
+    private static final int TOTAL_ACTIVE_ENCOUNTERS_FOR_TEST_PATIENT = 1;
     private static final String TEST_LOCATION = "11111111-0b6d-4481-b979-ccdd38c76cb4";
     private static final String TEST_PATIENT = "da7f524f-27ce-4bb2-86d6-6d1d05312bd5";
     private static final String TEST_ENCOUNTER_DATE = "2016-06-09 12:00:00.0";
@@ -60,21 +69,22 @@ public class EdTriageAppServiceTest extends BaseModuleContextSensitiveTest {
 
     @Test
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocation() throws Exception {
-        List<Encounter> list = edTriageAppService.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
+
+        List<Encounter> list = edTriageAppService.getActiveEDTriageEncounters(getHoursBack(), locationService.getLocationByUuid(TEST_LOCATION), null);
         printResults(list);
         assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
     }
 
     @Test
     public void getActiveEncountersAtLocation_shouldGetActiveEncountersAtLocationForPatient() throws Exception {
-        List<Encounter> list = edTriageAppService.getActiveEDTriageEncounters(getHoursBack(), TEST_LOCATION, TEST_PATIENT);
+        List<Encounter> list = edTriageAppService.getActiveEDTriageEncounters(getHoursBack(), locationService.getLocationByUuid(TEST_LOCATION), patientService.getPatientByUuid(TEST_PATIENT));
         printResults(list);
-        assertEquals(TOTAL_ACTIVE_ENCOUNTERS, list.size());
+        assertEquals(TOTAL_ACTIVE_ENCOUNTERS_FOR_TEST_PATIENT, list.size());
     }
 
     @Test
      public void getAllEncountersAtLocation_shouldGetAllEncountersAtLocation() throws Exception {
-        List<Encounter> list = edTriageAppService.getAllEDTriageEncounters(getHoursBack(), TEST_LOCATION, null);
+        List<Encounter> list = edTriageAppService.getAllEDTriageEncounters(getHoursBack(), locationService.getLocationByUuid(TEST_LOCATION), null);
         printResults(list);
         assertEquals(TOTAL_ALL_ENCOUNTERS, list.size());
     }

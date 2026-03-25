@@ -41,6 +41,13 @@
 
     <location location_id="741977" name="Test ED Triage Location" creator="1" date_created="2005-01-01 00:00:00.0"
               retired="false" uuid="11111111-0b6d-4481-b979-ccdd38c76cb4"/>
+<!--
+    <location_tag location_tag_id="1001" name="Visit Location" creator="1" date_created="2005-01-01 00:00:00.0"
+                  retired="false" uuid="`7f3b9e5a-4c2d-4b8e-a1f6-3d5c7e9b4a2f"/>
+-->
+
+    <location location_id="741978" name="Test ED Triage Child Location" creator="1" date_created="2005-01-01 00:00:00.0"
+              parent_location="741977" retired="false" uuid="7a9e3c42-8f1d-4b2e-9c5a-d3f8e6b4a1c7"/>
 
     <encounter_type encounter_type_id="741977" name="Test EDTriage Encounter type"
                     description="This is a the test EDTriage EncounterType" creator="1"
@@ -49,8 +56,12 @@
 
     <!-- end data shared between encounters -->
 
+    <visit visit_id="1001" patient_id="2" visit_type_id="1" date_started="2005-01-01 00:00:00.0"
+           location_id="741977" creator="1" date_created="2005-01-01 00:00:00.0" voided="0" uuid="8c2a5f3b-9d4e-4a1c-b7f2-6e8d3c9a5b4" />
+
+
     <!-- this is an encounter that is waiting for queue -->
-    <encounter encounter_id="741977" encounter_type="741977" patient_id="2" location_id="741977"
+    <encounter encounter_id="741977" encounter_type="741977" patient_id="2" location_id="741977" visit_id="1001"
                encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
                voided="false" uuid="f13d6fae-baa9-4553-955d-920098bec08f"/>
 
@@ -67,14 +78,26 @@
          location_id="741977" value_coded="741981" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
          uuid="5ce93b62-26fe-102b-80cb-0017a47871b2"/>
 
-
     <!-- this is an encounter with a status of removed -->
-    <encounter encounter_id="741978" encounter_type="741977" patient_id="2" location_id="741977"
+    <encounter encounter_id="741978" encounter_type="741977" patient_id="2" location_id="741977" visit_id="1001"
                encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
                voided="false" uuid="g13d6fae-baa9-4553-955d-920098bec08f"/>
 
     <obs obs_id="741981" person_id="2" status="FINAL" concept_id="741978" encounter_id="741978" obs_datetime="2016-06-09 12:00:00.0"
          location_id="741977" value_text="45d0c3d2-2188-4186-8a19-0063b92914ee" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
          uuid="7ce93b62-26fe-102b-80cb-0017a47871b2"/>
+
+
+    <!-- this is an encounter that is waiting for but at a child location (for a different patient) -->
+    <visit visit_id="1002" patient_id="7" visit_type_id="1" date_started="2005-01-01 00:00:00.0"
+           location_id="741977" creator="1" date_created="2005-01-01 00:00:00.0" voided="0" uuid="4d9e7a2c-6b3f-4e8a-9c1d-5f7b3e9a2c6d" />
+
+    <encounter encounter_id="741979" encounter_type="741977" patient_id="7" location_id="741978" visit_id="1002"
+               encounter_datetime="2016-06-09 12:00:00.0" creator="1" date_created="2016-06-09 12:00:00.0"
+               voided="false" uuid="3b7f2e9a-5c4d-4f8b-a1e6-9d3c8b5a7f2e"/>
+
+    <obs obs_id="741982" person_id="7" status="FINAL" concept_id="741978" encounter_id="741979" obs_datetime="2016-06-09 12:00:00.0"
+         location_id="741977" value_coded="741981" creator="1" date_created="2006-02-11 15:57:35.0" voided="false"
+         uuid="9a6f4e2b-7c3d-4f1a-b8e5-2d9c5a7f3e4"/>
 
 </dataset>

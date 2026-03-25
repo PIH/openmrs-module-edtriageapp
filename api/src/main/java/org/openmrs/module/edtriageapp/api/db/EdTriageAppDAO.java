@@ -14,6 +14,8 @@
 package org.openmrs.module.edtriageapp.api.db;
 
 import org.openmrs.Encounter;
+import org.openmrs.Location;
+import org.openmrs.Patient;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
 
 import java.util.List;
@@ -23,13 +25,12 @@ import java.util.List;
  */
 public interface EdTriageAppDAO {
 
-    /*
-     * gets all the ED Triage encounters for a patient at a location, the location and or the patient are not provided
-     *  then the filter will not be applied
+    /**
+     * gets all the ED Triage encounters with the past x hours, optionally limited by patient and/or visits at a specific location
      * @param hoursBack - how many hours back to look
-     * @param locationUUid - (optional) the location UUID for the encounters
-     * @param patientUuid - (optional) the patient UUID for the encounters
+     * @param visitLocation - (optional) the visit location, if specified only encounters associated with visits at that location will be returned
+     * @param patient - (optional) the patient
      */
-    List<Encounter> getAllEDTriageEncountersForPatientAtLocation(int hoursBack, String locationUuid, String patientId);
+    List<Encounter> getAllEDTriageEncounters(int hoursBack, Location visitLocation, Patient patient);
 
    }

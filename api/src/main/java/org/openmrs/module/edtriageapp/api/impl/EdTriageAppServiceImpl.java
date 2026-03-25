@@ -13,14 +13,12 @@
  */
 package org.openmrs.module.edtriageapp.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
@@ -111,10 +109,10 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
     @Override
     @Transactional(readOnly = true)
-    public List<Encounter> getActiveEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid) {
+    public List<Encounter> getActiveEDTriageEncounters(int hoursBack, Location visitLocation, Patient patient) {
 
         List<Encounter> ret = new ArrayList<Encounter>();
-        List<Encounter> temp = getAllEDTriageEncounters(hoursBack, locationUuid, patientUuid);
+        List<Encounter> temp = getAllEDTriageEncounters(hoursBack, visitLocation, patient);
 
         for (Encounter enc : temp) {
 
@@ -138,26 +136,19 @@ public class EdTriageAppServiceImpl extends BaseOpenmrsService implements EdTria
 
     @Override
     @Transactional(readOnly = true)
-    public List<Encounter> getAllEDTriageEncounters(int hoursBack, String locationUuid, String patientUuid){
-        return dao.getAllEDTriageEncountersForPatientAtLocation(hoursBack, locationUuid, patientUuid);
+    public List<Encounter> getAllEDTriageEncounters(int hoursBack, Location visitLocation, Patient patient){
+        return dao.getAllEDTriageEncounters(hoursBack, visitLocation, patient);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Encounter getEDTriageEncounterForActiveVisit(String locationUuid, String patientUuid) {
+    public Encounter getEDTriageEncounterForActiveVisit(Location visitLocation, Patient patient) {
 
-        if (StringUtils.isBlank(locationUuid) || StringUtils.isBlank(patientUuid)) {
+        if (visitLocation == null || patient == null) {
             return null;
         }
 
-        Patient patient = patientService.getPatientByUuid(patientUuid);
-        Location location = locationService.getLocationByUuid(locationUuid);
-
-        if (patient == null || location == null) {
-            return null;
-        }
-
-        VisitDomainWrapper visit = adtService.getActiveVisit(patient, location);
+        VisitDomainWrapper visit = adtService.getActiveVisit(patient, visitLocation);
 
         if (visit == null) {
             return null;

@@ -1,8 +1,12 @@
 package org.openmrs.module.edtriageapp.rest.web.v1_0.search.openmrs1_10;
 
+import org.apache.commons.lang.StringUtils;
 import org.openmrs.Encounter;
+import org.openmrs.Location;
+import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.edtriageapp.api.EdTriageAppService;
+import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.resource.api.PageableResult;
@@ -43,9 +47,15 @@ public class EdTriageEncounterForActiveVisitSearchHandler1_10  implements Search
      */
     @Override
     public PageableResult search(RequestContext context) throws ResponseException {
-        String patient = context.getParameter(REQUEST_PARAM_PATIENT);
-        String location = context.getParameter(REQUEST_PARAM_LOCATION);
-        Encounter encounter = Context.getService(EdTriageAppService.class).getEDTriageEncounterForActiveVisit(location, patient);
+        String patientUuid = context.getParameter(REQUEST_PARAM_PATIENT);
+        String locationUuid = context.getParameter(REQUEST_PARAM_LOCATION);
+
+        Location location = !StringUtils.isBlank(locationUuid) ? Context.getLocationService().getLocationByUuid(locationUuid) : null;
+        // find the nearest location that supports visits
+        Location searchLocation = location != null ? Context.getService(AdtService.class).getLocationThatSupportsVisits(location) : null;
+        Patient patient = !StringUtils.isBlank(patientUuid) ? Context.getPatientService().getPatientByUuid(patientUuid) : null;
+
+        Encounter encounter = Context.getService(EdTriageAppService.class).getEDTriageEncounterForActiveVisit(searchLocation, patient);
         return new NeedsPaging<Encounter>(encounter != null ? Collections.singletonList(encounter) : new ArrayList<Encounter>(), context);
     }
 

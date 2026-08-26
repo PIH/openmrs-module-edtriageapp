@@ -356,7 +356,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								sorter="sortAnswer"
 								selected-concept="edTriagePatient.symptoms.other.value" concept-label="'${ui.message("edtriageapp.other")}'"
 								score-label-class="'edtriage-label-' + getColorClassFromScore(edTriagePatient.symptoms.other.value)"></tr>
-							<tr ng-if=" config != 'sierraleone' ">
+							<tr ng-if=" config != 'sierraleone-kgh' && config != 'sierraleone-wellbody' ">
 								<td>
 									<label>${ui.message("edtriageapp.noSymptomsPresent")}</label>
 								</td>
@@ -399,10 +399,10 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 								<td>
 									<number-only-input input-name="glucose" input-value="edTriagePatient.labs.glucose.value" editable-value="!editable" min-value="1" max-value="999"/>
 								</td>
-								<td ng-if=" config != 'sierraleone' ">
+								<td ng-if=" config != 'sierraleone-kgh' && config != 'sierraleone-wellbody' ">
 									<small>mg/dL</small>
 								</td>
-								<td ng-if=" config == 'sierraleone' ">
+								<td ng-if=" config == 'sierraleone-kgh' || config == 'sierraleone-wellbody' ">
 									<small>mmol/L</small>
 								</td>
 								<td class="col-xs-3" colspan="2">
@@ -444,7 +444,7 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6" ng-if=" config == 'sierraleone' ">
+			<div class="col-sm-6" ng-if=" config == 'sierraleone-kgh' || config == 'sierraleone-wellbody' ">
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">${ui.message("edtriageapp.definitions")}</h3>
@@ -545,7 +545,8 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 			</div>
 		</div>
 		<!-- The Transfer to location should only be present in the Sierra Leone form -->
-		<div class="panel panel-info" ng-show="edTriagePatientConcept.transferToLocation">
+		<!-- For KGH -->
+		<div class="panel panel-info" ng-show="edTriagePatientConcept.transferToLocationKGH">
 			<div class="panel-heading">
 				<h3 class="panel-title">${ ui.message("edtriageapp.transfer.destination") }</h3>
 			</div>
@@ -684,6 +685,66 @@ ${ ui.includeFragment("coreapps", "patientHeader", [ patient: patient ]) }
 				</div>
 			</div>
 		</div>
+		<!-- For Wellbody -->
+        <div class="panel panel-info" ng-show="edTriagePatientConcept.transferToLocationWellbody">
+            <div class="panel-heading">
+                <h3 class="panel-title">${ ui.message("edtriageapp.transfer.destination") }</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="opdAdult" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3cdc871e-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3cdc871e-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="anc" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3ce1e268-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3ce1e268-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="maternity" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3ce1e6e6-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3ce1e6e6-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="ncd" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'868d99fd-f9d6-4367-b238-69f26ee60e26'"/>
+                            <label>${ui.message("edtriageapp.868d99fd-f9d6-4367-b238-69f26ee60e26")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="tb-hiv" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'79b58985-301d-4222-8154-455a0be76015'"/>
+                            <label>${ui.message("edtriageapp.79b58985-301d-4222-8154-455a0be76015")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="mental-health" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3ced9a68-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.3ced9a68-26fe-102b-80cb-0017a47871b2")}</label>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <input ng-disabled="!editable" id="other-location" type="checkbox"
+                                   ng-model="edTriagePatient.transferToLocation.value"
+                                   ng-true-value="'3cee7fb4-26fe-102b-80cb-0017a47871b2'"/>
+                            <label>${ui.message("edtriageapp.other")}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 		<div class="panel panel-info" ng-show="edTriagePatient.encounterProviders">
 			<div class="panel-heading">

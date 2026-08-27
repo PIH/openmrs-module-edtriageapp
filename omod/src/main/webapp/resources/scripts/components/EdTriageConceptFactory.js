@@ -2,15 +2,36 @@ angular.module("edTriageConceptFactory", [])
     .factory('EdTriageConcept', ['$filter', function ($filter) {
 
         /**
+         * The site-specific concept builders, keyed by the value of the "edtriageapp.config" global property.
+         *
+         * To support a new site, add a builder here (typically the shared country builder plus a small delta,
+         * see buildSierraLeoneWellbodyTriageConcept) and set the global property in that site's config.
+         * This map is the *only* place that knows about site names: everything downstream, including the
+         * gsp pages, asks the concept object what it supports rather than asking which site it is running at.
+         */
+        var CONCEPT_BUILDERS = {
+            'sierraleone-kgh': buildSierraLeoneKghTriageConcept,
+            'sierraleone-wellbody': buildSierraLeoneWellbodyTriageConcept,
+            // deprecated alias, for any instance still on the pre-Wellbody global property value
+            'sierraleone': buildSierraLeoneKghTriageConcept
+        };
+
+        /**
          * Constructor, with class name
          */
         function EdTriageConcept(config) {
-            if (config?.toLowerCase() === 'sierraleone') {
-                buildSierraLeoneTriageConcept(this);
+            var key = config != null ? config.toLowerCase() : '';
+            var builder = CONCEPT_BUILDERS[key];
+            if (builder == null) {
+                if (key.length > 0) {
+                    // fail loudly-ish: silently falling back to the default rules at a site that expects
+                    // custom scoring is much harder to spot than a warning in the console
+                    console.warn("edtriageapp: unrecognized edtriageapp.config value '" + config
+                        + "'; falling back to the default triage concepts");
+                }
+                builder = buildDefaultEdTriageConcept;
             }
-            else {
-                buildDefaultEdTriageConcept(this);
-            }
+            builder(this);
         }
 
         function buildDefaultEdTriageConcept(obj) {
@@ -77,6 +98,11 @@ angular.module("edTriageConceptFactory", [])
                         toAnswer("3cd28732-26fe-102b-80cb-0017a47871b2","negative", {numericScore: 0}, 'A')],
                     "3ce44134-26fe-102b-80cb-0017a47871b2")
             };
+            obj.labs.glucose.units = "mg/dL";
+
+            // capability flags: these drive the form layout, so that the gsp never has to test which site it is at
+            obj.confirmNoSymptomsEnabled = true;
+            obj.definitionsEnabled = false;
 
             obj.treatment = {
                 oxygen: toAnswers('oxygen',
@@ -292,8 +318,11 @@ angular.module("edTriageConceptFactory", [])
         }
 
         /**
-         * The triage questions and answered, customized for Sierra Leone
+         * The triage questions and answers shared by every Sierra Leone site.
          * Note that Sierra Leone also have custom display strings for many fields, which are defined in edtriage_en.json the Sierra Leone config
+         *
+         * This builder is not registered against a config value directly: each Sierra Leone site builds on
+         * top of it and supplies the parts that differ (currently just the transfer-out destinations).
          * @param obj
          */
         function buildSierraLeoneTriageConcept(obj) {
@@ -316,15 +345,7 @@ angular.module("edTriageConceptFactory", [])
             obj.triageScore = toAnswer("f6ee497c-1db0-4c58-a55c-d65175a91fb9", "score");
             obj.triageWaitingTime = toAnswer("d9a8fc6f-8695-46b8-854f-2c9e818b4568", "triageWaitingTime");
             obj.chiefComplaint = toAnswer("160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "chiefComplaint");
-            obj.transferToLocation = toAnswers("transferToLocation", [
-              toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "outpatientDepartment", null, EdTriageConcept.ageType.ALL, 1),
-              toAnswer("9b812de9-1a80-4bc8-9c8a-861516051811", "opdPediatric", null, EdTriageConcept.ageType.ALL, 2),
-              toAnswer("160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "adultED", null, EdTriageConcept.ageType.ADULT,3),
-              toAnswer("1e7c8432-4158-4e9b-9916-1ea1f94056e1", "pediatricED", null, EdTriageConcept.ageType.INFANT + EdTriageConcept.ageType.CHILD,4),
-              toAnswer("164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "minorTheater",null, EdTriageConcept.ageType.ALL, 5),
-              toAnswer("3ce1e6e6-26fe-102b-80cb-0017a47871b2", "maternityWard", null, EdTriageConcept.ageType.ALL, 6)
-            ],
-              "de1965b8-5cd9-403c-96b9-e89585aa900b");
+            // note: obj.transferToLocation is site-specific, see the per-site builders below
             obj.clinicalImpression = toAnswer("3cd9d956-26fe-102b-80cb-0017a47871b2", "clinicalImpression");
             obj.labs = {
                 glucose: toAnswer("0e9d36ab-ccfe-4716-9060-ad5f330a28af", "glucose", function(ageType, value){
@@ -377,6 +398,11 @@ angular.module("edTriageConceptFactory", [])
                     }) ],
                     "05819e23-100e-41da-ae7b-cfc401ca7146")
             };
+            obj.labs.glucose.units = "mmol/L";
+
+            // capability flags: these drive the form layout, so that the gsp never has to test which site it is at
+            obj.confirmNoSymptomsEnabled = false;
+            obj.definitionsEnabled = true;
 
             obj.treatment = null;
 
@@ -603,6 +629,62 @@ angular.module("edTriageConceptFactory", [])
                     ,GENERIC_TRIAGE_SYMPTOM_CONCEPT_SET_UUID)
 
             }
+        }
+
+        /**
+         * Koidu Government Hospital: the shared Sierra Leone form, plus the KGH transfer-out destinations.
+         * Config value: "sierraleone-kgh"
+         *
+         * The destinations must match the answers of the KGH transfer concept (de1965b8) in the dictionary.
+         * The labels below are only a fallback: what is actually rendered comes from the
+         * "edtriageapp.<answer uuid>" message properties, via translations.gsp.
+         * @param obj
+         */
+        function buildSierraLeoneKghTriageConcept(obj) {
+            buildSierraLeoneTriageConcept(obj);
+            obj.transferToLocation = toAnswers("transferToLocation", [
+                toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "General OPD", null, EdTriageConcept.ageType.ALL, 1),
+                toAnswer("9b812de9-1a80-4bc8-9c8a-861516051811", "Pediatric OPD", null, EdTriageConcept.ageType.ALL, 2),
+                toAnswer("868d99fd-f9d6-4367-b238-69f26ee60e26", "NCD clinic", null, EdTriageConcept.ageType.ALL, 3),
+                toAnswer("160473AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Adult ER", null, EdTriageConcept.ageType.ADULT, 4),
+                toAnswer("1e7c8432-4158-4e9b-9916-1ea1f94056e1", "Pediatric ER", null, EdTriageConcept.ageType.INFANT + EdTriageConcept.ageType.CHILD, 5),
+                toAnswer("79b58985-301d-4222-8154-455a0be76015", "TB/HIV unit", null, EdTriageConcept.ageType.ALL, 6),
+                toAnswer("9885de8c-6a5a-11e2-b6f9-aa00f871a3e1", "Medical ward", null, EdTriageConcept.ageType.ALL, 7),
+                toAnswer("3ce6ae60-26fe-102b-80cb-0017a47871b2", "Pediatrics ward", null, EdTriageConcept.ageType.ALL, 8),
+                toAnswer("430751c7-e8e2-4555-be66-ae085de3f5ed", "Isolation unit", null, EdTriageConcept.ageType.ALL, 9),
+                toAnswer("3ce1e268-26fe-102b-80cb-0017a47871b2", "ANC", null, EdTriageConcept.ageType.ALL, 10),
+                toAnswer("164834AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Minor theater", null, EdTriageConcept.ageType.ALL, 11),
+                toAnswer("988c3b9c-6a5a-11e2-b6f9-aa00f871a3e1", "Surgical ward", null, EdTriageConcept.ageType.ALL, 12),
+                toAnswer("3ce1e6e6-26fe-102b-80cb-0017a47871b2", "Maternity/Labor ward", null, EdTriageConcept.ageType.ALL, 13),
+                toAnswer("164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Surgical OPD", null, EdTriageConcept.ageType.ALL, 14),
+                toAnswer("3ced9a68-26fe-102b-80cb-0017a47871b2", "Mental health", null, EdTriageConcept.ageType.ALL, 15),
+                toAnswer("623ee5c5-e59c-41e9-b62e-bc13a2c142b6", "Eye clinic", null, EdTriageConcept.ageType.ALL, 16),
+                toAnswer("f2948b7f-deac-4cdd-8968-4fc67ab95e05", "Rainbow clinic", null, EdTriageConcept.ageType.ALL, 17),
+                toAnswer("3cee7fb4-26fe-102b-80cb-0017a47871b2", "Other", null, EdTriageConcept.ageType.ALL, 18)
+            ], "de1965b8-5cd9-403c-96b9-e89585aa900b");
+        }
+
+        /**
+         * Wellbody: the shared Sierra Leone form, plus the Wellbody transfer-out destinations.
+         * Config value: "sierraleone-wellbody"
+         *
+         * Wellbody has no emergency department or inpatient wards, so it offers a much shorter list than KGH.
+         * These are the seven answers of the Wellbody transfer concept (a5f60e54); the labels below are the
+         * dictionary display names, kept as documentation, but what is actually rendered comes from the
+         * "edtriageapp.<answer uuid>" message properties via translations.gsp (shared with KGH).
+         * @param obj
+         */
+        function buildSierraLeoneWellbodyTriageConcept(obj) {
+            buildSierraLeoneTriageConcept(obj);
+            obj.transferToLocation = toAnswers("transferToLocation", [
+                toAnswer("3cdc871e-26fe-102b-80cb-0017a47871b2", "Outpatient consultation", null, EdTriageConcept.ageType.ALL, 1),
+                toAnswer("868d99fd-f9d6-4367-b238-69f26ee60e26", "NCD clinic", null, EdTriageConcept.ageType.ALL, 2),
+                toAnswer("79b58985-301d-4222-8154-455a0be76015", "TB / HIV clinic", null, EdTriageConcept.ageType.ALL, 3),
+                toAnswer("3ce1e268-26fe-102b-80cb-0017a47871b2", "Maternal health clinic", null, EdTriageConcept.ageType.ALL, 4),
+                toAnswer("3ce1e6e6-26fe-102b-80cb-0017a47871b2", "Maternity ward", null, EdTriageConcept.ageType.ALL, 5),
+                toAnswer("3ced9a68-26fe-102b-80cb-0017a47871b2", "Mental health", null, EdTriageConcept.ageType.ALL, 6),
+                toAnswer("3cee7fb4-26fe-102b-80cb-0017a47871b2", "Other", null, EdTriageConcept.ageType.ALL, 7)
+            ], "a5f60e54-61e7-4dae-852e-023d8ad9b3b7");
         }
 
         function toAnswers(messageKey, answers, uuid) {

@@ -102,6 +102,10 @@
         '164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA':"${ui.message("edtriageapp.164164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")}",
         '9885de8c-6a5a-11e2-b6f9-aa00f871a3e1':"${ui.message("edtriageapp.9885de8c-6a5a-11e2-b6f9-aa00f871a3e1")}",
         '3ced9a68-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.3ced9a68-26fe-102b-80cb-0017a47871b2")}",
+        '623ee5c5-e59c-41e9-b62e-bc13a2c142b6':"${ui.message("edtriageapp.623ee5c5-e59c-41e9-b62e-bc13a2c142b6")}",
+        'f2948b7f-deac-4cdd-8968-4fc67ab95e05':"${ui.message("edtriageapp.f2948b7f-deac-4cdd-8968-4fc67ab95e05")}",
+        // "Other" transfer destination: no per-uuid message, so it reuses the generic "other" one
+        '3cee7fb4-26fe-102b-80cb-0017a47871b2':"${ui.message("edtriageapp.other")}",
 	} ;
 </script>
 

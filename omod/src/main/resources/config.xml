@@ -42,7 +42,9 @@
 		<property>edtriageapp.config</property>
 		<defaultValue></defaultValue>
 		<description>
-			Allows overriding the default questions and scoring rules with a custom config; currently only "sierraleone" is supported
+			Allows overriding the default questions and scoring rules with a site-specific config.
+			Supported values: "sierraleone-kgh", "sierraleone-wellbody" ("sierraleone" is a deprecated
+			alias for "sierraleone-kgh").
 		</description>
 	</globalProperty>
 

@@ -50,7 +50,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openMRSVersion>2.5.8</openMRSVersion>
-        <appframeworkVersion>2.18.0</appframeworkVersion>
+        <appframeworkVersion>2.19.0</appframeworkVersion>
         <appuiVersion>1.18.0</appuiVersion>
         <uicommonsVersion>2.21.0</uicommonsVersion>
         <uiframeworkVersion>4.0.0</uiframeworkVersion>

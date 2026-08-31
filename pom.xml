@@ -22,22 +22,22 @@
 	</organization>
 
     <scm>
-        <connection>scm:git:git@github.com:pih/openmrs-module-edtriageapp.git</connection>
-        <developerConnection>scm:git:git@github.com:pih/openmrs-module-edtriageapp.git</developerConnection>
-        <url>https://github.com/pih/openmrs-module-edtriageapp</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:https://github.com/PIH/openmrs-module-edtriageapp.git</connection>
+        <developerConnection>scm:git:https://github.com/PIH/openmrs-module-edtriageapp.git</developerConnection>
+        <url>https://github.com/PIH/openmrs-module-edtriageapp</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
             <id>openmrs-repo-modules-pih</id>
             <name>Modules</name>
-            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/modules-pih/</url>
+            <url>https://openmrs.jfrog.io/artifactory/modules-pih/</url>
         </repository>
         <snapshotRepository>
-            <id>openmrs-repo-modules-pih-snapshots</id>
+            <id>openmrs-repo-modules-pih</id>
             <name>OpenMRS Snapshots</name>
-            <url>https://mavenrepo.openmrs.org/nexus/content/repositories/modules-pih-snapshots</url>
+            <url>https://openmrs.jfrog.io/artifactory/modules-pih-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 

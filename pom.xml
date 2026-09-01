@@ -50,18 +50,18 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openMRSVersion>2.5.8</openMRSVersion>
-        <appframeworkVersion>2.20.0-SNAPSHOT</appframeworkVersion>
-        <appuiVersion>1.19.0-SNAPSHOT</appuiVersion>
+        <appframeworkVersion>2.19.0</appframeworkVersion>
+        <appuiVersion>1.18.0</appuiVersion>
         <uicommonsVersion>2.21.0</uicommonsVersion>
-        <uiframeworkVersion>4.0.1-SNAPSHOT</uiframeworkVersion>
+        <uiframeworkVersion>4.0.0</uiframeworkVersion>
         <uilibraryVersion>2.0.7</uilibraryVersion>
         <webservicesRestVersion>2.36.0</webservicesRestVersion>
-        <emrapiVersion>1.37.0-SNAPSHOT</emrapiVersion>
-        <reportingVersion>1.28.0-SNAPSHOT</reportingVersion>
-        <calculationVersion>2.1.0-SNAPSHOT</calculationVersion>
-        <serializationxstreamVersion>0.2.17-SNAPSHOT</serializationxstreamVersion>
-        <providermanagementVersion>3.0.0-SNAPSHOT</providermanagementVersion>
-        <metadatamappingVersion>2.1.0-SNAPSHOT</metadatamappingVersion>
+        <emrapiVersion>1.36.0</emrapiVersion>
+        <reportingVersion>1.27.0</reportingVersion>
+        <calculationVersion>2.0.0</calculationVersion>
+        <serializationxstreamVersion>0.2.16</serializationxstreamVersion>
+        <providermanagementVersion>2.16.0</providermanagementVersion>
+        <metadatamappingVersion>2.0.0</metadatamappingVersion>
     </properties>
 
     <dependencies>
